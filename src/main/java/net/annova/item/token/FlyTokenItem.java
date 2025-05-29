@@ -1,0 +1,70 @@
+package net.annova.item.token;
+
+import net.annova.item.base.RPGItem;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import static net.annova.main.AnnovaRPG.getInstance;
+
+public class FlyTokenItem extends RPGItem implements Listener {
+    @Override
+    public Material type() {
+        return Material.NAUTILUS_SHELL;
+    }
+
+    @Override
+    public String name() {
+        return ChatColor.GREEN + "Жетон полёта";
+    }
+
+    @Override
+    public List<Float> modelData() {
+        return new int[]{6};
+    }
+
+    @Override
+    public boolean unstackable() {
+        return false;
+    }
+
+    @Override
+    public List<String> lore() {
+        return List.of(
+                "&3= &fДает полёт на 15 минут"
+        );
+    }
+
+    private static final Set<UUID> allow = new HashSet<>();
+    @EventHandler
+    private void use(PlayerInteractEvent event) {
+        if (event.getAction().name().charAt(0) != 'R') return;
+        Player player = event.getPlayer();
+        if (!equalItem(player.getInventory().getItemInMainHand())) return;
+
+        this.removeItem(player);
+        player.setAllowFlight(true);
+        UUID id = player.getUniqueId();
+        allow.add(id);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {
+            allow.remove(id);
+            if (player.isOnline()) player.setAllowFlight(false);
+        }, 18000);
+    }
+    @EventHandler
+    private void join(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) return;
+        if (allow.contains(player.getUniqueId())) return;
+
+        player.setAllowFlight(false);
+    }
+}

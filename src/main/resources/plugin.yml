@@ -1,0 +1,19 @@
+name: AnnovaRPG
+version: '${project.version}'
+main: net.annova.main.AnnovaRPG
+api-version: '1.21'
+description: Маленькая возможность для маленьких, не маленьких людей. A small opportunity for small, not small people.
+depend:
+  - AnnovaAPI
+
+permissions:
+  customcrafting.inv.recipe_book.category_overview:
+    default: true  # Доступно всем игрокам
+
+  minecraft.debugstick:
+    description: "Позволяет использовать Debug Stick."
+    default: true  # Доступно всем игрокам (даже без креативного режима и без оп)
+
+  customcrafting.cmd.recipes:
+    description: "Позволяет использовать команду /recipes."
+    default: true  # Доступно всем игрокам

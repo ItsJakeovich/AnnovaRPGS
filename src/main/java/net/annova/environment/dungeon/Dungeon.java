@@ -1,0 +1,218 @@
+package net.annova.environment.dungeon;
+
+import net.annova.environment.dungeon.type.DungeonBase;
+import net.annova.entity.core.RPGEntity;
+import net.annova.entity.traits.status.Status;
+import net.annova.item.container.PrisonContainerItem;
+import net.annova.item.base.RPGItem;
+import net.annova.object.Person;
+import net.annova.object.person.RPGPerson;
+import net.annova.object.SimpleStructure;
+import net.annova.object.person.Team;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nullable;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static net.annova.main.AnnovaGlobal.getPerson;
+import static net.annova.main.GlobalRPG.*;
+import static net.annova.util.BukkitObjects.addItems;
+import static net.annova.util.GlobalTasks.importBuild;
+import static net.annova.util.GlobalTasks.removeImportedBuild;
+import static net.annova.main.AnnovaRPG.getInstance;
+
+public class Dungeon {
+    private int key;
+    private final DungeonBase base;
+    private final Location summon;
+    private Location location;
+    private final Set<RPGPerson> players = new HashSet<>();
+    private final Set<LivingEntity> entity = new HashSet<>();
+    private boolean close = false;
+
+    // null if dungeon summoned with key.
+    // как нибудь позже было бы круто создавать портал
+    public Dungeon(DungeonBase base) {
+        this(base, null);
+    }
+    public Dungeon(DungeonBase base, Location summon) {
+        this.base = base;
+        this.summon = summon;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public DungeonBase getBase() {
+        return base;
+    }
+
+    @Nullable
+    public Location getSummon() {
+        return summon;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void addPlayers(Set<RPGPerson> players) {
+        this.players.addAll(players);
+    }
+    public Set<RPGPerson> getPlayers() {
+        return players;
+    }
+
+    public boolean isClose() {
+        return close;
+    }
+
+    public boolean startIfTrue() {
+        for (RPGPerson person : players) {
+            if (!person.isReady()) return false;
+        }
+        this.players.forEach(player -> player.setReady(false));
+        this.createDungeon();
+        this.teleportAll();
+        this.base.start(this);
+        return true;
+    }
+    public void endDungeon() {
+        this.endDungeon(false);
+    }
+    public void endDungeon(long timer) {
+        if (timer <= 0) {
+            endDungeon();
+            return;
+        }
+        for (RPGPerson member : this.players) {
+            member.getPerson().sendBar(getInstance(), "dungeon-end-timer", "{timer}", String.valueOf(timer/20));
+        }
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(),
+                () -> this.endDungeon(timer-20), 20L);
+    }
+    public void endDungeon(boolean force) {
+        this.close = true;
+        RPGItem container = switch (base.getTemplate().getId()) {
+            case 0 -> new PrisonContainerItem();
+            default -> throw new IllegalStateException("Unexpected value: " + key);
+        };
+        for (LivingEntity ent : this.entity) {
+            if (!ent.valid) continue;
+            ent.remove(Entity.RemovalReason.DISCARDED);
+        }
+
+        for (RPGPerson person : this.players) {
+            person.removeStatus(Status.Type.CB_DAMAGE_DEBUFF);
+            person.removeStatus(Status.Type.DEFENCE_DEBUFF);
+
+            Player player = person.getPerson().getPlayer();
+
+            int points = person.getDungeonPoints();
+            ItemStack cont = points > 5 ? container.create(1 + points/1000) : new ItemStack(Material.AIR);
+
+            if (player == null) {
+                person.addPendingItem(cont);
+                continue;
+            } else {
+                Location location = player.getRespawnLocation();
+                if (location == null) location = Bukkit.getWorld("world").getSpawnLocation();
+                person.teleport(location);
+                addItems(player, cont);
+            }
+
+            person.setDungeonPoints(0);
+            person.setDungeon(null);
+        }
+
+        int i = 0;
+        int y = (int) this.location.getY();
+        for (SimpleStructure structure : base.getTemplate().structures) {
+            Location loc = this.location.clone();
+            loc.setY(y+80*i);
+            removeImportedBuild(structure, loc);
+            i++;
+        }
+        removeDungeon(this.key);
+
+        if (force) return;
+
+        RPGPerson person = (RPGPerson) players.toArray()[0];
+        Team team = person.getTeam();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Person pl = getPerson(player);
+            if (team == null) {
+                pl.sendAndBar(pl.getString(getInstance(), "dungeon-complete-person",
+                        "{person}", person.getPerson().getName()));
+            } else {
+                pl.sendAndBar(pl.getString(getInstance(), "dungeon-complete-team")
+                        .replace("{team}", team.getName())
+                        .replace("{leader}", team.getLeader().getPerson().getName())
+                );
+            }
+        }
+    }
+
+    public void createDungeon() {
+        World world = getDungeonWorld();
+
+        DungeonTemplate dungeonTemplate = base.getTemplate();
+        if (getDungeons().isEmpty()) {
+            location = new Location(world, 0, 0, 0);
+        } else {
+            int key = 0;
+            for (Dungeon dungeon : getDungeons()) {
+                if (dungeon.getKey() > key) key = dungeon.getKey();
+            }
+            location = getDungeon(key).getLocation().clone()
+                    .add(dungeonTemplate.getStructure().getMaxX()+25, 0, 0);
+        }
+
+        SimpleStructure structure = dungeonTemplate.getStructure();
+        importBuild(structure, Person.CardinalDirection.NORTH, location);
+        dungeonTemplate.updateLootChests(structure, location);
+        dungeonTemplate.updateAnimations(structure, location);
+
+        this.key = getDungeons().size();
+        addDungeon(key, this);
+    }
+
+    public void teleportPerson(RPGPerson person) {
+        DungeonTemplate dungeonTemplate = this.base.getTemplate();
+        person.teleport(this.location.clone().add(
+                dungeonTemplate.getStructure().getLocationWithPoint(getDungeonWorld(), dungeonTemplate.getSpawn())));
+    }
+    public void teleportAll() {
+        this.players.forEach(this::teleportPerson);
+    }
+
+    public void send(String url, String from, String to) {
+        for (RPGPerson pers : this.players) {
+            Person person = pers.getPerson();
+            String message = person.getString(getInstance(), url);
+            person.sendAndBar(message.replace(from, to));
+        }
+    }
+    public void send(String url) {
+        for (RPGPerson pers : this.players) {
+            Person person = pers.getPerson();
+            person.sendAndBar(person.getString(getInstance(), url));
+        }
+    }
+
+    public void spawnEntity(RPGEntity entity, Location location) {
+        float value = players.size()-1;
+        this.entity.add(entity.create(this, location, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
+    }
+}

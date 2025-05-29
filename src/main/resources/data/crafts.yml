@@ -1,0 +1,57 @@
+#   - id: 'mat_'
+#    amount: 1
+#    craft_type: 'shaped'
+#    valid: true
+#    ingredients:
+#      - id: ''
+#        letter: 'q'
+#      - id: ''
+#        letter: 'w'
+#      - id: ''
+#        letter: 'e'
+#    recipe:
+#      - ''
+#      - ''
+#      - ''
+#
+#
+#
+#   - id: '
+#     amount: 1
+#     craft_type: 'furnace'
+#     source: 'IRON_BLOCK'
+#     valid: true
+#     experience: 5
+#     melting_time: 30
+#
+#
+#   - id: ''
+#    amount: 1
+#    craft_type: 'shapeless'
+#    workbench: ''
+#    valid: true
+#    ingredients:
+#      - id: ''
+#        count:
+#      - id: ''
+#        count:
+#
+#
+#
+
+material:
+  - id: "TIDE_GRASP_RING"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true;
+    ingredients:
+      - id: 'IRON_INGOT'
+        letter: 'q'
+      - id: 'GOLD_NUGGET'
+        letter: 'w'
+      - id: 'CRAB_CLAW' #custom
+        letter: 'e'
+    recipe:
+      - ' qw'
+      - 'qeq'
+      - ' q '

@@ -1,0 +1,115 @@
+map-url: "{pc}=- {mc}Нажатием откройте карту"
+night-skip: "{tc}Доброе утро, наше счастье {fc}🖤"
+night-enter: "{pc}=- &r&k123 {tc}Сладких снов &r&k123"
+
+death-base: "{pc}| {sc}{name} {mc}погиб!"
+death-dungeon: "{pc}| {sc}{name} {mc}погиб в подземелье!"
+
+dungeon-key: "{pc}=- {mc}Подтвердите открытие ключа командой {sc}/{mc}confirm"
+dungeon-key-already: "{pc}=- {mc}Вы уже находитесь в подземелье{sc}."
+dungeon-missing-key: "{pc}=- {mc}Вы должны иметь ключ{sc}, {mc}чтобы открыть подземелье{sc}."
+dungeon-end-timer: "{pc}=- {mc}Подземелье закроется через {ac}{timer}{sc}"
+dungeon-points: "{pc}=- {mc}Очки подземелья +{plus} {sc}({ac}{points}{sc})"
+dungeon-respawn: "{pc}=- {mc}Перерождение через {ac}{delay}{sc}"
+
+
+dungeon-list: "{pc}=- {mc}Список активных данжей{sc}:"
+
+dungeon-delete-args: "{pc}=- {mc}Напишите ключ данжа{ac}! {sc}(число в /dung list)"
+dungeon-delete-not-found: "{pc}=- {mc}Подземелье не найдено - {ac}{key}"
+dungeon-deleted: "{pc}=- {mc}Подземелье закрыто{ac}!"
+
+weapon-cast: "{pc}=- {mc}Подготовка{sc}: {ac}{percent}{mc}%"
+
+### Person
+# Status bar
+bar-health: "{pc}=- {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
+
+### Сектора
+## Сектор 0 - SuruWahare
+# Oasis
+s0-oasis-msg-0: "Это невероятно, я чувствую себя... Спокойно?.."
+s0-oasis-msg-1: "Не знаю, ощущение, что это место излучает ауру...спокойствия"
+s0-oasis-msg-2: "Удивительно, что в таком сумасбродном мире все же есть местечко спокойствия"
+s0-oasis-msg-3: "Кажется, будто я вернулся(лась) домой — так же спокойно, уютно и тепло"
+s0-oasis-msg-4: "Мне не было настолько спокойно, как в этом месте"
+s0-oasis-msg-5: "Как только я пересёк(ла) пустынную границу, ощущения, что все тревоги и переживания куда-то улетели"
+s0-oasis-msg-6: "Если положить на чашу весов это место и спокойствие — они были бы на одной линии"
+s0-oasis-msg-7: "Ощущение, что сходил(а) с ума все это время, пока не пришёл(шла) сюда"
+s0-oasis-msg-8: "Думаю, сейчас я больше всего хочу полежать на этом песке и расслабиться"
+s0-oasis-msg-9: "Хочу, чтобы время остановилось, хочу подольше насладиться спокойствием этого места"
+
+s0-oasis-fish-0: "Клёв стал намного лучше!"
+s0-oasis-fish-1: "Ваш день насыщается красками!"
+s0-oasis-fish-2: "Вы чувствуете, как удача улыбается вам."
+s0-oasis-fish-3: "Что-то изменилось... но что?"
+s0-oasis-fish-4: "В воздухе витает ощущение гармонии."
+
+# калькулячка
+calc-args: "{pc}=- {mc}Введите аргументы{sc}."
+calc-creative: "{pc}=- {mc}Творческий режим{sc}."
+calc-result: "{pc}=- {mc}Результат{sc}: {ac}{result}"
+calc-error: "{pc}=- {mc}Невозможно выполнить уравнение{sc}: {ac}{input}"
+
+# rpg
+rpg-altar-exist: "{fc}=- {mc}Алтарь уже установлен{sc}. \n {sc}|= Для пересоздания пропишите команду /confirm"
+rpg-altar-recreate: "{tc}=- {mc}Алтарь пересоздан{sc}."
+
+# inventory see
+invsee-args: "{pc}=- {mc}Введите ник игрока{sc}. Дописав в конце 'ec', откроется эндер сундук"
+
+# dungeons
+dungeon-starts: "{pc}=- {mc}Подземелье начнется через{sc}: {mc}{s}{sc}!"
+dungeon-failstart: "{pc}=- {mc}Не все игроки были готовы. Запуск отменен."
+
+# тут позже надо написать так же и название данжа, когда их будет больше 1. "Подземелье PRISON было зачищего командой хомяков [LEADER]"
+dungeon-complete-person: "{pc}=- {mc}Подземелье было зачищено игроком {ac}{person}{sc}"
+dungeon-complete-team: "{pc}=- {mc}Подземелье было зачищено командой {ac}{team} {sc}[{mc}{leader}{sc}]"
+
+dungeon-prison-major: "{pc}=- {mc}Вы слышите странный шум{sc}."
+dungeon-killed-major-person: "{pc}=- {mc}Майор был убил игроком {ac}{person}{sc}"
+dungeon-killed-major-team: "{pc}=- {mc}Майор был убит командой {ac}{team} {sc}[{mc}{leader}{sc}]"
+
+player-not-found: "{pc}=- {mc}Игрок не найден {sc}{name}."
+
+# Command: team
+team-menu     : "{pc}=-= {mc}Управление командой{sc}:"
+team-create   : "{pc} = {mc}/team create {sc}{name} - {mc}создать команду"
+team-leave    : "{pc} = {mc}/team leave{sc} - {mc}покинуть команду"
+team-disband  : "{pc} = {mc}/team disband{sc} - {mc}расформировать команду"
+team-invite   : "{pc} = {mc}/team invite {sc}{name} - {mc}пригласить игрока в команду"
+team-kick     : "{pc} = {mc}/team kick {sc}{name} - {mc}выгнать игрока из команды"
+team-gathering: "{pc} = {mc}/team gathering{sc} - {mc}позвать игроков в подземелье"
+
+team-absent: "{pc}=- {mc}Вы не состоите в команде{sc}."
+team-not-owner: "{pc}=- {mc}Вы должны быть лидером команды{sc}."
+
+team-create-already: "{pc}=- {mc}Вы уже состоите в команде {ac}{team}{sc}. \n {sc}|= {mc}Но вы можете покинуть ее {sc}/{mc}team leave"
+team-create-name: "{pc}=- {mc}Введите название команды{sc}."
+team-create-successfully: "{pc}=- {mc}Команда {ac}{team} {mc}создана{sc}!"
+
+team-leave-owner: "{pc}=- {mc}Лидер не может покинуть команду{sc}, {mc}расформируйте ее {sc}/{mc}team disband"
+team-leave-successfully: "{pc}=- {mc}Вы покинули команду {ac}{team}{sc}."
+
+team-disband-successfully: "{pc}=- {mc}Вы расформировали команду {ac}{team}{sc}."
+
+team-invite-name: "{pc}=- {mc}Введите имя приглашаемого игрока{sc}."
+team-invite-invited: "{pc}=- {mc}Игрок приглашен {sc}{name}."
+team-invite-request: "{pc}=- {mc}Приглашение о вступлении от {ac}{team}{sc}, {mc}подтвердите командой {sc}/{mc}confirm"
+team-invite-request-already: "{pc}=- {mc}Вы уже состоите в команде {ac}{team}{sc}. \n {sc}|= {mc}Но вы можете ее покинуть {sc}/{mc}team leave"
+team-invite-successfully: "{pc}=- {mc}Игрок {ac}{name} {mc}присоединился к команде{sc}!"
+
+team-kick-name: "{pc}=- {mc}Введите имя изгоняемого игрока{sc}."
+team-kick-wrong: "{pc}=- {mc}Данный игрок не состоит в вашей команде{sc}!"
+team-kick-kicked: "{pc}=- {mc}Вы были изгнаны из команды {sc}{team}."
+
+team-gathering-request: "{pc}=- {ac}{name} приглашает участников команды в подземелье{sc}! \n {sc}|= {mc}Подтвердите комадной {sc}/{mc}confirm"
+team-gathering-successfully: "{pc}=- {mc}Все участники команды были приглашены в подземелье{sc}!"
+team-gathering-already: "{pc}=- {mc}Вы уже находитесь в подземелье{sc}."
+
+# amethysts
+defence-stone-remain: "{pc}=- {mc}Остаток зарядов{sc}: {ac}{charges}{sc}."
+defence-stone-charges: "{pc}=- {mc}Использован щит{sc}, {mc}оставшиеся заряды{sc}: {ac}{charges}{sc}."
+
+# locations
+loc-inF-on: "{mc}=- {sc}Весь лес вдруг стал очень мрачным..."

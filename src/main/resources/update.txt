@@ -1,0 +1,39 @@
+28-04-2025:
+    Обновил работу ParticleProjectile: Теперь код обновляется с помощью таймера вместо отложенной задачи (1L),
+        так же постоянные переменные теперь не вычисляются каждую итерацию
+    Старый код:
+        public void tick(Location location, double speed, double vertical) {
+                sendPackets(location.getWorld(), particles(location));
+                World world = location.getWorld();
+
+                Vector direction = location.getDirection().clone().setY(vertical).normalize();
+                RayTraceResult result = world.rayTrace(location, direction, speed/20, FluidCollisionMode.NEVER,
+                        false, 1, null);
+
+                if (result != null) {
+                    Material type = result.getHitBlock() == null ? Material.AIR : result.getHitBlock().getType();
+                    if ((!type.equals(Material.AIR) && !type.equals(Material.BARRIER) && !type.equals(Material.WATER))
+                            || result.getHitEntity() != null) {
+                        onHit(location);
+                        return;
+                    }
+                }
+
+                location.add(direction.multiply(speed/20));
+
+                if (location.getBlockY() < world.getMinHeight()) return;
+
+                Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {
+                    sendPackets(location.getWorld(), particles(location));
+
+                    double airResistance = 0.5 * 1.225 * 0.47 * Math.PI * Math.pow(0.022, 2);
+                    double drag = airResistance * Math.pow(speed, 2) / 20;
+
+                    double gravity = (0.025 * 9.81) / 20;
+
+                    double newSpeed = Math.max(speed - drag, 0);
+                    double newVertical = vertical - gravity;
+
+                    this.tick(location, newSpeed, newVertical);
+                }, 1L);
+            }
