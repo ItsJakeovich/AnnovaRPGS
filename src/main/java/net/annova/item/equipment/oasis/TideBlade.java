@@ -1,6 +1,7 @@
 package net.annova.item.equipment.oasis;
 
 import net.annova.entity.mobs.sector0.Crab;
+import net.annova.event.custom.BattleCE;
 import net.annova.item.base.RPGItem;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -36,19 +37,17 @@ public class TideBlade extends RPGItem implements Listener {
     }
 
     @EventHandler
-    public void attack(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof LivingEntity entity) {
-            ItemStack item = entity.getEquipment().getItemInMainHand();
-            if (!TIDE_BLADE.equals(item)) return;
+    public void attack(BattleCE event) {
+        LivingEntity damager = event.getDamager();
+        if (!TIDE_BLADE.equals(damager.getEquipment().getItemInMainHand())) return;
 
-            if (getEntity(event.getEntity()) instanceof Crab) {
-                event.setDamage(event.getDamage() + 3);
-            }
-
-            if (entity.getWorld().isClearWeather() && !entity.getLocation().getBlock().getType().equals(Material.WATER)
-            ) return;
-
-            event.setDamage(event.getDamage() + 0.9);
+        LivingEntity entity = event.getEntity();
+        if (getEntity(entity) instanceof Crab) {
+            event.setDamage(event.getDamage() + 3);
         }
+
+        if (damager.getWorld().isClearWeather() && (!entity.isInWater() || !damager.isInWater())) return;
+
+        event.setDamage(event.getDamage() + 0.9);
     }
 }

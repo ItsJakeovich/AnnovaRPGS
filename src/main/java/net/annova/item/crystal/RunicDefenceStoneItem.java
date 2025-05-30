@@ -1,17 +1,17 @@
 package net.annova.item.crystal;
 
 import net.annova.entity.traits.status.Status;
+import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,6 +20,7 @@ import java.util.List;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.item.base.Item.RUNIC_DEFENCE_STONE;
 
 public class RunicDefenceStoneItem extends RPGItem implements Listener {
     @Override
@@ -55,31 +56,31 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
         if (event.getAction().name().charAt(0) != 'R') return;
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;
         Player player = event.getPlayer();
-        if (!equalItem(player.getInventory().getItemInMainHand())) return;
+        if (!RUNIC_DEFENCE_STONE.equals(player.getInventory().getItemInMainHand())) return;
         RPGPerson person = getRPGPerson(player);
         Status status = person.getStatus(Status.Type.SHIELD_CHARGE);
         person.getPerson().send(getInstance(), "defence-stone-remain", "{charges}",
-                String.valueOf(status == null ? 3 : status.getValue("charges").intValue()));
+                String.valueOf(status == null ? 3 : status.getValue(Status.ValueType.CHARGE).intValue()));
     }
 
     @EventHandler
-    private void damage(EntityDamageEvent event) {
-        Entity entity = event.getEntity();
-        if (!hasItem(entity)) return;
+    private void damage(EntityDamageCE event) {
+        LivingEntity entity = event.getEntity();
+        if (!RUNIC_DEFENCE_STONE.hasPlayer(entity)) return;
 
         RPGPerson person = getRPGPerson((Player) entity);
         Status status = person.getStatus(Status.Type.SHIELD_CHARGE);
         if (status == null) {
-            status = person.addStatus(Status.Type.SHIELD_CHARGE).setValue("charges", 3);
-            startChargeTimer(person);
+            status = person.addStatus(Status.Type.SHIELD_CHARGE).setValue(Status.ValueType.CHARGE, 3);
+            this.startChargeTimer(person);
         }
 
-        double charges = status.getValue("charges");
+        double charges = status.getValue(Status.ValueType.CHARGE);
         if (event.getDamage() < 100 || charges < 1) return;
 
         charges--;
         event.setCancelled(true);
-        status.setValue("charges", charges);
+        status.setValue(Status.ValueType.CHARGE, charges);
 
         Location loc = entity.getLocation();
         World world = loc.getWorld();
@@ -94,9 +95,9 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
         new BukkitRunnable() {
             public void run() {
                 Status status = person.getStatus(Status.Type.SHIELD_CHARGE);
-                double charges = status.getValue("charge");
+                double charges = status.getValue(Status.ValueType.CHARGE);
                 if (charges == 3) return;
-                status.setValue("charge", charges+1);
+                status.setValue(Status.ValueType.CHARGE, charges+1);
             }
         }.runTaskTimer(getInstance(), 0L, 18000);
     }

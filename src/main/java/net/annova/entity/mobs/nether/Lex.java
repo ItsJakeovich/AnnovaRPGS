@@ -2,6 +2,7 @@ package net.annova.entity.mobs.nether;
 
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
+import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.component.NetherCatalystItem;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
@@ -84,10 +85,9 @@ public class Lex extends RPGEntity implements Listener {
     private boolean spawnedSoldiers = false;
     private final Set<Entity> soldiers = new HashSet<>();
     @EventHandler
-    public void hit(EntityDamageByEntityEvent event) {
+    public void hit(EntityDamageCE event) {
         Entity ent = event.getEntity();
         RPGEntity rpg = GlobalRPG.getEntity(event.getEntity());
-        if (rpg == null) return;
         if (!(rpg instanceof Lex lex)) return;
         if (!lex.spawnedSoldiers) {
             Soldier soldier = new Soldier();

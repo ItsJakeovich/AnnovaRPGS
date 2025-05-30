@@ -40,10 +40,10 @@ public class RPGPerson {
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
 
-    private int health;
-    private int maxHealth = 20;
+    private float health;
+    private float maxHealth = 20;
     private float regeneration = 0f;
-    private int additionalHealth = 0;
+    private float additionalHealth = 0;
 
     private static final String TABLE = "RPGPERSON";
     public static void init() {
@@ -118,9 +118,9 @@ public class RPGPerson {
         this.regen(regeneration);
     }
     public void regen(float regen) {
-        this.setHealth(this.health + (int) regen);
+        this.setHealth(this.health + regen);
     }
-    public void setHealth(int health) {
+    public void setHealth(float health) {
         if (health <= 0) {
             teleportHome(this.getPerson().getPlayer());
             this.setHealth(maxHealth);
@@ -131,7 +131,7 @@ public class RPGPerson {
         this.updateStatusBar();
     }
     public void updateHealth() {
-        int newMaxHealth = 20;
+        float newMaxHealth = 20;
         Player player = person.getPlayer();
         if (player == null) return;
 
@@ -245,18 +245,8 @@ public class RPGPerson {
     public boolean containStatus(Status.Type type) {
         return statuses.containsKey(type);
     }
-    public Status addStatus(Status.Type type) {
-        return this.addStatus(type, 0);
-    }
-    private final Map<Status.Type, Long> statusCooldown = new HashMap<>();
     @Nullable
-    public Status addStatus(Status.Type type, long expires) {
-        long cooldown = type.getCooldown();
-        if (cooldown != 0) {
-            long millis = System.currentTimeMillis();
-            if (millis < statusCooldown.getOrDefault(type, 0L)) return null;
-            statusCooldown.put(type, millis+cooldown);
-        }
+    public Status addStatus(Status.Type type) {
         Status status = new Status(type);
         this.statuses.put(type, status);
         return status;

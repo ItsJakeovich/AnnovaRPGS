@@ -3,7 +3,10 @@ package net.annova.entity.mobs.prison;
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
 import net.annova.entity.traits.status.Status;
+import net.annova.event.custom.BattleCE;
+import net.annova.event.custom.RPGEntityDeathCE;
 import net.annova.item.token.PrisonTokenItem;
+import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -62,20 +65,15 @@ public class Counterbandit extends RPGEntity implements Listener {
     }
 
     @EventHandler
-    public void mechanic(EntityDamageByEntityEvent event) {
-        String name = event.getDamager().getCustomName();
-        if (name == null) return;
-        if (!name.equals(this.name())) return;
-        if (!(event.getEntity() instanceof Player player)) return;
-        getRPGPerson(player).addStatus(Status.Type.CB_DAMAGE_DEBUFF);
+    public void mechanic(BattleCE event) {
+        if (!this.equals(GlobalRPG.getEntity(event.getDamager()))) return;
+        if (event.getEntity() instanceof Player player) {
+            getRPGPerson(player).addStatus(Status.Type.CB_DAMAGE_DEBUFF);
+        }
     }
     @EventHandler
-    public void mechanicDead(EntityDeathEvent event) {
-        LivingEntity entity = event.getEntity();
-        String name = entity.getCustomName();
-        if (name == null) return;
-        if (!name.equals(this.name())) return;
-        for (Player player : entity.getLocation().getWorld().getPlayers()) {
+    public void mechanicDead(RPGEntityDeathCE event) {
+        for (Player player : entity.level().getWorld().getPlayers()) {
             getRPGPerson(player).removeStatus(Status.Type.CB_DAMAGE_DEBUFF);
         }
     }

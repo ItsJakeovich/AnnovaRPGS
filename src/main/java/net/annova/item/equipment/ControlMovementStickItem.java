@@ -15,6 +15,7 @@ import java.util.List;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.item.base.Item.CONTROL_MOVEMENT_STICK;
 
 public class ControlMovementStickItem extends RPGItem implements Listener {
     @Override
@@ -45,12 +46,12 @@ public class ControlMovementStickItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    public void hit(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player damager)) return;
-        if (!(event.getEntity() instanceof Player entity)) return;
+    public void hit(EntityDamageByEntityEvent conEvent) {
+        if (!(conEvent.getDamager() instanceof Player damager)) return;
+        if (!(conEvent.getEntity() instanceof Player entity)) return;
 
         ItemStack item = damager.getInventory().getItemInMainHand();
-        if (!this.equalItem(item)) return;
+        if (!CONTROL_MOVEMENT_STICK.equals(item)) return;
 
         RPGPerson person = getRPGPerson(entity);
         if (person.getStatus(Status.Type.FROZEN) == null) this.freeze(person, damager);

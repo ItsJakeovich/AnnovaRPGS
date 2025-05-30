@@ -4,6 +4,7 @@ import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
+import net.annova.event.custom.RPGEntityDeathCE;
 import net.annova.item.component.ForiumFragmentItem;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
@@ -41,12 +42,12 @@ public class DeathRPGEvent implements Listener {
                     person.teleport(loc);
                     player.setGameMode(GameMode.SPECTATOR);
                     event.setDeathMessage(person.getPerson().getString(getInstance(), "death-dungeon"));
-                    updateRespawn(person, player);
+                    DeathRPGEvent.this.updateRespawn(person, player);
                 } else {
                     event.setDeathMessage(person.getPerson().getString(getInstance(), "death-base"));
                 }
 
-                cancel();
+                this.cancel();
             }
         }.runTaskTimer(getInstance(), 1L, 0L);
     }
@@ -66,7 +67,7 @@ public class DeathRPGEvent implements Listener {
                         dungeon.teleportPerson(person);
                         player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1, 1);
                     }
-                    cancel();
+                    this.cancel();
                 }
                 pers.sendBar(pers.getString(getInstance(), "dungeon-respawn", "{delay}", String.valueOf(delay)));
                 player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1);
@@ -95,6 +96,8 @@ public class DeathRPGEvent implements Listener {
         LivingEntity ent = event.getEntity();
         RPGEntity entity = getEntity(ent);
         if (entity == null) return;
+        RPGEntityDeathCE ev = new RPGEntityDeathCE(entity, event);
+        Bukkit.getPluginManager().callEvent(ev);
         removeEntity(ent);
 
         Dungeon dungeon = entity.getDungeon();

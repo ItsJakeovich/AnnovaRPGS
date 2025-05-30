@@ -1,6 +1,9 @@
 package net.annova.item.crystal;
 
 import net.annova.entity.traits.status.Status;
+import net.annova.event.custom.BattleCE;
+import net.annova.event.custom.EntityDamageByEntityCE;
+import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Bukkit;
@@ -24,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.item.base.Item.IGNIS_STONE;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -41,7 +45,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return new int[]{303};
+        return List.of(303f);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     public List<String> lore() {
         return List.of(
                 "&3= &fНакладывает эффект &cогнестойкости",
-                "&3= &fВесь исходящий урон от огня будет увеличен на &610 единиц &fна 1 минуту"
+                "&3= &fВесь исхо"
         );
     }
 
@@ -68,9 +72,9 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (!equalItem(item)) return;
+        if (!IGNIS_STONE.equals(item)) return;
 
-        this.removeItem(player, item);
+        removeItem(player, item);
         player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1200, 0));
         RPGPerson person = getRPGPerson(player);
         Status status = person.getStatus(Status.Type.IGNIS);
@@ -85,11 +89,11 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     private final Set<Entity> targets = new HashSet<>();
 
     @EventHandler
-    private void damager(EntityDamageByEntityEvent event) {
+    private void damager(BattleCE event) {
         if (!(event.getDamager() instanceof Player player)) return;
-        if (!(event.getEntity() instanceof LivingEntity entity)) return;
         if (getRPGPerson(player).getStatus(Status.Type.IGNIS) == null) return;
 
+        LivingEntity entity = event.getEntity();
         if (targets.contains(entity)) return;
         targets.add(entity);
         Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(),
@@ -97,11 +101,8 @@ public class IgnisStoneItem extends RPGItem implements Listener {
                 , 1200);
     }
     @EventHandler
-    private void damager(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity entity)) return;
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK)) return;
-
-        if (!targets.contains(entity)) return;
-        event.setDamage(event.getDamage() + 10);
+    private void damager(EntityDamageCE event) {
+        if (!targets.contains(event.getEntity())) return;
+        event.increaseDamage(10);
     }
 }

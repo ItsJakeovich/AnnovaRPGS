@@ -33,7 +33,7 @@ public class AngelFish extends RPGItem implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent event) {
+    public void onDamage(EntityDamageEv event) {
         Entity entity = event.getEntity();
 
         if (entity.getWorld().isClearWeather() && !entity.getLocation().getBlock().getType().equals(Material.WATER)) return;

@@ -41,7 +41,7 @@ public class OasisFish extends RPGItem implements Listener {
 
     @Override
     public List<String> lore() {
-        return List.of("&3= &fРыба&3, &fсловно забытая капля жизни в мире жара и пыли&3. &fЕё окраска &3— &fмягкая бирюза с отблесками песчаного золота &3— &fнапоминает о прохладных водах&3, спрятанных в сердце безжизненной пустыни&f. Она не даёт эффектов&3, &fно её появление всегда ощущается как облегчение&3.");
+        return List.of("&3= &fРедкая обитательница тёплых&3, &fкристально чистых вод&3, &fрыба &3«&fОазис&3» &fбудто собрана из осколков солнечного света и изумрудной тени водорослей");
     }
 
     private final String[] messageKeys = {
@@ -64,7 +64,6 @@ public class OasisFish extends RPGItem implements Listener {
         final Player player = event.getPlayer();
         long now = System.currentTimeMillis();
         if (cooldown.containsKey(player)) if (now < cooldown.get(player)) return;
-        this.cooldown.put(player, now + 14_400_000); // 4 hours
 
         new BukkitRunnable() {
             private Location location = item.getLocation();
@@ -72,9 +71,10 @@ public class OasisFish extends RPGItem implements Listener {
                 Location newLocation = item.getLocation();
                 if (!item.isValid() || location.equals(newLocation) || newLocation.add(newLocation.getDirection().normalize()).getBlock().getType().equals(Material.WATER)) {
                     getPerson(player).send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+                    cooldown.put(player, now + 14_400_000); // 4 hours
                     player.addPotionEffects(effects);
-                    this.cancel();
                     item.remove();
+                    this.cancel();
                     return;
                 }
                 this.location = newLocation;

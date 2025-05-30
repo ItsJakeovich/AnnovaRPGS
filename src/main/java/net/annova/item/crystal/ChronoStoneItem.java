@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.item.base.RPGItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -7,9 +8,10 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.List;
+
+import static net.annova.item.base.Item.CHRONO_STONE;
 
 public class ChronoStoneItem extends RPGItem implements Listener {
     @Override
@@ -24,7 +26,7 @@ public class ChronoStoneItem extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return new int[]{331};
+        return List.of(331f);
     }
 
     @Override
@@ -40,11 +42,10 @@ public class ChronoStoneItem extends RPGItem implements Listener {
     }
 
     // drop event in net.annova.event.AgeStonesEvent
-
     @EventHandler
-    private void mechanic(EntityDamageByEntityEvent event) {
+    private void mechanic(EntityDamageByEntityCE event) {
         if (!(event.getDamager() instanceof Player player)) return;
-        if (!hasItem(player)) return;
+        if (!CHRONO_STONE.has(player)) return;
 
         // damage * (1 + 0.05 * PH);
         // PH = losed health.

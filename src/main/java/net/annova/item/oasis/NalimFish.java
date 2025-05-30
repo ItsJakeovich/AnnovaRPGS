@@ -1,8 +1,9 @@
 package net.annova.item.oasis;
 
+import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.base.RPGItem;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -35,24 +36,24 @@ public class NalimFish extends RPGItem implements Listener {
         return List.of("&3= &fОбитатель самых тёмных и глубоких вод&3, &fналим впитал в себя терпение и силу подводного мира&3. &fЕго плоть наделяет едока способностью дышать почти как рыба &3— &fне полностью&3, &fно достаточно&3, &fчтобы вода не причиняла боли&3.");
     }
 
-    private final Map<Player, Long> duration = new HashMap<>();
+    private final Map<LivingEntity, Long> duration = new HashMap<>();
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!NALIM_FISH.equals(event.getItem())) return;
         duration.put(event.getPlayer(), System.currentTimeMillis()+600_000);
     }
     @EventHandler
-    public void onDamage(EntityDamageEvent event) {
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.DROWNING)) return;
-        if (event.getEntity() instanceof Player player) {
-            Long until = duration.get(player);
-            if (until != null) {
-                if (System.currentTimeMillis() > until) {
-                    duration.remove(player);
-                    return;
-                }
-                event.setDamage(event.getDamage() * 0.1);
+    public void onDamage(EntityDamageCE event) {
+        if (!event.getEvent().getCause().equals(EntityDamageEvent.DamageCause.DROWNING)) return;
+        LivingEntity player = event.getEntity();
+        Long until = duration.get(player);
+        if (until != null) {
+            if (System.currentTimeMillis() > until) {
+                duration.remove(player);
+                return;
             }
+
+            event.decreaseDamage(event.getBaseDamage() * 0.9); // -90%
         }
     }
 }

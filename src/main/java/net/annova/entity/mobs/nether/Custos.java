@@ -2,6 +2,8 @@ package net.annova.entity.mobs.nether;
 
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
+import net.annova.event.custom.BattleCE;
+import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.component.NetherCatalystItem;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
@@ -13,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -76,23 +77,19 @@ public class Custos extends RPGEntity implements Listener {
         event.setCancelled(true);
     }
     @EventHandler
-    private void immortal(EntityDamageEvent event) {
-        Entity ent = event.getEntity();
+    private void immortal(EntityDamageCE event) {
         RPGEntity rpg = GlobalRPG.getEntity(event.getEntity());
-        if (rpg == null) return;
         if (rpg instanceof Custos) {
             event.setCancelled(true);
         }
     }
     @EventHandler
-    private void mechanic(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof LivingEntity damager)) return;
-        Entity ent = event.getEntity();
+    private void mechanic(BattleCE event) {
         RPGEntity rpg = GlobalRPG.getEntity(event.getEntity());
-        if (rpg == null) return;
-        if (!(rpg instanceof Custos custos)) return;
-        
-        damager.damage(event.getDamage() * 1.5, ent);
-        event.setCancelled(true);
+        if (rpg instanceof Custos) {
+            LivingEntity damager = event.getDamager();
+            damager.damage(event.getBaseDamage() * 1.5, damager);
+            event.setCancelled(true);
+        }
     }
 }

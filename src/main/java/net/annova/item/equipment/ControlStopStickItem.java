@@ -44,9 +44,9 @@ public class ControlStopStickItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    public void hit(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player damager)) return;
-        if (!(event.getEntity() instanceof Player entity)) return;
+    public void hit(EntityDamageByEntityEvent conEvent) {
+        if (!(conEvent.getDamager() instanceof Player damager)) return;
+        if (!(conEvent.getEntity() instanceof Player entity)) return;
 
         ItemStack item = damager.getInventory().getItemInMainHand();
         if (!CONTROL_STOP_STICK.equals(item)) return;

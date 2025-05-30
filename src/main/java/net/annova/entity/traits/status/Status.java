@@ -10,7 +10,9 @@ public class Status {
         DAMAGE_BUFF,
         DAMAGE_DEBUFF,
 
-        DEFENCE
+        DEFENCE,
+
+        CHARGE
     }
     public enum Type {
         CB_DAMAGE_DEBUFF(0, 0, new HashMap<>() {{

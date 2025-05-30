@@ -152,6 +152,10 @@ public enum Item {
         return BY_NAME.get(itemName);
     }
 
+    public boolean hasPlayer(Entity entity) {
+        if (entity instanceof Player player) return this.has(player);
+        return false;
+    }
     public boolean has(Entity entity) {
         if (entity instanceof Player player) return this.has(player);
         if (entity instanceof Mob mob) return this.has(mob);

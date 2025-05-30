@@ -32,21 +32,6 @@ public class WorldEvent implements Listener {
         getRPGPerson(player).updateHealth();
     }
 
-    @EventHandler
-    private void damage(EntityDamageByEntityEvent event) {
-        double addDamage = -2;
-        switch (event.getEntity().getWorld().getEnvironment()) {
-            case NETHER, THE_END -> addDamage = 2;
-        }
-        if (event.getDamager() instanceof Player player) {
-            RPGSet set = getRPGPerson(player).getSet();
-            if (set != null) {
-                addDamage+=set.damage();
-            }
-        }
-        event.setDamage(event.getDamage()+addDamage);
-    }
-
     /* Позже доработать, должно корректно не уменьшать пищу в энде
     @EventHandler
     private void food(FoodLevelChangeEvent event) {

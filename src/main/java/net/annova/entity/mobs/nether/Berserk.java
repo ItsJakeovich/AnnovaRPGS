@@ -2,7 +2,8 @@ package net.annova.entity.mobs.nether;
 
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
-import net.annova.item.component.NetherCatalystItem;
+import net.annova.event.custom.BattleCE;
+import net.annova.event.custom.EntityDamageCE;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.ChatColor;
@@ -11,6 +12,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -79,23 +81,17 @@ public class Berserk extends RPGEntity implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler
-    public void mechanic(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof LivingEntity damager)) return;
-
+    @EventHandler(priority = EventPriority.LOW)
+    public void mechanic(BattleCE event) {
+        LivingEntity damager = event.getDamager();
         RPGEntity rpg = GlobalRPG.getEntity(damager);
-        if (rpg != null) {
-            if (rpg instanceof Berserk berserk) {
-                if (berserk.regened) {
-                    damager.getWorld().createExplosion(event.getEntity().getLocation(), 1);
-                }
+        if (rpg instanceof Berserk berserk) {
+            if (berserk.regened) {
+                damager.getWorld().createExplosion(event.getEntity().getLocation(), 1);
             }
         }
-
-        if (!(event.getEntity() instanceof LivingEntity ent)) return;
-
-        rpg = GlobalRPG.getEntity(ent);
-        if (rpg == null) return;
+        LivingEntity entity = event.getEntity();
+        rpg = GlobalRPG.getEntity(entity);
         if (!(rpg instanceof Berserk berserk)) return;
 
         if (event.getDamager() instanceof Projectile) {
@@ -105,23 +101,24 @@ public class Berserk extends RPGEntity implements Listener {
 
         // регенеративная способность
         if (!berserk.regened) {
-            double maxHealth = ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-            if (ent.getHealth() - event.getFinalDamage() < maxHealth / 10) { // health < 10%
-                ent.setHealth(maxHealth);
+            double maxHealth = entity.getAttribute(Attribute.MAX_HEALTH).getValue();
+            if (entity.getHealth() - event.getDamage() < maxHealth / 10) { // health < 10%
+                entity.setHealth(maxHealth);
                 berserk.regened = true;
-                ent.getWorld().createExplosion(ent.getLocation(), 3F, false, false);
+                entity.getWorld().createExplosion(entity.getLocation(), 3F, false, false);
             }
         }
     }
     @EventHandler
-    public void defence(EntityDamageEvent event) { // Защита от взрывов
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)
-                || event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION))
-            return;
+    public void defence(EntityDamageCE event) { // Защита от взрывов
+        EntityDamageEvent.DamageCause cause = event.getEvent().getCause();
+        switch (cause) {
+            case BLOCK_EXPLOSION, ENTITY_EXPLOSION:
+                return;
+        }
 
         RPGEntity rpg = GlobalRPG.getEntity(event.getEntity());
-        if (rpg == null) return;
-        if (!(rpg instanceof Berserk berserk)) return;
+        if (!(rpg instanceof Berserk)) return;
         event.setCancelled(true);
     }
 }

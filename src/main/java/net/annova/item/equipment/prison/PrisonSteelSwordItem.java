@@ -1,5 +1,7 @@
 package net.annova.item.equipment.prison;
 
+import net.annova.event.custom.BattleCE;
+import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.item.base.RPGItem;
 import net.annova.item.base.RPGTool;
 import org.bukkit.ChatColor;
@@ -15,6 +17,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.item.base.Item.PRISON_STEEL_SWORD;
+
 public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     @Override
     public Material type() {
@@ -23,12 +27,12 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
 
     @Override
     public String name() {
-        return ChatColor.BLUE + "Стальной клинок";
+        return STR."\{ChatColor.BLUE}Стальной клинок";
     }
 
     @Override
     public List<Float> modelData() {
-        return new int[]{804};
+        return List.of(804f);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&4" + damage() + " ⚔ &7| &e" + attackSpeed() + " ⚡",
+                STR."&4\{this.damage()} ⚔ &7| &e\{this.attackSpeed()} ⚡",
                 "",
                 "&fБыл создан внутри стен тюрьмы"
         );
@@ -55,18 +59,10 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
         return 1.6;
     }
 
-    @Override
-    public Set<Perk> perks() {
-        return Set.of();
-    }
-
     @EventHandler
-    private void hit(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player damager)) return;
-        if (!this.equalItem(damager.getInventory().getItemInMainHand())) return;
+    private void hit(BattleCE event) {
+        if (!PRISON_STEEL_SWORD.equals(event.getDamager().getEquipment().getItemInMainHand())) return;
 
-        if (event.getEntity() instanceof LivingEntity entity) {
-            entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 0));
-        }
+        event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 0));
     }
 }

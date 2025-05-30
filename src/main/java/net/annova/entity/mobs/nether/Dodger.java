@@ -2,6 +2,7 @@ package net.annova.entity.mobs.nether;
 
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
+import net.annova.event.custom.BattleCE;
 import net.annova.item.component.NetherCatalystItem;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
@@ -92,15 +93,13 @@ public class Dodger extends RPGEntity implements Listener {
         ((LivingEntity) ent).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 200, 1));
     }
     @EventHandler
-    private void attack(EntityDamageByEntityEvent event) {
-        Entity ent = event.getDamager();
-        RPGEntity rpg = GlobalRPG.getEntity(ent);
-        if (rpg == null) return;
+    private void attack(BattleCE event) {
+        LivingEntity entity = event.getDamager();
+        RPGEntity rpg = GlobalRPG.getEntity(entity);
         if (!(rpg instanceof Dodger)) return;
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!entity.getEquipment().getItemInMainHand().getType().isAir()) return;
 
-        LivingEntity entity = (LivingEntity) ent;
-        if (!entity.getEquipment().getItemInMainHand().getType().equals(Material.AIR)) return;
+        if (!(event.getEntity() instanceof Player player)) return;
 
         ItemStack[] inventory = player.getInventory().getContents();
         for (int i = 0 ; i < 40; i++) {

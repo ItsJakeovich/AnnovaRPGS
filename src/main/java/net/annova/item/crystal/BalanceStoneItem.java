@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.event.custom.BattleCE;
 import net.annova.item.base.RPGItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.List;
+
+import static net.annova.item.base.Item.BALANCE_STONE;
 
 public class BalanceStoneItem extends RPGItem implements Listener {
     @Override
@@ -41,9 +44,8 @@ public class BalanceStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void mechanic(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player player)) return;
-        if (!hasItem(player)) return;
+    private void mechanic(BattleCE event) {
+        if (!BALANCE_STONE.has(event.getDamager())) return;
 
         Entity entity = event.getEntity();
         switch (entity.getType()) {
@@ -55,10 +57,10 @@ public class BalanceStoneItem extends RPGItem implements Listener {
             case WITHER_SKELETON:
             case ZOMBIFIED_PIGLIN:
             case ZOMBIE_VILLAGER:
-                event.setDamage(event.getDamage()*2);
+                event.increaseDamage(event.getBaseDamage());
                 break;
             default:
-                event.setDamage(event.getDamage()/2);
+                event.decreaseDamage(event.getBaseDamage()/2);
         }
     }
 }

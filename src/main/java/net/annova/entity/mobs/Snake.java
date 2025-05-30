@@ -2,13 +2,13 @@ package net.annova.entity.mobs;
 
 import net.annova.entity.traits.ability.Ability;
 import net.annova.entity.core.RPGEntity;
+import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -67,11 +67,9 @@ public class Snake extends RPGEntity implements Listener {
     private final PotionEffect poison = new PotionEffect(PotionEffectType.POISON, 100, 1);
     private final PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 100, 0);
     @EventHandler
-    public void mechanic(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity target)) return;
-        RPGEntity entity = GlobalRPG.getEntity(event.getDamager());
-        if (entity == null) return;
-        if (!entity.equals(this)) return;
+    public void mechanic(EntityDamageByEntityCE event) {
+        if (!this.equals(GlobalRPG.getEntity(event.getDamager()))) return;
+        LivingEntity target = event.getEntity();
         target.addPotionEffect(poison);
         target.addPotionEffect(slowness);
     }
