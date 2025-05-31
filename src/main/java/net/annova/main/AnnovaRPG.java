@@ -1,7 +1,7 @@
 package net.annova.main;
 
 import net.annova.config.RPGConfig;
-import net.annova.entity.core.RPGEntity;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.environment.structure.Structure;
@@ -81,8 +81,8 @@ public final class AnnovaRPG extends JavaPlugin {
     }
 
     private void initThreads() {
-        syncTimer(this, new UpdateSpawnTimer(), 1200);
-        syncTimer(this, new UpdateStatusTimer(), 200);
+        syncTimer(this, new UpdateSpawnTimer(), 1200); // 60sec
+        syncTimer(this, new UpdateStatusTimer(), 200); // 10sec
     }
     private void initSQL() {
         RPGPerson.init();

@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.Person;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,17 +20,14 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
+import static net.annova.item.base.Item.AIR_STONE;
+import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.chance;
 
 public class AirStoneItem extends RPGItem implements Listener {
     @Override
     public Material type() {
         return Material.AMETHYST_SHARD;
-    }
-
-    @Override
-    public String name() {
-        return ChatColor.AQUA + "Кристалл воздуха";
     }
 
     @Override
@@ -51,15 +49,15 @@ public class AirStoneItem extends RPGItem implements Listener {
 
     @EventHandler
     public void drop(EntityDeathEvent event) {
-        if (!(event.getEntity() instanceof Shulker)) return;
-        if (!chance(0.01)) return;
-        event.getDrops().add(this.create());
+        if (event.getEntity() instanceof Shulker shulker) {
+            event.getDrops().add(AIR_STONE.create(getPerson(shulker.getKiller()), 0.01));
+        }
     }
 
     @EventHandler
     public void mechanic(PlayerInteractEvent event) {
         ItemStack item = event.getItem();
-        if (!equalItem(item)) return;
+        if (!AIR_STONE.equals(item)) return;
 
         Player player = event.getPlayer();
         Vector vector = player.getLocation().toVector();
@@ -69,7 +67,7 @@ public class AirStoneItem extends RPGItem implements Listener {
             }
             entity.setVelocity(entity.getLocation().toVector().subtract(vector).normalize().multiply(6));
         }
-        this.removeItem(player, item);
+        subtractItem(player, item);
         player.playSound(player, Sound.ITEM_MACE_SMASH_AIR, 1, 1);
     }
 }

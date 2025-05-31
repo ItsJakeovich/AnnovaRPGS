@@ -25,6 +25,88 @@ weapon-cast: "{pc}=- {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 # Status bar
 bar-health: "{pc}=- {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
+### Items
+## components
+FORIUM_FRAGMENT: "&6Осколок фориума"
+FORIUM_INGOT: "&6Слиток фориума"
+## containers
+PRISON_CONTAINER: "&6Пыльный контейнер"
+## stones
+AIR_STONE: "&bКристалл воздуха"
+AQUA_STONE: "&bВодяной кристалл"
+BALANCE_STONE: "&7Кристалл &fбаланса"
+BIOME_STONE: "&aЧастичный кристалл"
+CHRONO_STONE: "&5Кристалл старости"
+DARK_STONE: "&5Кристалл тьмы"
+DEATH_STONE: "&5Кристалл смерти"
+DEFENCE_STONE: "&9Кристалл защиты"
+DRAGON_STONE: "&9Драконий кристалл"
+EARTH_STONE: "&aЗемляной кристалл"
+GRAVITY_STONE: "&5Кристалл гравитации"
+GREEN_STONE: "&aЗеленый кристалл"
+ICE_STONE: "&bЛедяной кристалл"
+IGNIS_STONE: "&6Огненный кристалл"
+LIGHT_STONE: "&eКристалл света"
+NATURE_STONE: "&aКристалл природы"
+PSYONIC_STONE: "&5Псионический кристалл"
+RED_STONE: "&cКрасный кристалл"
+REGENERATION_STONE: "&dКристалл регенерации"
+REPAIR_STONE: "&7Кристалл ремесла"
+RETURN_STONE: "&dКристалл возврата"
+RUNIC_DEFENCE_STONE: "&7Рунический кристалл защиты"
+RUNIC_STONE: "&cРунический камень"
+STRENGTH_STONE: "&6Кристалл гнева"
+TELEPORT_STONE: "&5Кристалл телепорта"
+TIME_STONE: "&5Кристалл времени"
+VITAL_STONE: "&aКристалл молодости"
+## Equipment
+PRISON_BOOTS: ""
+PRISON_CHESTPLATE: ""
+PRISON_HELMET: ""
+PRISON_LEGGINGS: ""
+PRISON_STEEL_SWORD: ""
+PRISON_SWORD: ""
+
+CONTROL_MOVEMENT_STICK: ""
+CONTROL_STOP_STICK: ""
+## Tokens
+CREEPER_TOKEN: ""
+DURABILITY_TOKEN: ""
+FLY_TOKEN: ""
+PRISON_TOKEN: ""
+RANGE_TOKEN: ""
+SATURATION_TOKEN: ""
+
+## S0 - OASIS
+TIDE_BLADE: ""
+TIDE_GRASP_RING: ""
+
+ANGEL_FISH: ""
+ANGLER_FISH_SPAWN_EGG: ""
+AZURE_FISH: ""
+BARK_BEETLE_FISH: ""
+BLOB_FISH_BLUE: ""
+BLOB_FISH_GRAY: ""
+BLOB_FISH_YELLOW: ""
+CRAB_CLAW: ""
+ELK_FISH: ""
+FURY_CAVIAR: ""
+KOI_FISH: ""
+NALIM_FISH: ""
+OASIS_FISH: ""
+PEARL: ""
+ROYAL_PUFFERFISH: ""
+SEASMITH: ""
+SILVER_PUMP: ""
+UNKNOWN_SOURCE_WATER: ""
+VOLCANIC_STREAMS_MALMA: ""
+WHALE_FISH: ""
+## S0 - FOREST
+ENT_ROOT: ""
+
+## unique
+DUNGEON_KEY: ""
+
 ### Сектора
 ## Сектор 0 - SuruWahare
 # Oasis
@@ -62,7 +144,7 @@ invsee-args: "{pc}=- {mc}Введите ник игрока{sc}. Дописав 
 dungeon-starts: "{pc}=- {mc}Подземелье начнется через{sc}: {mc}{s}{sc}!"
 dungeon-failstart: "{pc}=- {mc}Не все игроки были готовы. Запуск отменен."
 
-# тут позже надо написать так же и название данжа, когда их будет больше 1. "Подземелье PRISON было зачищего командой хомяков [LEADER]"
+# Тут позже надо написать так же и название данжа, когда их будет больше 1. "Подземелье PRISON было зачищего командой хомяков [LEADER]"
 dungeon-complete-person: "{pc}=- {mc}Подземелье было зачищено игроком {ac}{person}{sc}"
 dungeon-complete-team: "{pc}=- {mc}Подземелье было зачищено командой {ac}{team} {sc}[{mc}{leader}{sc}]"
 

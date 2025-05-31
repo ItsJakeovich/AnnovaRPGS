@@ -1,7 +1,9 @@
 package net.annova.thread;
 
-import net.annova.entity.traits.status.Status;
+import net.annova.object.person.status.Status;
 import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.StatusManager;
+import net.annova.object.person.status.StatusType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -26,13 +28,14 @@ public class UpdateStatusTimer extends AnnovaAsyncTask {
 //            }
 
             long millis = System.currentTimeMillis();
-            Set<Status.Type> toRemove = new HashSet<>();
-            for (Status status : person.getStatuses()) {
+            Set<StatusType> toRemove = new HashSet<>();
+            StatusManager manager = person.getStatusManager();
+            for (Status status : manager.getStatuses()) {
                 if (status.isNotExpired()) continue;
-                person.removeStatus(status.getType());
+                manager.removeStatus(status.getType());
                 toRemove.add(status.getType());
             }
-            toRemove.forEach(person::removeStatus);
+            toRemove.forEach(manager::removeStatus);
         }
     }
 }

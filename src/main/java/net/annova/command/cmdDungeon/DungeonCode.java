@@ -2,20 +2,20 @@ package net.annova.command.cmdDungeon;
 
 import net.annova.command.register.CommandArg;
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.entity.mobs.ice.Charlie;
-import net.annova.entity.mobs.ice.Rudi;
-import net.annova.entity.mobs.ice.Symon;
-import net.annova.entity.mobs.ice.Yuri;
-import net.annova.entity.traits.magic.projectile.FireBall;
-import net.annova.entity.traits.magic.projectile.HarryBall;
-import net.annova.entity.traits.magic.projectile.IceBall;
+import net.annova.object.entity.mobs.ice.Charlie;
+import net.annova.object.entity.mobs.ice.Rudi;
+import net.annova.object.entity.mobs.ice.Symon;
+import net.annova.object.entity.mobs.ice.Yuri;
+import net.annova.object.magic.projectile.FireBall;
+import net.annova.object.magic.projectile.HarryBall;
+import net.annova.object.magic.projectile.IceBall;
 import net.annova.item.*;
 import net.annova.object.Person;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static net.annova.entity.core.RPGEntityType.*;
+import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.getDungeon;
 import static net.annova.main.GlobalRPG.getDungeons;

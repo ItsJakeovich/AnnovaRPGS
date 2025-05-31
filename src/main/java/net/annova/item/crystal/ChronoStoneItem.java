@@ -1,11 +1,10 @@
 package net.annova.item.crystal;
 
-import net.annova.event.custom.EntityDamageByEntityCE;
+import net.annova.event.custom.BattleCE;
 import net.annova.item.base.RPGItem;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -17,11 +16,6 @@ public class ChronoStoneItem extends RPGItem implements Listener {
     @Override
     public Material type() {
         return Material.AMETHYST_SHARD;
-    }
-
-    @Override
-    public String name() {
-        return ChatColor.DARK_PURPLE + "Кристалл старости";
     }
 
     @Override
@@ -43,12 +37,12 @@ public class ChronoStoneItem extends RPGItem implements Listener {
 
     // drop event in net.annova.event.AgeStonesEvent
     @EventHandler
-    private void mechanic(EntityDamageByEntityCE event) {
-        if (!(event.getDamager() instanceof Player player)) return;
-        if (!CHRONO_STONE.has(player)) return;
+    private void mechanic(BattleCE event) {
+        LivingEntity entity = event.getDamager();
+        if (!CHRONO_STONE.has(entity)) return;
 
         // damage * (1 + 0.05 * PH);
         // PH = losed health.
-        event.setDamage(event.getDamage()*(1 + 0.02 * (player.getAttribute(Attribute.MAX_HEALTH).getValue() - player.getHealth())));
+        event.increaseDamage(event.getBaseDamage() * 0.01 * (entity.getAttribute(Attribute.MAX_HEALTH).getValue() - entity.getHealth()));
     }
 }

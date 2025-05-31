@@ -1,9 +1,8 @@
 package net.annova.main;
 
-import net.annova.config.crafts.ConfigCrafts;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
-import net.annova.entity.core.RPGEntity;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
 import net.annova.object.npc.RPGNPC;
 import net.annova.object.person.RPGPerson;

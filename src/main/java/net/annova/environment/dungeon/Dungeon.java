@@ -1,8 +1,8 @@
 package net.annova.environment.dungeon;
 
 import net.annova.environment.dungeon.type.DungeonBase;
-import net.annova.entity.core.RPGEntity;
-import net.annova.entity.traits.status.Status;
+import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.person.status.Status;
 import net.annova.item.container.PrisonContainerItem;
 import net.annova.item.base.RPGItem;
 import net.annova.object.Person;
@@ -115,7 +115,7 @@ public class Dungeon {
 
         for (RPGPerson person : this.players) {
             person.removeStatus(Status.Type.CB_DAMAGE_DEBUFF);
-            person.removeStatus(Status.Type.DEFENCE_DEBUFF);
+            person.removeStatus(Status.Type.HARRY_DEFENCE_DEBUFF);
 
             Player player = person.getPerson().getPlayer();
 

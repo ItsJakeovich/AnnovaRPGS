@@ -15,17 +15,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
+import static net.annova.item.base.Item.AQUA_STONE;
 import static net.annova.util.BukkitObjects.chance;
 
 public class AquaStoneItem extends RPGItem implements Listener {
     @Override
     public Material type() {
         return Material.AMETHYST_SHARD;
-    }
-
-    @Override
-    public String name() {
-        return ChatColor.AQUA + "Водяной кристалл";
     }
 
     @Override
@@ -47,21 +43,12 @@ public class AquaStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityDeathEvent event) {
-        if (!chance(0.05)) return;
-        LivingEntity entity = event.getEntity();
-        if (!entity.getLocation().getBlock().getType().equals(Material.WATER)) return;
-
-        event.getDrops().add(this.create());
-    }
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (!this.equalItem(item)) return;
-
-        this.removeItem(player, item);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 1200, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 1200, 0));
+        if (AQUA_STONE.use(player, item)) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 1200, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 1200, 0));
+        }
     }
 }

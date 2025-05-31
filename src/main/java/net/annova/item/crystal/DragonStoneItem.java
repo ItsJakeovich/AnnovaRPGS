@@ -20,13 +20,8 @@ public class DragonStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.BLUE + "Драконий кристалл";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{302};
+        return List.of(302f);
     }
 
     @Override
@@ -38,7 +33,7 @@ public class DragonStoneItem extends RPGItem implements Listener {
     public List<String> lore() {
         return List.of(
                 "&3= &fЗащищает владельца от &cадского влияния",
-                "&3= &fУменьшает входящий урон нa 10%",,, // Напиши свойство
+                "&3= &fУменьшает входящий урон нa 10%" // Напиши свойство
         );
     }
 }

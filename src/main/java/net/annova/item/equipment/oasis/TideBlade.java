@@ -1,14 +1,12 @@
 package net.annova.item.equipment.oasis;
 
-import net.annova.entity.mobs.sector0.Crab;
+import net.annova.object.entity.mobs.sector0.Crab;
 import net.annova.event.custom.BattleCE;
 import net.annova.item.base.RPGItem;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 

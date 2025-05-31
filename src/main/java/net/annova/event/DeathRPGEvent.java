@@ -2,8 +2,9 @@ package net.annova.event;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
-import net.annova.entity.traits.ability.Ability;
-import net.annova.entity.core.RPGEntity;
+import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.traits.ability.Ability;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.event.custom.RPGEntityDeathCE;
 import net.annova.item.component.ForiumFragmentItem;
 import net.annova.object.Person;
@@ -83,13 +84,7 @@ public class DeathRPGEvent implements Listener {
         if (entity == null) return;
         List<ItemStack> drop = event.getDrops();
         event.getDrops().clear();
-        drop.addAll(entity.loot());
-
-        Player player = ent.getKiller();
-        if (player == null) return;
-        RPGPerson person = getRPGPerson(player);
-        Set<Ability> abilities = entity.abilities();
-        if (abilities.contains(Ability.DROP_FORIUM)) drop.add(new ForiumFragmentItem().create(person, 0.1));
+        drop.addAll(entity.loot(ent.getKiller()));
     }
     @EventHandler
     public void death(EntityDeathEvent event) {

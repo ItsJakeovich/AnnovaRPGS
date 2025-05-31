@@ -2,15 +2,15 @@ package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -18,8 +18,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
+import static net.annova.item.base.Item.LIGHT_STONE;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.util.BukkitObjects.chance;
 
 public class LightStoneItem extends RPGItem implements Listener {
     @Override
@@ -28,13 +28,8 @@ public class LightStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.YELLOW + "Кристалл света";
-    }
-
-    @Override
-    public List<Float> modelData() {
-        return new int[]{318};
+    public List<Float> modelData()  {
+        return List.of(318f);
     }
 
     @Override
@@ -50,22 +45,15 @@ public class LightStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityDeathEvent event) {
-        if (event.getEntity().getLocation().getBlock().getLightLevel() < 12) return;
-        if (!chance(0.05)) return;
-        event.getDrops().add(this.create());
-    }
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (!equalItem(item)) return;
+        if (!LIGHT_STONE.use(player, item)) return;
 
-        this.removeItem(player, item);
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0));
 
         for (Entity entity : player.getNearbyEntities(15, 10, 15)) {
-            if (!(entity instanceof LivingEntity)) continue;
+            if (!(entity instanceof LivingEntity living)) continue;
             switch (entity.getType()) {
                 case SKELETON:
                 case ZOMBIE:
@@ -75,8 +63,11 @@ public class LightStoneItem extends RPGItem implements Listener {
                 case WITHER_SKELETON:
                 case ZOMBIFIED_PIGLIN:
                 case ZOMBIE_VILLAGER:
-                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 400, 0));
-                    ((LivingEntity) entity).damage(25);
+                    living.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 400, 0));
+                    living.damage(25);
+
+                    Location location = entity.getLocation();
+                    location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 3, 1);
                     Block block = entity.getLocation().getBlock();
                     Material mat = block.getType();
                     block.setType(Material.LIGHT);

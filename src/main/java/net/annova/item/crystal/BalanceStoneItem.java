@@ -21,11 +21,6 @@ public class BalanceStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.GRAY + "Кристалл " + ChatColor.WHITE + "баланса";
-    }
-
-    @Override
     public List<Float> modelData() {
         return List.of(316f);
     }

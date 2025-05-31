@@ -12,13 +12,8 @@ public class ForiumIngotItem extends RPGItem {
     }
 
     @Override
-    public String name() {
-        return "&6Слиток фориума";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[1];
+        return List.of(1f);
     }
 
     @Override

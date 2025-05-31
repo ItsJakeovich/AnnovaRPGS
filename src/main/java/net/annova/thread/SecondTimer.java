@@ -1,6 +1,6 @@
 package net.annova.thread;
 
-import net.annova.entity.traits.status.Status;
+import net.annova.object.person.status.Status;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.SecondTickEvent;

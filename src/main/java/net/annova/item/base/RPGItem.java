@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,10 +41,10 @@ public abstract class RPGItem {
      */
     public abstract List<String> lore();
 
-    public static void removeItem(Player player) {
-        removeItem(player, player.getInventory().getItemInMainHand());
+    public static void subtractItem(Player player) {
+        subtractItem(player, player.getInventory().getItemInMainHand());
     }
-    public static void removeItem(Player player, ItemStack item) {
+    public static void subtractItem(Player player, ItemStack item) {
         if (item.getAmount() > 1) item.setAmount(item.getAmount()-1);
         else player.getInventory().remove(item);
 

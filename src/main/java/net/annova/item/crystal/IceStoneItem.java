@@ -1,18 +1,15 @@
 package net.annova.item.crystal;
 
-import net.annova.entity.traits.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
-import org.bukkit.ChatColor;
+import net.annova.object.person.status.StatusManager;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -23,8 +20,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.item.base.Item.ICE_STONE;
+import static net.annova.object.person.status.StatusType.ICENAGE;
 
 public class IceStoneItem extends RPGItem implements Listener {
     @Override
@@ -33,13 +31,8 @@ public class IceStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.AQUA + "Ледяной кристалл";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{305};
+        return List.of(305f);
     }
 
     @Override
@@ -55,30 +48,25 @@ public class IceStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityDeathEvent event) {
-        if (!event.getEntity().getType().equals(EntityType.STRAY)) return;
-        if (!chance(0.005)) return;
-        event.getDrops().add(this.create());
-    }
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getHand() == null) return;
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;
 
         ItemStack item = event.getItem();
-        if (!equalItem(item)) return;
+        if (!ICE_STONE.equals(item)) return;
         Player player = event.getPlayer();
         RPGPerson person = getRPGPerson(player);
 
-        if (person.getStatus(Status.Type.ICENAGE) != null) return;
-        person.addStatus(Status.Type.ICENAGE);
+        StatusManager manager = person.getStatusManager();
+        if (manager.getStatus(ICENAGE) != null) return;
+        manager.addStatus(ICENAGE);
         player.playSound(player.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!hasItem(player)) {
-                    person.removeStatus(Status.Type.ICENAGE);
-                    cancel();
+                if (!ICE_STONE.has(player)) {
+                    manager.removeStatus(ICENAGE);
+                    this.cancel();
                 }
                 for (Entity entity : player.getNearbyEntities(7, 5 ,7)) {
                     if (!(entity instanceof LivingEntity ent)) continue;

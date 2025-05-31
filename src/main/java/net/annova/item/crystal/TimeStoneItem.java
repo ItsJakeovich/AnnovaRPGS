@@ -1,10 +1,9 @@
 package net.annova.item.crystal;
 
-import net.annova.entity.traits.status.Status;
+import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -22,6 +21,8 @@ import java.util.Set;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.item.base.Item.TIME_STONE;
+import static net.annova.object.person.status.StatusType.STOPPED;
 
 public class TimeStoneItem extends RPGItem implements Listener {
     @Override
@@ -30,13 +31,8 @@ public class TimeStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.DARK_PURPLE + "Кристалл времени";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{330};
+        return List.of(330f);
     }
 
     @Override
@@ -55,9 +51,8 @@ public class TimeStoneItem extends RPGItem implements Listener {
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         ItemStack item = event.getItem();
-        if (!equalItem(item)) return;
         Player player = event.getPlayer();
-        this.removeItem(player, item);
+        if (!TIME_STONE.use(player, item)) return;
 
         long ticks = 100;
         for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
@@ -65,14 +60,14 @@ public class TimeStoneItem extends RPGItem implements Listener {
             entity.setGravity(false);
             if (entity instanceof LivingEntity living) {
                 living.setAI(false);
-                if (living instanceof Player target) getRPGPerson(target).addStatus(Status.Type.STOPPED);
+                if (living instanceof Player target) getRPGPerson(target).getStatusManager().addStatus(STOPPED);
             }
 
             new BukkitRunnable() {
                 private final Location loc = entity.getLocation();
                 @Override
                 public void run() {
-                    if (!stopped.contains(entity)) cancel();
+                    if (!stopped.contains(entity)) this.cancel();
                     entity.teleport(loc);
                 }
             }.runTaskTimer(getInstance(), 0L, 1L);
@@ -83,7 +78,7 @@ public class TimeStoneItem extends RPGItem implements Listener {
                     living.setAI(true);
                     if (living instanceof Player target) {
                         RPGPerson pers = getRPGPerson(target);
-                        pers.removeStatus(Status.Type.STOPPED);
+                        pers.getStatusManager().removeStatus(STOPPED);
                     }
                 }
                 stopped.remove(entity);

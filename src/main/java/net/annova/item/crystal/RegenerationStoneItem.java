@@ -1,25 +1,24 @@
 package net.annova.item.crystal;
 
-import net.annova.entity.traits.status.Status;
+import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
-import org.bukkit.ChatColor;
+import net.annova.object.person.status.StatusManager;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.util.BukkitObjects.addItems;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.object.person.status.StatusType.REGENERATION;
+import static net.annova.item.base.Item.REGENERATION_STONE;
 
 public class RegenerationStoneItem extends RPGItem implements Listener {
     @Override
@@ -28,13 +27,8 @@ public class RegenerationStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.LIGHT_PURPLE + "Кристалл регенерации";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{325};
+        return List.of(325f);
     }
 
     @Override
@@ -50,26 +44,19 @@ public class RegenerationStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityRegainHealthEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-
-        if (!chance(0.001)) return;
-        addItems(player, this.create());
-    }
-
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (!equalItem(player.getInventory().getItemInMainHand())) return;
+        if (!REGENERATION_STONE.equals(player.getInventory().getItemInMainHand())) return;
         RPGPerson person = getRPGPerson(player);
-        if (person.getStatus(Status.Type.REGENERATION) != null) return;
-        person.addStatus(Status.Type.REGENERATION);
+        StatusManager manager = person.getStatusManager();
+        if (manager.getStatus(REGENERATION) != null) return;
+        manager.addStatus(REGENERATION);
 
         player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
         new BukkitRunnable() {
             public void run() {
-                if (!hasItem(player)) {
-                    cancel();
+                if (!REGENERATION_STONE.has(player)) {
+                    this.cancel();
                 }
                 if (player.isDead()) return;
                 double maxHealth = player.getAttribute(Attribute.MAX_HEALTH).getValue();

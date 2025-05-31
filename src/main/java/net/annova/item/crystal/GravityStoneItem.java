@@ -4,6 +4,7 @@ import net.annova.item.base.RPGItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Shulker;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.item.base.Item.GRAVITY_STONE;
 
 public class GravityStoneItem extends RPGItem implements Listener {
     @Override
@@ -23,13 +25,8 @@ public class GravityStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.DARK_PURPLE + "Кристалл гравитации";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{322};
+        return List.of(322f);
     }
 
     @Override
@@ -45,20 +42,14 @@ public class GravityStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityDeathEvent event) {
-        if (!(event.getEntity() instanceof Shulker)) return;
-        if (!chance(0.005)) return;
-        event.getDrops().add(this.create());
-    }
-    @EventHandler
     private void mechanic(EntityPotionEffectEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-        if (!hasItem(player)) return;
-        if (!event.getModifiedType().equals(PotionEffectType.LEVITATION)) return;
-        if (!event.getAction().equals(EntityPotionEffectEvent.Action.ADDED)) return;
-        player.getInventory().removeItem(this.create());
-        player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
+        if (event.getEntity() instanceof LivingEntity entity) {
+            if (!event.getModifiedType().equals(PotionEffectType.LEVITATION)) return;
+            if (!event.getAction().equals(EntityPotionEffectEvent.Action.ADDED)) return;
+            if (!GRAVITY_STONE.removeItem(entity)) return;
+            entity.getWorld().playSound(entity, Sound.BLOCK_PISTON_EXTEND, 1, 1);
 
-        event.setCancelled(true);
+            event.setCancelled(true);
+        }
     }
 }

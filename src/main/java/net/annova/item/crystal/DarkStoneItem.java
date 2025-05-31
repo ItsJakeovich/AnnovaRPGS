@@ -1,7 +1,6 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -15,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.item.base.Item.DARK_STONE;
 
 public class DarkStoneItem extends RPGItem implements Listener {
     @Override
@@ -23,13 +23,8 @@ public class DarkStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.DARK_PURPLE + "Кристалл тьмы";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{308};
+        return List.of(308f);
     }
 
     @Override
@@ -43,22 +38,13 @@ public class DarkStoneItem extends RPGItem implements Listener {
                 "&3= &fЗаставляет всех сущностей рядом атаковать друг друга"
         );
     }
-
-    @EventHandler
-    private void drop(EntityDeathEvent event) {
-        Player player = event.getEntity().getKiller();
-        if (player == null || player.getLocation().getBlock().getLightLevel() != 0) return;
-        if (!chance(0.01)) return;
-        event.getDrops().add(this.create());
-    }
     
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (!equalItem(item)) return;
+        if (!DARK_STONE.use(player, item)) return;
 
-        this.removeItem(player, item);
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1200, 1, false, false, true));
 
         for (Entity entity : player.getNearbyEntities(16, 12, 16)) {

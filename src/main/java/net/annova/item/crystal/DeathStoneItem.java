@@ -4,6 +4,7 @@ import net.annova.item.base.RPGItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.annova.item.base.Item.DEATH_STONE;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.util.BukkitObjects.chance;
 
@@ -25,13 +27,8 @@ public class DeathStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.DARK_PURPLE + "Кристалл смерти";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{321};
+        return List.of(321f);
     }
 
     @Override
@@ -48,23 +45,14 @@ public class DeathStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityDeathEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-        if (player.getLastDamageCause() == null) return;
-        if (!player.getLastDamageCause().getCause().equals(EntityDamageEvent.DamageCause.WITHER)) return;
-        if (!chance(0.01)) return;
-
-        addItems(player, this.create());
-    }
-    @EventHandler
     private void mechanic(EntityDeathEvent event) {
-        if (event.getEntity() instanceof ChestedHorse) return;
-        if (event.getEntity() instanceof Player) return;
-        Player killer = event.getEntity().getKiller();
-        if (killer == null) return;
-        if (!hasItem(killer)) return;
+        LivingEntity entity = event.getEntity();
+        if (entity instanceof ChestedHorse) return;
+        if (entity instanceof Player) return;
 
-        EntityEquipment inv = event.getEntity().getEquipment();
+        if (!DEATH_STONE.has(entity.getKiller())) return;
+
+        EntityEquipment inv = entity.getEquipment();
         List<ItemStack> items = new ArrayList<>();
         loop:
         for (ItemStack item : event.getDrops()) {

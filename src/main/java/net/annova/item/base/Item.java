@@ -2,7 +2,7 @@ package net.annova.item.base;
 
 import com.google.common.collect.Maps;
 import net.annova.item.DungeonKeyItem;
-import net.annova.item.EntRoot;
+import net.annova.item.world0.forest.EntRoot;
 import net.annova.item.component.ForiumFragmentItem;
 import net.annova.item.component.ForiumIngotItem;
 import net.annova.item.container.PrisonContainerItem;
@@ -12,8 +12,9 @@ import net.annova.item.equipment.ControlStopStickItem;
 import net.annova.item.equipment.oasis.TideBlade;
 import net.annova.item.equipment.oasis.TideGraspRing;
 import net.annova.item.equipment.prison.*;
-import net.annova.item.oasis.*;
 import net.annova.item.token.*;
+import net.annova.item.world0.oasis.*;
+import net.annova.object.Person;
 import net.minecraft.world.item.component.CustomModelData;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,11 +22,10 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.components.CraftCustomModelDataComponent;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -36,7 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static net.annova.config.AnnovaConfig.getLangFile;
 import static net.annova.item.base.RPGItem.getItemId;
+import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.*;
 import static net.annova.util.BukkitObjects.chance;
@@ -67,6 +69,7 @@ public enum Item {
     IGNIS_STONE(new IgnisStoneItem()),
     LIGHT_STONE(new LightStoneItem()),
     NATURE_STONE(new NatureStoneItem()),
+    PSYONIC_STONE(new PsyonicStoneItem()),
     RED_STONE(new RedStoneItem()),
     REGENERATION_STONE(new RegenerationStoneItem()),
     REPAIR_STONE(new RepairStoneItem()),
@@ -74,7 +77,6 @@ public enum Item {
     RUNIC_DEFENCE_STONE(new RunicDefenceStoneItem()),
     RUNIC_STONE(new RunicStoneItem()),
     STRENGTH_STONE(new StrengthStoneItem()),
-    TELEKINESIS_STONE(new TelekinesisStoneItem()),
     TELEPORT_STONE(new TeleportStoneItem()),
     TIME_STONE(new TimeStoneItem()),
     VITAL_STONE(new VitalStoneItem()),
@@ -123,9 +125,11 @@ public enum Item {
     VOLCANIC_STREAMS_MALMA(new VolcanicStreamsMalma()),
     WHALE_FISH(new WhaleFish()),
 
-    // Everything else
-    DUNGEON_KEY(new DungeonKeyItem()),
+    // S0 - FOREST
     ENT_ROOT(new EntRoot()),
+
+    // unique
+    DUNGEON_KEY(new DungeonKeyItem()),
     ;
 
     private final RPGItem item;
@@ -166,6 +170,7 @@ public enum Item {
         return this.id.equals(getItemId(equipment.getItemInMainHand())) || this.id.equals(getItemId(equipment.getItemInOffHand()));
     }
     public boolean has(Player player) {
+        if (player == null) return false;
         for (ItemStack item : player.getInventory().getContents()) {
             if (this.id.equals(getItemId(item))) return true;
         }
@@ -173,6 +178,43 @@ public enum Item {
     }
     public boolean equals(ItemStack item) {
         return this.id.equals(getItemId(item));
+    }
+
+    /**
+     * @return true if item found and decreased.
+     */
+    public boolean removeItem(LivingEntity entity) {
+        if (entity instanceof Player player) {
+            PlayerInventory inv = player.getInventory();
+            for (ItemStack item : inv.getContents()) {
+                if (!this.id.equals(getItemId(item))) continue;
+                inv.removeItem(item);
+                return true;
+            }
+        } else {
+            EntityEquipment equipment = entity.getEquipment();
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                if (!this.id.equals(getItemId(equipment.getItem(slot)))) continue;
+                equipment.setItem(slot, null);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return true if item similar and decreased.
+     */
+    public boolean use(Player player, ItemStack item) {
+        if (!this.id.equals(getItemId(item))) return false;
+        RPGItem.subtractItem(player, item);
+        return true;
+    }
+    public boolean use(Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (!this.id.equals(getItemId(item))) return false;
+        RPGItem.subtractItem(player, item);
+        return true;
     }
 
     @Nullable
@@ -183,22 +225,36 @@ public enum Item {
         return null;
     }
 
-    public ItemStack create() {
-        return this.create(1);
+    public ItemStack create(Person person) {
+        return this.create(person, 1);
     }
-    public ItemStack create(int amount) {
-        return this.create(amount, 1.00);
+    public ItemStack create(Player player) {
+        return this.create(getPerson(player), 1);
     }
-    public ItemStack create(double chance) {
-        return this.create(1, chance);
+    public ItemStack create(Person person, int amount) {
+        return this.create(person, amount, 1.00);
     }
-    public ItemStack create(int amount, double chance) {
-        if (amount < 1 || !chance(chance)) return new ItemStack(Material.AIR);
+    public ItemStack create(Player player, int amount) {
+        return this.create(getPerson(player), amount, 1.00);
+    }
+    public ItemStack create(Person person, double chance) {
+        return this.create(person, 1, chance);
+    }
+    public ItemStack create(Player player, double chance) {
+        return this.create(getPerson(player), 1, chance);
+    }
+    public ItemStack create(Player player, int amount, double chance) {
+        return this.create(getPerson(player), amount, chance);
+    }
+    public ItemStack create(Person person, int amount, double chance) {
+        if (amount < 1 || (chance != 1 && !chance(chance))) return new ItemStack(Material.AIR);
 
         ItemStack item = new ItemStack(this.item.type(), amount);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(color(this.name()));
+        meta.setDisplayName(color(getLangFile(getInstance(), person == null ? "ru" : person.getLanguage())
+                .getString(this.name(), "unknown-name"))
+        );
         CustomModelData model = new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of());
         meta.setCustomModelDataComponent(new CraftCustomModelDataComponent(model));
 

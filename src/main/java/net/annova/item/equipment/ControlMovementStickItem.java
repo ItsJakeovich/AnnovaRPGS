@@ -1,6 +1,6 @@
 package net.annova.item.equipment;
 
-import net.annova.entity.traits.status.Status;
+import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Material;

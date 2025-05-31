@@ -1,8 +1,6 @@
 package net.annova.object.person;
 
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.entity.traits.status.Status;
-import net.annova.entity.traits.status.RPGStatus;
 import net.annova.item.base.*;
 import net.annova.item.base.Set;
 import net.annova.main.AnnovaAPI;
@@ -10,6 +8,8 @@ import net.annova.main.AnnovaGlobal;
 import net.annova.main.AnnovaSQL;
 import net.annova.object.Person;
 import net.annova.object.person.quest.QuestManager;
+import net.annova.object.person.status.StatusManager;
+import net.annova.object.person.status.ValueType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -34,7 +34,7 @@ public class RPGPerson {
     private RPGSet set;
     private final RPGItem[] armor = new RPGItem[4];
     private boolean ready = false;
-    private final Map<Status.Type, Status> statuses = new HashMap<>();
+    private final StatusManager statusManager = new StatusManager();
     private final List<ItemStack> pendingItems = new ArrayList<>();
     private final Map<String, Long> speedModifiers = new HashMap<>();
     private final QuestManager questManager = new QuestManager();
@@ -135,9 +135,8 @@ public class RPGPerson {
         Player player = person.getPlayer();
         if (player == null) return;
 
-        newMaxHealth += additionalHealth;
-        if (player.getHealth() > newMaxHealth) player.setHealth(newMaxHealth);
-        player.getAttribute(Attribute.MAX_HEALTH).setBaseValue(newMaxHealth);
+        newMaxHealth += additionalHealth
+                + (float) (statusManager.getFinalValue(ValueType.HEALTH_BUFF) - statusManager.getFinalValue(ValueType.HEALTH_DEBUFF));
 
         this.setHealth(newMaxHealth * health / maxHealth);
         this.maxHealth = newMaxHealth;
@@ -238,28 +237,8 @@ public class RPGPerson {
         this.ready = ready;
     }
 
-    @Nullable
-    public Status getStatus(Status.Type type) {
-        return statuses.get(type);
-    }
-    public boolean containStatus(Status.Type type) {
-        return statuses.containsKey(type);
-    }
-    @Nullable
-    public Status addStatus(Status.Type type) {
-        Status status = new Status(type);
-        this.statuses.put(type, status);
-        return status;
-    }
-    public void removeStatus(Status.Type type) {
-        if (statuses.containsKey(type)) {
-            RPGStatus status = statuses.get(type).getActivity();
-            if (status != null) status.stop(this, type);
-            statuses.remove(type);
-        }
-    }
-    public Collection<Status> getStatuses() {
-        return statuses.values();
+    public StatusManager getStatusManager() {
+        return statusManager;
     }
 
     public List<ItemStack> getPendingItems() {
@@ -312,6 +291,7 @@ public class RPGPerson {
     }
     public static void teleportHome(Player player) {
         Location loc = player.getRespawnLocation();
+        player.playSound(player, Sound.BLOCK_GLASS_BREAK, 3, 1);
         player.teleport(loc == null ? player.getWorld().getSpawnLocation() : loc);
     }
 }

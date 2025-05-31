@@ -21,13 +21,8 @@ public class VitalStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.GREEN + "Кристалл молодости";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{323};
+        return List.of(323f);
     }
 
     @Override

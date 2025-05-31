@@ -1,6 +1,6 @@
 package net.annova.event.custom;
 
-import net.annova.entity.core.RPGEntity;
+import net.annova.object.entity.core.RPGEntity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDeathEvent;

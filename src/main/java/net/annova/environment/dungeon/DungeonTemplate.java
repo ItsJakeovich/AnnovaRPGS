@@ -1,7 +1,7 @@
 package net.annova.environment.dungeon;
 
-import net.annova.entity.core.RPGEntity;
-import net.annova.entity.core.RPGEntityType;
+import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.SimpleStructure;
 import net.annova.object.animation.Animation;
 import net.annova.object.generator.VoidGenerator;

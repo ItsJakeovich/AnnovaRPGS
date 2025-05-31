@@ -1,6 +1,6 @@
 package net.annova.object.person.quest;
 
-import net.annova.entity.core.RPGEntity;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

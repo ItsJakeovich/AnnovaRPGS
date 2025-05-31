@@ -1,15 +1,13 @@
 package net.annova.item.crystal;
 
-import net.annova.entity.traits.status.Status;
+import net.annova.object.person.status.Status;
 import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,10 +15,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
+import static net.annova.item.base.Item.DARK_STONE;
 import static net.annova.item.base.Item.DEFENCE_STONE;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.addItems;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.main.AnnovaRPG.getInstance;
 
 public class DefenceStoneItem extends RPGItem implements Listener {
@@ -30,13 +28,8 @@ public class DefenceStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.BLUE + "Кристалл защиты";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{324};
+        return List.of(324f);
     }
 
     @Override
@@ -54,10 +47,10 @@ public class DefenceStoneItem extends RPGItem implements Listener {
 
     @EventHandler
     public void drop(EntityDamageCE event) {
-        if (!(event.getEntity() instanceof Player player)) return;
         if (event.getBaseDamage() < 3) return;
-        if (!chance(0.0001)) return;
-        addItems(player, this.create());
+        if (event.getEntity() instanceof Player player) {
+            addItems(player, DARK_STONE.create(player, 0.0001));
+        }
     }
 
     @EventHandler

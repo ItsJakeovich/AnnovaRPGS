@@ -2,12 +2,9 @@ package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,6 +12,7 @@ import java.util.*;
 
 import static net.annova.main.GlobalRPG.getDungeonWorld;
 import static net.annova.util.BukkitObjects.*;
+import static net.annova.item.base.Item.TELEPORT_STONE;
 
 public class TeleportStoneItem extends RPGItem implements Listener {
     @Override
@@ -23,13 +21,8 @@ public class TeleportStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.DARK_PURPLE + "Кристалл телепорта";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{329};
+        return List.of(329f);
     }
 
     @Override
@@ -46,18 +39,9 @@ public class TeleportStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(EntityDeathEvent event) {
-        Entity entity = event.getEntity();
-        if (!entity.getType().equals(EntityType.ENDERMAN)) return;
-        if (!chance(0.005)) return;
-
-        event.getDrops().add(this.create());
-    }
-
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         ItemStack item = event.getItem();
-        if (!equalItem(item)) return;
+        if (!TELEPORT_STONE.equals(item)) return;
         if (event.getAction().name().charAt(0) != 'R') return;
         Player player = event.getPlayer();
         if (player.getWorld().equals(getDungeonWorld())) return;
@@ -69,16 +53,16 @@ public class TeleportStoneItem extends RPGItem implements Listener {
         if (loc.getX() > border || loc.getX() < -border || loc.getZ() > border || loc.getZ() < -border) return;
         if (player.isSneaking()) {
             setLore(item,
-                    ChatColor.DARK_PURPLE + "Локация: " + loc.getWorld().getName() + ", " + loc.getBlockX()
-                    + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
+                    STR."\{ChatColor.DARK_PURPLE}Локация: \{loc.getWorld().getName()}, \{loc.getBlockX()}, \{loc.getBlockY()}, \{loc.getBlockZ()}");
             return;
         }
         List<String> lore = item.getItemMeta().getLore();
-        if (!lore.get(0).startsWith(ChatColor.DARK_PURPLE + "Локация: ")) return;
-        String[] str = lore.get(0).split(": ")[1].split(", ");
+        String first = lore.getFirst();
+        if (!first.startsWith(STR."\{ChatColor.DARK_PURPLE}Локация: ")) return;
+        String[] str = first.split(": ")[1].split(", ");
 
         if (chance(0.5)) {
-            this.removeItem(player, item);
+            subtractItem(player, item);
         }
         World world = Bukkit.getWorld(str[0]);
         if (world.equals(getDungeonWorld())) return;

@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.util.BukkitObjects;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 import static net.annova.environment.dungeon.Loot.random;
+import static net.annova.item.base.Item.EARTH_STONE;
 import static net.annova.util.BukkitObjects.chance;
 
 public class EarthStoneItem extends RPGItem implements Listener {
@@ -27,13 +29,8 @@ public class EarthStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.GREEN + "Земляной кристалл";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{306};
+        return List.of(306f);
     }
 
     @Override
@@ -49,22 +46,14 @@ public class EarthStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(BlockBreakEvent event) {
-        if (!chance(0.0005)) return;
-
-        Block block = event.getBlock();
-        block.getWorld().dropItemNaturally(block.getLocation(), this.create());
-    }
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getHand() == null) return;
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;
 
-        ItemStack item = event.getItem();
-        if (!equalItem(item)) return;
         Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+        if (!EARTH_STONE.use(player, item)) return;
 
-        this.removeItem(player, item);
         Material[] materials = {
                 Material.IRON_ORE,
                 Material.DIAMOND_ORE,
@@ -74,7 +63,7 @@ public class EarthStoneItem extends RPGItem implements Listener {
                 Material.LAPIS_ORE,
                 Material.REDSTONE_ORE
         };
-        int radius = 8;
+        int radius = 10;
         Location location = player.getLocation();
         World world = location.getWorld();
 
@@ -83,8 +72,8 @@ public class EarthStoneItem extends RPGItem implements Listener {
                 for (int x = -radius; x <= radius; x++) {
                     Block block = world.getBlockAt(location.clone().add(x, y, z));
                     if (!block.getType().equals(Material.STONE)) continue;
-                    if (!chance(0.084)) return;
-                    block.setType(materials[random.nextInt(materials.length)]);
+                    if (!chance(0.084)) continue;
+                    block.setType(materials[BukkitObjects.random.nextInt(materials.length)]);
                 }
             }
         }

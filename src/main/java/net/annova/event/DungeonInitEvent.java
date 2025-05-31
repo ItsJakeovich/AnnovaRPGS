@@ -1,8 +1,8 @@
 package net.annova.event;
 
 import net.annova.environment.dungeon.DungeonTemplate;
-import net.annova.entity.core.RPGEntity;
-import net.annova.entity.core.RPGEntityType;
+import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.RPGEntityType;
 import net.annova.event.custom.StructureCreateCE;
 import net.annova.object.*;
 import net.annova.object.animation.Animation;

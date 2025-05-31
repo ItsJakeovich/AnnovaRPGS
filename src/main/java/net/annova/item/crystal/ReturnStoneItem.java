@@ -26,11 +26,6 @@ public class ReturnStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.LIGHT_PURPLE + "Кристалл возврата";
-    }
-
-    @Override
     public List<Float> modelData() {
         return List.of(326f);
     }
@@ -48,19 +43,12 @@ public class ReturnStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void drop(PlayerBedLeaveEvent event) {
-        if (!chance(0.01)) return; // 1% chance
-        ItemStack item = RETURN_STONE.create();
-        addItems(event.getPlayer(), item);
-    }
-    @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getAction().name().charAt(0) != 'R') return;
         Player player = event.getPlayer();
         if (player.getWorld().equals(getDungeonWorld())) return;
-        if (!RETURN_STONE.equals(player.getInventory().getItemInMainHand())) return;
+        if (!RETURN_STONE.use(player)) return;
 
-        removeItem(player);
         teleportHome(player);
     }
 }

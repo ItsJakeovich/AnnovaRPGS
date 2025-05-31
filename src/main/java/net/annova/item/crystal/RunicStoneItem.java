@@ -17,11 +17,6 @@ public class RunicStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return "&cРунический камень";
-    }
-
-    @Override
     public List<Float> modelData() {
         return List.of(332f);
     }
@@ -35,7 +30,7 @@ public class RunicStoneItem extends RPGItem implements Listener {
     public List<String> lore() {
         return List.of(
                 "&3= &fУдваивает наносимый урон",
-                "&3= &fУдваивает получаемый урон",,, // Свойство допиши
+                "&3= &fУдваивает получаемый урон"
         );
     }
 }

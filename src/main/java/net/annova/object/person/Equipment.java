@@ -1,6 +1,5 @@
 package net.annova.object.person;
 
-import net.annova.item.base.RPGItem;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
