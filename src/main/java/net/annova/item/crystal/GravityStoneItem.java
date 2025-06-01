@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,6 +33,11 @@ public class GravityStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return true;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

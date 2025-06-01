@@ -2,6 +2,7 @@ package net.annova.item.world0.oasis;
 
 import net.annova.item.base.ItemConfiguration;
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -26,6 +27,11 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

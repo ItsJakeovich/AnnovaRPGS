@@ -1,5 +1,6 @@
 package net.annova.item.base;
 
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ public abstract class RPGItem {
     public abstract Material type();
     public abstract List<Float> modelData();
     public abstract boolean unstackable();
+    public abstract RPGRarity rarity();
     /**
      * | &0 = Черный
      * | &1 = Тёмно-синий

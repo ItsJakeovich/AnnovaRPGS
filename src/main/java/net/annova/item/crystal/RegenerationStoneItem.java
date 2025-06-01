@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
@@ -37,6 +38,11 @@ public class RegenerationStoneItem extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&3= &fПассивно регенерирует &c\uD83D\uDDA4"
@@ -50,20 +56,8 @@ public class RegenerationStoneItem extends RPGItem implements Listener {
         RPGPerson person = getRPGPerson(player);
         StatusManager manager = person.getStatusManager();
         if (manager.getStatus(REGENERATION) != null) return;
-        manager.addStatus(REGENERATION);
+        manager.addStatus(person, REGENERATION);
 
         player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
-        new BukkitRunnable() {
-            public void run() {
-                if (!REGENERATION_STONE.has(player)) {
-                    this.cancel();
-                }
-                if (player.isDead()) return;
-                double maxHealth = player.getAttribute(Attribute.MAX_HEALTH).getValue();
-                if (player.getHealth() >= maxHealth) return;
-
-                player.setHealth(Math.min(player.getHealth()+2, maxHealth));
-            }
-        }.runTaskTimer(getInstance(), 0L, 100L);
     }
 }

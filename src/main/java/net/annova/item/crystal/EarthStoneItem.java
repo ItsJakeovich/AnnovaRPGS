@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.annova.util.BukkitObjects;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -36,6 +37,11 @@ public class EarthStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

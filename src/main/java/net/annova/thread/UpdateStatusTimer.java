@@ -31,9 +31,9 @@ public class UpdateStatusTimer extends AnnovaAsyncTask {
             Set<StatusType> toRemove = new HashSet<>();
             StatusManager manager = person.getStatusManager();
             for (Status status : manager.getStatuses()) {
-                if (status.isNotExpired()) continue;
-                manager.removeStatus(status.getType());
-                toRemove.add(status.getType());
+                if (status.toRemove(player)) {
+                    toRemove.add(status.getType());
+                }
             }
             toRemove.forEach(manager::removeStatus);
         }

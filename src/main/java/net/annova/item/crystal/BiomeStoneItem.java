@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
@@ -40,6 +41,11 @@ public class BiomeStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override
@@ -129,7 +135,7 @@ public class BiomeStoneItem extends RPGItem implements Listener {
 
         StatusManager manager = person.getStatusManager();
         if (manager.hasStatus(StatusType.BIOME_STONE)) return;
-        manager.addStatus(StatusType.BIOME_STONE);
+        manager.addStatus(person, StatusType.BIOME_STONE);
         player.playSound(player.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
 
         new BukkitRunnable() {

@@ -2,6 +2,7 @@ package net.annova.item.crystal;
 
 import net.annova.event.custom.BattleCE;
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -26,6 +27,11 @@ public class ChronoStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return true;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

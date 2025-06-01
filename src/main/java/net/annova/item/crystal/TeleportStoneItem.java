@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,11 @@ public class TeleportStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.annova.item.token;
 
 import net.annova.item.base.RPGItem;
-import org.bukkit.ChatColor;
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 import java.util.List;
+import static net.annova.item.base.Item.CREEPER_TOKEN;
 
 public final class CreeperTokenItem extends RPGItem implements Listener {
     @Override
@@ -18,18 +19,18 @@ public final class CreeperTokenItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.GREEN + "Жетон крипера";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{5};
+        return List.of(5f);
     }
 
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -42,7 +43,7 @@ public final class CreeperTokenItem extends RPGItem implements Listener {
     @EventHandler
     private void mechanic(EntityTargetEvent event) {
         if (!(event.getTarget() instanceof Player player)) return;
-        if (!this.hasItem(player)) return;
+        if (!CREEPER_TOKEN.has(player)) return;
 
         if (event.getEntity().getType().equals(EntityType.CREEPER))
             event.setCancelled(true);

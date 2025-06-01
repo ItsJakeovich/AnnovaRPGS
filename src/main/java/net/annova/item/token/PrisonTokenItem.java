@@ -1,6 +1,7 @@
 package net.annova.item.token;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -12,18 +13,18 @@ public class PrisonTokenItem extends RPGItem {
     }
 
     @Override
-    public String name() {
-        return "&7Жетон заключения";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{2};
+        return List.of(2f);
     }
 
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

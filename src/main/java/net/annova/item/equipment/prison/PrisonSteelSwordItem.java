@@ -4,6 +4,7 @@ import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.item.base.RPGItem;
 import net.annova.item.base.RPGTool;
+import net.annova.object.RPGRarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -26,11 +27,6 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     }
 
     @Override
-    public String name() {
-        return STR."\{ChatColor.BLUE}Стальной клинок";
-    }
-
-    @Override
     public List<Float> modelData() {
         return List.of(804f);
     }
@@ -38,6 +34,11 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.annova.item.container;
 
 import net.annova.item.base.RPGItem;
 import net.annova.object.Person;
+import net.annova.object.RPGRarity;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -39,6 +40,11 @@ public class PrisonContainerItem extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&3= &fБольшой пыльный контейнер"
@@ -58,9 +64,8 @@ public class PrisonContainerItem extends RPGItem implements Listener {
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (!PRISON_CONTAINER.equals(item)) return;
+        if (!PRISON_CONTAINER.use(player, item)) return;
 
-        removeItem(player, item);
         Inventory inv = Bukkit.createInventory(null, 45, "Контейнер");
         ItemStack[] items = new ItemStack[45];
 

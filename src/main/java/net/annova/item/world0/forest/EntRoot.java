@@ -1,6 +1,7 @@
 package net.annova.item.world0.forest;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 
@@ -13,11 +14,6 @@ public class EntRoot extends RPGItem {
     }
 
     @Override
-    public String name() {
-        return STR."\{ChatColor.of("#8B4513")}Корень энта";
-    }
-
-    @Override
     public List<Float> modelData() {
         return List.of(215f);
     }
@@ -25,6 +21,11 @@ public class EntRoot extends RPGItem {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.COMMON;
     }
 
     @Override

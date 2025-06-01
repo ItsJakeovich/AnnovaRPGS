@@ -1,8 +1,9 @@
 package net.annova.item.equipment;
 
-import net.annova.object.person.status.Status;
+import net.annova.object.RPGRarity;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.StatusManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,16 +17,12 @@ import java.util.List;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.item.base.Item.CONTROL_MOVEMENT_STICK;
+import static net.annova.object.person.status.StatusType.FROZEN;
 
 public class ControlMovementStickItem extends RPGItem implements Listener {
     @Override
     public Material type() {
         return Material.STICK;
-    }
-
-    @Override
-    public String name() {
-        return "&6Палочка передвижения";
     }
 
     @Override
@@ -36,6 +33,11 @@ public class ControlMovementStickItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.IMPOSSIBLE;
     }
 
     @Override
@@ -54,18 +56,19 @@ public class ControlMovementStickItem extends RPGItem implements Listener {
         if (!CONTROL_MOVEMENT_STICK.equals(item)) return;
 
         RPGPerson person = getRPGPerson(entity);
-        if (person.getStatus(Status.Type.FROZEN) == null) this.freeze(person, damager);
-        else person.removeStatus(Status.Type.FROZEN);
+        StatusManager manager = person.getStatusManager();
+        if (manager.getStatus(FROZEN) == null) this.freeze(person, manager, damager);
+        else manager.removeStatus(FROZEN);
     }
 
-    private void freeze(RPGPerson person, Player summoner) {
-        person.addStatus(Status.Type.FROZEN);
+    private void freeze(RPGPerson person, StatusManager manager, Player summoner) {
+        manager.addStatus(FROZEN);
         Player player = person.getPerson().getPlayer();
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (person.getStatus(Status.Type.FROZEN) == null) this.cancel();
+                if (manager.getStatus(FROZEN) == null) this.cancel();
                 if (!player.isOnline()) return;
                 if (!summoner.isOnline()) return;
                 person.teleport(summoner);

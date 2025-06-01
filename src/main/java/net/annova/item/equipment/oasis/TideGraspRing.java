@@ -2,6 +2,7 @@ package net.annova.item.equipment.oasis;
 
 import net.annova.item.base.RPGEquipment;
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -23,6 +24,11 @@ public class TideGraspRing extends RPGItem implements RPGEquipment {
     @Override
     public boolean unstackable() {
         return true;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

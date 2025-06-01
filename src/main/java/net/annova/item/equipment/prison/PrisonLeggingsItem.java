@@ -2,6 +2,7 @@ package net.annova.item.equipment.prison;
 
 import net.annova.item.base.RPGArmor;
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -15,13 +16,8 @@ public class PrisonLeggingsItem extends RPGItem implements RPGArmor {
     }
 
     @Override
-    public String name() {
-        return ChatColor.GRAY + "Поножи охранника";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{3};
+        return List.of(3f);
     }
 
     @Override
@@ -30,14 +26,14 @@ public class PrisonLeggingsItem extends RPGItem implements RPGArmor {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&fБыли сняты с охранника во время обеда"
         );
-    }
-
-    @Override
-    public Set<Perk> perks() {
-        return Set.of();
     }
 }

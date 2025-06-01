@@ -1,5 +1,6 @@
 package net.annova.item.world0.oasis;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.entity.mobs.sector0.AnglerFish;
 import net.annova.item.base.RPGItem;
 import org.bukkit.Material;
@@ -27,6 +28,11 @@ public class AnglerFishSpawnEgg extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return true;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.COMMON;
     }
 
     @Override

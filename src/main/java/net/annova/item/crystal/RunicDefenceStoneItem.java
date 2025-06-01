@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.event.custom.EntityDamageCE;
 import net.annova.item.base.RPGItem;
@@ -42,6 +43,11 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&3= &fЗащищает от урона свыше &6100 &fединиц",
@@ -70,10 +76,9 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
         RPGPerson person = getRPGPerson((Player) entity);
         StatusManager manager = person.getStatusManager();
         Status status = manager.getStatus(SHIELD_CHARGE);
-        if (status == null) {
-            status = manager.addStatus(SHIELD_CHARGE).setValue(CHARGE, 3);
-            this.startChargeTimer(person, manager);
-        }
+        if (status != null) return;
+
+        status = manager.addStatus(person, SHIELD_CHARGE).setValue(CHARGE, 3);
 
         double charges = status.getValue(CHARGE);
         if (event.getDamage() < 100 || charges < 1) return;
@@ -89,16 +94,5 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
         world.spawnParticle(Particle.EXPLOSION, loc, 10);
         entity.setVelocity(loc.getDirection().multiply(-1));
         person.getPerson().send(getInstance(), "defence-stone-charges", "{charges}", String.valueOf(charges));
-    }
-
-    private void startChargeTimer(RPGPerson person, StatusManager manager) {
-        new BukkitRunnable() {
-            public void run() {
-                Status status = manager.getStatus(SHIELD_CHARGE);
-                double charges = status.getValue(CHARGE);
-                if (charges == 3) return;
-                status.setValue(CHARGE, charges+1);
-            }
-        }.runTaskTimer(getInstance(), 0L, 18000);
     }
 }

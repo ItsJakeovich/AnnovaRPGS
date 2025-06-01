@@ -100,6 +100,9 @@ public enum Item {
     RANGE_TOKEN(new RangeTokenItem()),
     SATURATION_TOKEN(new SaturationTokenItem()),
 
+    // S0 - FOREST
+    ENT_ROOT(new EntRoot()),
+
     // S0 - OASIS
     TIDE_BLADE(new TideBlade()),
     TIDE_GRASP_RING(new TideGraspRing()),
@@ -124,9 +127,6 @@ public enum Item {
     UNKNOWN_SOURCE_WATER(new UnknownSourceWater()),
     VOLCANIC_STREAMS_MALMA(new VolcanicStreamsMalma()),
     WHALE_FISH(new WhaleFish()),
-
-    // S0 - FOREST
-    ENT_ROOT(new EntRoot()),
 
     // unique
     DUNGEON_KEY(new DungeonKeyItem()),
@@ -252,9 +252,9 @@ public enum Item {
         ItemStack item = new ItemStack(this.item.type(), amount);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(color(getLangFile(getInstance(), person == null ? "ru" : person.getLanguage())
-                .getString(this.name(), "unknown-name"))
-        );
+        String name = getLangFile(getInstance(), person == null ? "ru" : person.getLanguage())
+                .getString(this.name(), "unknown-name");
+        meta.setDisplayName(color(STR."\{this.item.rarity()}\{name}"));
         CustomModelData model = new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of());
         meta.setCustomModelDataComponent(new CraftCustomModelDataComponent(model));
 

@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import org.bukkit.Material;
@@ -38,6 +39,11 @@ public class IceStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return true;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

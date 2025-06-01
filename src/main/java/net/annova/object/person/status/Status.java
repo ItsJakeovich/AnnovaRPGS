@@ -1,11 +1,15 @@
 package net.annova.object.person.status;
 
-import java.lang.reflect.InvocationTargetException;
+import net.annova.item.base.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Status {
     private final StatusType type;
+    private BukkitTask runnable = null;
     private final Map<ValueType, Double> values = new HashMap<>();
     private final long expires;
 
@@ -30,15 +34,19 @@ public class Status {
         return values;
     }
 
-    public RPGStatus getActivity() {
-        try {
-            return type.getBaseActivity().getDeclaredConstructor().newInstance();
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+    public BukkitTask getRunnable() {
+        return runnable;
+    }
+    public void setRunnable(BukkitTask runnable) {
+        this.runnable = runnable;
     }
 
-    public boolean isNotExpired() {
-        return expires == 0 || System.currentTimeMillis() < expires;
+    public boolean toRemove(Player player) {
+        boolean byTime = expires != 0 && System.currentTimeMillis() >= expires;
+
+        Item item = this.type.getWhileHas();
+        boolean byItem = item != null && !item.has(player);
+
+        return byTime || byItem;
     }
 }

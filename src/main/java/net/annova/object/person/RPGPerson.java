@@ -265,6 +265,19 @@ public class RPGPerson {
         speedModifiers.remove(modifier);
     }
 
+    public float getHealth() {
+        return health;
+    }
+    public float getMaxHealth() {
+        return maxHealth;
+    }
+    public float getRegeneration() {
+        return regeneration;
+    }
+    public float getAdditionalHealth() {
+        return additionalHealth;
+    }
+
     public boolean isTeleportAccess() {
         return teleportAccess;
     }

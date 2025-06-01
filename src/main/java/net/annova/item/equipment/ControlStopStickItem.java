@@ -1,8 +1,10 @@
 package net.annova.item.equipment;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.StatusManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,16 +16,12 @@ import java.util.List;
 
 import static net.annova.item.base.Item.CONTROL_STOP_STICK;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.person.status.StatusType.STOPPED;
 
 public class ControlStopStickItem extends RPGItem implements Listener {
     @Override
     public Material type() {
         return Material.STICK;
-    }
-
-    @Override
-    public String name() {
-        return "&4Палочка остановки передвижения";
     }
 
     @Override
@@ -34,6 +32,11 @@ public class ControlStopStickItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.IMPOSSIBLE;
     }
 
     @Override
@@ -52,17 +55,18 @@ public class ControlStopStickItem extends RPGItem implements Listener {
         if (!CONTROL_STOP_STICK.equals(item)) return;
 
         RPGPerson person = getRPGPerson(entity);
-        if (person.getStatus(Status.Type.STOPPED) == null) this.stop(person);
-        else this.unStop(person);
+        StatusManager manager = person.getStatusManager();
+        if (manager.getStatus(STOPPED) == null) this.stop(person, manager);
+        else this.unStop(person, manager);
     }
 
-    private void stop(RPGPerson person) {
-        person.addStatus(Status.Type.STOPPED);
+    private void stop(RPGPerson person, StatusManager manager) {
+        manager.addStatus(STOPPED);
         person.updateSpeed(0);
         person.getPerson().getPlayer().setFlySpeed(0);
     }
-    private void unStop(RPGPerson person) {
-        person.removeStatus(Status.Type.STOPPED);
+    private void unStop(RPGPerson person, StatusManager manager) {
+        manager.removeStatus(STOPPED);
         person.updateSpeed(130);
         person.getPerson().getPlayer().setFlySpeed(0.1f);
     }

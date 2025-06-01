@@ -1,6 +1,7 @@
 package net.annova.item.component;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -19,6 +20,11 @@ public class ForiumIngotItem extends RPGItem {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.EVENT;
     }
 
     @Override

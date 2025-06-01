@@ -1,5 +1,6 @@
 package net.annova.item.equipment.oasis;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.entity.mobs.sector0.Crab;
 import net.annova.event.custom.BattleCE;
 import net.annova.item.base.RPGItem;
@@ -27,6 +28,11 @@ public class TideBlade extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

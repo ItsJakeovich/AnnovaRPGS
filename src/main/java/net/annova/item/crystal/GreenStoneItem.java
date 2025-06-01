@@ -1,6 +1,7 @@
 package net.annova.item.crystal;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
 import org.bukkit.Material;
@@ -38,6 +39,11 @@ public class GreenStoneItem extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&3= &fДобавляет 8 дополнительного &cздоровья &fигроку"
@@ -50,17 +56,9 @@ public class GreenStoneItem extends RPGItem implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!GREEN_STONE.equals(item)) return;
         RPGPerson person = getRPGPerson(player);
-        person.getStatusManager().addStatus(GREEN_STONE_HEALTH_BUFF);
+        person.getStatusManager().addStatus(player, GREEN_STONE_HEALTH_BUFF);
 
         player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
         player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, Integer.MAX_VALUE, 0, true, false, true));
-        new BukkitRunnable() {
-            public void run() {
-                if (!GREEN_STONE.has(player)) {
-                    player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
-                    this.cancel();
-                }
-            }
-        }.runTaskTimer(getInstance(), 0L, 200L);
     }
 }

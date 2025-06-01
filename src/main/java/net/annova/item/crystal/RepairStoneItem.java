@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
@@ -36,6 +37,11 @@ public class RepairStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override
@@ -77,7 +83,7 @@ public class RepairStoneItem extends RPGItem implements Listener {
         this.repairItem(player, item);
 
         RPGPerson person = getRPGPerson(player);
-        person.getStatusManager().addStatus(REPAIR_COOLDOWN);
+        person.getStatusManager().addStatus(person, REPAIR_COOLDOWN);
 
         event.getWhoClicked().closeInventory();
     }

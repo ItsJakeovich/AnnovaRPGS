@@ -1,8 +1,11 @@
 package net.annova.item.world0.oasis;
 
+import net.annova.object.RPGRarity;
+import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -30,6 +33,11 @@ public class FuryCaviar extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.COMMON;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of("&3= &fСодержит в себе мощь тысяч боевых инстинктов&3. &fКажется что после каждого употребления её в пищу&3, &fусиливает вас");
     }
@@ -38,6 +46,7 @@ public class FuryCaviar extends RPGItem implements Listener {
     public void consume(PlayerItemConsumeEvent event) {
         if (!FURY_CAVIAR.equals(event.getItem())) return;
 
-        getRPGPerson(event.getPlayer()).getStatusManager().addStatus(CAVIAR_DAMAGE_BUFF);
+        RPGPerson person = getRPGPerson(event.getPlayer());
+        person.getStatusManager().addStatus(person, CAVIAR_DAMAGE_BUFF);
     }
 }

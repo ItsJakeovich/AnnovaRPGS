@@ -1,6 +1,7 @@
 package net.annova.item.component;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -23,6 +24,11 @@ public class ForiumFragmentItem extends RPGItem {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.EVENT;
     }
 
     @Override

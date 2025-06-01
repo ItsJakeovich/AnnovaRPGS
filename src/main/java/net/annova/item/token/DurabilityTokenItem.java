@@ -1,6 +1,7 @@
 package net.annova.item.token;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.player.PlayerItemDamageEvent;
 
 import java.util.List;
 
+import static net.annova.item.base.Item.DURABILITY_TOKEN;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DurabilityTokenItem extends RPGItem implements Listener {
@@ -18,18 +20,18 @@ public class DurabilityTokenItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return ChatColor.GREEN + "Жетон прочности";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{8};
+        return List.of(8f);
     }
 
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class DurabilityTokenItem extends RPGItem implements Listener {
 
     @EventHandler
     private void mechanic(PlayerItemDamageEvent event) {
-        if (!hasItem(event.getPlayer())) return;
+        if (!DURABILITY_TOKEN.has(event.getPlayer())) return;
 
         if (chance(0.15)) event.setCancelled(true);
     }

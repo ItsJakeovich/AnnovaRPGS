@@ -3,6 +3,7 @@ package net.annova.event.summon;
 import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.event.custom.EntityDamageCE;
+import net.annova.event.custom.PlayerDamageCE;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,6 +19,16 @@ public class EntityEvent implements Listener {
         if (event.getEntity() instanceof LivingEntity entity) {
             EntityDamageCE ev = new EntityDamageCE(entity, event);
             this.baseFunction(event, ev);
+        }
+        if (event.getEntity() instanceof Player player) {
+            PlayerDamageCE ev = new PlayerDamageCE(player, event);
+            Bukkit.getPluginManager().callEvent(ev);
+            if (ev.isCancelled()) {
+                event.setCancelled(true);
+                return;
+            }
+            event.setDamage(0.1);
+            getRPGPerson(player).damage((int) ev.getDamage());
         }
     }
     @EventHandler

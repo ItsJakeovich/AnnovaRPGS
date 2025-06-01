@@ -1,6 +1,7 @@
 package net.annova.item;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -13,18 +14,18 @@ public class DungeonKeyItem extends RPGItem {
     }
 
     @Override
-    public String name() {
-        return ChatColor.AQUA + "Меж-пространственный ключ";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{3};
+        return List.of(3f);
     }
 
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

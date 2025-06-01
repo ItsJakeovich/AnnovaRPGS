@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.EntityDamageCE;
@@ -40,6 +41,11 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&3= &fНакладывает эффект &cогнестойкости",
@@ -59,7 +65,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
         Status status = manager.getStatus(IGNIS);
         if (status != null) return;
 
-        manager.addStatus(IGNIS);
+        manager.addStatus(person, IGNIS);
     }
 
     private final Map<Entity, Long> targets = new HashMap<>();

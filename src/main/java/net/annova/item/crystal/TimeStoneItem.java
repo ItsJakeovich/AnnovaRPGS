@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
@@ -38,6 +39,11 @@ public class TimeStoneItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return true;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
     }
 
     @Override

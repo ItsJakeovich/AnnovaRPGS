@@ -1,6 +1,7 @@
 package net.annova.item.token;
 
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -27,11 +28,6 @@ public class RangeTokenItem extends RPGItem implements Listener {
     }
 
     @Override
-    public String name() {
-        return "&7Жетон радиуса";
-    }
-
-    @Override
     public List<Float> modelData() {
         return List.of(11f);
     }
@@ -39,6 +35,11 @@ public class RangeTokenItem extends RPGItem implements Listener {
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

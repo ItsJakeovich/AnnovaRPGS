@@ -3,6 +3,7 @@ package net.annova.item.equipment.prison;
 import net.annova.item.base.RPGArmor;
 import net.annova.item.base.RPGArmorActivity;
 import net.annova.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,18 +20,18 @@ public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorA
     }
 
     @Override
-    public String name() {
-        return ChatColor.GRAY + "Нагрудник охранника";
-    }
-
-    @Override
     public List<Float> modelData() {
-        return new int[]{3};
+        return List.of(3f);
     }
 
     @Override
     public boolean unstackable() {
         return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -47,10 +48,5 @@ public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorA
     @Override
     public long repeating() {
         return 400;
-    }
-
-    @Override
-    public Set<Perk> perks() {
-        return Set.of();
     }
 }

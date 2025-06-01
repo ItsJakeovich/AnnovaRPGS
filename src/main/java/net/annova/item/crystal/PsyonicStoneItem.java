@@ -1,5 +1,6 @@
 package net.annova.item.crystal;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
@@ -38,6 +39,11 @@ public class PsyonicStoneItem extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.RARE;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of(
                 "&3= &fСоздает слабое притягивающие магнитное поле"
@@ -52,31 +58,7 @@ public class PsyonicStoneItem extends RPGItem implements Listener {
         RPGPerson person = getRPGPerson(player);
         StatusManager manager = person.getStatusManager();
         if (manager.getStatus(TELEKINESIS) != null) return;
-        manager.addStatus(TELEKINESIS);
+        manager.addStatus(person, TELEKINESIS);
         player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
-
-        new BukkitRunnable() {
-            public void run() {
-                if (!PSYONIC_STONE.has(player)) {
-                    manager.removeStatus(TELEKINESIS);
-                    this.cancel();
-                }
-                for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation(), 7, 7, 7)) {
-                    if (entity.equals(player)) continue;
-                    if (entity instanceof Player target) {
-                        if (PSYONIC_STONE.has(target)) {
-                            manager.removeStatus(TELEKINESIS);
-                            return;
-                        }
-                    }
-                    Vector direction = player.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize();
-
-                    if (entity instanceof LivingEntity living)
-                        living.setVelocity(direction.multiply(0.1));
-                    else if (entity instanceof Item item)
-                        item.setVelocity(direction.multiply(0.5));
-                }
-            }
-        }.runTaskTimer(getInstance(), 0L, 5L);
     }
 }

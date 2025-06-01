@@ -1,8 +1,10 @@
 package net.annova.item.world0.oasis;
 
+import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.item.base.RPGItem;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -30,6 +32,11 @@ public class ElkFish extends RPGItem implements Listener {
     }
 
     @Override
+    public RPGRarity rarity() {
+        return RPGRarity.COMMON;
+    }
+
+    @Override
     public List<String> lore() {
         return List.of("&3= &fКрупная и горделивая&3, &fэта рыба будто сочетает в себе дух северных зверей&3. &fЕё мясо насыщает даже самых прожорливых");
     }
@@ -38,6 +45,7 @@ public class ElkFish extends RPGItem implements Listener {
     public void consume(PlayerItemConsumeEvent event) {
         if (!ELK_FISH.equals(event.getItem())) return;
 
-        getRPGPerson(event.getPlayer()).getStatusManager().addStatus(ELK_FISH_DAMAGE_BUFF);
+        Player player = event.getPlayer();
+        getRPGPerson(player).getStatusManager().addStatus(player, ELK_FISH_DAMAGE_BUFF);
     }
 }
