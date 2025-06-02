@@ -1,26 +1,22 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.RPGEquipment;
-import net.annova.main.GlobalRPG;
+import net.annova.object.entity.core.attribute.RPGEquipment;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
-import static net.annova.util.BukkitObjects.chance;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.REFLECT;
 
 public class Duelist extends RPGEntity implements RPGEquipment, Listener {
     @Override
@@ -64,9 +60,9 @@ public class Duelist extends RPGEntity implements RPGEquipment, Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of(
-                AbilityType.REFLECT.setValue("chance", 0.25)
+                REFLECT.get().setValue(ValueType.CHANCE, 0.25)
         );
     }
 
@@ -82,15 +78,15 @@ public class Duelist extends RPGEntity implements RPGEquipment, Listener {
         };
     }
 
-    @EventHandler
-    private void spawn(CreatureSpawnEvent event) {
-        LivingEntity ent = event.getEntity();
-        if (!(ent.getType().equals(org.bukkit.entity.EntityType.WITHER_SKELETON))) return;
-        if (GlobalRPG.containEntity(ent)) return;
-        if (!ent.getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
-
-        if (!chance(0.09)) return;
-        this.create(ent.getLocation());
-        event.setCancelled(true);
-    }
+//    @EventHandler
+//    private void spawn(CreatureSpawnEvent event) {
+//        LivingEntity ent = event.getEntity();
+//        if (!(ent.getType().equals(org.bukkit.entity.EntityType.WITHER_SKELETON))) return;
+//        if (GlobalRPG.containEntity(ent)) return;
+//        if (!ent.getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
+//
+//        if (!chance(0.09)) return;
+//        this.create(ent.getLocation());
+//        event.setCancelled(true);
+//    }
 }

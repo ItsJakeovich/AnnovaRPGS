@@ -1,14 +1,19 @@
 package net.annova.object.entity.mobs.prison;
 
+import net.annova.main.GlobalRPG;
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.RPGActivity;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.status.StatusType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +21,6 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
-import static net.annova.object.entity.core.AbilityType.ORATOR;
 import static net.annova.object.entity.core.RPGEntityType.PRISONER;
 import static net.annova.util.BukkitObjects.random;
 
@@ -65,12 +69,8 @@ public class Leader extends RPGEntity implements RPGActivity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
-        return Set.of(
-                ORATOR.setValue("damage_boost", 1.15)
-                        .setValue("health_boost", 1.10)
-                        .setValue("auto_regeneration_boost", 1)
-        );
+    public Set<RPGAbility> abilities() {
+        return Set.of();
     }
 
     private final Set<net.minecraft.world.entity.LivingEntity> prisoners = new HashSet<>();
@@ -93,11 +93,23 @@ public class Leader extends RPGEntity implements RPGActivity {
 
     @Override
     public boolean syncActivity(LivingEntity entity) {
+        for (Entity target : entity.getNearbyEntities(8, 4, 8)) {
+            if (target instanceof Player) return true;
+            if (target instanceof LivingEntity targ) {
+                targ.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 120, 0));
+
+                healEntity(1, targ);
+
+                RPGEntity rpgTarget = GlobalRPG.getEntity(targ);
+                if (rpgTarget == null) return true;
+                rpgTarget.addStatus(StatusType.LEADER_DAMAGE_BUFF);
+            }
+        }
         return true;
     }
 
     @Override
     public long syncRepeating() {
-        return 0;
+        return 100;
     }
 }

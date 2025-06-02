@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.sector0;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.ChatColor;
@@ -55,7 +55,7 @@ public class SmallEnt extends RPGEntity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 }

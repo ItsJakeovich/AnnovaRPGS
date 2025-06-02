@@ -6,9 +6,9 @@ import net.annova.object.entity.mobs.Boar;
 import net.annova.object.entity.mobs.Snake;
 import net.annova.object.entity.mobs.nether.*;
 import net.annova.object.entity.mobs.prison.*;
-import net.annova.object.entity.mobs.sector0.AnglerFish;
-import net.annova.object.entity.mobs.sector0.Crab;
-import net.annova.object.entity.mobs.sector0.EnchantedArmor;
+import net.annova.object.entity.mobs.sector0.caves.*;
+import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
+import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.object.entity.mobs.sector0.SmallEnt;
 import org.bukkit.entity.LivingEntity;
 
@@ -50,8 +50,13 @@ public enum RPGEntityType {
     // Sector 0 - Oasis
     ANGLER_FISH(S_OASIS, AnglerFish.class),
     CRAB(S_OASIS, Crab.class),
-    // Sector 0 - Cave
-    ENCHANTED_ARMOR(S0_CAVE, EnchantedArmor.class),
+    // Sector 0 - Caves
+    GOLEM(S0_CAVES, Golem.class),
+    GOLEM_BOSS(S0_CAVES, GolemBoss.class),
+    GUARDIAN(S0_CAVES, Guardian.class),
+    MAGE(S0_CAVES, Mage.class),
+    MINER(S0_CAVES, Miner.class),
+    ORE_COLLECTOR(S0_CAVES, OreCollector.class),
     // Sector 0 - Forest
     SmalllEnt(S0_FOREST, SmallEnt.class)
     ;

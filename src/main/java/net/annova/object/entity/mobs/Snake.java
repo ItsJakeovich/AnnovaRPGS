@@ -1,27 +1,22 @@
 package net.annova.object.entity.mobs;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.event.custom.EntityDamageByEntityCE;
-import net.annova.main.GlobalRPG;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.POISON;
 import static net.annova.util.BukkitObjects.random;
 
-public class Snake extends RPGEntity implements Listener {
+public class Snake extends RPGEntity {
     @Override
     public EntityType<?> type() {
         return EntityType.SILVERFISH;
@@ -65,19 +60,9 @@ public class Snake extends RPGEntity implements Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
-        return Set.of();
+    public Set<RPGAbility> abilities() {
+        return Set.of(POISON.get().setValue(ValueType.DURATION, 100));
     }
 
     // Spawn in UpdateSpawnTimer
-
-    private final PotionEffect poison = new PotionEffect(PotionEffectType.POISON, 100, 1);
-    private final PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 100, 0);
-    @EventHandler
-    public void mechanic(EntityDamageByEntityCE event) {
-        if (!this.equals(GlobalRPG.getEntity(event.getDamager()))) return;
-        LivingEntity target = event.getEntity();
-        target.addPotionEffect(poison);
-        target.addPotionEffect(slowness);
-    }
 }

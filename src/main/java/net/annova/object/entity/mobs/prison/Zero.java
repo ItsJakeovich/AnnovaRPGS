@@ -1,9 +1,10 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.RPGActivity;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.Creature;
@@ -15,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.*;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
-import static net.annova.object.entity.core.AbilityType.*;
 import static net.annova.util.BukkitObjects.random;
 
 public class Zero extends RPGEntity implements RPGActivity {
@@ -32,7 +33,7 @@ public class Zero extends RPGEntity implements RPGActivity {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.COMMON;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -64,11 +65,11 @@ public class Zero extends RPGEntity implements RPGActivity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of(
-                KNOCKBACK_RESISTANCE.setValue("resist", 1.00),
-                VAMPIRISM.setValue("regen", 45),
-                VITIATION.setValue("blindness_duration", 100).setValue("slowness_duration", 100).setValue("nausea_duration", 100)
+                KNOCKBACK_RESISTANCE.get().setValue(ValueType.MAIN, 1.00),
+                VAMPIRISM.get().setValue(ValueType.MAIN, 1.00),
+                VITIATION.get().setValue(ValueType.DURATION, 100)
         );
     }
 

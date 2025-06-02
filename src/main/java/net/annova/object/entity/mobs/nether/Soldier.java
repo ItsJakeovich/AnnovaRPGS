@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -54,7 +54,7 @@ public class Soldier extends RPGEntity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 }

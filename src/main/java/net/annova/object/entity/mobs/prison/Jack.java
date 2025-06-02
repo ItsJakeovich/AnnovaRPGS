@@ -1,8 +1,9 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,9 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.VAMPIRISM;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
-import static net.annova.object.entity.core.AbilityType.VAMPIRISM;
 
 public class Jack extends RPGEntity {
     @Override
@@ -61,9 +62,9 @@ public class Jack extends RPGEntity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of(
-                VAMPIRISM.setValue("regen", 25)
+                VAMPIRISM.get().setValue(ValueType.MAIN, 0.23)
         );
     }
 }

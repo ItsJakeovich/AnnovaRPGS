@@ -2,7 +2,7 @@ package net.annova.object.item.base;
 
 import com.google.common.collect.Maps;
 import net.annova.object.item.DungeonKeyItem;
-import net.annova.object.item.world0.forest.EntRoot;
+import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
 import net.annova.object.item.container.PrisonContainerItem;
@@ -13,7 +13,7 @@ import net.annova.object.item.equipment.oasis.TideBlade;
 import net.annova.object.item.equipment.oasis.TideGraspRing;
 import net.annova.object.item.equipment.prison.*;
 import net.annova.object.item.token.*;
-import net.annova.object.item.world0.oasis.*;
+import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
 import net.minecraft.world.item.component.CustomModelData;
 import org.bukkit.Material;

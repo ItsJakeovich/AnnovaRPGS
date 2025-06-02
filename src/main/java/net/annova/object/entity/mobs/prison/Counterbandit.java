@@ -1,8 +1,8 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.EntityAction;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
@@ -66,7 +66,7 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 

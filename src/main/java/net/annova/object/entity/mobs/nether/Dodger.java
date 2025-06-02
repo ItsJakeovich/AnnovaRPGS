@@ -1,19 +1,14 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.EntityAction;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.event.custom.BattleCE;
-import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -68,7 +63,7 @@ public class Dodger extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 
@@ -91,21 +86,20 @@ public class Dodger extends RPGEntity implements EntityAction {
 
     @Override
     public boolean onAttack(LivingEntity target) {
-        ItemStack s;
-        s.
-        if (!entity.equipment.get(EquipmentSlot.MAINHAND).get.getType().isAir()) return;
+        LivingEntity ent = (LivingEntity) entity.getBukkitEntity();
+        if (!ent.getEquipment().getItemInMainHand().getType().isAir()) return true;
 
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(target instanceof Player player)) return true;
 
         ItemStack[] inventory = player.getInventory().getContents();
         for (int i = 0 ; i < 40; i++) {
             int index = random.nextInt(inventory.length);
             ItemStack check = inventory[index];
             if (check == null) continue;
-            entity.getEquipment().setItemInMainHand(check);
-            player.getInventory().setItem(index, null);
-            entity.removePotionEffect(PotionEffectType.INVISIBILITY);
-            getChorusLocation(entity.getLocation(), 10);
+            ent.getEquipment().setItemInMainHand(check);
+            player.getInventory().clear(index);
+            ent.removePotionEffect(PotionEffectType.INVISIBILITY);
+            getChorusLocation(ent.getLocation(), 10);
             break;
         }
         return true;

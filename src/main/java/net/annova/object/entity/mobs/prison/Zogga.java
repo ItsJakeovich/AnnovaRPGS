@@ -1,8 +1,9 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,10 +13,10 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.LEVELLER;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.SCHIVARE;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
-import static net.annova.object.entity.core.AbilityType.SCHIVARE;
-import static net.annova.object.entity.core.AbilityType.LEVELLER;
 
 public class Zogga extends RPGEntity {
     @Override
@@ -62,10 +63,10 @@ public class Zogga extends RPGEntity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of(
-                SCHIVARE.setValue("chance", 0.5),
-                LEVELLER.setValue("chance", 0.5).setValue("duration", 100)
+                SCHIVARE.get().setValue(ValueType.CHANCE, 0.5),
+                LEVELLER.get().setValue(ValueType.CHANCE, 0.5).setValue(ValueType.DURATION, 100)
         );
     }
 }

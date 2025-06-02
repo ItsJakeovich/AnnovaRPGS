@@ -13,7 +13,3 @@ permissions:
   minecraft.debugstick:
     description: "Позволяет использовать Debug Stick."
     default: true  # Доступно всем игрокам (даже без креативного режима и без оп)
-
-  customcrafting.cmd.recipes:
-    description: "Позволяет использовать команду /recipes."
-    default: true  # Доступно всем игрокам

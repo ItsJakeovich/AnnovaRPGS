@@ -2,6 +2,13 @@ package net.annova.object.entity.core;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.RPGRarity;
+import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.RPGEquipment;
+import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.status.EntityStatus;
+import net.annova.object.entity.core.status.StatusType;
+import net.annova.object.person.status.Status;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.entity.Player;
@@ -24,8 +32,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -37,6 +44,7 @@ public abstract class RPGEntity {
     public LivingEntity entity;
     public Dungeon dungeon;
     public int point;
+    private final Map<StatusType, EntityStatus> statuses = new HashMap<>();
     public abstract EntityType<?> type();
     public abstract String name();
     public abstract RPGRarity rarity();
@@ -46,7 +54,7 @@ public abstract class RPGEntity {
     public abstract boolean small();
     public abstract List<ItemStack> loot(Player player);
 
-    public abstract Set<AbilityType> abilities();
+    public abstract Set<RPGAbility> abilities();
 
     public static final String TABLE = "ENTITY";
     public static void init() {
@@ -58,6 +66,17 @@ public abstract class RPGEntity {
                 "INVENTORY TEXT"
         );
         //ResultSet rs = getSQL().(TABLE);
+    }
+
+    @Nullable
+    public EntityStatus getStatus(StatusType type) {
+        return statuses.get(type);
+    }
+    public void addStatus(StatusType type) {
+        this.statuses.put(type, new EntityStatus(type));
+    }
+    public void removeStatus(StatusType type) {
+        this.statuses.remove(type);
     }
 
     public LivingEntity create(LivingEntity entity) {
@@ -171,8 +190,8 @@ public abstract class RPGEntity {
     }
 
     @Nullable
-    public AbilityType getAbility(AbilityType ability) {
-        for (AbilityType abil : this.abilities()) {
+    public RPGAbility getAbility(RPGAbility ability) {
+        for (RPGAbility abil : this.abilities()) {
             if (abil.equals(ability)) return abil;
         }
         return null;
@@ -186,7 +205,14 @@ public abstract class RPGEntity {
         this.entity.heal(regen);
     }
 
-    public static void addPotionEffect(org.bukkit.entity.LivingEntity entity, PotionEffectType type, double duration) {
-        entity.addPotionEffect(new PotionEffect(type, (int) duration, 0));
+    public static void addPotionEffect(org.bukkit.entity.LivingEntity entity, PotionEffectType type, int duration) {
+        entity.addPotionEffect(new PotionEffect(type, duration, 0));
+    }
+    public static void addPotionEffect(org.bukkit.entity.LivingEntity entity, PotionEffectType type, int duration, int modifier) {
+        entity.addPotionEffect(new PotionEffect(type, duration, modifier));
+    }
+    public static void healEntity(double regen, org.bukkit.entity.LivingEntity entity) {
+        double maxHealth = entity.getAttribute(Attribute.MAX_HEALTH).getValue();
+        entity.setHealth(Math.min(entity.getHealth()+regen, maxHealth));
     }
 }

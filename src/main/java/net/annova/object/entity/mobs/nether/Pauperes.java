@@ -1,16 +1,12 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.RPGActivity;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.World;
 import org.bukkit.entity.*;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -20,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class Pauperes extends RPGEntity implements RPGActivity, Listener {
@@ -65,21 +60,21 @@ public class Pauperes extends RPGEntity implements RPGActivity, Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 
-    @EventHandler
-    private void spawn(CreatureSpawnEvent event) {
-        LivingEntity ent = event.getEntity();
-        if (!(ent.getType().equals(org.bukkit.entity.EntityType.GHAST))) return;
-        if (GlobalRPG.containEntity(ent)) return;
-        if (!ent.getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
-
-        if (!chance(0.09)) return;
-        this.create(ent.getLocation());
-        event.setCancelled(true);
-    }
+//    @EventHandler
+//    private void spawn(CreatureSpawnEvent event) {
+//        LivingEntity ent = event.getEntity();
+//        if (!(ent.getType().equals(org.bukkit.entity.EntityType.GHAST))) return;
+//        if (GlobalRPG.containEntity(ent)) return;
+//        if (!ent.getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
+//
+//        if (!chance(0.09)) return;
+//        this.create(ent.getLocation());
+//        event.setCancelled(true);
+//    }
 
     @Override
     public boolean activity() {
@@ -91,10 +86,11 @@ public class Pauperes extends RPGEntity implements RPGActivity, Listener {
         new BukkitRunnable() {
             private int i = 0;
             private final int max = random.nextInt(6)+2;
+            private final LivingEntity living = (LivingEntity) entity.getBukkitEntity();
             @Override
             public void run() {
-                if (i > max) cancel();
-                Fireball fireball = entity.launchProjectile(Fireball.class);
+                if (i > max) this.cancel();
+                Fireball fireball = living.launchProjectile(Fireball.class);
                 fireball.setYield(2);
                 fireball.setVelocity(target.getLocation().toVector().subtract(fireball.getLocation().toVector()).normalize().multiply(1.5));
                 i++;

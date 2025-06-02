@@ -1,8 +1,8 @@
 package net.annova.object.entity.mobs;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.RPGActivity;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +30,7 @@ import static net.annova.object.Person.getCardinalDirection;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
-public class Boar extends RPGEntity implements RPGActivity, Listener {
+public class Boar extends RPGEntity implements RPGActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.PIG;
@@ -74,22 +74,22 @@ public class Boar extends RPGEntity implements RPGActivity, Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 
-    @EventHandler
-    public void spawn(CreatureSpawnEvent event) {
-        if (!(event.getEntity() instanceof CraftPig craftPig)) return;
-        if (craftPig.getHandle().getCustomName() != null) return;
-        if (!chance(0.25)) return;
-
-        event.setCancelled(true);
-        Location loc = event.getLocation();
-        for (int i = 0; i < 3; i++) {
-            new Boar().create(loc);
-        }
-    }
+//    @EventHandler
+//    public void spawn(CreatureSpawnEvent event) {
+//        if (!(event.getEntity() instanceof CraftPig craftPig)) return;
+//        if (craftPig.getHandle().getCustomName() != null) return;
+//        if (!chance(0.25)) return;
+//
+//        event.setCancelled(true);
+//        Location loc = event.getLocation();
+//        for (int i = 0; i < 3; i++) {
+//            new Boar().create(loc);
+//        }
+//    }
 
     private final float followRange = 30;
     private boolean canAttack = true;

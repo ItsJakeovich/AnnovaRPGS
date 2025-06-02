@@ -45,17 +45,12 @@ public class Oasis implements Location, Listener {
             "s0-oasis-msg-8",
             "s0-oasis-msg-9",
     };
-    private final Map<Player, Integer> messageCooldown = new HashMap<>();
+    private final Map<Player, Long> messageCooldown = new HashMap<>();
     @Override
     public void movement(Player player) {
-        if (messageCooldown.containsKey(player)) {
-            int min5 = messageCooldown.get(player);
-            if (min5 != 0) {
-                messageCooldown.put(player, min5+1);
-                return;
-            }
-        }
-        messageCooldown.put(player, -5);
+        long millis = System.currentTimeMillis();
+        if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
+        messageCooldown.put(player, millis + 1800_000); // 30 min
 
         if (this.isOutside(1600, player.getLocation(), locPoints)) return;
 

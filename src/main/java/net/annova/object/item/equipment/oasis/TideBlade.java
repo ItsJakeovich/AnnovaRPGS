@@ -1,7 +1,7 @@
 package net.annova.object.item.equipment.oasis;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.mobs.sector0.Crab;
+import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
 import org.bukkit.Material;

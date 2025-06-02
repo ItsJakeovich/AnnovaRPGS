@@ -6,6 +6,6 @@ public enum LocationCategory {
     D_PRISON,
     NETHER,
     S_OASIS,
-    S0_CAVE,
+    S0_CAVES,
     S0_FOREST
 }

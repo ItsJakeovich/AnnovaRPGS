@@ -1,27 +1,19 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.util.BukkitObjects.chance;
-
-public class Meretrix extends RPGEntity implements Listener {
+public class Meretrix extends RPGEntity implements RPGActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.VEX;
@@ -63,31 +55,58 @@ public class Meretrix extends RPGEntity implements Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 
-    @EventHandler
-    private void spawn(CreatureSpawnEvent event) {
-        LivingEntity ent = event.getEntity();
-        if (!(ent.getType().equals(org.bukkit.entity.EntityType.SKELETON))) return;
-        if (GlobalRPG.containEntity(ent)) return;
-        if (!ent.getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
+//    @EventHandler
+//    private void spawn(CreatureSpawnEvent event) {
+//        LivingEntity ent = event.getEntity();
+//        if (!(ent.getType().equals(org.bukkit.entity.EntityType.SKELETON))) return;
+//        if (GlobalRPG.containEntity(ent)) return;
+//        if (!ent.getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
+//
+//        if (!chance(0.09)) return;
+//        LivingEntity entity = (LivingEntity) this.create(ent.getLocation()).getBukkitEntity();
+//
+//        new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                if (!entity.isValid()) this.cancel();
+//                for (Entity check : entity.getNearbyEntities(5, 5, 5)) {
+//                    if (check instanceof Player player) {
+//                        entity.setVelocity(check.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(1.1));
+//                        break;
+//                    }
+//                }
+//            }
+//        }.runTaskTimer(getInstance(), 0L, 100L);
+//    }
 
-        if (!chance(0.09)) return;
-        LivingEntity entity = (LivingEntity) this.create(ent.getLocation()).getBukkitEntity();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!entity.isValid()) cancel();
-                for (Entity check : entity.getNearbyEntities(5, 5, 5)) {
-                    if (check instanceof Player player) {
-                        entity.setVelocity(check.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize().multiply(1.1));
-                        break;
-                    }
-                }
+    @Override
+    public boolean activity() {
+        LivingEntity ent = (LivingEntity) entity.getBukkitEntity();
+        for (Entity check : ent.getNearbyEntities(5, 5, 5)) {
+            if (check instanceof Player player) {
+                ent.setVelocity(check.getLocation().toVector().subtract(ent.getLocation().toVector()).normalize().multiply(1.1));
+                break;
             }
-        }.runTaskTimer(getInstance(), 0L, 100L);
+        }
+        return true;
+    }
+
+    @Override
+    public long repeating() {
+        return 100;
+    }
+
+    @Override
+    public boolean syncActivity(LivingEntity entity) {
+        return true;
+    }
+
+    @Override
+    public long syncRepeating() {
+        return 0;
     }
 }

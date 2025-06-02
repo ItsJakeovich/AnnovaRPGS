@@ -1,27 +1,20 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.event.custom.EntityDamageCE;
-import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.util.BukkitObjects.chance;
-
-public class Lex extends RPGEntity implements Listener {
+public class Lex extends RPGEntity implements EntityAction {
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIFIED_PIGLIN;
@@ -63,43 +56,56 @@ public class Lex extends RPGEntity implements Listener {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of();
     }
 
-    @EventHandler
-    public void spawn(CreatureSpawnEvent event) {
-        if (!(event.getEntity() instanceof PigZombie zombie)) return;
-        if (GlobalRPG.containEntity(zombie)) return;
-        if (!event.getEntity().getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
-        World world = zombie.getWorld();
-        for (Entity ent : world.getNearbyEntities(zombie.getLocation(), 25, 20, 25)) {
-            String name = ent.getCustomName();
-            if (name == null) continue;
-            if (name.equals("§7Армеец")) return;
-        }
-
-        if (!chance(0.09)) return;
-        this.create(zombie.getLocation());
-        event.setCancelled(true);
-    }
+//    @EventHandler
+//    public void spawn(CreatureSpawnEvent event) {
+//        if (!(event.getEntity() instanceof PigZombie zombie)) return;
+//        if (GlobalRPG.containEntity(zombie)) return;
+//        if (!event.getEntity().getWorld().getEnvironment().equals(World.Environment.NETHER)) return;
+//        World world = zombie.getWorld();
+//        for (Entity ent : world.getNearbyEntities(zombie.getLocation(), 25, 20, 25)) {
+//            String name = ent.getCustomName();
+//            if (name == null) continue;
+//            if (name.equals("§7Армеец")) return;
+//        }
+//
+//        if (!chance(0.09)) return;
+//        this.create(zombie.getLocation());
+//        event.setCancelled(true);
+//    }
 
     private boolean spawnedSoldiers = false;
     private final Set<Entity> soldiers = new HashSet<>();
-    @EventHandler
-    public void hit(EntityDamageCE event) {
-        Entity ent = event.getEntity();
-        RPGEntity rpg = GlobalRPG.getEntity(event.getEntity());
-        if (!(rpg instanceof Lex lex)) return;
-        if (!lex.spawnedSoldiers) {
+    @Override
+    public boolean onTarget(Entity target) {
+        return true;
+    }
+
+    @Override
+    public boolean onAttack(LivingEntity target) {
+        return true;
+    }
+
+    @Override
+    public boolean onDamage(Entity damager) {
+        if (!this.spawnedSoldiers) {
             Soldier soldier = new Soldier();
             for (int i = 0; i < 8; i++) {
-                soldiers.add(soldier.create(ent.getLocation()).getBukkitEntity());
+                soldiers.add(soldier.create(entity).getBukkitEntity());
             }
-            lex.spawnedSoldiers = true;
+            this.spawnedSoldiers = true;
         } else {
             soldiers.removeIf(check -> !check.isValid());
-            event.setDamage(event.getDamage() * (1 - 0.1 * soldiers.size()));
+            return soldiers.isEmpty();
         }
+        return true;
+    }
+
+    @Override
+    public void onDeath() {
+
     }
 }

@@ -1,8 +1,8 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.EntityAction;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.World;
@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
+
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.EXPLOSION_NEUTRALITY;
 
 public class Berserk extends RPGEntity implements EntityAction {
     @Override
@@ -58,8 +60,8 @@ public class Berserk extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
-        return Set.of(AbilityType.EXPLOSION_NEUTRALITY);
+    public Set<RPGAbility> abilities() {
+        return Set.of(EXPLOSION_NEUTRALITY.get());
     }
 
 //    @EventHandler

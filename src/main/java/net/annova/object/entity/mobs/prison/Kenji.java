@@ -1,8 +1,9 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,9 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.AVOIDANCE;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.SLOWDOWN;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
-import static net.annova.object.entity.core.AbilityType.AVOIDANCE;
-import static net.annova.object.entity.core.AbilityType.SLOWDOWN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Kenji extends RPGEntity {
@@ -62,10 +63,10 @@ public class Kenji extends RPGEntity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of(
-                SLOWDOWN.setValue("level", 1), // это второй уровень
-                AVOIDANCE.setValue("radius", 6).setValue("duration", 160)
+                SLOWDOWN.get().setValue(ValueType.LEVEL, 1).setValue(ValueType.DURATION, 120),
+                AVOIDANCE.get().setValue(ValueType.RADIUS, 6).setValue(ValueType.DURATION, 160)
         );
     }
 }

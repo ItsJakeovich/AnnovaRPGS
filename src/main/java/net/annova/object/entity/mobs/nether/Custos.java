@@ -1,15 +1,18 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.ValueType;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
+
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.IMMORTAL;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.SPIKES;
 
 public class Custos extends RPGEntity {
     @Override
@@ -53,8 +56,8 @@ public class Custos extends RPGEntity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
-        return Set.of(AbilityType.IMMORTAL, AbilityType.SPIKES.setValue(ValueType.MAIN, 1.5));
+    public Set<RPGAbility> abilities() {
+        return Set.of(IMMORTAL.get(), SPIKES.get().setValue(ValueType.MAIN, 1.5));
     }
 
 //    @EventHandler

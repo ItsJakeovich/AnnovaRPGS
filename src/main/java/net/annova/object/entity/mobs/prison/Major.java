@@ -1,11 +1,12 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.AbilityType;
-import net.annova.object.entity.core.RPGActivity;
+import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
-import net.annova.object.entity.core.RPGSpawn;
+import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.REFLECT;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
@@ -66,9 +68,9 @@ public class Major extends RPGEntity implements RPGSpawn, RPGActivity {
     }
 
     @Override
-    public Set<AbilityType> abilities() {
+    public Set<RPGAbility> abilities() {
         return Set.of(
-                AbilityType.REFLECT.setValue("chance", 0.2)
+                REFLECT.get().setValue(ValueType.CHANCE, 0.2)
         );
     }
 
