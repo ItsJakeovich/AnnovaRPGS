@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
@@ -97,7 +97,7 @@ public class Boar extends RPGEntity implements RPGActivity, Listener {
     private Person.CardinalDirection direction;
     private ServerPlayer targetPlayer = null; // Текущая цель
     @Override
-    public boolean activity(LivingEntity entity) {
+    public boolean activity() {
         Mob mob = (Mob) this.entity;
         if (targetPlayer == null) {
             ServerPlayer nearestPlayer = (ServerPlayer) mob.level().getNearestPlayer(mob, followRange);

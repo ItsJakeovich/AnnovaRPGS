@@ -1,15 +1,14 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
+import net.annova.object.entity.core.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.event.custom.BattleCE;
-import net.annova.event.custom.RPGEntityDeathCE;
-import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,7 +21,7 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.CB_DAMAGE_DEBUFF;
 import static net.annova.util.BukkitObjects.random;
 
-public class Counterbandit extends RPGEntity implements Listener {
+public class Counterbandit extends RPGEntity implements EntityAction, Listener {
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;
@@ -66,23 +65,33 @@ public class Counterbandit extends RPGEntity implements Listener {
         );
     }
 
-    @EventHandler
-    public void mechanic(BattleCE event) {
-        if (!this.equals(GlobalRPG.getEntity(event.getDamager()))) return;
-        if (event.getEntity() instanceof Player player) {
-            getRPGPerson(player).getStatusManager().addStatus(CB_DAMAGE_DEBUFF);
-        }
-    }
-    @EventHandler
-    public void mechanicDead(RPGEntityDeathCE event) {
-        if (event.getEntity() instanceof Counterbandit) return;
-        for (Player player : entity.level().getWorld().getPlayers()) {
-            getRPGPerson(player).getStatusManager().removeStatus(CB_DAMAGE_DEBUFF);
-        }
-    }
-
     @Override
     public Set<AbilityType> abilities() {
         return Set.of();
+    }
+
+    @Override
+    public boolean onTarget(Entity target) {
+        return true;
+    }
+
+    @Override
+    public boolean onAttack(LivingEntity target) {
+        if (target instanceof Player player) {
+            getRPGPerson(player).getStatusManager().addStatus(CB_DAMAGE_DEBUFF);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onDamage(Entity damager) {
+        return true;
+    }
+
+    @Override
+    public void onDeath() {
+        for (Player player : this.entity.level().getWorld().getPlayers()) {
+            getRPGPerson(player).getStatusManager().removeStatus(CB_DAMAGE_DEBUFF);
+        }
     }
 }

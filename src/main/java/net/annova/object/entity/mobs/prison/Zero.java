@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
@@ -16,7 +16,7 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
-import static net.annova.object.entity.ability.AbilityType.*;
+import static net.annova.object.entity.core.AbilityType.*;
 import static net.annova.util.BukkitObjects.random;
 
 public class Zero extends RPGEntity implements RPGActivity {
@@ -73,7 +73,7 @@ public class Zero extends RPGEntity implements RPGActivity {
     }
 
     @Override
-    public boolean activity(LivingEntity entity) {
+    public boolean activity() {
         Creature creature = (Creature) entity;
         if (creature.getTarget() == null) return true;
         creature.setTarget(null);

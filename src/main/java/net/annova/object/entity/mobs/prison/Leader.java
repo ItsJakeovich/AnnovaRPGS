@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
@@ -16,7 +16,7 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
-import static net.annova.object.entity.ability.AbilityType.ORATOR;
+import static net.annova.object.entity.core.AbilityType.ORATOR;
 import static net.annova.object.entity.core.RPGEntityType.PRISONER;
 import static net.annova.util.BukkitObjects.random;
 
@@ -73,15 +73,14 @@ public class Leader extends RPGEntity implements RPGActivity {
         );
     }
 
-    private final Set<LivingEntity> prisoners = new HashSet<>();
+    private final Set<net.minecraft.world.entity.LivingEntity> prisoners = new HashSet<>();
     @Override
-    public boolean activity(LivingEntity entity) {
+    public boolean activity() {
         RPGEntity summon = PRISONER.getEntity();
-
-        prisoners.removeIf(ent -> !ent.isValid());
+        prisoners.removeIf(ent -> ent.isAlive() && ent.valid && ent.isChunkLoaded() && ent.inWorld);
         if (prisoners.size() < 8) {
             for (int i = 4; i > 0; i--) {
-                summon.create(entity.getLocation());
+                prisoners.add(summon.create(entity));
             }
         }
         return true;

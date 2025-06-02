@@ -1,8 +1,9 @@
 package net.annova.object.entity.ability.event;
 
 import net.annova.event.custom.BattleCE;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.ValueType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,26 @@ import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class BattleEvent implements Listener {
+    @EventHandler
+    public void onBattle(BattleCE event) {
+        LivingEntity entity = event.getEntity();
+        LivingEntity damager = event.getDamager();
+        if (entity == damager) return;
+        RPGEntity rpg = getEntity(entity);
+        if (rpg == null) return;
+
+        for (AbilityType ability : rpg.abilities()) {
+            if (!chance(ability.getValue(ValueType.CHANCE))) continue;
+            switch (ability) {
+                case SPIKES -> {
+                    double value = ability.getValue(ValueType.MAIN);
+                    if (value >= 1) event.setCancelled(true);
+                    damager.damage(event.getBaseDamage()*value, damager);
+                }
+            }
+        }
+    }
+
     @EventHandler
     public void abilities(BattleCE event) {
         this.entityAbilities(event);

@@ -1,5 +1,6 @@
 package net.annova.object.entity.core;
 
+import net.annova.main.GlobalRPG;
 import net.annova.object.LocationCategory;
 import net.annova.object.entity.mobs.Boar;
 import net.annova.object.entity.mobs.Snake;
@@ -9,6 +10,7 @@ import net.annova.object.entity.mobs.sector0.AnglerFish;
 import net.annova.object.entity.mobs.sector0.Crab;
 import net.annova.object.entity.mobs.sector0.EnchantedArmor;
 import net.annova.object.entity.mobs.sector0.SmallEnt;
+import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -91,5 +93,12 @@ public enum RPGEntityType {
     }
     public static Set<RPGEntityType> getEntitiesByCategory(LocationCategory category) {
         return ENTITIES_BY_CATEGORY.get(category);
+    }
+
+    public boolean equals(LivingEntity entity) {
+        return this.equals(GlobalRPG.getEntity(entity));
+    }
+    public boolean equals(RPGEntity entity) {
+        return entity != null && this.name().equals(entity.getId());
     }
 }

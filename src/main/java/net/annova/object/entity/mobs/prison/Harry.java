@@ -1,14 +1,13 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.magic.projectile.HarryBall;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -72,21 +71,20 @@ public class Harry extends RPGEntity implements RPGActivity {
     }
 
     @Override
-    public boolean activity(LivingEntity entity) {
-        net.minecraft.world.entity.LivingEntity nms = ((CraftLivingEntity) entity).getHandle();
+    public boolean activity() {
         // если моб сфокусирован = выключает его передвижение.
         if (((Creature) entity).getTarget() == null) {
-            nms.setSpeed(this.speed());
+            entity.setSpeed(this.speed());
             return true;
         } else {
-            nms.setSpeed(0);
+            entity.setSpeed(0);
         }
 
-        Location from = entity.getEyeLocation().clone().add(0, -0.5, 0);
+        Location from = ((Creature) entity).getEyeLocation().clone().add(0, -0.5, 0);
         from.add(from.getDirection().multiply(2.5));
 
         Vector direction = ((Creature) entity).getTarget().getEyeLocation().toVector().subtract(from.toVector()).normalize();
-        new HarryBall(entity).create(from.setDirection(direction));
+        new HarryBall((org.bukkit.entity.LivingEntity) entity.getBukkitEntity()).create(from.setDirection(direction));
         return true;
     }
 

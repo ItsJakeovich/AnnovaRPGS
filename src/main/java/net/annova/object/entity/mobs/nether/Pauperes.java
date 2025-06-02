@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.main.GlobalRPG;
@@ -82,7 +82,7 @@ public class Pauperes extends RPGEntity implements RPGActivity, Listener {
     }
 
     @Override
-    public boolean activity(LivingEntity entity) {
+    public boolean activity() {
         LivingEntity target = ((Mob) entity).getTarget();
         if (target == null) return true;
 

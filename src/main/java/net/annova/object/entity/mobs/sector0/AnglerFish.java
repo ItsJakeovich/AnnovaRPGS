@@ -3,7 +3,7 @@ package net.annova.object.entity.mobs.sector0;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -69,7 +69,7 @@ public class AnglerFish extends RPGEntity implements RPGActivity {
             Material.STICK, Material.GLASS_BOTTLE, Material.LEATHER, Material.STRING
     };
     @Override
-    public boolean activity(LivingEntity entity) {
+    public boolean activity() {
         if (chance(0.05)) return false;
         entity.getWorld().dropItemNaturally(entity.getLocation()
                 , new ItemStack((Material) (chance(0.2) ? getRandom(TRASH_ITEMS) : getRandom(FISH_ITEMS)) // material

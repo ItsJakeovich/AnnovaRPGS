@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
@@ -71,16 +71,17 @@ public class Velder extends RPGEntity implements RPGActivity {
     }
 
     @Override
-    public boolean activity(LivingEntity entity) {
-        LivingEntity target = ((Creature) entity).getTarget();
+    public boolean activity() {
+        Creature creature = (Creature) entity;
+        LivingEntity target = creature.getTarget();
         if (target == null) return true;
-        Location from = entity.getEyeLocation(), to = target.getEyeLocation();
+        Location from = creature.getEyeLocation(), to = target.getEyeLocation();
         if (!from.getWorld().equals(to.getWorld())) return true;
         if (from.distanceSquared(to) < 5*5) return true;
 
         // Создает стрелу, если в 5 блоках от цели
         Vector vector = to.toVector().subtract(from.toVector()).normalize();
-        Arrow arrow = entity.getWorld().spawnArrow(from, vector, 0.7f, 0.1f);
+        Arrow arrow = entity.level().getWorld().spawnArrow(from, vector, 0.7f, 0.1f);
         arrow.setDamage(this.damage());
         return true;
     }

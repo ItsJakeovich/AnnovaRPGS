@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
@@ -80,8 +80,8 @@ public class Major extends RPGEntity implements RPGSpawn, RPGActivity {
     }
 
     @Override
-    public boolean activity(LivingEntity entity) {
-        for (Entity ent : entity.getNearbyEntities(10, 5, 10)) {
+    public boolean activity() {
+        for (Entity ent : entity.getBukkitEntity().getNearbyEntities(10, 5, 10)) {
             if (!(ent instanceof Player player)) continue;
             player.setFreezeTicks(400);
         }

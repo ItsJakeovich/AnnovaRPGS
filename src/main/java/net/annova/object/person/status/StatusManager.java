@@ -1,6 +1,5 @@
 package net.annova.object.person.status;
 
-import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

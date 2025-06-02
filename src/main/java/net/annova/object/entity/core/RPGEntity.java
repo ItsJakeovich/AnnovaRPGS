@@ -2,7 +2,6 @@ package net.annova.object.entity.core;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +14,7 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -60,6 +60,9 @@ public abstract class RPGEntity {
         //ResultSet rs = getSQL().(TABLE);
     }
 
+    public LivingEntity create(LivingEntity entity) {
+        return this.create(CraftLocation.toBukkit(entity.position(), entity.level().getWorld()));
+    }
     public LivingEntity create(Location location) {
         return this.create(null, location, 0, 1, 1);
     }
@@ -105,7 +108,7 @@ public abstract class RPGEntity {
                     @Override
                     public void run() {
                         if (!entity.getBukkitEntity().isValid()
-                                || !activity.activity((org.bukkit.entity.LivingEntity) ent.getBukkitEntity())
+                                || !activity.activity()
                         ) this.cancel();
                     }
                 }.runTaskTimer(getInstance(), 0, activity.repeating());

@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
@@ -13,8 +13,8 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
-import static net.annova.object.entity.ability.AbilityType.AVOIDANCE;
-import static net.annova.object.entity.ability.AbilityType.SLOWDOWN;
+import static net.annova.object.entity.core.AbilityType.AVOIDANCE;
+import static net.annova.object.entity.core.AbilityType.SLOWDOWN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Kenji extends RPGEntity {

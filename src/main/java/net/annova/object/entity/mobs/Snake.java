@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.ability.AbilityType;
+import net.annova.object.entity.core.AbilityType;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.main.GlobalRPG;
