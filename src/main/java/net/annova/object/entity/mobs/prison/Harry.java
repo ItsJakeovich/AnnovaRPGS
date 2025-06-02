@@ -5,7 +5,6 @@ import net.annova.object.entity.ability.AbilityType;
 import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.magic.projectile.HarryBall;
-import net.annova.item.token.PrisonTokenItem;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
-import static net.annova.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.Item.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Harry extends RPGEntity implements RPGActivity {

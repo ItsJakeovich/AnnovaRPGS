@@ -5,7 +5,7 @@ import net.annova.object.Person;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import static net.annova.item.base.RPGItem.getItemId;
+import static net.annova.object.item.base.RPGItem.getItemId;
 import static net.annova.main.AnnovaRPG.getInstance;
 public class Condition {
     public enum Type {

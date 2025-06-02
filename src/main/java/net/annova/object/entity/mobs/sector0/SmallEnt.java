@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.item.base.Item.ENT_ROOT;
+import static net.annova.object.item.base.Item.ENT_ROOT;
 
 public class SmallEnt extends RPGEntity {
     @Override

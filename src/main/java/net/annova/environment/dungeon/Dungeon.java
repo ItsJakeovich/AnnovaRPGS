@@ -2,13 +2,12 @@ package net.annova.environment.dungeon;
 
 import net.annova.environment.dungeon.type.DungeonBase;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.person.status.Status;
-import net.annova.item.container.PrisonContainerItem;
-import net.annova.item.base.RPGItem;
+import net.annova.object.item.base.Item;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.Team;
+import net.annova.object.person.status.StatusManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.Bukkit;
@@ -25,6 +24,8 @@ import java.util.Set;
 
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.*;
+import static net.annova.object.person.status.StatusType.CB_DAMAGE_DEBUFF;
+import static net.annova.object.person.status.StatusType.HARRY_DEFENCE_DEBUFF;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.util.GlobalTasks.importBuild;
 import static net.annova.util.GlobalTasks.removeImportedBuild;
@@ -104,9 +105,9 @@ public class Dungeon {
     }
     public void endDungeon(boolean force) {
         this.close = true;
-        RPGItem container = switch (base.getTemplate().getId()) {
-            case 0 -> new PrisonContainerItem();
-            default -> throw new IllegalStateException("Unexpected value: " + key);
+        Item container = switch (base.getTemplate().getId()) {
+            case 0 -> Item.PRISON_CONTAINER;
+            default -> throw new IllegalStateException(STR."Unexpected value: \{key}");
         };
         for (LivingEntity ent : this.entity) {
             if (!ent.valid) continue;
@@ -114,13 +115,14 @@ public class Dungeon {
         }
 
         for (RPGPerson person : this.players) {
-            person.removeStatus(Status.Type.CB_DAMAGE_DEBUFF);
-            person.removeStatus(Status.Type.HARRY_DEFENCE_DEBUFF);
+            StatusManager manager = person.getStatusManager();
+            manager.removeStatus(CB_DAMAGE_DEBUFF);
+            manager.removeStatus(HARRY_DEFENCE_DEBUFF);
 
             Player player = person.getPerson().getPlayer();
 
             int points = person.getDungeonPoints();
-            ItemStack cont = points > 5 ? container.create(1 + points/1000) : new ItemStack(Material.AIR);
+            ItemStack cont = points > 5 ? container.create(player, 1 + points/1000) : new ItemStack(Material.AIR);
 
             if (player == null) {
                 person.addPendingItem(cont);

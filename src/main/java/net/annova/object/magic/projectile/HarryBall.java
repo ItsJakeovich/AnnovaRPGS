@@ -1,7 +1,5 @@
 package net.annova.object.magic.projectile;
 
-import net.annova.object.person.status.Status;
-import net.annova.object.person.RPGPerson;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -15,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.environment.world.Location.getChorusLocation;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.person.status.StatusType.HARRY_DEFENCE_DEBUFF;
 import static net.annova.util.BukkitObjects.random;
 
 public class HarryBall extends ParticleProjectile {
@@ -47,8 +46,7 @@ public class HarryBall extends ParticleProjectile {
                 case FREEZE -> {
                     entity.setFreezeTicks(500);
                     if (entity instanceof Player player) {
-                        RPGPerson person = getRPGPerson(player);
-                        person.addStatus(Status.Type.HARRY_DEFENCE_DEBUFF).setValue(Status.ValueType.DEFENCE_DEBUFF, 0.5);
+                        getRPGPerson(player).getStatusManager().addStatus(HARRY_DEFENCE_DEBUFF);
                     }
                 }
             }

@@ -10,7 +10,7 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static net.annova.environment.dungeon.Loot.random;
+import static net.annova.util.BukkitObjects.random;
 
 public class PhysicEvent implements Listener {
     @EventHandler

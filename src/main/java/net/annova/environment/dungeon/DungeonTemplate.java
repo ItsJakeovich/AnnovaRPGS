@@ -34,7 +34,7 @@ public class DungeonTemplate {
         template.setEntities(new HashMap<>());
         for (int key : entities.keySet()) {
             for (RPGEntity ent : entities.get(key)) {
-                RPGEntity entity = RPGEntityType.getEntity(ent.getId());
+                RPGEntity entity = RPGEntityType.valueOf(ent.getId()).getEntity();
 
                 entity.setPoint(ent.getPoint());
                 template.addEntity(key, entity);
@@ -51,7 +51,7 @@ public class DungeonTemplate {
 
         template.setLoot(new HashMap<>());
         for (int key : this.loot.keySet()) {
-            template.addLootChest(key, loot.get(key).rarity);
+            template.addLootChest(key, loot.get(key).getRarity());
         }
 
         return template;

@@ -1,8 +1,5 @@
 package net.annova.event;
 
-import net.annova.item.crystal.ChronoStoneItem;
-import net.annova.item.crystal.VitalStoneItem;
-import net.annova.object.Person;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,8 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static net.annova.item.base.Item.CHRONO_STONE;
-import static net.annova.item.base.Item.VITAL_STONE;
+import static net.annova.object.item.base.Item.CHRONO_STONE;
+import static net.annova.object.item.base.Item.VITAL_STONE;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;

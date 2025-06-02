@@ -91,7 +91,7 @@ public abstract class RPGEntity {
             slime.setSize(1, false);
         }
 
-        ent.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.INTEGER, RPGEntityType.getId(this));
+        ent.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.STRING, RPGEntityType.getId(this));
 
         this.entity = ent;
         level.tryAddFreshEntityWithPassengers(ent);
@@ -135,8 +135,8 @@ public abstract class RPGEntity {
         return ent;
     }
 
-    public int getId() {
-        return entity.getBukkitEntity().getPersistentDataContainer().get(NK_ID, PersistentDataType.INTEGER);
+    public String getId() {
+        return entity.getBukkitEntity().getPersistentDataContainer().get(NK_ID, PersistentDataType.STRING);
     }
 
     public LivingEntity getEntity() {

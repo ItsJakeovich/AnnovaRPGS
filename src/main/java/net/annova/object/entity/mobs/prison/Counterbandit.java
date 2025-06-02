@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
-import static net.annova.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.Item.PRISON_TOKEN;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.CB_DAMAGE_DEBUFF;
 import static net.annova.util.BukkitObjects.random;

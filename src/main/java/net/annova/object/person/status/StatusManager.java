@@ -1,5 +1,6 @@
 package net.annova.object.person.status;
 
+import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -13,12 +14,22 @@ import java.util.Map;
 import static net.annova.main.AnnovaRPG.getInstance;
 
 public class StatusManager {
+    private final RPGPerson person;
+
+    public StatusManager(RPGPerson person) {
+        this.person = person;
+    }
+
     private final Map<StatusType, Status> statuses = new HashMap<>();
     private final Map<ValueType, Double> finalValue = new HashMap<>() {{
         for (ValueType type : ValueType.values()) {
             this.put(type, 0.0);
         }
     }};
+
+    public RPGPerson getPerson() {
+        return person;
+    }
 
     @Nullable
     public Status getStatus(StatusType type) {
@@ -31,19 +42,29 @@ public class StatusManager {
         return statuses.containsKey(type);
     }
     @Nullable
-    public Status addStatus(RPGPerson person, StatusType type) {
-        return this.addStatus(person, person.getPerson().getPlayer(), type);
+    public Status addStatus(StatusType type) {
+        return this.addStatus(null, type, null);
     }
     @Nullable
-    public Status addStatus(RPGPerson person, Player player, StatusType type) {
+    public Status addStatus(Player player, StatusType type) {
+        return this.addStatus(player, type, null);
+    }
+    private final Map<StatusType, Long> cooldowns = new HashMap<>();
+    @Nullable
+    public Status addStatus( Player player, StatusType type, Object object) {
         Status status = new Status(type);
+        long millis = System.currentTimeMillis();
+        if (cooldowns.containsKey(type) && millis < cooldowns.get(type)) return status;
+
+        if (type.getCooldown() != 0) cooldowns.put(type, millis+type.getCooldown());
+
         this.statuses.put(type, status);
         StatusActivity activity = type.getActivity();
         if (activity == null) {
             status.setRunnable(new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (activity.activity(person, player)) return;
+                    if (activity.activity(person, player, object)) return;
                     this.cancel();
                 }
             }.runTaskTimer(getInstance(), 0, activity.repeating()));

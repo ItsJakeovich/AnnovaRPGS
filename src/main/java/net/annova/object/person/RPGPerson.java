@@ -1,8 +1,8 @@
 package net.annova.object.person;
 
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.item.base.*;
-import net.annova.item.base.Set;
+import net.annova.object.item.base.*;
+import net.annova.object.item.base.Set;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaGlobal;
 import net.annova.main.AnnovaSQL;
@@ -13,7 +13,6 @@ import net.annova.object.person.status.ValueType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,7 +33,7 @@ public class RPGPerson {
     private RPGSet set;
     private final RPGItem[] armor = new RPGItem[4];
     private boolean ready = false;
-    private final StatusManager statusManager = new StatusManager();
+    private final StatusManager statusManager = new StatusManager(this);
     private final List<ItemStack> pendingItems = new ArrayList<>();
     private final Map<String, Long> speedModifiers = new HashMap<>();
     private final QuestManager questManager = new QuestManager();
@@ -161,7 +160,7 @@ public class RPGPerson {
     public RPGSet getSet() {
         return set;
     }
-    public void setSet(net.annova.item.base.Set base) {
+    public void setSet(net.annova.object.item.base.Set base) {
         RPGSet set = null;
         if (base == null) {
             if (this.set == null) return;
@@ -184,30 +183,30 @@ public class RPGPerson {
         this.setSet(Set.getSet(player));
     }
     public void updateArmor() {
-        Player player = this.getPerson().getPlayer();
-        ItemStack[] armorContent = player.getEquipment().getArmorContents();
-        for (int i = 0; i < 4; i++) {
-            RPGItem piece = (RPGItem) getArmor(armorContent[i], i);
-            if (this.armor[i] == piece) continue;
-
-            this.armor[i] = piece;
-
-            if (!(piece instanceof RPGArmorActivity activity)) continue;
-            if (activity.repeating() == 0) continue;
-
-            int slot = i;
-            new BukkitRunnable() {
-                private final Player pl = RPGPerson.this.getPerson().getPlayer();
-
-                @Override
-                public void run() {
-                    if (armor[slot] != piece) this.cancel();
-                    if (!pl.isOnline()) return;
-
-                    activity.activity(pl);
-                }
-            }.runTaskTimer(getInstance(), 0, activity.repeating());
-        }
+//        Player player = this.getPerson().getPlayer();
+//        ItemStack[] armorContent = player.getEquipment().getArmorContents();
+//        for (int i = 0; i < 4; i++) {
+//            RPGItem piece = (RPGItem) getArmor(armorContent[i], i);
+//            if (this.armor[i] == piece) continue;
+//
+//            this.armor[i] = piece;
+//
+//            if (!(piece instanceof RPGArmorActivity activity)) continue;
+//            if (activity.repeating() == 0) continue;
+//
+//            int slot = i;
+//            new BukkitRunnable() {
+//                private final Player pl = RPGPerson.this.getPerson().getPlayer();
+//
+//                @Override
+//                public void run() {
+//                    if (armor[slot] != piece) this.cancel();
+//                    if (!pl.isOnline()) return;
+//
+//                    activity.activity(pl);
+//                }
+//            }.runTaskTimer(getInstance(), 0, activity.repeating());
+//        }
     }
 
     public RPGItem[] getRPGArmor() {
@@ -287,9 +286,7 @@ public class RPGPerson {
     public void teleport(Player player) {
         this.teleport(person.getPlayer(), player.getLocation());
     }
-    public void teleport(Person person) {
-        this.teleport(person.getPlayer(), person.getLocation());
-    }
+
     public void teleport(Location location) {
         this.teleport(person.getPlayer(), location);
     }
@@ -298,10 +295,6 @@ public class RPGPerson {
         player.teleport(location);
     }
 
-    public static void healPlayer(Player player, double regen) {
-        player.setHealth(Math.min(player.getHealth() + regen
-                , player.getAttribute(Attribute.MAX_HEALTH).getValue()));
-    }
     public static void teleportHome(Player player) {
         Location loc = player.getRespawnLocation();
         player.playSound(player, Sound.BLOCK_GLASS_BREAK, 3, 1);

@@ -2,7 +2,7 @@ package net.annova.object.person.quest;
 
 import org.bukkit.inventory.ItemStack;
 
-import static net.annova.item.base.RPGItem.getItemId;
+import static net.annova.object.item.base.RPGItem.getItemId;
 
 public class Reward {
     public enum Type {

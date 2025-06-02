@@ -20,7 +20,6 @@ public class InfectedForest implements Location {
                 getPerson(player).send(getInstance(), "loc-inF-on");
             }
             player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 120, 0));
-            test test = new test();
             player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation(), 30, 3.5, 2.5, 3.5);
         }
     }

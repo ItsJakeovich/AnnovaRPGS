@@ -1,6 +1,6 @@
 package net.annova.object.person.status;
 
-import net.annova.item.base.Item;
+import net.annova.object.item.base.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -13,21 +13,21 @@ public class Status {
     private final Map<ValueType, Double> values = new HashMap<>();
     private final long expires;
 
-    public Status(StatusType StatusType) {
-        this.type = StatusType;
-        this.values.putAll(StatusType.getBaseValues());
-        this.expires = System.currentTimeMillis()+StatusType.getDuration();
+    public Status(StatusType type) {
+        this.type = type;
+        this.values.putAll(type.getBaseValues());
+        this.expires = System.currentTimeMillis()+type.getDuration();
     }
 
     public StatusType getType() {
         return type;
     }
 
-    public Double getValue(ValueType StatusType) {
-        return values.getOrDefault(StatusType, 0.0);
+    public Double getValue(ValueType type) {
+        return values.getOrDefault(type, 0.0);
     }
-    public Status setValue(ValueType StatusType, double value) {
-        this.values.put(StatusType, value);
+    public Status setValue(ValueType type, double value) {
+        this.values.put(type, value);
         return this;
     }
     public Map<ValueType, Double> getValues() {
@@ -42,7 +42,7 @@ public class Status {
     }
 
     public boolean toRemove(Player player) {
-        boolean byTime = expires != 0 && System.currentTimeMillis() >= expires;
+        boolean byTime = type.getDuration() != 0 && System.currentTimeMillis() >= expires;
 
         Item item = this.type.getWhileHas();
         boolean byItem = item != null && !item.has(player);

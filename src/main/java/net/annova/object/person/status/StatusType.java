@@ -1,45 +1,66 @@
 package net.annova.object.person.status;
 
-import net.annova.item.base.Item;
+import net.annova.object.item.base.Item;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.TreeType;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.annova.item.base.Item.*;
-import static net.annova.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
-import static net.annova.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
+import static net.annova.object.item.base.Item.*;
+import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
+import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
 import static net.annova.object.person.status.ValueType.CHARGE;
+import static net.annova.object.person.status.ValueType.DEFENCE_DEBUFF;
 import static net.annova.util.BukkitObjects.chance;
 
 public enum StatusType {
-    CB_DAMAGE_DEBUFF(0,0,new HashMap<>() {
-        {
-            this.put(ValueType.DAMAGE_DEBUFF, 0.5);
+    CB_DAMAGE_DEBUFF(Map.of(ValueType.DAMAGE_DEBUFF, 0.5)),
+
+    HARRY_DEFENCE_DEBUFF(15_000, Map.of(DEFENCE_DEBUFF, 0.5)),
+
+    ICENAGE(ICE_STONE, new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            for (Entity entity : player.getNearbyEntities(7, 5 ,7)) {
+                if (!(entity instanceof LivingEntity ent)) continue;
+                ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 30, 0));
+            }
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 20;
         }
     }),
 
-    HARRY_DEFENCE_DEBUFF(300,0,new HashMap<>()),
+    STOPPED(),
 
-    ICENAGE(0, 0, new HashMap<>()),
+    FROZEN(new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            person.teleport((Player) object);
+            return true;
+        }
 
-    STOPPED(0, 0, new HashMap<>()),
-
-    FROZEN(0, 0, new HashMap<>()),
+        @Override
+        public long repeating() {
+            return 2L;
+        }
+    }),
 
     PASSIVE_SHIELD(DEFENCE_STONE, new StatusActivity() {
         @Override
-        public boolean activity(RPGPerson person, Player player) {
+        public boolean activity(RPGPerson person, Player player, Object object) {
             player.addPotionEffect(DEFENCE_STONE_RESISTANCE);
             player.addPotionEffect(DEFENCE_STONE_SLOWNESS);
             return true;
@@ -53,7 +74,7 @@ public enum StatusType {
 
     SHIELD_CHARGE(RUNIC_DEFENCE_STONE, new StatusActivity() {
         @Override
-        public boolean activity(RPGPerson person, Player player) {
+        public boolean activity(RPGPerson person, Player player, Object object) {
             Status status = person.getStatusManager().getStatus(SHIELD_CHARGE);
             double charges = status.getValue(CHARGE);
             if (charges < 3) status.setValue(CHARGE, charges + 1);
@@ -67,15 +88,15 @@ public enum StatusType {
         }
     }),
 
-    IGNIS(1200),
+    IGNIS(300_000),
 
-    REPAIR_COOLDOWN(18000),
+    REPAIR_COOLDOWN(900_000),
 
     BIOME_STONE(),
 
     REGENERATION(REGENERATION_STONE, new StatusActivity() {
         @Override
-        public boolean activity(RPGPerson person, Player player) {
+        public boolean activity(RPGPerson person, Player player, Object object) {
             person.regen(2);
             return true;
         }
@@ -88,7 +109,7 @@ public enum StatusType {
 
     TELEKINESIS(PSYONIC_STONE, new StatusActivity() {
         @Override
-        public boolean activity(RPGPerson person, Player player) {
+        public boolean activity(RPGPerson person, Player player, Object object) {
 //            Описание: Можно «схватить»моба/предмет на расстоянии (например, до 10 блоков)
 //            и переместить в другое место. Как мини-телекинез.
             return true;
@@ -102,7 +123,7 @@ public enum StatusType {
 
     AURA_LIFE(NATURE_STONE, new StatusActivity() {
         @Override
-        public boolean activity(RPGPerson person, Player player) {
+        public boolean activity(RPGPerson person, Player player, Object object) {
             for (int y = -5; y <= 5; y++) {
                 for (int z = -3; z <= 4; z++) {
                     for (int x = -5; x <= 5; x++) {
@@ -134,9 +155,9 @@ public enum StatusType {
 
     GREEN_STONE_HEALTH_BUFF(GREEN_STONE, Map.of(ValueType.HEALTH_BUFF, 8.0)),
 
-    CAVIAR_DAMAGE_BUFF(60000, Map.of(ValueType.DAMAGE_BUFF, 12.0)),
+    CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE_BUFF, 12.0)),
 
-    ELK_FISH_DAMAGE_BUFF(60000,  Map.of(ValueType.DAMAGE_BUFF, 6.0)),
+    ELK_FISH_DAMAGE_BUFF(60_000,  Map.of(ValueType.DAMAGE_BUFF, 6.0)),
     ;
 
     private final long duration;
@@ -151,8 +172,11 @@ public enum StatusType {
     StatusType(long duration) {
         this(duration, 0, null, new HashMap<>(), null);
     }
-    StatusType(Item whileHas) {
-        this(0, 0, whileHas, new HashMap<>(), null);
+    StatusType(Map<ValueType, Double> values) {
+        this(0, 0, null, values, null);
+    }
+    StatusType(StatusActivity activity) {
+        this(0, 0, null, new HashMap<>(), activity);
     }
     StatusType(Item whileHas, StatusActivity activity) {
         this(0, 0, whileHas, new HashMap<>(), activity);

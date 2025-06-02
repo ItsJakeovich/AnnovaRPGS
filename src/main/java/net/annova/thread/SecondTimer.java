@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.person.status.StatusType.STOPPED;
 
 public class SecondTimer implements Listener {
     @EventHandler
@@ -17,7 +18,7 @@ public class SecondTimer implements Listener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson pers = getRPGPerson(player);
             Person person = pers.getPerson();
-            if (pers.getStatus(Status.Type.STOPPED) != null) continue;
+            if (pers.getStatusManager().getStatus(STOPPED) != null) continue;
 
             person.increaseStamina(0.05f);
             pers.updateSpeed(130);

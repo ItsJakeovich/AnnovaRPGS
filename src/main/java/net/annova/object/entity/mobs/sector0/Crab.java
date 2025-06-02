@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.item.base.Item.CRAB_CLAW;
+import static net.annova.object.item.base.Item.CRAB_CLAW;
 import static net.annova.util.BukkitObjects.random;
 
 public class Crab extends RPGEntity {

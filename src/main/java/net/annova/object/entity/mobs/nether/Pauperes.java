@@ -6,7 +6,6 @@ import net.annova.object.entity.core.RPGActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -85,7 +84,7 @@ public class Pauperes extends RPGEntity implements RPGActivity, Listener {
     @Override
     public boolean activity(LivingEntity entity) {
         LivingEntity target = ((Mob) entity).getTarget();
-        if (target == null) return;
+        if (target == null) return true;
 
         target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0));
 
@@ -101,6 +100,7 @@ public class Pauperes extends RPGEntity implements RPGActivity, Listener {
                 i++;
             }
         }.runTaskTimer(getInstance(), 0L, 5L);
+        return  true;
     }
 
     @Override
@@ -110,6 +110,7 @@ public class Pauperes extends RPGEntity implements RPGActivity, Listener {
 
     @Override
     public boolean syncActivity(LivingEntity entity) {
+        return true;
     }
 
     @Override

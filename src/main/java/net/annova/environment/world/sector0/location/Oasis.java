@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.annova.item.base.Item.UNKNOWN_SOURCE_WATER;
+import static net.annova.object.item.base.Item.UNKNOWN_SOURCE_WATER;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
@@ -115,7 +115,7 @@ public class Oasis implements Location, Listener {
         PlayerInventory inventory = player.getInventory();
         if (!inventory.getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) return;
 
-        inventory.setItemInMainHand(UNKNOWN_SOURCE_WATER.create());
+        inventory.setItemInMainHand(UNKNOWN_SOURCE_WATER.create(player));
         player.playSound(player, Sound.ITEM_BOTTLE_FILL, 1, 1);
     }
 }

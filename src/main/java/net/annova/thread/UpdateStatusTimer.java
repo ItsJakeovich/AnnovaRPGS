@@ -27,7 +27,6 @@ public class UpdateStatusTimer extends AnnovaAsyncTask {
 //                person.removeSpeedModifier(modifier);
 //            }
 
-            long millis = System.currentTimeMillis();
             Set<StatusType> toRemove = new HashSet<>();
             StatusManager manager = person.getStatusManager();
             for (Status status : manager.getStatuses()) {

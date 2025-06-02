@@ -2,12 +2,11 @@ package net.annova.event;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
-import net.annova.object.entity.ability.AbilityType;
-import net.annova.object.entity.traits.ability.Ability;
+import net.annova.object.LocationCategory;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.event.custom.RPGEntityDeathCE;
-import net.annova.item.component.ForiumFragmentItem;
 import net.annova.object.Person;
+import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
 import org.bukkit.*;
@@ -21,11 +20,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
-import java.util.Set;
 
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
+import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DeathRPGEvent implements Listener {
@@ -101,11 +100,10 @@ public class DeathRPGEvent implements Listener {
         RPGPerson person = getRPGPerson(ent.getKiller());
         if (person == null) person = (RPGPerson) dungeon.getPlayers().toArray()[0];
 
-        switch (entity.getId()) {
-            case 0,11 -> person.addDungeonPoints(2);
-            case 1,2,3,4,5,6,7,8 -> person.addDungeonPoints(200);
-            // zero
-            case 9 -> {
+        RPGEntityType type = RPGEntityType.valueOf(entity.getId());
+        switch (type) {
+            case PRISONER, SECURITY -> person.addDungeonPoints(2);
+            case ZERO -> {
                 person.addDungeonPoints(1000);
                 getDungeonWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, ent.getLocation(), 3);
                 if (chance(0.125)) {
@@ -120,8 +118,7 @@ public class DeathRPGEvent implements Listener {
                     dungeon.send("dungeon-prison-major");
                 } else dungeon.endDungeon(240);
             }
-            // major
-            case 10 -> {
+            case MAJOR -> {
                 person.addDungeonPoints(1000);
                 dungeon.endDungeon(120);
                 Team team = person.getTeam();
@@ -136,6 +133,11 @@ public class DeathRPGEvent implements Listener {
                                 .replace("{leader}", team.getLeader().getPerson().getName())
                         );
                     }
+                }
+            }
+            default -> {
+                if (getEntitiesByCategory(LocationCategory.D_PRISON).contains(type)) {
+                    person.addDungeonPoints(200);
                 }
             }
         }

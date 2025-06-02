@@ -2,14 +2,9 @@ package net.annova.command.cmdDungeon;
 
 import net.annova.command.register.CommandArg;
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.object.entity.mobs.ice.Charlie;
-import net.annova.object.entity.mobs.ice.Rudi;
-import net.annova.object.entity.mobs.ice.Symon;
-import net.annova.object.entity.mobs.ice.Yuri;
 import net.annova.object.magic.projectile.FireBall;
 import net.annova.object.magic.projectile.HarryBall;
 import net.annova.object.magic.projectile.IceBall;
-import net.annova.item.*;
 import net.annova.object.Person;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,18 +14,18 @@ import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.getDungeon;
 import static net.annova.main.GlobalRPG.getDungeons;
+import static net.annova.object.item.base.Item.DUNGEON_KEY;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.main.AnnovaRPG.getInstance;
 
 public class DungeonCode {
     @CommandArg(name = "key")
     public void key(Player player) {
-        addItems(player, new DungeonKeyItem().create());
+        addItems(player, DUNGEON_KEY.create(player));
     }
 
     @CommandArg(name = "kaban")
     public void kaban(Player player) {
-        ZOGGA.getEntity().create(player.getLocation());
         BOAR.getEntity().create(player.getLocation());
     }
 
@@ -40,7 +35,7 @@ public class DungeonCode {
         person.send(getInstance(), "dungeon-list");
         for (Dungeon dungeon : getDungeons()) {
             Location loc = dungeon.getLocation();
-            person.send("{pc}= " + dungeon.getKey() + " | " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
+            person.send(STR."{pc}= \{dungeon.getKey()} | \{loc.getBlockX()}, \{loc.getBlockY()}, \{loc.getBlockZ()}");
         }
     }
     @CommandArg(name = "delete")
@@ -91,13 +86,5 @@ public class DungeonCode {
     @CommandArg(name = "harry")
     public void harry(Player player) {
         HARRY.getEntity().create(player.getLocation());
-    }
-
-    @CommandArg(name = "year")
-    public void year(Player player) {
-        new Charlie().create(player.getLocation());
-        new Rudi().create(player.getLocation());
-        new Symon().create(player.getLocation());
-        new Yuri().create(player.getLocation());
     }
 }

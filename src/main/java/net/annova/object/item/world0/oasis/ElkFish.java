@@ -1,0 +1,50 @@
+package net.annova.object.item.world0.oasis;
+
+import net.annova.object.RPGRarity;
+import net.annova.object.item.base.RPGItem;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+
+import java.util.List;
+
+import static net.annova.object.item.base.Item.ELK_FISH;
+import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.person.status.StatusType.ELK_FISH_DAMAGE_BUFF;
+
+public class ElkFish extends RPGItem implements Listener {
+    @Override
+    public Material type() {
+        return Material.SALMON;
+    }
+
+    @Override
+    public List<Float> modelData() {
+        return List.of(1f);
+    }
+
+    @Override
+    public boolean unstackable() {
+        return false;
+    }
+
+    @Override
+    public RPGRarity rarity() {
+        return RPGRarity.COMMON;
+    }
+
+    @Override
+    public List<String> lore() {
+        return List.of("&3= &fКрупная и горделивая&3, &fэта рыба будто сочетает в себе дух северных зверей&3. &fЕё мясо насыщает даже самых прожорливых");
+    }
+
+    @EventHandler
+    public void consume(PlayerItemConsumeEvent event) {
+        if (!ELK_FISH.equals(event.getItem())) return;
+
+        Player player = event.getPlayer();
+        getRPGPerson(player).getStatusManager().addStatus(player, ELK_FISH_DAMAGE_BUFF);
+    }
+}

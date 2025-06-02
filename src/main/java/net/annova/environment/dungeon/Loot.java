@@ -1,7 +1,7 @@
 package net.annova.environment.dungeon;
 
-import net.annova.item.equipment.prison.PrisonSwordItem;
-import net.annova.item.token.PrisonTokenItem;
+import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemCategory;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -18,14 +18,14 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
+import static net.annova.object.item.base.Item.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 import static net.annova.util.MessageObjects.color;
 
 public class Loot {
-    public final int rarity;
+    private final int rarity;
 
     public Loot(int rarity) {
         this.rarity = rarity;
@@ -59,17 +59,17 @@ public class Loot {
         public List<ItemStack> getLootItems() {
             switch (this) {
                 case PRISON -> {
-                    List<ItemStack> items = new ArrayList<ItemStack>(List.of(
+                    List<ItemStack> items = new ArrayList<>(List.of(
                             createItem(Material.DIAMOND, random.nextInt(9)),
                             createItem(Material.GOLD_INGOT, random.nextInt(17)),
                             createPotion(1, 0.3, new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 0)),
                             createPotion(1, 0.3, new PotionEffect(PotionEffectType.SPEED, 3600, 0)),
-                            createItem(Material.GOLDEN_APPLE, random.nextInt(4)+1, 0.1),
-                            createItem(Material.COOKED_BEEF, random.nextInt(4)+1),
-                            new PrisonTokenItem().create(random.nextInt(3)),
-                            new PrisonSwordItem().create(0.02),
+                            createItem(Material.GOLDEN_APPLE, random.nextInt(4) + 1, 0.1),
+                            createItem(Material.COOKED_BEEF, random.nextInt(4) + 1),
+                            PRISON_TOKEN.create(random.nextInt(3)),
+                            PRISON_SWORD.create(0.02),
                             createItem(Material.EMERALD, random.nextInt(6)),
-                            createItem(Material.SHULKER_SHELL, random.nextInt(4)+1, 0.4),
+                            createItem(Material.SHULKER_SHELL, random.nextInt(4) + 1, 0.4),
                             createItem(Material.NETHERITE_INGOT, 1, 0.2),
 
                             createPotion("&eЗелье адреналина", 1, 0.01, new PotionEffect(PotionEffectType.STRENGTH, 600, 0), new PotionEffect(PotionEffectType.REGENERATION, 200, 1)),
@@ -109,14 +109,14 @@ public class Loot {
                             createBook(Enchantment.QUICK_CHARGE, 10, 0.004),
                             createBook(Enchantment.MENDING, 2, 0.004)
                     ));
-                    for (Crystal crystal : Crystal.values()) {
-                        if (crystal == Crystal.TIME) continue;
-                        double chance = switch (crystal) {
-                            case RUNIC, RUNIC_DEFENCE -> 0.002;
+                    for (Item item : getItemsByCategory(ItemCategory.CRYSTALL)) {
+                        if (item == TIME_STONE) continue;
+                        double chance = switch (item) {
+                            case RUNIC_STONE, RUNIC_DEFENCE_STONE -> 0.002;
                             default -> 0.01;
                         };
 
-                        items.add(crystal.getCrystal().create(chance));
+                        items.add(item.create(chance));
                     }
                     return items;
                 }
@@ -161,12 +161,12 @@ public class Loot {
     public static ItemStack createItem(Material material, int amount, double chance) {
         return createItem(material, null, -1, amount, chance);
     }
-    public static ItemStack createItem(Material material, String name, int model, int amount, double chance) {
+    public static ItemStack createItem(Material material, String name, float model, int amount, double chance) {
         if (amount < 1 || !chance(chance)) return new ItemStack(Material.AIR);
         ItemStack item = new ItemStack(material, amount);
         ItemMeta meta = item.getItemMeta();
         if (name != null) meta.setDisplayName(name);
-        if (model != -1) meta.setCustomModelData(model);
+        if (model != -1) meta.getCustomModelDataComponent().setFloats(List.of(model));
         item.setItemMeta(meta);
         return item;
     }

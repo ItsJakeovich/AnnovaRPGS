@@ -7,7 +7,6 @@ import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.EntityDamageCE;
 import net.annova.main.GlobalRPG;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;

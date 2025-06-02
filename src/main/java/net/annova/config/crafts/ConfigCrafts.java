@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.annova.config.RPGConfig.getAllCrafts;
-import static net.annova.item.base.Item.getItem;
+import static net.annova.object.item.base.Item.getItem;
 import static net.annova.main.Keys.getNamespacedKey;
 import static net.annova.util.MessageObjects.color;
 import static net.annova.util.MessageObjects.sendLog;
