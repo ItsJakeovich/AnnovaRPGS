@@ -1,4 +1,4 @@
-package net.annova.object.item.base;
+package net.annova.object.item.base.attribute;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

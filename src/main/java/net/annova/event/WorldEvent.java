@@ -1,6 +1,9 @@
 package net.annova.event;
 
+import net.annova.environment.world.advancement.RPGAdvancement;
+import net.annova.object.person.RPGPerson;
 import org.bukkit.World;
+import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,20 +13,32 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class WorldEvent implements Listener {
     @EventHandler
-    private void join(PlayerJoinEvent event) {
+    public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (player.hasPlayedBefore()) return;
-        getRPGPerson(player).updateHealth();
+        RPGPerson person = getRPGPerson(player);
+        person.updateHealth();
+
+        for (RPGAdvancement rpg : RPGAdvancement.values()) {
+            Advancement advancement = rpg.resolve();
+            if (advancement == null) {
+                sendInfo(STR."&e|= Missing advancement: \{rpg.getKey().getKey()}");
+                continue;
+            }
+            if (player.getAdvancementProgress(advancement).isDone()) {
+                person.addAdvancement(rpg);
+            }
+        }
     }
 
     @EventHandler
-    private void change(PlayerChangedWorldEvent event) {
+    public void change(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         World.Environment world = player.getWorld().getEnvironment();
 

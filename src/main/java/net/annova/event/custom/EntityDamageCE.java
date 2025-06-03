@@ -5,6 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityDamageCE extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
@@ -49,7 +50,7 @@ public class EntityDamageCE extends Event implements Cancellable {
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
     public static HandlerList getHandlerList() {

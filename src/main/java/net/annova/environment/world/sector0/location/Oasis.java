@@ -1,13 +1,16 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
+import net.annova.environment.world.advancement.RPGAdvancement;
 import net.annova.object.Person;
+import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,21 +21,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.Item.UNKNOWN_SOURCE_WATER;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.random;
+import static net.annova.environment.world.advancement.RPGAdvancement.*;
 
 public class Oasis implements Location, Listener {
     //public static final org.bukkit.Location theOasis = new org.bukkit.Location(world0, -1023, 72, 412);;
-    private final org.bukkit.Location[] locPoints = {
-            new org.bukkit.Location(world0, -991, 69, 416),
-            new org.bukkit.Location(world0, -1096, 70, 422),
-            new org.bukkit.Location(world0, -921, 73, 446)
-    };
-
     private final String[] messageKeys = {
             "s0-oasis-msg-0",
             "s0-oasis-msg-1",
@@ -52,19 +52,48 @@ public class Oasis implements Location, Listener {
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        if (this.isOutside(1600, player.getLocation(), locPoints)) return;
+        if (this.isOutside(1600, player.getLocation(), this.points())) return;
 
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+
+        getRPGPerson(person).completeAdvancement(player, OASIS); // нашел оазис
     }
 
-    private ArmorStand bubble = null;
+    @Override
+    public Set<RPGAdvancement> advancements() {
+        return Set.of(
+                OASIS,
+                BUBBLE_SEEKER,
+                CRAB_IS_HAPPY,
+                DROP_FROM_THE_SKY,
+                FRIENDS_ON_SCALES,
+                GIME_ME_CRAB,
+                GOOD_BITE,
+                GOOD_CATCH,
+                MOON_FISHERMAN,
+                PACIFICATION,
+                SWIM_LITTLE_FISH,
+                THATS_LUCK
+        );
+    }
+
+    @Override
+    public org.bukkit.Location[] points() {
+        return new org.bukkit.Location[]{
+                new org.bukkit.Location(world0, -991, 69, 416),
+                new org.bukkit.Location(world0, -1096, 70, 422),
+                new org.bukkit.Location(world0, -921, 73, 446)
+        };
+    }
+
     private final org.bukkit.Location[] bubblePoints = {
             new org.bukkit.Location(world0, -1006, 69, 483),
             new org.bukkit.Location(world0, -1106, 69, 485),
             new org.bukkit.Location(world0, -971, 69, 488),
     };
     int bubbleCooldown = 0;
+    private ArmorStand bubble = null;
     @EventHandler
     public void onHourTick(HourTickEvent event) {
         if (bubbleCooldown != 0) {
@@ -74,6 +103,14 @@ public class Oasis implements Location, Listener {
         bubbleCooldown = -3;
 
         org.bukkit.Location point = bubblePoints[random.nextInt(bubblePoints.length)].clone();
+        Oasis.this.bubble = (ArmorStand) world0.spawnEntity(point, EntityType.ARMOR_STAND);
+        bubble.setGravity(false);
+        bubble.setInvulnerable(true);
+        bubble.setVisible(false);
+        bubble.setSmall(true);
+
+        Map<Player, Integer> timesInBubble = new HashMap<>();
+        Map<Player, Long> cooldowns = new HashMap<>();
         new BukkitRunnable() {
             private int i = 0;
 
@@ -88,16 +125,25 @@ public class Oasis implements Location, Listener {
                 if (i < 20) {
                     world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 4, 0.2, 0.2, 0.2, 0, new Particle.DustOptions(Color.AQUA, 4.0F));
                     point.add(0, 1, 0);
+                    bubble.teleport(point);
                     i++;
                     return;
-                } else if (i == 20) {
-                    ArmorStand bubble = (ArmorStand) world0.spawnEntity(point, EntityType.ARMOR_STAND);
-                    Oasis.this.bubble = bubble;
-                    bubble.setGravity(false);
-                    bubble.setInvulnerable(true);
-                    bubble.setVisible(false);
-                    bubble.setSmall(true);
                 }
+                for (Entity entity : bubble.getNearbyEntities(1, 1, 1)) {
+                    if (entity instanceof Player player) {
+                        int times = timesInBubble.getOrDefault(player, 0) + 1;
+                        long cooldown = cooldowns.getOrDefault(player, 0L);
+                        RPGPerson person = getRPGPerson(player);
+                        person.completeAdvancement(player, DROP_FROM_THE_SKY);
+                        long millis = System.currentTimeMillis();
+                        if (cooldown == 0 || millis > cooldown) {
+                            timesInBubble.put(player, times);
+                            cooldowns.put(player, millis + 60_000);
+                            if (times == 3) person.completeAdvancement(player, BUBBLE_SEEKER);
+                        }
+                    }
+                }
+
                 world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 0.6, 0.6, 0.6, 0, new Particle.DustOptions(Color.AQUA, 4.0F));
             }
         }.runTaskTimer(getInstance(), 0, 10L);

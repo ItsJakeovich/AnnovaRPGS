@@ -1,12 +1,19 @@
 package net.annova.environment.world;
 
+import net.annova.environment.world.advancement.RPGAdvancement;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.Set;
 
 import static net.annova.util.BukkitObjects.random;
 
 public interface Location {
     void movement(Player player);
+
+    Set<RPGAdvancement> advancements();
+
+    org.bukkit.Location[] points();
 
     default boolean isOutside(int squaredRadius, org.bukkit.Location location, org.bukkit.Location... points) {
         boolean isOutside = true;

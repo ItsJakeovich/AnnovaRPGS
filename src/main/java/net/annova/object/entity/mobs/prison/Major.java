@@ -75,7 +75,7 @@ public class Major extends RPGEntity implements RPGSpawn, RPGActivity {
     }
 
     @Override
-    public void onSpawn(net.minecraft.world.entity.LivingEntity entity, Location location) {
+    public void onSpawn(Location location) {
         for (int i = 6; i > 0; i--) {
             RPGEntityType.SECURITY.getEntity().create(location);
         }

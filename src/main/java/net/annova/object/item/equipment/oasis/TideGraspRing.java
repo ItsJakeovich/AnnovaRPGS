@@ -1,6 +1,6 @@
 package net.annova.object.item.equipment.oasis;
 
-import net.annova.object.item.base.RPGEquipment;
+import net.annova.object.item.base.attribute.RPGEquipment;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;

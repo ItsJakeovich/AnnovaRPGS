@@ -7,6 +7,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +20,8 @@ public class StatusManager {
         this.person = person;
     }
 
-    private final Map<StatusType, Status> statuses = new HashMap<>();
-    private final Map<ValueType, Double> finalValue = new HashMap<>() {{
+    private final Map<StatusType, Status> statuses = new EnumMap<>(StatusType.class);
+    private final Map<ValueType, Double> finalValue = new EnumMap<>(ValueType.class) {{
         for (ValueType type : ValueType.values()) {
             this.put(type, 0.0);
         }
@@ -48,7 +49,7 @@ public class StatusManager {
     public Status addStatus(Player player, StatusType type) {
         return this.addStatus(player, type, null);
     }
-    private final Map<StatusType, Long> cooldowns = new HashMap<>();
+    private final Map<StatusType, Long> cooldowns = new EnumMap<>(StatusType.class);
     @Nullable
     public Status addStatus( Player player, StatusType type, Object object) {
         Status status = new Status(type);

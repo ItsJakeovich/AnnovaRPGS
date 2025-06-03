@@ -2,8 +2,7 @@ package net.annova.object.item.sector0.oasis;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -74,9 +73,15 @@ public class OasisFish extends RPGItem implements Listener {
             private Location location = item.getLocation();
             public void run() {
                 Location newLocation = item.getLocation();
-                if (!item.isValid() || location.equals(newLocation) || newLocation.add(newLocation.getDirection().normalize()).getBlock().getType().equals(Material.WATER)) {
+                if (!item.isValid() || location.equals(newLocation)) {
+                    this.cancel();
+                }
+                if (newLocation.add(newLocation.getDirection().normalize()).getBlock().getType().equals(Material.WATER)) {
                     getPerson(player).send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
                     cooldown.put(player, now + 14_400_000); // 4 hours
+                    World world = location.getWorld();
+                    world.spawnParticle(Particle.BUBBLE, location, 30, 3, 4, 3);
+                    world.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 5, 3);
                     player.addPotionEffects(effects);
                     item.remove();
                     this.cancel();

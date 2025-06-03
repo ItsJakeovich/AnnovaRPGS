@@ -1,6 +1,7 @@
-package net.annova.object.entity.ability.event;
+package net.annova.object.entity.event;
 
 import net.annova.event.custom.BattleCE;
+import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
@@ -25,6 +26,9 @@ public class BattleEvent implements Listener {
         if (entity == damager) return;
         RPGEntity rpg = getEntity(entity);
         if (rpg != null) { // при получении урона
+            if (rpg instanceof EntityAction action) {
+                action.onDamage(damager);
+            }
             for (RPGAbility ability : rpg.abilities()) {
                 if (!chance(ability.getValue(ValueType.CHANCE))) continue;
                 switch (ability.getType()) {
@@ -45,6 +49,12 @@ public class BattleEvent implements Listener {
         }
         rpg = getEntity(damager);
         if (rpg != null) { // при нанесении урона
+            if (rpg instanceof EntityAction action) {
+                if (!action.onAttack(entity)) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
             for (RPGAbility ability : rpg.abilities()) {
                 if (!chance(ability.getValue(ValueType.CHANCE))) continue;
                 switch (ability.getType()) {

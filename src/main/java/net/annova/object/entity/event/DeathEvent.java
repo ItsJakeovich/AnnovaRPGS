@@ -1,12 +1,12 @@
-package net.annova.event;
+package net.annova.object.entity.event;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
-import net.annova.object.LocationCategory;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.event.custom.RPGEntityDeathCE;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
 import org.bukkit.*;
@@ -15,81 +15,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.chance;
 
-public class DeathRPGEvent implements Listener {
-    @EventHandler
-    public void death(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        RPGPerson person = getRPGPerson(player);
-        new BukkitRunnable() {
-            private final Location loc = player.getLocation();
-            public void run() {
-                if (event.getEntity().isValid()) return;
-                event.getEntity().spigot().respawn();
-                Dungeon dungeon = person.getDungeon();
-                if (dungeon != null) {
-                    person.teleport(loc);
-                    player.setGameMode(GameMode.SPECTATOR);
-                    event.setDeathMessage(person.getPerson().getString(getInstance(), "death-dungeon"));
-                    DeathRPGEvent.this.updateRespawn(person, player);
-                } else {
-                    event.setDeathMessage(person.getPerson().getString(getInstance(), "death-base"));
-                }
-
-                this.cancel();
-            }
-        }.runTaskTimer(getInstance(), 1L, 0L);
-    }
-    private void updateRespawn(RPGPerson person, Player player) {
-        new BukkitRunnable() {
-            private int delay = 12;
-            private final Person pers = person.getPerson();
-            @Override
-            public void run() {
-                if (delay == 0) {
-                    player.setGameMode(GameMode.SURVIVAL);
-                    Dungeon dungeon = person.getDungeon();
-                    if (dungeon == null) {
-                        Location loc = player.getRespawnLocation();
-                        person.teleport(loc == null ? Bukkit.getWorld("world").getSpawnLocation() : loc);
-                    } else {
-                        dungeon.teleportPerson(person);
-                        player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1, 1);
-                    }
-                    this.cancel();
-                }
-                pers.sendBar(pers.getString(getInstance(), "dungeon-respawn", "{delay}", String.valueOf(delay)));
-                player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1);
-                delay--;
-            }
-        }.runTaskTimer(getInstance(), 0L, 20L);
-    }
-
-    @EventHandler
-    public void drop(EntityDeathEvent event) {
-        LivingEntity ent = event.getEntity();
-        RPGEntity entity = getEntity(ent);
-        if (entity == null) return;
-        List<ItemStack> drop = event.getDrops();
-        event.getDrops().clear();
-        drop.addAll(entity.loot(ent.getKiller()));
-    }
+public class DeathEvent implements Listener {
     @EventHandler
     public void death(EntityDeathEvent event) {
         LivingEntity ent = event.getEntity();
         RPGEntity entity = getEntity(ent);
         if (entity == null) return;
+        // Loot event
+        List<ItemStack> drop = event.getDrops();
+        event.getDrops().clear();
+        drop.addAll(entity.loot(ent.getKiller()));
+
+        if (entity instanceof EntityAction action) {
+            action.onDeath();
+        }
+
         RPGEntityDeathCE ev = new RPGEntityDeathCE(entity, event);
         Bukkit.getPluginManager().callEvent(ev);
         removeEntity(ent);
@@ -99,6 +48,7 @@ public class DeathRPGEvent implements Listener {
 
         RPGPerson person = getRPGPerson(ent.getKiller());
         if (person == null) person = (RPGPerson) dungeon.getPlayers().toArray()[0];
+        if (person == null) return;
 
         RPGEntityType type = RPGEntityType.valueOf(entity.getId());
         switch (type) {
@@ -135,11 +85,7 @@ public class DeathRPGEvent implements Listener {
                     }
                 }
             }
-            default -> {
-                if (getEntitiesByCategory(LocationCategory.D_PRISON).contains(type)) {
-                    person.addDungeonPoints(200);
-                }
-            }
+            default -> person.addDungeonPoints(200);
         }
     }
 }

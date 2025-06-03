@@ -1,7 +1,7 @@
 package net.annova.object.item.equipment.prison;
 
-import net.annova.object.item.base.RPGArmor;
-import net.annova.object.item.base.RPGArmorActivity;
+import net.annova.object.item.base.attribute.RPGArmor;
+import net.annova.object.item.base.attribute.RPGArmorActivity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;

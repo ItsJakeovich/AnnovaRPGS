@@ -13,10 +13,7 @@ import net.annova.object.entity.mobs.sector0.SmallEnt;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static net.annova.object.LocationCategory.*;
 
@@ -64,7 +61,7 @@ public enum RPGEntityType {
     final LocationCategory category;
     final Class<? extends RPGEntity> clazz;
 
-    private static final Map<LocationCategory, Set<RPGEntityType>> ENTITIES_BY_CATEGORY = new HashMap<>();
+    private static final Map<LocationCategory, Set<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
     private static final Map<Class<? extends RPGEntity>, String> KEY_BY_CLASS = new HashMap<>();
 
     static {

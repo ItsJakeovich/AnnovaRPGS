@@ -1,4 +1,4 @@
-package net.annova.object.entity.ability.event;
+package net.annova.object.entity.event;
 
 import net.annova.event.custom.EntityDamageCE;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;

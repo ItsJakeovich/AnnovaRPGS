@@ -1,18 +1,18 @@
 package net.annova.object.person;
 
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.environment.world.advancement.RPGAdvancement;
 import net.annova.object.item.base.*;
-import net.annova.object.item.base.Set;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaGlobal;
 import net.annova.main.AnnovaSQL;
 import net.annova.object.Person;
+import net.annova.object.item.base.RPGSet;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.ValueType;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -21,9 +21,11 @@ import javax.annotation.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.Set;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
+import static net.annova.util.MessageObjects.sendForAll;
 
 public class RPGPerson {
     private final Person person;
@@ -38,6 +40,8 @@ public class RPGPerson {
     private final Map<String, Long> speedModifiers = new HashMap<>();
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
+
+    private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
 
     private float health;
     private float maxHealth = 20;
@@ -121,9 +125,8 @@ public class RPGPerson {
     }
     public void setHealth(float health) {
         if (health <= 0) {
-            teleportHome(this.getPerson().getPlayer());
-            this.setHealth(maxHealth);
-            return;
+            this.death();
+            health = maxHealth;
         }
         if (health > maxHealth) health = maxHealth;
         this.health = health;
@@ -147,6 +150,40 @@ public class RPGPerson {
         Player player = this.person.getPlayer();
         player.setHealth(this.person.getMaxHealth(player) * health/maxHealth);
         this.person.sendBar(player, message);
+    }
+
+    public void death() {
+        Player player = this.person.getPlayer();
+        if (dungeon != null) {
+            player.setGameMode(GameMode.SPECTATOR);
+            sendForAll(getInstance(), "death-dungeon", "{name}", this.person.getName());
+            this.startDungeonRespawn(player);
+        } else {
+            teleportHome(player);
+            sendForAll(getInstance(), "death-base", "{name}", this.person.getName());
+        };
+    }
+    private void startDungeonRespawn(Player player) {
+        new BukkitRunnable() {
+            private int delay = 12;
+            @Override
+            public void run() {
+                if (delay == 0) {
+                    player.setGameMode(GameMode.SURVIVAL);
+                    if (dungeon == null) {
+                        Location loc = player.getRespawnLocation();
+                        teleport(loc == null ? Bukkit.getWorld("world").getSpawnLocation() : loc);
+                    } else {
+                        dungeon.teleportPerson(RPGPerson.this);
+                        player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1, 1);
+                    }
+                    this.cancel();
+                }
+                person.sendBar(getInstance(), "dungeon-respawn", "{delay}", String.valueOf(delay));
+                player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1);
+                delay--;
+            }
+        }.runTaskTimer(getInstance(), 0L, 20L);
     }
 
     public Team getTeam() {
@@ -293,6 +330,24 @@ public class RPGPerson {
     public void teleport(Player player, Location location) {
         this.teleportAccess = true;
         player.teleport(location);
+    }
+
+    public Set<RPGAdvancement> getAdvancements() {
+        return advancements;
+    }
+    public void addAdvancement(RPGAdvancement advancement) {
+        this.advancements.add(advancement);
+    }
+    public void removeAdvancement(RPGAdvancement advancement) {
+        this.advancements.remove(advancement);
+    }
+    public void completeAdvancement(Player player, RPGAdvancement advancement) {
+        if (this.advancements.contains(advancement)) return;
+        this.advancements.add(advancement);
+        AdvancementProgress progress = player.getAdvancementProgress(advancement.resolve());
+        for (String criterion : progress.getRemainingCriteria()) {
+            progress.awardCriteria(criterion);
+        }
     }
 
     public static void teleportHome(Player player) {

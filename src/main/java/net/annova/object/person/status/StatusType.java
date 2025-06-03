@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,7 +164,7 @@ public enum StatusType {
     private final long duration;
     private final long cooldown;
     private final Item whileHas;
-    private final Map<ValueType, Double> values;
+    private final Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
     private final StatusActivity activity;
 
     StatusType() {
@@ -191,7 +192,7 @@ public enum StatusType {
         this.duration = duration;
         this.cooldown = cooldown;
         this.whileHas = whileHas;
-        this.values = values;
+        this.values.putAll(values);
         this.activity = activity;
     }
 

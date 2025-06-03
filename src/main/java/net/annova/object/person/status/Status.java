@@ -4,13 +4,14 @@ import net.annova.object.item.base.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Status {
     private final StatusType type;
     private BukkitTask runnable = null;
-    private final Map<ValueType, Double> values = new HashMap<>();
+    private final Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
     private final long expires;
 
     public Status(StatusType type) {

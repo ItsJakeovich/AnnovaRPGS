@@ -26,7 +26,7 @@ public class DungeonInitEvent implements Listener {
         DungeonTemplate dungeonTemplate = new DungeonTemplate();
         List<SimpleBlock> sBlocks = structure.getBlocks(Person.CardinalDirection.NORTH);
         Map<Integer, BlockData> blocks = new HashMap<>();
-        HashMap<Integer, List<String[]>> summons = new HashMap<>();
+        Map<Integer, List<String[]>> summons = new HashMap<>();
 
         int locIndex = 0;
         for (int point = 0; point < sBlocks.size(); point++) {

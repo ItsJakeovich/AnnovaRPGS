@@ -1,4 +1,4 @@
-package net.annova.object.item.base;
+package net.annova.object.item.base.attribute;
 
 public interface RPGTool {
     double damage();

@@ -2,6 +2,8 @@ package net.annova.object.item.base;
 
 import com.google.common.collect.Maps;
 import net.annova.object.item.DungeonKeyItem;
+import net.annova.object.item.base.attribute.ItemConfiguration;
+import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
@@ -147,8 +149,8 @@ public enum Item {
         return item;
     }
 
-    private static final Map<ItemCategory, Set<Item>> ITEMS_BY_CATEGORY = new HashMap<>();
-    private static final Map<String, Item> BY_NAME = Maps.newHashMap();
+    private static final Map<ItemCategory, Set<Item>> ITEMS_BY_CATEGORY = new EnumMap<>(ItemCategory.class);
+    private static final Map<String, Item> BY_NAME = new HashMap<>();
     static {
         for (ItemCategory cat : ItemCategory.values()) {
             ITEMS_BY_CATEGORY.put(cat, new HashSet<>());

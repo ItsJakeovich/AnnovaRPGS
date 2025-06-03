@@ -42,8 +42,7 @@ public class CreeperTokenItem extends RPGItem implements Listener {
 
     @EventHandler
     private void mechanic(EntityTargetEvent event) {
-        if (!(event.getTarget() instanceof Player player)) return;
-        if (!CREEPER_TOKEN.has(player)) return;
+        if (!CREEPER_TOKEN.has(event.getTarget())) return;
 
         if (event.getEntity().getType().equals(EntityType.CREEPER))
             event.setCancelled(true);

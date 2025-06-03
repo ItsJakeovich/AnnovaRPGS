@@ -13,6 +13,6 @@ public class Keys {
     public static final NamespacedKey NK_MILLIS = getNamespacedKey("millis");
 
     public static NamespacedKey getNamespacedKey(String string) {
-        return NamespacedKey.fromString(string, getInstance());
+        return new NamespacedKey("annovas", string);
     }
 }

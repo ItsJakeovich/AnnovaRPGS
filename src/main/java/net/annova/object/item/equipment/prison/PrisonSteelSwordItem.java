@@ -2,7 +2,7 @@ package net.annova.object.item.equipment.prison;
 
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
-import net.annova.object.item.base.RPGTool;
+import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

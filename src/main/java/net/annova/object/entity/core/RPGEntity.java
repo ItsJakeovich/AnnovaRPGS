@@ -11,12 +11,12 @@ import net.annova.object.entity.core.status.StatusType;
 import net.annova.object.person.status.Status;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import org.bukkit.Location;
@@ -44,7 +44,7 @@ public abstract class RPGEntity {
     public LivingEntity entity;
     public Dungeon dungeon;
     public int point;
-    private final Map<StatusType, EntityStatus> statuses = new HashMap<>();
+    private final Map<StatusType, EntityStatus> statuses = new EnumMap<>(StatusType.class);
     public abstract EntityType<?> type();
     public abstract String name();
     public abstract RPGRarity rarity();
@@ -120,7 +120,23 @@ public abstract class RPGEntity {
         addEntity(this);
 
         if (this instanceof RPGSpawn spawn)
-            spawn.onSpawn(ent, location);
+            spawn.onSpawn(location);
+        for (RPGAbility ability : abilities()) {
+            switch (ability.getType()) {
+                case NEUTRAL -> {
+                    GoalSelector selector = ((Mob) entity).targetSelector;
+                    List<WrappedGoal> toRemove = new ArrayList<>();
+                    for (WrappedGoal goal : selector.getAvailableGoals()) {
+                        if (goal.getGoal() instanceof NearestAttackableTargetGoal) {
+                            toRemove.add(goal);
+                        }
+                    }
+                    for (WrappedGoal goal : toRemove) {
+                        selector.removeGoal(goal.getGoal());
+                    }
+                }
+            }
+        }
         if (this instanceof RPGActivity activity) {
             if (activity.repeating() != 0) {
                 new BukkitRunnable() {
