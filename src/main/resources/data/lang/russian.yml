@@ -102,6 +102,8 @@ SILVER_PUMP: "Серебристый памп"
 UNKNOWN_SOURCE_WATER: "Неизвестный источник"
 VOLCANIC_STREAMS_MALMA: "Мальма вулканических ручьев"
 WHALE_FISH: "Рыба кит"
+## S0 - SWAMPS
+SPIDER_CHITIN: "Хитин болотного паука"
 ## unique
 DUNGEON_KEY: "Ключ от подземелья"
 

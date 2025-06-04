@@ -9,12 +9,12 @@ import java.util.List;
 public class SpiderChitin extends RPGItem {
     @Override
     public Material type() {
-        return null;
+        return Material.NAUTILUS_SHELL;
     }
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(400f);
     }
 
     @Override

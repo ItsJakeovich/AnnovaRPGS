@@ -25,7 +25,7 @@ public class RPGConfig implements ConfigBase {
     public void loadConfigFiles() throws IOException, InvalidConfigurationException {
         getInstance().saveDefaultConfig();
 
-        this.craftConfig = this.loadAnnovaConfig(getInstance(), "data/crafts");
+        this.craftConfig = this.loadAnnovaConfig(getInstance(), "crafts");
 
         Map<String, FileConfiguration> lang = new HashMap<>();
         lang.put("ru", this.loadAnnovaConfig(getInstance(), "lang/russian"));

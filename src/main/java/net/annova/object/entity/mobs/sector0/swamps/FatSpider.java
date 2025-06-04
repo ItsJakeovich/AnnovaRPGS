@@ -48,7 +48,7 @@ public class FatSpider extends RPGEntity implements EntityAction {
 
     @Override
     public float speed() {
-        return 0;
+        return 0.15f;
     }
 
     @Override

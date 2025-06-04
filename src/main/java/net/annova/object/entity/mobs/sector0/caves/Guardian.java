@@ -11,24 +11,20 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.bukkit.Location;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 
 public class Guardian extends RPGEntity implements RPGSpawn, EntityAction {
     @Override
     public EntityType<?> type() {
-        return MAGIC_ARMOR;
+        return EntityType.ZOMBIE;
     }
 
     @Override

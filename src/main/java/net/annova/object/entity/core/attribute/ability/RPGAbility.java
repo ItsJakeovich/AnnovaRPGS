@@ -19,7 +19,7 @@ public class RPGAbility {
         IMMORTAL,
         SPIKES,
         POISON,
-        NEUTRAL // мирный пока не ударят.
+//        NEUTRAL // мирный пока не ударят.
         ;
 
         public RPGAbility get() {

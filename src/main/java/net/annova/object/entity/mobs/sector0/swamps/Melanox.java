@@ -45,7 +45,7 @@ public class Melanox extends RPGEntity implements RPGActivity {
 
     @Override
     public float speed() {
-        return 0;
+        return 0.4f;
     }
 
     @Override

@@ -21,7 +21,7 @@ import static net.annova.util.BukkitObjects.random;
 public class Mage extends RPGEntity implements RPGActivity {
     @Override
     public EntityType<?> type() {
-        return MAGIC_ARMOR;
+        return EntityType.ZOMBIE;
     }
 
     @Override

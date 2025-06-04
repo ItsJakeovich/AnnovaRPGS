@@ -93,7 +93,7 @@ public class Dungeon {
     }
     public void endDungeon(long timer) {
         if (timer <= 0) {
-            endDungeon();
+            this.endDungeon();
             return;
         }
         for (RPGPerson member : this.players) {

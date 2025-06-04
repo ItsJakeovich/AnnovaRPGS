@@ -6,6 +6,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
@@ -14,7 +15,19 @@ import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import static net.annova.object.entity.core.RPGEntity.register;
+
 public class Crab extends CaveSpider {
+//    public static final EntityType<Crab> CRAB;
+//
+//    static {
+//        CRAB = (EntityType<Crab>) register("crab", EntityType.Builder.of(Crab::new, MobCategory.MONSTER)
+//                .sized(0.7F, 0.5F)
+//                .eyeHeight(0.45F)
+//                .clientTrackingRange(8)
+//        );
+//    }
+
     public Crab(EntityType<? extends CaveSpider> entitytypes, Level world) {
         super(entitytypes, world);
         this.setInvisible(true);
@@ -83,7 +96,6 @@ public class Crab extends CaveSpider {
 
                 super.tick();
             }
-
         }
     }
 }

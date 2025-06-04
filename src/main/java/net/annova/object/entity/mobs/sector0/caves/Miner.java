@@ -6,19 +6,23 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 
-public class Miner extends RPGEntity {
+public class Miner extends RPGEntity implements RPGSpawn {
     @Override
     public EntityType<?> type() {
-        return MAGIC_ARMOR;
+        return EntityType.ZOMBIE;
     }
 
     @Override
@@ -59,5 +63,19 @@ public class Miner extends RPGEntity {
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of();
+    }
+
+    @Override
+    public void onSpawn(Location location) {
+        GoalSelector selector = ((Mob) entity).targetSelector;
+        List<WrappedGoal> toRemove = new ArrayList<>();
+        for (WrappedGoal goal : selector.getAvailableGoals()) {
+            if (goal.getGoal() instanceof NearestAttackableTargetGoal) {
+                toRemove.add(goal);
+            }
+        }
+        for (WrappedGoal goal : toRemove) {
+            selector.removeGoal(goal.getGoal());
+        }
     }
 }

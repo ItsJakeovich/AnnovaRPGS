@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 
 import java.util.*;
 
-import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.GlobalRPG.addDTemplate;
 import static net.annova.util.AMaterial.getMaterial;
 

@@ -21,7 +21,7 @@ import static net.annova.util.BukkitObjects.random;
 public class Crab extends RPGEntity implements RPGSpawn {
     @Override
     public EntityType<?> type() {
-        return EntityType.CAVE_SPIDER;
+        return EntityType.ZOMBIE;
     }
 
     @Override

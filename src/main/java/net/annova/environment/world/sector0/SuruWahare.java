@@ -12,7 +12,7 @@ import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
 
 public class SuruWahare implements WorldSector {
     public static final  World world0 = loadWorldAndGet("sector0");
-    public final Set<Location> sectorZones = Set.of(
+    public static final Set<Location> sectorZones = Set.of(
             new Caves(),
             new DryadPedestal(),
             new DarkForest(),

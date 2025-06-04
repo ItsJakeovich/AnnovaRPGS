@@ -1,6 +1,35 @@
 package net.annova.command.cmdRPG;
 
+import net.annova.command.register.CommandArg;
+import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.entity.mobs.custom.Crab;
+import net.annova.object.item.base.Item;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
+import org.bukkit.entity.Player;
+
+import static net.annova.util.BukkitObjects.addItems;
+
 public class RPGCode {
+    @CommandArg(name = "test")
+    public void test(Player player, String[] args) {
+        if (args[0].equals("m")) {
+            addItems(player, Item.valueOf(args[1]).create(player));
+        }
+        if (args[0].equals("mob")) {
+            RPGEntityType.valueOf(args[1]).getEntity().create(player.getLocation());
+        }
+    }
+    @CommandArg(name = "testt")
+    public void testt(Player player) {
+        ServerLevel level = ((CraftWorld) player.getWorld()).getHandle();
+        Crab crab = new Crab(EntityType.CAVE_SPIDER, level);
+        Location location = player.getLocation();
+        crab.setPos(location.getX(), location.getY(), location.getZ());
+        level.tryAddFreshEntityWithPassengers(crab);
+    }
 //    @CommandArg(name = "items", aliases = {"предметы", "ghtlvtn", "шеуьы"})
 //    public void items(Player player) {
 //        Inventory inv = Bukkit.createInventory(null, 54);

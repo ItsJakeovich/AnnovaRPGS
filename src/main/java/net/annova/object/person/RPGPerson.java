@@ -30,7 +30,7 @@ import static net.annova.util.MessageObjects.sendForAll;
 public class RPGPerson {
     private final Person person;
     private Dungeon dungeon;
-    private Location location =
+//    private Location location =
     private int dungeonPoints = 0;
     private Team team;
     private RPGSet set;
@@ -162,7 +162,7 @@ public class RPGPerson {
         } else {
             teleportHome(player);
             sendForAll(getInstance(), "death-base", "{name}", this.person.getName());
-        };
+        }
     }
     private void startDungeonRespawn(Player player) {
         new BukkitRunnable() {
@@ -173,7 +173,7 @@ public class RPGPerson {
                     player.setGameMode(GameMode.SURVIVAL);
                     if (dungeon == null) {
                         Location loc = player.getRespawnLocation();
-                        teleport(loc == null ? Bukkit.getWorld("world").getSpawnLocation() : loc);
+                        RPGPerson.this.teleport(loc == null ? Bukkit.getWorld("world").getSpawnLocation() : loc);
                     } else {
                         dungeon.teleportPerson(RPGPerson.this);
                         player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1, 1);
@@ -218,7 +218,7 @@ public class RPGPerson {
     }
     public void updateSet() {
         Player player = this.getPerson().getPlayer();
-        this.setSet(Set.getSet(player));
+//        this.setSet(Set.getSet(player));
     }
     public void updateArmor() {
 //        Player player = this.getPerson().getPlayer();

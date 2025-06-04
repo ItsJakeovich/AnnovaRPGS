@@ -19,14 +19,14 @@ public class TargetEvent implements Listener {
         if (rpg instanceof EntityAction action) {
             if (!action.onTarget(event.getTarget())) event.setCancelled(true);
 
-            for (RPGAbility ability : rpg.abilities()) {
-                if (!chance(ability.getValue(ValueType.CHANCE))) continue;
-                switch (ability.getType()) {
-                    case NEUTRAL -> {
-                        if (even.g)
-                    }
-                }
-            }
+//            for (RPGAbility ability : rpg.abilities()) {
+//                if (!chance(ability.getValue(ValueType.CHANCE))) continue;
+//                switch (ability.getType()) {
+//                    case NEUTRAL -> {
+//                        if (even.g)
+//                    }
+//                }
+//            }
         }
     }
 }

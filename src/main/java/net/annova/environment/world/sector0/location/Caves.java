@@ -2,7 +2,6 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
 import net.annova.environment.world.advancement.RPGAdvancement;
-import net.annova.environment.world.sector0.SuruWahare;
 import net.annova.object.Person;
 import org.bukkit.entity.Player;
 
@@ -10,11 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.BukkitObjects.random;
 
-public class Caves extends SuruWahare implements Location {
+public class Caves implements Location {
     private final String[] messageKeys = {
             "s0-caves-msg-0",
             "s0-caves-msg-1",

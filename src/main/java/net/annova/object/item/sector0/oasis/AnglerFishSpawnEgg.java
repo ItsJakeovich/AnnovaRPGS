@@ -1,7 +1,7 @@
 package net.annova.object.item.sector0.oasis;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.mobs.sector0.AnglerFish;
+import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.item.base.RPGItem;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

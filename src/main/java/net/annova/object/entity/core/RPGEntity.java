@@ -8,15 +8,15 @@ import net.annova.object.entity.core.attribute.RPGSpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
-import net.annova.object.person.status.Status;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.GoalSelector;
-import net.minecraft.world.entity.ai.goal.WrappedGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import org.bukkit.Location;
@@ -39,6 +39,7 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addEntity;
 import static net.annova.main.GlobalRPG.removeEntity;
 import static net.annova.main.Keys.NK_ID;
+import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 
 public abstract class RPGEntity {
     public LivingEntity entity;
@@ -66,6 +67,12 @@ public abstract class RPGEntity {
                 "INVENTORY TEXT"
         );
         //ResultSet rs = getSQL().(TABLE);
+    }
+    private static EntityType<?> register(ResourceKey<EntityType<?>> resourcekey, EntityType.Builder<?> entitytypes_builder) {
+        return Registry.register(BuiltInRegistries.ENTITY_TYPE, resourcekey, entitytypes_builder.noSave().build(resourcekey));
+    }
+    public static EntityType<?> register(String key, EntityType.Builder<?> builder) {
+        return register(ResourceKey.create(Registries.ENTITY_TYPE, fromNamespaceAndPath("annovas", key)), builder);
     }
 
     @Nullable
@@ -121,22 +128,22 @@ public abstract class RPGEntity {
 
         if (this instanceof RPGSpawn spawn)
             spawn.onSpawn(location);
-        for (RPGAbility ability : abilities()) {
-            switch (ability.getType()) {
-                case NEUTRAL -> {
-                    GoalSelector selector = ((Mob) entity).targetSelector;
-                    List<WrappedGoal> toRemove = new ArrayList<>();
-                    for (WrappedGoal goal : selector.getAvailableGoals()) {
-                        if (goal.getGoal() instanceof NearestAttackableTargetGoal) {
-                            toRemove.add(goal);
-                        }
-                    }
-                    for (WrappedGoal goal : toRemove) {
-                        selector.removeGoal(goal.getGoal());
-                    }
-                }
-            }
-        }
+//        for (RPGAbility ability : this.abilities()) {
+//            switch (ability.getType()) {
+//                case NEUTRAL -> {
+//                    GoalSelector selector = ((Mob) entity).targetSelector;
+//                    List<WrappedGoal> toRemove = new ArrayList<>();
+//                    for (WrappedGoal goal : selector.getAvailableGoals()) {
+//                        if (goal.getGoal() instanceof NearestAttackableTargetGoal) {
+//                            toRemove.add(goal);
+//                        }
+//                    }
+//                    for (WrappedGoal goal : toRemove) {
+//                        selector.removeGoal(goal.getGoal());
+//                    }
+//                }
+//            }
+//        }
         if (this instanceof RPGActivity activity) {
             if (activity.repeating() != 0) {
                 new BukkitRunnable() {
@@ -206,7 +213,7 @@ public abstract class RPGEntity {
     public void remove() {
         if (entity != null) entity.remove(Entity.RemovalReason.KILLED);
         removeEntity(this.getEntity().getBukkitEntity());
-        // если будут записываться то удалять тут тоже
+        // если будут записываться-то удалять тут тоже
     }
 
     @Nullable

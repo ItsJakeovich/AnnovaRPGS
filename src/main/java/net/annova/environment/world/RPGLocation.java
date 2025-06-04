@@ -29,10 +29,10 @@ public enum RPGLocation {
         this.location = location;
     }
 
-    public static final Map<World, Set<RPGLocation>> LOCATIONS_BY_WORLD = new EnumMap<>(RPGLocation.class);
-    static {
-
-    }
+//    public static final Map<World, Set<RPGLocation>> LOCATIONS_BY_WORLD = new EnumMap<>(RPGLocation.class);
+//    static {
+//
+//    }
 
     public Location getLocation() {
         return location;

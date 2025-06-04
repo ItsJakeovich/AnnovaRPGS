@@ -3,7 +3,6 @@ package net.annova.object.entity.mobs.sector0.caves;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
-import net.annova.object.entity.core.attribute.RPGSpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Entity;
@@ -19,7 +18,7 @@ import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 public class OreCollector extends RPGEntity implements EntityAction {
     @Override
     public EntityType<?> type() {
-        return MAGIC_ARMOR;
+        return EntityType.ZOMBIE;
     }
 
     @Override
