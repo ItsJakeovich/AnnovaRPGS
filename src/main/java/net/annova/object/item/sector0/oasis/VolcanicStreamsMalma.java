@@ -21,7 +21,7 @@ public class VolcanicStreamsMalma extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of(2f);
+        return List.of(9f);
     }
 
     @Override

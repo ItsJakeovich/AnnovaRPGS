@@ -2,18 +2,26 @@ package net.annova.object.entity.mobs.sector0.caves;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
 
-public class Mage extends RPGEntity {
+import static net.annova.object.item.base.Item.MAGIC_SCRAP;
+import static net.annova.util.BukkitObjects.random;
+
+public class Mage extends RPGEntity implements RPGActivity {
     @Override
     public EntityType<?> type() {
-        return null;
+        return MAGIC_ARMOR;
     }
 
     @Override
@@ -28,17 +36,17 @@ public class Mage extends RPGEntity {
 
     @Override
     public int health() {
-        return 0;
+        return 100;
     }
 
     @Override
     public double damage() {
-        return 0;
+        return 4;
     }
 
     @Override
     public float speed() {
-        return 0;
+        return 0.3f;
     }
 
     @Override
@@ -48,11 +56,42 @@ public class Mage extends RPGEntity {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of();
+        return List.of(MAGIC_SCRAP.create(0.01));
     }
 
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of();
+    }
+
+    private final PotionEffect[] effects = new PotionEffect[] {
+            new PotionEffect(PotionEffectType.BLINDNESS, 100, 1),
+            new PotionEffect(PotionEffectType.INSTANT_DAMAGE, 20, 3),
+            new PotionEffect(PotionEffectType.SLOWNESS, 60, 4),
+            new PotionEffect(PotionEffectType.NAUSEA, 200, 1),
+            new PotionEffect(PotionEffectType.POISON, 60, 3),
+    };
+    @Override
+    public boolean activity() {
+        LivingEntity target = ((Creature) entity).getTarget();
+        if (target != null) {
+            target.addPotionEffect(effects[random.nextInt(effects.length)]);
+        }
+        return true;
+    }
+
+    @Override
+    public long repeating() {
+        return 200;
+    }
+
+    @Override
+    public boolean syncActivity(LivingEntity entity) {
+        return false;
+    }
+
+    @Override
+    public long syncRepeating() {
+        return 0;
     }
 }

@@ -1,20 +1,20 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
+import net.annova.environment.world.advancement.RPGAdvancement;
+import net.annova.environment.world.sector0.SuruWahare;
 import net.annova.object.Person;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.BukkitObjects.random;
 
-public class Caves implements Location {
-    private final org.bukkit.Location enterPoint = new org.bukkit.Location(world0, -1111, 64, 357);
-
+public class Caves extends SuruWahare implements Location {
     private final String[] messageKeys = {
             "s0-caves-msg-0",
             "s0-caves-msg-1",
@@ -30,13 +30,30 @@ public class Caves implements Location {
     private final Map<Player, Long> messageCooldown = new HashMap<>();
     @Override
     public void movement(Player player) {
+        if (this.isOutside(player.getLocation())) return;
+
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        if (this.isOutside(64, player.getLocation(), enterPoint)) return;
-
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+    }
+
+    @Override
+    public Set<RPGAdvancement> advancements() {
+        return Set.of();
+    }
+
+    @Override
+    public org.bukkit.Location[] points() {
+        return new org.bukkit.Location[] {
+                new org.bukkit.Location(world0, -1111, 64, 357)
+        };
+    }
+
+    @Override
+    public int squaredRadius() {
+        return 64;
     }
 }

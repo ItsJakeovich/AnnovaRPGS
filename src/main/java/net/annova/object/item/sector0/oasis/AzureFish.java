@@ -21,7 +21,7 @@ public class AzureFish extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(15f);
     }
 
     @Override

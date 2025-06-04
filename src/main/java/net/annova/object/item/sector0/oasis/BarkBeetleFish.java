@@ -25,7 +25,7 @@ public class BarkBeetleFish extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(14f);
     }
 
     @Override

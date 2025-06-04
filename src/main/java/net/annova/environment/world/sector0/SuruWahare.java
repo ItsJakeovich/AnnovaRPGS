@@ -15,7 +15,7 @@ public class SuruWahare implements WorldSector {
     public final Set<Location> sectorZones = Set.of(
             new Caves(),
             new DryadPedestal(),
-            new InfectedForest(),
+            new DarkForest(),
             new Meteorite(),
             new Oasis(),
             new SpiderSwamps()

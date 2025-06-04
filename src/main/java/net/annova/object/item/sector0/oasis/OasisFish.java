@@ -30,7 +30,7 @@ public class OasisFish extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(17f);
     }
 
     @Override

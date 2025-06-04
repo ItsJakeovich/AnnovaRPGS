@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 public class Crab extends CaveSpider {
     public Crab(EntityType<? extends CaveSpider> entitytypes, Level world) {
         super(entitytypes, world);
+        this.setInvisible(true);
         this.moveControl = new CrabMoveControl(this);
     }
 

@@ -1,7 +1,10 @@
 package net.annova.object.magic.projectile;
 
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.*;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
@@ -14,6 +17,15 @@ public abstract class ParticleProjectile {
     public abstract double speed();
     public abstract Packet<?>[] particles(Location location);
 
+    public void create(LivingEntity entity, Entity target) {
+        this.create(((Creature) entity).getEyeLocation(), target.getLocation());
+    }
+    public void create(Location from, Location to) {
+        Vector direction = to.add(0,1, 0).toVector().subtract(from.toVector()).normalize();
+        from.setDirection(direction);
+        from.add(direction.clone().multiply(2.5));
+        this.create(from);
+    }
     public void create(Location location) {
         this.tick(location);
     }

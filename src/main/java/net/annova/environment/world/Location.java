@@ -1,6 +1,8 @@
 package net.annova.environment.world;
 
 import net.annova.environment.world.advancement.RPGAdvancement;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -14,13 +16,13 @@ public interface Location {
     Set<RPGAdvancement> advancements();
 
     org.bukkit.Location[] points();
+    int squaredRadius();
 
-    default boolean isOutside(int squaredRadius, org.bukkit.Location location, org.bukkit.Location... points) {
-        boolean isOutside = true;
-        for (org.bukkit.Location locationPoint : points) {
-            if (locationPoint.distanceSquared(locationPoint) < squaredRadius) isOutside = false;
+    default boolean isOutside(org.bukkit.Location location) {
+        for (org.bukkit.Location locationPoint : this.points()) {
+            if (locationPoint.distanceSquared(locationPoint) < this.squaredRadius()) return false;
         }
-        return isOutside;
+        return true;
     }
 
     static org.bukkit.Location getChorusLocation(org.bukkit.Location location, int radius) {
@@ -39,5 +41,19 @@ public interface Location {
             return check;
         }
         return location;
+    }
+
+    default void showTerritory(World world) {
+        org.bukkit.Location check = this.points()[0].clone();
+        check.setY(300);
+        Material action = check.getBlock().getType().isAir() ? Material.REDSTONE_BLOCK : Material.AIR;
+        for (org.bukkit.Location location : this.points()) {
+            int radius = (int) Math.sqrt(this.squaredRadius());
+            for (int z = -radius; z <= radius; z++) {
+                for (int x = -radius; x <= radius; x++) {
+                    new org.bukkit.Location(world, x, 300, z).getBlock().setType(action);
+                }
+            }
+        }
     }
 }

@@ -2,18 +2,24 @@ package net.annova.object.entity.mobs.sector0.caves;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.EntityAction;
+import net.annova.object.entity.core.attribute.RPGSpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
 
-public class OreCollector extends RPGEntity {
+import static net.annova.object.item.base.Item.MAGIC_SCRAP;
+
+public class OreCollector extends RPGEntity implements EntityAction {
     @Override
     public EntityType<?> type() {
-        return null;
+        return MAGIC_ARMOR;
     }
 
     @Override
@@ -48,11 +54,31 @@ public class OreCollector extends RPGEntity {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of();
+        return List.of(MAGIC_SCRAP.create(player, 0.01));
     }
 
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of();
+    }
+
+    @Override
+    public boolean onTarget(Entity target) {
+        return false;
+    }
+
+    @Override
+    public boolean onAttack(LivingEntity target) {
+        return false;
+    }
+
+    @Override
+    public boolean onDamage(Entity damager) {
+        return false;
+    }
+
+    @Override
+    public void onDeath() {
+
     }
 }

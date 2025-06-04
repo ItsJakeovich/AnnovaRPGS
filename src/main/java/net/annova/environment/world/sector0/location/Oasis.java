@@ -48,11 +48,11 @@ public class Oasis implements Location, Listener {
     private final Map<Player, Long> messageCooldown = new HashMap<>();
     @Override
     public void movement(Player player) {
+        if (this.isOutside(player.getLocation())) return;
+
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
-
-        if (this.isOutside(1600, player.getLocation(), this.points())) return;
 
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
@@ -70,11 +70,11 @@ public class Oasis implements Location, Listener {
                 FRIENDS_ON_SCALES,
                 GIME_ME_CRAB,
                 GOOD_BITE,
-                GOOD_CATCH,
                 MOON_FISHERMAN,
                 PACIFICATION,
                 SWIM_LITTLE_FISH,
-                THATS_LUCK
+                THATS_LUCK,
+                GOOD_CATCH
         );
     }
 
@@ -85,6 +85,11 @@ public class Oasis implements Location, Listener {
                 new org.bukkit.Location(world0, -1096, 70, 422),
                 new org.bukkit.Location(world0, -921, 73, 446)
         };
+    }
+
+    @Override
+    public int squaredRadius() {
+        return 1600;
     }
 
     private final org.bukkit.Location[] bubblePoints = {

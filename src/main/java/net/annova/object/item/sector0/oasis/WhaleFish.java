@@ -14,7 +14,7 @@ public class WhaleFish extends RPGItem {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(7f);
     }
 
     @Override

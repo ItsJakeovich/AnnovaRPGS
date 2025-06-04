@@ -14,7 +14,7 @@ public class RoyalPufferfish extends RPGItem {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(12f);
     }
 
     @Override

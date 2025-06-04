@@ -2,8 +2,7 @@ package net.annova.object.person.status;
 
 import net.annova.object.item.base.Item;
 import net.annova.object.person.RPGPerson;
-import org.bukkit.Material;
-import org.bukkit.TreeType;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Entity;
@@ -159,6 +158,23 @@ public enum StatusType {
     CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE_BUFF, 12.0)),
 
     ELK_FISH_DAMAGE_BUFF(60_000,  Map.of(ValueType.DAMAGE_BUFF, 6.0)),
+
+    PARALYSIS(2_000, new StatusActivity() {
+        Location location;
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            if (this.location == null) location = player.getLocation();
+            player.teleport(location);
+            player.spawnParticle(Particle.CLOUD, location, 2);
+            player.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 3, 3);
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 2;
+        }
+    }),
     ;
 
     private final long duration;
@@ -178,6 +194,9 @@ public enum StatusType {
     }
     StatusType(StatusActivity activity) {
         this(0, 0, null, new HashMap<>(), activity);
+    }
+    StatusType(long duration, StatusActivity activity) {
+        this(duration, 0, null, new HashMap<>(), activity);
     }
     StatusType(Item whileHas, StatusActivity activity) {
         this(0, 0, whileHas, new HashMap<>(), activity);

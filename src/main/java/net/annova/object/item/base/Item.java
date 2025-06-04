@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.annova.object.item.sector0.caves.MagicScrap;
 import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
@@ -14,6 +15,7 @@ import net.annova.object.item.equipment.ControlStopStickItem;
 import net.annova.object.item.equipment.oasis.TideBlade;
 import net.annova.object.item.equipment.oasis.TideGraspRing;
 import net.annova.object.item.equipment.prison.*;
+import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
@@ -48,7 +50,6 @@ import static net.annova.util.MessageObjects.color;
 public enum Item {
     // Containers
     PRISON_CONTAINER(new PrisonContainerItem()),
-
     // Stones
     AIR_STONE(CRYSTALL, new AirStoneItem()),
     AQUA_STONE(CRYSTALL, new AquaStoneItem()),
@@ -77,7 +78,6 @@ public enum Item {
     TELEPORT_STONE(CRYSTALL, new TeleportStoneItem()),
     TIME_STONE(CRYSTALL, new TimeStoneItem()),
     VITAL_STONE(CRYSTALL, new VitalStoneItem()),
-
     // Equipment
     PRISON_BOOTS(new PrisonBootsItem()),
     PRISON_CHESTPLATE(new PrisonChestplateItem()),
@@ -88,11 +88,9 @@ public enum Item {
 
     CONTROL_MOVEMENT_STICK(new ControlMovementStickItem()),
     CONTROL_STOP_STICK(new ControlStopStickItem()),
-
     // Components
     FORIUM_FRAGMENT(new ForiumFragmentItem()),
     FORIUM_INGOT(new ForiumIngotItem()),
-
     // Tokens
     CREEPER_TOKEN(new CreeperTokenItem()),
     DURABILITY_TOKEN(new DurabilityTokenItem()),
@@ -100,10 +98,10 @@ public enum Item {
     PRISON_TOKEN(new PrisonTokenItem()),
     RANGE_TOKEN(new RangeTokenItem()),
     SATURATION_TOKEN(new SaturationTokenItem()),
-
+    // S0 - CAVES
+    MAGIC_SCRAP(new MagicScrap()),
     // S0 - FOREST
     ENT_ROOT(new EntRoot()),
-
     // S0 - OASIS
     TIDE_BLADE(new TideBlade()),
     TIDE_GRASP_RING(new TideGraspRing()),
@@ -128,7 +126,8 @@ public enum Item {
     UNKNOWN_SOURCE_WATER(new UnknownSourceWater()),
     VOLCANIC_STREAMS_MALMA(new VolcanicStreamsMalma()),
     WHALE_FISH(new WhaleFish()),
-
+    // S0 - Swamps
+    SPIDER_CHITIN(new SpiderChitin()),
     // unique
     DUNGEON_KEY(new DungeonKeyItem()),
     ;

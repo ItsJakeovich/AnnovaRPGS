@@ -17,16 +17,6 @@ public class UpdateStatusTimer extends AnnovaAsyncTask {
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
-            person.updateSet();
-            person.updateArmor();
-            person.regen();
-
-//            long millis = System.currentTimeMillis();
-//            for (String modifier : person.getSpeedModifiers().keySet()) {
-//                if (millis-person.getSpeedModifier(modifier) < 11000) continue;
-//                person.removeSpeedModifier(modifier);
-//            }
-
             Set<StatusType> toRemove = new HashSet<>();
             StatusManager manager = person.getStatusManager();
             for (Status status : manager.getStatuses()) {

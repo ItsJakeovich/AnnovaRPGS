@@ -184,6 +184,10 @@ public abstract class RPGEntity {
         this.entity = entity;
     }
 
+    public Location getLocation() {
+        return CraftLocation.toBukkit(entity.position(), entity.level().getWorld());
+    }
+
     public Dungeon getDungeon() {
         return dungeon;
     }

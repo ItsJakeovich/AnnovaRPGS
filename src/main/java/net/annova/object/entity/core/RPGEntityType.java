@@ -9,7 +9,8 @@ import net.annova.object.entity.mobs.prison.*;
 import net.annova.object.entity.mobs.sector0.caves.*;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
-import net.annova.object.entity.mobs.sector0.SmallEnt;
+import net.annova.object.entity.mobs.sector0.forest.Ent;
+import net.annova.object.entity.mobs.sector0.swamps.SwampSpider;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -45,8 +46,10 @@ public enum RPGEntityType {
     SOLDIER(NETHER, Soldier.class),
 
     // Sector 0 - Oasis
-    ANGLER_FISH(S_OASIS, AnglerFish.class),
-    CRAB(S_OASIS, Crab.class),
+    ANGLER_FISH(S0_OASIS, AnglerFish.class),
+    CRAB(S0_OASIS, Crab.class),
+    // Sector 0 - Forest
+    ENT(S0_FOREST, Ent.class),
     // Sector 0 - Caves
     GOLEM(S0_CAVES, Golem.class),
     GOLEM_BOSS(S0_CAVES, GolemBoss.class),
@@ -54,8 +57,8 @@ public enum RPGEntityType {
     MAGE(S0_CAVES, Mage.class),
     MINER(S0_CAVES, Miner.class),
     ORE_COLLECTOR(S0_CAVES, OreCollector.class),
-    // Sector 0 - Forest
-    SmalllEnt(S0_FOREST, SmallEnt.class)
+    // Sector 0 - Swamps
+    SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class)
     ;
 
     final LocationCategory category;

@@ -10,10 +10,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.object.item.base.Item.MAGIC_SCRAP;
+
 public class Golem extends RPGEntity {
     @Override
     public EntityType<?> type() {
-        return null;
+        return EntityType.IRON_GOLEM;
     }
 
     @Override
@@ -28,17 +30,17 @@ public class Golem extends RPGEntity {
 
     @Override
     public int health() {
-        return 0;
+        return 200;
     }
 
     @Override
     public double damage() {
-        return 0;
+        return 14;
     }
 
     @Override
     public float speed() {
-        return 0;
+        return 0.2f;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class Golem extends RPGEntity {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of();
+        return List.of(MAGIC_SCRAP.create(player, 0.01));
     }
 
     @Override
