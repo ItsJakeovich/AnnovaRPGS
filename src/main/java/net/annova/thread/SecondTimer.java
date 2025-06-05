@@ -1,6 +1,5 @@
 package net.annova.thread;
 
-import net.annova.object.person.status.Status;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.SecondTickEvent;
@@ -17,6 +16,7 @@ public class SecondTimer implements Listener {
     public void onTick(SecondTickEvent event) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson pers = getRPGPerson(player);
+            pers.updateStatusBar();
             Person person = pers.getPerson();
             if (pers.getStatusManager().getStatus(STOPPED) != null) continue;
 

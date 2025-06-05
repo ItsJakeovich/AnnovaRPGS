@@ -47,19 +47,6 @@ public class WorldEvent implements Listener {
         getRPGPerson(player).updateHealth();
     }
 
-    /* Позже доработать, должно корректно не уменьшать пищу в энде
-    @EventHandler
-    private void food(FoodLevelChangeEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-        if (event.getFoodLevel() < player.getFoodLevel()) return;
-
-        double cancelChance = 0;
-        switch (player.getWorld().getEnvironment()) {
-            case THE_END -> cancelChance = 0.5;
-        }
-        if (chance(cancelChance)) event.setCancelled(true);
-    }*/
-
     @EventHandler
     private void spawn(CreatureSpawnEvent event) {
         Entity entity = event.getEntity();

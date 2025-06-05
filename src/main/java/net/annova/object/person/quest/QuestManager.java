@@ -51,6 +51,7 @@ public class QuestManager {
         return joiner.toString();
     }
     public void deserialize(String serializedManager) {
+        if (serializedManager.isEmpty()) return;
         for (String serialQuest : serializedManager.split(",")) {
             QuestBase quest = new QuestBase();
             String[] questArray = serialQuest.split(">");

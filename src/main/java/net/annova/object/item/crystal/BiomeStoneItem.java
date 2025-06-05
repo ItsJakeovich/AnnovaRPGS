@@ -140,7 +140,7 @@ public class BiomeStoneItem extends RPGItem implements Listener {
         new BukkitRunnable() {
             final Location loc = player.getLocation();
             final World world = loc.getWorld();
-            final Particle.DustOptions option = new Particle.DustOptions(Color.fromRGB(
+            final Particle.DustOptions option = new Particle.DustTransition(Color.GREEN, Color.fromRGB(
                     item.getItemMeta().getPersistentDataContainer().get(NK_BIOME, PersistentDataType.INTEGER)),
                     3
             );

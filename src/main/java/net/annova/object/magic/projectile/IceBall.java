@@ -23,7 +23,7 @@ public class IceBall extends ParticleProjectile {
                         block.setType(PACKED_ICE);
                         if (y > 12) {
                             blockLoc.add(0, 10, 0);
-                            world.spawnParticle(Particle.DUST_COLOR_TRANSITION, blockLoc, 1, 0, 0, 0, 0, new Particle.DustOptions(Color.AQUA, 4.0F));
+                            world.spawnParticle(Particle.DUST_COLOR_TRANSITION, blockLoc, 1, 0, 0, 0, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F));
                             world.playSound(blockLoc, Sound.BLOCK_SNOW_BREAK, 5, 5);
                         }
                     }

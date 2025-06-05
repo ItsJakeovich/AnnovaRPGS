@@ -8,7 +8,7 @@ public enum RPGRarity {
 
     COMMON(ChatColor.GRAY),
     UNCOMMON(ChatColor.GREEN),
-    RARE(new Color(0x22f9f6)),
+    RARE(ChatColor.AQUA),
     ELITE(ChatColor.LIGHT_PURPLE),
     EPIC(ChatColor.DARK_PURPLE),
     LEGEND(ChatColor.GOLD),
@@ -16,15 +16,12 @@ public enum RPGRarity {
     IMPOSSIBLE(ChatColor.DARK_RED) //
     ;
 
-    private final Color color;
-    RPGRarity(Color color) {
+    private final ChatColor color;
+    RPGRarity(ChatColor color) {
         this.color = color;
     }
-    RPGRarity(ChatColor color) {
-        this.color =color.asBungee().getColor();
-    }
 
-    public Color getColor() {
+    public ChatColor getColor() {
         return color;
     }
 }

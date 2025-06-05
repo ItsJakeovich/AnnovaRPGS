@@ -128,7 +128,7 @@ public class Oasis implements Location, Listener {
                     return;
                 }
                 if (i < 20) {
-                    world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 4, 0.2, 0.2, 0.2, 0, new Particle.DustOptions(Color.AQUA, 4.0F));
+                    world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 4, 0.2, 0.2, 0.2, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F));
                     point.add(0, 1, 0);
                     bubble.teleport(point);
                     i++;
@@ -149,7 +149,7 @@ public class Oasis implements Location, Listener {
                     }
                 }
 
-                world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 0.6, 0.6, 0.6, 0, new Particle.DustOptions(Color.AQUA, 4.0F));
+                world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 0.6, 0.6, 0.6, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F));
             }
         }.runTaskTimer(getInstance(), 0, 10L);
     }

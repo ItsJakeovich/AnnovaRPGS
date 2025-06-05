@@ -50,13 +50,6 @@ public class AirStoneItem extends RPGItem implements Listener {
         );
     }
 
-//    @EventHandler
-//    public void drop(EntityDeathEvent event) {
-//        if (event.getEntity() instanceof Shulker shulker) {
-//            event.getDrops().add(AIR_STONE.create(getPerson(shulker.getKiller()), 0.01));
-//        }
-//    }
-
     @EventHandler
     public void mechanic(PlayerInteractEvent event) {
         ItemStack item = event.getItem();

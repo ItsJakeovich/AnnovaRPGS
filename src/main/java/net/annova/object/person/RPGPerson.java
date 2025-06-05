@@ -146,8 +146,8 @@ public class RPGPerson {
     }
     public void updateStatusBar() {
         String message = this.person.getString(getInstance(), "bar-health")
-                .replace("{h}", String.valueOf(this.health))
-                .replace("{m}", String.valueOf(this.maxHealth));
+                .replace("{h}", String.valueOf((int) this.health))
+                .replace("{m}", String.valueOf((int) this.maxHealth));
         Player player = this.person.getPlayer();
         player.setHealth(this.person.getMaxHealth(player) * health/maxHealth);
         this.person.sendBar(player, message);

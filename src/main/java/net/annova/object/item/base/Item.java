@@ -269,7 +269,7 @@ public enum Item {
 
         String name = getLangFile(getInstance(), person == null ? "ru" : person.getLanguage())
                 .getString(this.name(), "unknown-name");
-        meta.setDisplayName(color(STR."\{this.item.rarity()}\{name}"));
+        meta.setDisplayName(color(STR."\{this.item.rarity().getColor()}\{name}"));
         CustomModelData model = new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of());
         meta.setCustomModelDataComponent(new CraftCustomModelDataComponent(model));
 

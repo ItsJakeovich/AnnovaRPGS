@@ -1,32 +1,58 @@
 package net.annova.command.cmdRPG;
 
 import net.annova.command.register.CommandArg;
-import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.entity.mobs.custom.Crab;
 import net.annova.object.item.base.Item;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.CaveSpider;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
-import static net.annova.util.BukkitObjects.addItems;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RPGCode {
-    @CommandArg(name = "test")
-    public void test(Player player, String[] args) {
-        if (args[0].equals("m")) {
-            addItems(player, Item.valueOf(args[1]).create(player));
+    private static final List<Inventory> itemsInterface = new ArrayList<>();
+    static {
+        int i = 0;
+        Inventory inventory = null;
+        for (Item item : Item.values()) {
+            if (i % 54 == 0) {
+                inventory = Bukkit.createInventory(null, 54, STR."Items - page:\{1 + (i/54)}");
+                itemsInterface.add(inventory);
+            }
+            inventory.addItem(item.create(1));
+            i++;
         }
-        if (args[0].equals("mob")) {
-            RPGEntityType.valueOf(args[1]).getEntity().create(player.getLocation());
+    }
+    @CommandArg(name = "items")
+    public void items(Player player, String[] args) {
+        String wrong = STR."Pages: \{Math.ceil((double)(Item.values().length)/54)} (/rpg items {page})";
+        if (args.length == 1) {
+            player.sendMessage(wrong);
+            return;
         }
+        int page = Integer.parseInt(args[1]);
+        if (page > itemsInterface.size()) {
+            player.sendMessage(wrong);
+            return;
+        }
+        player.openInventory(itemsInterface.get(1+page));
     }
     @CommandArg(name = "testt")
     public void testt(Player player) {
+        player.sendMessage("cave_spider должен был бы быть");
         ServerLevel level = ((CraftWorld) player.getWorld()).getHandle();
-        Crab crab = new Crab(EntityType.CAVE_SPIDER, level);
         Location location = player.getLocation();
+        CaveSpider spider = new CaveSpider(EntityType.CAVE_SPIDER, level);
+        spider.setPos(location.getX(), location.getY(), location.getZ());
+        level.tryAddFreshEntityWithPassengers(spider);
+
+        Crab crab = new Crab(EntityType.CAVE_SPIDER, level);
         crab.setPos(location.getX(), location.getY(), location.getZ());
         level.tryAddFreshEntityWithPassengers(crab);
     }

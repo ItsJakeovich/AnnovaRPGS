@@ -16,9 +16,8 @@ public class MapCode {
         String coords = "";
         if (args.length != 0) {
             Location loc = player.getLocation();
-            if (args[0].startsWith("h")) coords = "?worldname=" + loc.getWorld().getName()
-                    + "&mapname=flat&zoom=2&x=" + loc.getBlockX() + "&y=" + loc.getBlockY() + "&z=" + loc.getBlockZ();
+            if (args[0].startsWith("h")) coords = STR."?worldname=\{loc.getWorld().getName()}&mapname=flat&zoom=2&x=\{loc.getBlockX()}&y=\{loc.getBlockY()}&z=\{loc.getBlockZ()}";
         }
-        person.sendURL(getInstance(), "map-url", "http://185.230.64.61:8123/" + coords);
+        person.sendURL(getInstance(), "map-url", STR."http://185.230.64.61:8123/\{coords}");
     }
 }

@@ -65,18 +65,10 @@ public final class AnnovaRPG extends JavaPlugin {
             StructureBase base = structure.getBase();
             if (base.isSave()) {
                 base.save();
-//                if (base instanceof Altar altar) {
-//                    if (altar.demonstration != null) {
-//                        altar.demonstration.remove();
-//                        altar.altarSkin.remove();
-//                    }
-//                }
-//                if (base instanceof FireAltar altar) {
-//                    if (altar.demonstration != null) {
-//                        altar.demonstration.remove();
-//                    }
-//                }
             }
+        }
+        for (RPGPerson person : getAllRPGPersons()) {
+            person.save();
         }
     }
 

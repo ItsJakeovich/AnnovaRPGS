@@ -15,7 +15,7 @@ public enum RPGAdvancement {
     WHISPER_OF_LEAVES("dark_forest/whisper_of_leaves"),
     BROKEN_BARREL("dark_forest/broken_barrel"),
     SENIOR_CORTEX("dark_forest/senior_cortex"),
-    SHADOW_AMONG_THE_ROOTS("dark_forest/shadows_among_the_roots"),
+    SHADOW_AMONG_THE_ROOTS("dark_forest/shadow_among_the_roots"),
     WHO_IS_MOANING("dark_forest/who_is_moaning_in_the_branches"),
     IN_THE_HEART("dark_forest/in_the_heart_of_the_thicket"),
     BURNT_FOREST("dark_forest/burnt_forest"),
@@ -59,7 +59,7 @@ public enum RPGAdvancement {
     DROP_FROM_THE_SKY("oasis/drop_from_the_sky"), // единожды в пузырь
     GOOD_BITE("oasis/good_bite"), // Выловить рыбу в оазисе.
     LUCKY_MASTER("oasis/lucky_master"), // 100% достижений оазиса.
-    WATER("oasis/water;"),
+    WATER("oasis/water"),
     SWIM_LITTLE_FISH("oasis/swim_little_fish_big_and_small..."), // Отпустить редкую рыбу обратно в воду
     ;
     private final NamespacedKey key;
