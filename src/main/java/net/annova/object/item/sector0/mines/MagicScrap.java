@@ -1,4 +1,4 @@
-package net.annova.object.item.sector0.caves;
+package net.annova.object.item.sector0.mines;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;

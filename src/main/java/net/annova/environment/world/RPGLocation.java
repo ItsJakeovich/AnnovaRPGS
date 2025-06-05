@@ -6,15 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Set;
-
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public enum RPGLocation {
-    CAVES(world0, new Caves()),
+    MINES(world0, new Mines()),
     DARK_FOREST(world0, new DarkForest()),
     DRYAD_PEDESTAL(world0, new DryadPedestal()),
     METEORITE(world0, new Meteorite()),

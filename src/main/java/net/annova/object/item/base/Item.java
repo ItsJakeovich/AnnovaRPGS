@@ -1,10 +1,9 @@
 package net.annova.object.item.base;
 
-import com.google.common.collect.Maps;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
-import net.annova.object.item.sector0.caves.MagicScrap;
+import net.annova.object.item.sector0.mines.MagicScrap;
 import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
@@ -98,7 +97,7 @@ public enum Item {
     PRISON_TOKEN(new PrisonTokenItem()),
     RANGE_TOKEN(new RangeTokenItem()),
     SATURATION_TOKEN(new SaturationTokenItem()),
-    // S0 - CAVES
+    // S0 - Mines
     MAGIC_SCRAP(new MagicScrap()),
     // S0 - FOREST
     ENT_ROOT(new EntRoot()),

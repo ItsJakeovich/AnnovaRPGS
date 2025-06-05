@@ -1,7 +1,7 @@
 package net.annova.object.person;
 
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.environment.world.advancement.RPGAdvancement;
+import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.item.base.*;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaGlobal;

@@ -1,7 +1,7 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
-import net.annova.environment.world.advancement.RPGAdvancement;
+import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
@@ -29,7 +29,7 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.random;
-import static net.annova.environment.world.advancement.RPGAdvancement.*;
+import static net.annova.environment.world.RPGAdvancement.*;
 
 public class Oasis implements Location, Listener {
     //public static final org.bukkit.Location theOasis = new org.bukkit.Location(world0, -1023, 72, 412);;

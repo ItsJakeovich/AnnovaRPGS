@@ -1,7 +1,7 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
-import net.annova.environment.world.advancement.RPGAdvancement;
+import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.Person;
 import org.bukkit.entity.Player;
 
@@ -14,18 +14,18 @@ import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.BukkitObjects.random;
 
-public class Caves implements Location {
+public class Mines implements Location {
     private final String[] messageKeys = {
-            "s0-caves-msg-0",
-            "s0-caves-msg-1",
-            "s0-caves-msg-2",
-            "s0-caves-msg-3",
-            "s0-caves-msg-4",
-            "s0-caves-msg-5",
-            "s0-caves-msg-6",
-            "s0-caves-msg-7",
-            "s0-caves-msg-8",
-            "s0-caves-msg-9",
+            "s0-mines-msg-0",
+            "s0-mines-msg-1",
+            "s0-mines-msg-2",
+            "s0-mines-msg-3",
+            "s0-mines-msg-4",
+            "s0-mines-msg-5",
+            "s0-mines-msg-6",
+            "s0-mines-msg-7",
+            "s0-mines-msg-8",
+            "s0-mines-msg-9",
     };
     private final Map<Player, Long> messageCooldown = new HashMap<>();
     @Override

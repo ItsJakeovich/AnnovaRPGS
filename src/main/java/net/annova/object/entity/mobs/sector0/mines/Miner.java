@@ -1,4 +1,4 @@
-package net.annova.object.entity.mobs.sector0.caves;
+package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.RPGSpawn;

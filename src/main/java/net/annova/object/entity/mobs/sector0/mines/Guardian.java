@@ -1,10 +1,16 @@
-package net.annova.object.entity.mobs.sector0.caves;
+package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
+import net.annova.object.entity.core.attribute.RPGSpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,7 +21,7 @@ import java.util.Set;
 
 import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 
-public class OreCollector extends RPGEntity implements EntityAction {
+public class Guardian extends RPGEntity implements RPGSpawn, EntityAction {
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;
@@ -23,7 +29,7 @@ public class OreCollector extends RPGEntity implements EntityAction {
 
     @Override
     public String name() {
-        return "";
+        return "Guardian";
     }
 
     @Override
@@ -33,17 +39,17 @@ public class OreCollector extends RPGEntity implements EntityAction {
 
     @Override
     public int health() {
-        return 0;
+        return 200;
     }
 
     @Override
     public double damage() {
-        return 0;
+        return 9;
     }
 
     @Override
     public float speed() {
-        return 0;
+        return 0.3f;
     }
 
     @Override
@@ -61,23 +67,41 @@ public class OreCollector extends RPGEntity implements EntityAction {
         return Set.of();
     }
 
+    AttributeModifier modifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("annovas", "guardian_boost")
+            , 0.15f, AttributeModifier.Operation.ADD_VALUE
+    );
+    private boolean boosted = false;
     @Override
     public boolean onTarget(Entity target) {
-        return false;
+        AttributeInstance attribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (!attribute.hasModifier(modifier.id())) {
+            attribute.addPermanentModifier(modifier);
+            this.boosted = true;
+        }
+        return true;
     }
 
     @Override
     public boolean onAttack(LivingEntity target) {
-        return false;
+        if (boosted) {
+            entity.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(modifier);
+            this.boosted = false;
+        }
+        return true;
     }
 
     @Override
     public boolean onDamage(Entity damager) {
-        return false;
+        return true;
     }
 
     @Override
     public void onDeath() {
+
+    }
+
+    @Override
+    public void onSpawn(Location location) {
 
     }
 }

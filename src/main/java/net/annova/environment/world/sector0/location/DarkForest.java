@@ -1,7 +1,7 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
-import net.annova.environment.world.advancement.RPGAdvancement;
+import net.annova.environment.world.RPGAdvancement;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;

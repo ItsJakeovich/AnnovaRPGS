@@ -1,6 +1,5 @@
 package net.annova.environment.world;
 
-import net.annova.environment.world.advancement.RPGAdvancement;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

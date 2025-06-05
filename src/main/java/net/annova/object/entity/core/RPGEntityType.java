@@ -6,7 +6,7 @@ import net.annova.object.entity.mobs.Boar;
 import net.annova.object.entity.mobs.Snake;
 import net.annova.object.entity.mobs.nether.*;
 import net.annova.object.entity.mobs.prison.*;
-import net.annova.object.entity.mobs.sector0.caves.*;
+import net.annova.object.entity.mobs.sector0.mines.*;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.object.entity.mobs.sector0.forest.Ent;
@@ -48,15 +48,15 @@ public enum RPGEntityType {
     // Sector 0 - Oasis
     ANGLER_FISH(S0_OASIS, AnglerFish.class),
     CRAB(S0_OASIS, Crab.class),
+    // Sector 0 - Mines
+    GOLEM(S0_MINES, Golem.class),
+    GOLEM_BOSS(S0_MINES, GolemBoss.class),
+    GUARDIAN(S0_MINES, Guardian.class),
+    MAGE(S0_MINES, Mage.class),
+    MINER(S0_MINES, Miner.class),
+    ORE_COLLECTOR(S0_MINES, OreCollector.class),
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class),
-    // Sector 0 - Caves
-    GOLEM(S0_CAVES, Golem.class),
-    GOLEM_BOSS(S0_CAVES, GolemBoss.class),
-    GUARDIAN(S0_CAVES, Guardian.class),
-    MAGE(S0_CAVES, Mage.class),
-    MINER(S0_CAVES, Miner.class),
-    ORE_COLLECTOR(S0_CAVES, OreCollector.class),
     // Sector 0 - Swamps
     SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class)
     ;
