@@ -24,7 +24,7 @@ public class SpiderChitin extends RPGItem {
 
     @Override
     public RPGRarity rarity() {
-        return null;
+        return RPGRarity.COMMON;
     }
 
     @Override

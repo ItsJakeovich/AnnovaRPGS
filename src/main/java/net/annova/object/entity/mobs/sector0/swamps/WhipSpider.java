@@ -35,7 +35,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, RPGActivity {
 
     @Override
     public RPGRarity rarity() {
-        return null;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

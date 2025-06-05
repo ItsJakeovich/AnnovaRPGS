@@ -30,7 +30,7 @@ public class Melanox extends RPGEntity implements RPGActivity {
 
     @Override
     public RPGRarity rarity() {
-        return null;
+        return RPGRarity.RARE;
     }
 
     @Override

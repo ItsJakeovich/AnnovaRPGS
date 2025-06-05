@@ -30,7 +30,7 @@ public class SwampSpider extends RPGEntity implements EntityAction {
 
     @Override
     public RPGRarity rarity() {
-        return null;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

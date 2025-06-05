@@ -6,15 +6,17 @@ import org.bukkit.Material;
 
 import java.util.List;
 
+import static org.bukkit.Material.NAUTILUS_SHELL;
+
 public class MagicScrap extends RPGItem {
     @Override
     public Material type() {
-        return null;
+        return NAUTILUS_SHELL;
     }
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(405f);
     }
 
     @Override
