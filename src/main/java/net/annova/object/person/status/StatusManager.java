@@ -8,7 +8,6 @@ import org.bukkit.scheduler.BukkitTask;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -60,7 +59,7 @@ public class StatusManager {
 
         this.statuses.put(type, status);
         StatusActivity activity = type.getActivity();
-        if (activity == null) {
+        if (activity != null) {
             status.setRunnable(new BukkitRunnable() {
                 @Override
                 public void run() {

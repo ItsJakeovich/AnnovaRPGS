@@ -65,7 +65,10 @@ public class RangeTokenItem extends RPGItem implements Listener {
             @Override
             public void run() {
                 if (RANGE_TOKEN.has(player)) attribute.setBaseValue(7);
-                else                 attribute.setBaseValue(4.5);
+                else {
+                    attribute.setBaseValue(4.5);
+                    this.cancel();
+                }
             }
         }.runTaskTimer(getInstance(), 0L, 1200L);
     }
