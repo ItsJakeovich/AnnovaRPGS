@@ -7,20 +7,15 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Shulker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.List;
 
 import static net.annova.object.item.base.Item.AIR_STONE;
-import static net.annova.main.AnnovaGlobal.getPerson;
 
 public class AirStoneItem extends RPGItem implements Listener {
     @Override
@@ -46,24 +41,23 @@ public class AirStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fНакладывает &eэффект левитации &fна близжайших &cсущностей"
+                "&3| &fОтталкивает ближайших существ"
         );
     }
 
     @EventHandler
     public void mechanic(PlayerInteractEvent event) {
-        ItemStack item = event.getItem();
-        if (!AIR_STONE.equals(item)) return;
-
         Player player = event.getPlayer();
-        Vector vector = player.getLocation().toVector();
-        for (Entity entity : player.getNearbyEntities(10, 8, 10)) {
+        if (!AIR_STONE.use(player, event.getItem())) return;
+
+        for (Entity entity : player.getNearbyEntities(8, 8, 8)) {
             if (entity instanceof LivingEntity ent) {
-                ent.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 140, 0));
+                ent.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 0));
             }
-            entity.setVelocity(entity.getLocation().toVector().subtract(vector).normalize().multiply(6));
+            entity.setVelocity(entity.getLocation().toVector().subtract(player.getLocation().toVector())
+                    .normalize().multiply(6)
+            );
         }
-        subtractItem(player, item);
         player.playSound(player, Sound.ITEM_MACE_SMASH_AIR, 1, 1);
     }
 }

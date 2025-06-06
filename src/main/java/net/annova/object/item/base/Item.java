@@ -3,6 +3,7 @@ package net.annova.object.item.base;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.annova.object.item.sector0.dryad.WolfsWool;
 import net.annova.object.item.sector0.mines.MagicScrap;
 import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
@@ -97,6 +98,8 @@ public enum Item {
     PRISON_TOKEN(new PrisonTokenItem()),
     RANGE_TOKEN(new RangeTokenItem()),
     SATURATION_TOKEN(new SaturationTokenItem()),
+    // S0 - Dryad Pedestal
+    WOLFS_WOOL(new WolfsWool()),
     // S0 - Mines
     MAGIC_SCRAP(new MagicScrap()),
     // S0 - FOREST
@@ -106,7 +109,7 @@ public enum Item {
     TIDE_GRASP_RING(new TideGraspRing()),
 
     ANGEL_FISH(new AngelFish()),
-    ANGLER_FISH_SPAWN_EGG(new AnglerFishSpawnEgg()),
+    ANGLER_FISH_SPAWN_EGG(new AnglerfishSpawnEgg()),
     AZURE_FISH(new AzureFish()),
     BARK_BEETLE_FISH(new BarkBeetleFish()),
     BLOB_FISH_BLUE(new BlobFishBlue()),
@@ -220,10 +223,7 @@ public enum Item {
         return true;
     }
     public boolean use(Player player) {
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (!this.id.equals(getItemId(item))) return false;
-        RPGItem.subtractItem(player, item);
-        return true;
+        return this.use(player, player.getInventory().getItemInMainHand());
     }
 
     @Nullable
@@ -275,8 +275,12 @@ public enum Item {
 
         if (!this.item.lore().isEmpty()) {
             List<String> newLore = new ArrayList<>();
+            newLore.add("");
             for (String string : this.item.lore()) {
-                newLore.add(color(string));
+                String[] loreString = string.split("\n");
+                for (String str : loreString) {
+                    newLore.add(color(str));
+                }
             }
             meta.setLore(newLore);
         }

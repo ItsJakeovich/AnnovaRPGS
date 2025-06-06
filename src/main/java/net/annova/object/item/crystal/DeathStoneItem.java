@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.annova.object.item.base.Item.DEATH_STONE;
-import static net.annova.util.BukkitObjects.addItems;
+import static net.annova.util.BukkitObjects.chance;
 
 public class DeathStoneItem extends RPGItem implements Listener {
     @Override
@@ -42,8 +42,8 @@ public class DeathStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &6Удваивает весь дроп с мобов",
-                "&3= &7Есть шанс быть убитым кристаллом"
+                "&3| &aУдваивает &fвесь дроп с мобов",
+                "&3| &fЕсть шанс &cвзрыва &fкристалла"
         );
     }
 
@@ -53,7 +53,13 @@ public class DeathStoneItem extends RPGItem implements Listener {
         if (entity instanceof ChestedHorse) return;
         if (entity instanceof Player) return;
 
-        if (!DEATH_STONE.has(entity.getKiller())) return;
+        Player killer = entity.getKiller();
+        if (!DEATH_STONE.has(killer)) return;
+        if (chance(0.001)) {
+            DEATH_STONE.removeItem(killer);
+            killer.getWorld().createExplosion(killer.getLocation(),2f, true);
+            killer.damage(killer.getLastDamage()*1000);
+        }
 
         EntityEquipment inv = entity.getEquipment();
         List<ItemStack> items = new ArrayList<>();

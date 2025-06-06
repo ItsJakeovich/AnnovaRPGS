@@ -23,7 +23,7 @@ public enum RPGAdvancement {
     ROOTS_DANCE("dark_forest/roots_dance"),
     RUSTLING_OF_LEAVES("dark_forest/rustling_of_leaves_at_night"),
     // S0 - meteorite
-    Metior("metior"),
+    METIOR("metior"),
     HEAT_OF_THE_FIELDS("metior/heat_of_the_fields"),
     SHARDS_AND_SCREAMS("metior/shards_and_screams"),
     SECOND_WIND("metior/second_wind"),

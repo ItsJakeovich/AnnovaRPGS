@@ -138,8 +138,8 @@ public class RPGPerson {
         Player player = person.getPlayer();
         if (player == null) return;
 
-        newMaxHealth += additionalHealth
-                + (float) (statusManager.getFinalValue(ValueType.HEALTH_BUFF) - statusManager.getFinalValue(ValueType.HEALTH_DEBUFF));
+        double valueHealth = statusManager.getFinalValue(ValueType.HEALTH_BUFF) - statusManager.getFinalValue(ValueType.HEALTH_DEBUFF);
+        newMaxHealth += (float) (additionalHealth + valueHealth);
 
         this.setHealth(newMaxHealth * health / maxHealth);
         this.maxHealth = newMaxHealth;

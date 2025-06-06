@@ -8,7 +8,7 @@ import org.bukkit.Location;
 public class FireBall extends ParticleProjectile {
     @Override
     public void onHit(Location location) {
-        location.getWorld().createExplosion(location, 50);
+        location.getWorld().createExplosion(location, 5);
     }
 
     @Override

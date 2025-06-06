@@ -5,6 +5,7 @@ import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.event.custom.EntityDamageCE;
 import net.annova.event.custom.PlayerDamageCE;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,8 +33,16 @@ public class EntityEvent implements Listener {
         }
     }
     @EventHandler
-    public void damageByEntitySummoner(org.bukkit.event.entity.EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof LivingEntity entity) {
+    public void damageByEntitySummoner(EntityDamageByEntityEvent event) {
+        Entity eventEntity = event.getEntity();
+        Entity eventDamager = event.getDamager();
+
+        if (eventEntity instanceof LivingEntity entity && eventDamager instanceof LivingEntity damager) {
+            BattleCE ev = new BattleCE(entity, damager, event);
+            this.baseFunction(event, ev);
+            return;
+        }
+        if (eventEntity instanceof LivingEntity entity) {
             EntityDamageByEntityCE ev = new EntityDamageByEntityCE(entity, event);
             this.baseFunction(event, ev);
         }

@@ -22,7 +22,7 @@ public class TideBlade extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(412f);
     }
 
     @Override

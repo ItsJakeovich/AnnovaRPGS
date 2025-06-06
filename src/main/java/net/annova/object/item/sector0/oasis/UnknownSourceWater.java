@@ -21,7 +21,7 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(411f);
     }
 
     @Override

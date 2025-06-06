@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.STOPPED;
 
-public class SecondTimer implements Listener {
+public class PersonStaminaTimer implements Listener {
     @EventHandler
     public void onTick(SecondTickEvent event) {
         for (Player player : Bukkit.getOnlinePlayers()) {

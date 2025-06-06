@@ -39,7 +39,7 @@ public class DarkStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fЗаставляет всех сущностей рядом атаковать друг друга"
+                "&3| &fОкружающие сущности атакуют друг друга"
         );
     }
     

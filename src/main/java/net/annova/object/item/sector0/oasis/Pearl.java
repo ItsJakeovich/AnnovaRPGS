@@ -14,7 +14,7 @@ public class Pearl extends RPGItem {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(8f);
     }
 
     @Override

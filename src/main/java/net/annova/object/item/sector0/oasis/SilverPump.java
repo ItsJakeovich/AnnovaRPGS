@@ -22,7 +22,7 @@ public class SilverPump extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(19f);
     }
 
     @Override

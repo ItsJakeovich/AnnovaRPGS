@@ -1,7 +1,10 @@
 package net.annova.thread;
 
 import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.StatusManager;
+import net.annova.object.person.status.StatusType;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -14,6 +17,14 @@ public class PersonUpdateTimer extends AnnovaAsyncTask {
             person.updateSet();
             person.updateArmor();
             person.regen();
+
+            StatusManager manager = person.getStatusManager();
+            for (StatusType type : StatusType.getForActivation()) {
+                if (manager.hasStatus(type)) continue;
+                if (!type.getWhileHas().has(player)) continue;
+                manager.addStatus(type);
+                player.playSound(player, Sound.ENTITY_WANDERING_TRADER_YES, 1, 1);
+            }
 
 //            long millis = System.currentTimeMillis();
 //            for (String modifier : person.getSpeedModifiers().keySet()) {

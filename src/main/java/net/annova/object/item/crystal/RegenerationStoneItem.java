@@ -17,7 +17,7 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.REGENERATION;
 import static net.annova.object.item.base.Item.REGENERATION_STONE;
 
-public class RegenerationStoneItem extends RPGItem implements Listener {
+public class RegenerationStoneItem extends RPGItem {
     @Override
     public Material type() {
         return Material.AMETHYST_SHARD;
@@ -41,19 +41,7 @@ public class RegenerationStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fПассивно регенерирует &c\uD83D\uDDA4"
+                "&3| &fПассивно регенерирует &c\uD83D\uDDA4"
         );
-    }
-
-    @EventHandler
-    private void mechanic(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        if (!REGENERATION_STONE.equals(player.getInventory().getItemInMainHand())) return;
-        RPGPerson person = getRPGPerson(player);
-        StatusManager manager = person.getStatusManager();
-        if (manager.getStatus(REGENERATION) != null) return;
-        manager.addStatus(REGENERATION);
-
-        player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
     }
 }

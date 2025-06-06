@@ -18,7 +18,7 @@ public class TideGraspRing extends RPGItem implements RPGEquipment {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(408f);
     }
 
     @Override

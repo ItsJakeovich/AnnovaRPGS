@@ -12,9 +12,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.object.item.base.Item.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
@@ -215,6 +217,15 @@ public enum StatusType {
         this.activity = activity;
     }
 
+    private static final EnumSet<StatusType> forActivation = EnumSet.noneOf(StatusType.class);
+    static {
+        for (StatusType type : StatusType.values()) {
+            if (type.whileHas == null) continue;
+            forActivation.add(type);
+            sendInfo("For activation: type.name()");
+        }
+    }
+
     public long getDuration() {
         return duration;
     }
@@ -225,6 +236,9 @@ public enum StatusType {
 
     public Item getWhileHas() {
         return whileHas;
+    }
+    public static EnumSet<StatusType> getForActivation() {
+        return forActivation;
     }
 
     public Map<ValueType, Double> getBaseValues() {

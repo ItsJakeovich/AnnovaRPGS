@@ -6,6 +6,7 @@ import net.annova.object.entity.mobs.Boar;
 import net.annova.object.entity.mobs.Snake;
 import net.annova.object.entity.mobs.nether.*;
 import net.annova.object.entity.mobs.prison.*;
+import net.annova.object.entity.mobs.sector0.dryad.ForestWolf;
 import net.annova.object.entity.mobs.sector0.mines.*;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
@@ -45,6 +46,8 @@ public enum RPGEntityType {
     PAUPERES(NETHER, Pauperes.class),
     SOLDIER(NETHER, Soldier.class),
 
+    // Sector 0 - Dryad Pedestal
+    FOREST_WOLF(S0_DRYAD, ForestWolf.class),
     // Sector 0 - Oasis
     ANGLER_FISH(S0_OASIS, AnglerFish.class),
     CRAB(S0_OASIS, Crab.class),

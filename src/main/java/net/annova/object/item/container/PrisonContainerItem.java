@@ -47,7 +47,7 @@ public class PrisonContainerItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fБольшой пыльный контейнер"
+                "&fБольшой пыльный контейнер"
         );
     }
 

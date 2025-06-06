@@ -3,6 +3,7 @@ package net.annova.object.item.crystal;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,7 +40,7 @@ public class ReturnStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fПри использовании возвращает вас на точку вашего спавна"
+                "&3| &fПри использовании возвращает вас на точку вашего спавна"
         );
     }
 
@@ -51,5 +52,6 @@ public class ReturnStoneItem extends RPGItem implements Listener {
         if (!RETURN_STONE.use(player)) return;
 
         teleportHome(player);
+        player.playSound(player, Sound.BLOCK_STONE_BUTTON_CLICK_ON, );
     }
 }

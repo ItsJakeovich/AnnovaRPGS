@@ -19,6 +19,7 @@ import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
 import static net.annova.main.GlobalRPG.*;
+import static net.annova.thread.TaskMaster.asyncTimer;
 import static net.annova.thread.TaskMaster.syncTimer;
 
 public final class AnnovaRPG extends JavaPlugin {
@@ -73,10 +74,10 @@ public final class AnnovaRPG extends JavaPlugin {
     }
 
     private void initThreads() {
-        syncTimer(this, new PersonUpdateTimer(), 200); // 10s
-        // SecondTimer - SecondTickEvent
+        asyncTimer(this, new PersonUpdateTimer(), 200); // 10s
+        // PersonStaminaTimer - SecondTickEvent
         syncTimer(this, new UpdateSpawnTimer(), 1200); // 60sec
-        syncTimer(this, new UpdateStatusTimer(), 20); // 1sec
+        // PersonStatusTimer - SecondTickEvent
     }
     private void initSQL() {
         RPGPerson.init();

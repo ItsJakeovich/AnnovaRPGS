@@ -14,7 +14,7 @@ public class EntRoot extends RPGItem {
 
     @Override
     public List<Float> modelData() {
-        return List.of(215f);
+        return List.of(401f);
     }
 
     @Override

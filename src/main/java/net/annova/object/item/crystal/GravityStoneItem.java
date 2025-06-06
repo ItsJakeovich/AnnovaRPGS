@@ -38,7 +38,7 @@ public class GravityStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fПри использовании защищает игрока от &eэффекта левитации"
+                "&3| &aЗащищает &fигрока от &eэффекта левитации"
         );
     }
 

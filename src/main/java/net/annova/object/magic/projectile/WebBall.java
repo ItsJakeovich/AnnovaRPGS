@@ -13,7 +13,6 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 public class WebBall extends ParticleProjectile {
     @Override
     public void onHit(Location location) {
-        location.getWorld().createExplosion(location, 50);
         for (Entity entity : location.getWorld().getNearbyEntities(location, 1, 1, 1)) {
             if (entity instanceof Player player) {
                 getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);

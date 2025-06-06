@@ -5,10 +5,13 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 import static net.annova.object.item.base.Item.BALANCE_STONE;
 
@@ -36,29 +39,30 @@ public class BalanceStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fУвеличивает вдвое урон по нежити",
-                "&3= &fУменьшает вдвое урон по не-нежити"
+                "&3| &aУвеличивает &6вдвое &fурон по нежити",
+                "&3|  &cУменьшает  &6вдвое &fурон по не-нежити"
         );
     }
 
+    public static final Set<EntityType> UNDEAD = EnumSet.of(
+            EntityType.ZOMBIE,
+//            EntityType.ZOMBIE_VILLAGER,
+            EntityType.DROWNED,
+            EntityType.HUSK,
+            EntityType.SKELETON,
+            EntityType.STRAY,
+            EntityType.WITHER,
+            EntityType.ZOGLIN,
+            EntityType.ZOMBIFIED_PIGLIN,
+            EntityType.PHANTOM
+    );
     @EventHandler
     private void mechanic(BattleCE event) {
         if (!BALANCE_STONE.has(event.getDamager())) return;
 
         Entity entity = event.getEntity();
-        switch (entity.getType()) {
-            case SKELETON:
-            case ZOMBIE:
-            case HUSK:
-            case STRAY:
-            case DROWNED:
-            case WITHER_SKELETON:
-            case ZOMBIFIED_PIGLIN:
-            case ZOMBIE_VILLAGER:
-                event.increaseDamage(event.getBaseDamage());
-                break;
-            default:
-                event.decreaseDamage(event.getBaseDamage()/2);
-        }
+        if (UNDEAD.contains(event.getEntity().getType()))
+             event.increaseDamage(event.getBaseDamage());
+        else event.decreaseDamage(event.getBaseDamage()/2);
     }
 }

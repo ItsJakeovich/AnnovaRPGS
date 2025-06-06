@@ -48,8 +48,8 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fНакладывает эффект &cогнестойкости",
-                "&3= &fВесь исхо"
+                "&3| &fУрон&3: &a+10",
+                "&3| &aНакладывает &fэффект &cогнестойкости"
         );
     }
 
@@ -73,7 +73,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     @EventHandler
     private void damager(BattleCE event) {
         if (!(event.getDamager() instanceof Player player)) return;
-        if (getRPGPerson(player).getStatusManager().getStatus(IGNIS) == null) return;
+        if (!getRPGPerson(player).getStatusManager().containStatus(IGNIS)) return;
 
         LivingEntity entity = event.getEntity();
         if (targets.containsKey(entity)) return;

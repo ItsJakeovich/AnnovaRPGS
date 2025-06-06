@@ -21,7 +21,7 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.PASSIVE_SHIELD;
 import static net.annova.util.BukkitObjects.addItems;
 
-public class DefenceStoneItem extends RPGItem implements Listener {
+public class DefenceStoneItem extends RPGItem {
     @Override
     public Material type() {
         return Material.AMETHYST_SHARD;
@@ -45,29 +45,11 @@ public class DefenceStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fНакладывает пассивно &3эффект сопративления",
-                "&3= &fНакладывает пассивно &7эффект замедления"
+                "&3| &fНакладывает пассивно эффект &3сопративления",
+                "&3| &fНакладывает пассивно эффект  &7замедления"
         );
-    }
-
-    @EventHandler
-    public void drop(EntityDamageCE event) {
-        if (event.getBaseDamage() < 3) return;
-        if (event.getEntity() instanceof Player player) {
-            addItems(player, DARK_STONE.create(player, 0.0001));
-        }
     }
 
     public static final PotionEffect DEFENCE_STONE_RESISTANCE = new PotionEffect(PotionEffectType.RESISTANCE, 120, 1, true, false, true);
     public static final PotionEffect DEFENCE_STONE_SLOWNESS = new PotionEffect(PotionEffectType.SLOWNESS, 120, 0, true, false, true);
-
-    @EventHandler
-    private void mechanic(PlayerInteractEvent event) {
-        if (!DEFENCE_STONE.equals(event.getItem())) return;
-        Player player = event.getPlayer();
-        RPGPerson person = getRPGPerson(player);
-        StatusManager manager = person.getStatusManager();
-        if (manager.getStatus(PASSIVE_SHIELD) != null) return;
-        manager.addStatus(PASSIVE_SHIELD);
-    }
 }

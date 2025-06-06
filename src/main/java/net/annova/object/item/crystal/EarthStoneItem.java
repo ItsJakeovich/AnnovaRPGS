@@ -44,7 +44,7 @@ public class EarthStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fЗаменяет близжайший камень на руду"
+                "&3| &fЗаменяет близжайший камень на руду"
         );
     }
 

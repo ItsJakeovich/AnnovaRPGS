@@ -14,7 +14,7 @@ import java.util.List;
 
 import static net.annova.object.item.base.Item.ANGLER_FISH_SPAWN_EGG;
 
-public class AnglerFishSpawnEgg extends RPGItem implements Listener {
+public class AnglerfishSpawnEgg extends RPGItem implements Listener {
     @Override
     public Material type() {
         return Material.SALMON_SPAWN_EGG;
@@ -22,7 +22,7 @@ public class AnglerFishSpawnEgg extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of();
+        return List.of(11f);
     }
 
     @Override

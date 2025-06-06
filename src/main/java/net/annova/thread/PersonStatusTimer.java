@@ -4,17 +4,20 @@ import net.annova.object.person.status.Status;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.annova.thread.event.SecondTickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
-public class UpdateStatusTimer extends AnnovaAsyncTask {
-    @Override
-    public void run() {
+public class PersonStatusTimer implements Listener {
+    @EventHandler
+    public void onTick(SecondTickEvent event) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
             Set<StatusType> toRemove = new HashSet<>();

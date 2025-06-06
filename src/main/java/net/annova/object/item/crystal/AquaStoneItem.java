@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -39,16 +38,15 @@ public class AquaStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fПри использовании накладывает эффект &bГрация дельфина",
-                "&3= &fПри использовании накладывает эффект &bПодводное дыхание"
+                "&3| &fПри использовании накладывает эффект &bГрация дельфина",
+                "&3| &fПри использовании накладывает эффект &bПодводное дыхание"
         );
     }
 
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (AQUA_STONE.use(player, item)) {
+        if (AQUA_STONE.use(player, player.getInventory().getItemInMainHand())) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 1200, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 1200, 0));
         }

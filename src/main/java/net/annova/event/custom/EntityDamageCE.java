@@ -1,6 +1,8 @@
 package net.annova.event.custom;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -65,5 +67,9 @@ public class EntityDamageCE extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    public boolean isPlayer(Entity entity) {
+        return entity instanceof Player;
     }
 }

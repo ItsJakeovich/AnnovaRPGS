@@ -37,7 +37,7 @@ public class ChronoStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fУвеличивает &4⚔ &fна &62% &fза каждое отсутствующее &c\uD83D\uDDA4"
+                "&3| &aУвеличивает &4⚔ &fна &62% &fза каждое отсутствующее &c\uD83D\uDDA4"
         );
     }
 
@@ -47,7 +47,7 @@ public class ChronoStoneItem extends RPGItem implements Listener {
         LivingEntity entity = event.getDamager();
         if (!CHRONO_STONE.has(entity)) return;
 
-        // damage * (1 + 0.05 * PH);
+        // damage * (1 + 0.01 * PH);
         // PH = losed health.
         event.increaseDamage(event.getBaseDamage() * 0.01 * (entity.getAttribute(Attribute.MAX_HEALTH).getValue() - entity.getHealth()));
     }

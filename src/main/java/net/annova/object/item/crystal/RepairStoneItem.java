@@ -45,7 +45,7 @@ public class RepairStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fВостанавливает прочность выбраного предмета"
+                "&3| &fРемонтирует выбранный предмет"
         );
     }
 

@@ -41,7 +41,7 @@ public class RedStoneItem extends RPGItem implements Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fПосле смерти сохраняет инвентарь"
+                "&3| &fУсиливает эффективность колец&3: &a+0.8% &7(макс. +6.4%)"
         );
     }
 
