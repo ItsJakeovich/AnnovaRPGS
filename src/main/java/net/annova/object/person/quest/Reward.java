@@ -51,7 +51,7 @@ public class Reward {
      * 2. is reward (EXP, MONEY, ITEM)
      */
     public String serialize() {
-        return STR."\{type.name()}-\{type.resolve(reward)}";
+        return type.name() + "-" + type.resolve(reward);
     }
     public static Reward deserialize(String serialized) {
         String[] data = serialized.split("-");

@@ -21,7 +21,13 @@ public class MagicArmor extends Zombie {
 //    public static final EntityType<MagicArmor> MAGIC_ARMOR;
 //
 //    static {
-//        MAGIC_ARMOR = (EntityType<MagicArmor>) register("zombie", EntityType.Builder.of(MagicArmor::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(8));
+//        MAGIC_ARMOR = (EntityType<MagicArmor>) register("magic_armor", EntityType.Builder.of(MagicArmor::new, MobCategory.MONSTER)
+//                .sized(0.6F, 1.95F)
+//                .eyeHeight(1.74F)
+//                .passengerAttachments(2.0125F)
+//                .ridingOffset(-0.7F)
+//                .clientTrackingRange(8)
+//        );
 //    }
 
     public MagicArmor(EntityType<? extends Zombie> entitytypes, Level world) {

@@ -35,7 +35,7 @@ public class AirStoneItem extends RPGItem implements Listener {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.RARE;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

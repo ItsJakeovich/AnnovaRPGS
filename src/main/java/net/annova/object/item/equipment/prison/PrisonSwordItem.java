@@ -40,7 +40,7 @@ public class PrisonSwordItem extends RPGItem implements RPGTool, Listener {
     @Override
     public List<String> lore() {
         return List.of(
-                STR."&4\{this.damage()} ⚔ &7| &e\{this.attackSpeed()} ⚡",
+                "&4" + this.damage() + "⚔ &7| &e" + this.attackSpeed() + " ⚡",
                 "",
                 "&3= &fШанс &616%&f выбить золотой слиток"
         );

@@ -21,7 +21,7 @@ public enum AMaterial {
             try {
                 return Material.valueOf(id);
             } catch (IllegalArgumentException ex) {
-                Bukkit.getLogger().warning(STR."Не найден: \{id}");
+                Bukkit.getLogger().warning("Не найден: " + id);
                 return Material.REDSTONE_BLOCK;
             }
         }

@@ -25,7 +25,7 @@ public class IndicatorEvent implements Listener {
                 stand.setGravity(false);
                 stand.setSmall(true);
                 stand.setCustomNameVisible(true);
-                stand.setCustomName(STR."\{ChatColor.BOLD}\{ChatColor.RED}\{Math.round(event.getDamage() * 10) / 10}");
+                stand.setCustomName(ChatColor.BOLD + "" + ChatColor.RED + Math.round(event.getDamage() * 10) / 10);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), stand::remove, 25L);
             });
         }, 1L);

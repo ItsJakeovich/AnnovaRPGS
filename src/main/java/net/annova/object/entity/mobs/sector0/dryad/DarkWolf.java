@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.WOLFS_WOOL;
+import static net.annova.object.item.base.Item.WOLF_SKIN;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
@@ -57,7 +57,7 @@ public class DarkWolf extends RPGEntity implements EntityAction {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                WOLFS_WOOL.create(player, random.nextInt(4)+1, 0.1)
+                WOLF_SKIN.create(player, random.nextInt(4)+1, 0.1)
         );
     }
 

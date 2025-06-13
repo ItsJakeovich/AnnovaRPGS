@@ -39,7 +39,7 @@ public class RepairStoneItem extends RPGItem implements Listener {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.RARE;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RepairStoneItem extends RPGItem implements Listener {
         );
     }
 
-    private final String title = STR."\{ChatColor.BLUE}Нажатием почините предмет:";
+    private final String title = ChatColor.BLUE + "Нажатием почините предмет:";
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getHand() == null) return;

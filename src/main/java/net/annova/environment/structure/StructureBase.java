@@ -48,8 +48,8 @@ public abstract class StructureBase {
         this.onInit(rs);
 
         if (runnable != null) runnable.cancel();
-        if (start) onStart();
-        else       onTask();
+        if (start) this.onStart();
+        else       this.onTask();
     }
 
     public void save() {
@@ -58,7 +58,7 @@ public abstract class StructureBase {
         Location build = construction.getBuildPoint();
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", construction.getKey());
-        save.put("LOCATION", STR."\{build.getWorld().getName()},\{build.getBlockX()},\{build.getBlockY()},\{build.getBlockZ()}");
+        save.put("LOCATION", build.getWorld().getName() + "," + build.getBlockX() + "," + build.getBlockY() + "," + build.getBlockZ());
         save.put("START", this.isStart());
 
         this.onSave(save);

@@ -6,12 +6,19 @@ import net.annova.object.entity.mobs.Boar;
 import net.annova.object.entity.mobs.Snake;
 import net.annova.object.entity.mobs.nether.*;
 import net.annova.object.entity.mobs.prison.*;
+import net.annova.object.entity.mobs.sector0.dryad.DarkWolf;
 import net.annova.object.entity.mobs.sector0.dryad.ForestWolf;
+import net.annova.object.entity.mobs.sector0.forest.DarkElf;
+import net.annova.object.entity.mobs.sector0.forest.OlderEnt;
+import net.annova.object.entity.mobs.sector0.meteorite.MeteoriteGolem;
 import net.annova.object.entity.mobs.sector0.mines.*;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.object.entity.mobs.sector0.forest.Ent;
+import net.annova.object.entity.mobs.sector0.swamps.FatSpider;
+import net.annova.object.entity.mobs.sector0.swamps.Melanox;
 import net.annova.object.entity.mobs.sector0.swamps.SwampSpider;
+import net.annova.object.entity.mobs.sector0.swamps.WhipSpider;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,10 +54,14 @@ public enum RPGEntityType {
     SOLDIER(NETHER, Soldier.class),
 
     // Sector 0 - Dryad Pedestal
+    DARK_WOLF(S0_DRYAD, DarkWolf.class),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
-    // Sector 0 - Oasis
-    ANGLER_FISH(S0_OASIS, AnglerFish.class),
-    CRAB(S0_OASIS, Crab.class),
+    // Sector 0 - Forest
+    DARK_ELF(S0_FOREST, DarkElf.class),
+    ENT(S0_FOREST, Ent.class),
+    OLDER_ENT(S0_FOREST, OlderEnt.class),
+    // Sector - Meteorite
+    METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     // Sector 0 - Mines
     GOLEM(S0_MINES, Golem.class),
     GOLEM_BOSS(S0_MINES, GolemBoss.class),
@@ -58,10 +69,14 @@ public enum RPGEntityType {
     MAGE(S0_MINES, Mage.class),
     MINER(S0_MINES, Miner.class),
     ORE_COLLECTOR(S0_MINES, OreCollector.class),
-    // Sector 0 - Forest
-    ENT(S0_FOREST, Ent.class),
+    // Sector 0 - Oasis
+    ANGLER_FISH(S0_OASIS, AnglerFish.class),
+    CRAB(S0_OASIS, Crab.class),
     // Sector 0 - Swamps
-    SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class)
+    FAT_SPIDER(S0_SWAMPS, FatSpider.class),
+    SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class),
+    WHIP_SPIDER(S0_SWAMPS, WhipSpider.class),
+    MELANOX(S0_SWAMPS, Melanox.class)
     ;
 
     final LocationCategory category;

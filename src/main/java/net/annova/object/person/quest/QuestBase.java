@@ -76,18 +76,18 @@ public class QuestBase {
                 rewards.size()*12
                 +50
         );
-        builder.append(STR."\{key}>\{giver}>\{world.getName()}>");
+        builder.append(key).append(">").append(giver).append(">").append(world.getName()).append(">");
         boolean first = true;
         for (Condition condition : conditions) {
             if (!first) builder.append('`');
-            builder.append(STR.">\{condition.serialize()}");
+            builder.append(">").append(condition.serialize());
             first = false;
         }
         builder.append('>');
         first = true;
         for (Reward reward : rewards) {
             if (!first) builder.append('`');
-            builder.append(STR.">\{reward.serialize()}");
+            builder.append(">").append(reward.serialize());
             first = false;
         }
         return builder.toString();

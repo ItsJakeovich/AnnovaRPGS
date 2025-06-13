@@ -45,6 +45,29 @@ public enum StatusType {
         }
     }),
 
+    SHAKING(10_000, new StatusActivity() {
+        private int cycle = 0;
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            switch (cycle) {
+                case 0 -> player.teleport(player.getLocation().add(0.05, 0, 0.05));
+                case 1 -> player.teleport(player.getLocation().add(-0.05, 0, 0.05));
+                case 2 -> player.teleport(player.getLocation().add(0.05, 0, -0.05));
+                default -> {
+                    cycle = -1;
+                    player.teleport(player.getLocation().add(-0.05, 0, -0.05));
+                }
+            }
+            cycle++;
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 5;
+        }
+    }),
+
     STOPPED(),
 
     FROZEN(new StatusActivity() {
@@ -162,10 +185,9 @@ public enum StatusType {
     ELK_FISH_DAMAGE_BUFF(60_000,  Map.of(ValueType.DAMAGE_BUFF, 6.0)),
 
     PARALYSIS(2_000, new StatusActivity() {
-        Location location;
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            if (this.location == null) location = player.getLocation();
+            Location location = player.getLocation();
             player.teleport(location);
             player.spawnParticle(Particle.CLOUD, location, 2);
             player.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 3, 3);
@@ -222,7 +244,7 @@ public enum StatusType {
         for (StatusType type : StatusType.values()) {
             if (type.whileHas == null) continue;
             forActivation.add(type);
-            sendInfo("For activation: type.name()");
+            sendInfo("For activation: " + type.name());
         }
     }
 

@@ -11,5 +11,11 @@ public enum ValueType {
     HEALTH_BUFF,
     HEALTH_DEBUFF,
 
+    SPEED_BUFF,
+    SPEED_DEBUFF,
+
+    REGENERATION_BUFF,
+    REGENERATION_DEBUFF,
+
     CHARGE
 }

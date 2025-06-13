@@ -30,7 +30,7 @@ public class WorldEvent implements Listener {
         for (RPGAdvancement rpg : RPGAdvancement.values()) {
             Advancement advancement = rpg.resolve();
             if (advancement == null) {
-                sendInfo(STR."&e|= Missing advancement: \{rpg.getKey().getKey()}");
+                sendInfo("&e|= Missing advancement: " + rpg.getKey().getKey());
                 continue;
             }
             if (player.getAdvancementProgress(advancement).isDone()) {
@@ -45,30 +45,5 @@ public class WorldEvent implements Listener {
         World.Environment world = player.getWorld().getEnvironment();
 
         getRPGPerson(player).updateHealth();
-    }
-
-    @EventHandler
-    private void spawn(CreatureSpawnEvent event) {
-        Entity entity = event.getEntity();
-        if (!(entity instanceof Monster monster)) return;
-        switch (entity.getType()) {
-            case CREEPER:
-            case WOLF:
-            case FOX:
-                return;
-        }
-        if (!chance(0.25)) return;
-
-        PotionEffectType[] effects = new PotionEffectType[] {
-                PotionEffectType.REGENERATION,
-                PotionEffectType.RESISTANCE,
-                PotionEffectType.STRENGTH,
-                PotionEffectType.SPEED,
-                PotionEffectType.JUMP_BOOST,
-                PotionEffectType.GLOWING,
-                PotionEffectType.OOZING
-        };
-        monster.addPotionEffect(new PotionEffect(effects[random.nextInt(effects.length)]
-                , Integer.MAX_VALUE, random.nextInt(3)+1));
     }
 }

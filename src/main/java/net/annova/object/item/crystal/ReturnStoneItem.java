@@ -34,7 +34,7 @@ public class ReturnStoneItem extends RPGItem implements Listener {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.RARE;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -52,6 +52,6 @@ public class ReturnStoneItem extends RPGItem implements Listener {
         if (!RETURN_STONE.use(player)) return;
 
         teleportHome(player);
-        player.playSound(player, Sound.BLOCK_STONE_BUTTON_CLICK_ON, );
+        player.playSound(player, Sound.BLOCK_STONE_BUTTON_CLICK_ON, 2, 2);
     }
 }

@@ -15,12 +15,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class EntityEvent implements Listener {
-    @EventHandler
+//    @EventHandler
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
-        if (event.getEntity() instanceof LivingEntity entity) {
-            EntityDamageCE ev = new EntityDamageCE(entity, event);
-            this.baseFunction(event, ev);
-        }
+        if (event.getEntity() instanceof Player player) player.sendMessage("0" + event.getCause());
+
         if (event.getEntity() instanceof Player player) {
             PlayerDamageCE ev = new PlayerDamageCE(player, event);
             Bukkit.getPluginManager().callEvent(ev);
@@ -28,12 +26,17 @@ public class EntityEvent implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            event.setDamage(0.1);
+            event.setDamage(1);
             getRPGPerson(player).damage((int) ev.getDamage());
+        } else if (event.getEntity() instanceof LivingEntity entity) {
+            EntityDamageCE ev = new EntityDamageCE(entity, event);
+            this.baseFunction(event, ev);
         }
     }
-    @EventHandler
+//    @EventHandler
     public void damageByEntitySummoner(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player) player.sendMessage("1" + event.getCause());
+
         Entity eventEntity = event.getEntity();
         Entity eventDamager = event.getDamager();
 
@@ -47,8 +50,10 @@ public class EntityEvent implements Listener {
             this.baseFunction(event, ev);
         }
     }
-    @EventHandler
+//    @EventHandler
     public void battleSummoner(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player) player.sendMessage("2" + event.getCause());
+
         if (event.getEntity() instanceof LivingEntity entity && event.getDamager() instanceof LivingEntity damager) {
             BattleCE ev = new BattleCE(entity, damager, event);
             this.baseFunction(event, ev);

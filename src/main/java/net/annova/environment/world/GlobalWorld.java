@@ -26,4 +26,9 @@ public class GlobalWorld {
         World world = Bukkit.getWorld(worldName);
         return world == null ? Bukkit.createWorld(new WorldCreator(worldName)) : world;
     }
+
+    public static boolean isNight(World world) {
+        long time = world.getTime();
+        return time >= 12000;
+    }
 }

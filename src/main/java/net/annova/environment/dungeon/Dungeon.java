@@ -107,7 +107,7 @@ public class Dungeon {
         this.close = true;
         Item container = switch (base.getTemplate().getId()) {
             case 0 -> Item.PRISON_CONTAINER;
-            default -> throw new IllegalStateException(STR."Unexpected value: \{key}");
+            default -> throw new IllegalStateException("Unexpected value: " + key);
         };
         for (LivingEntity ent : this.entity) {
             if (!ent.valid) continue;

@@ -2,6 +2,7 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
 import net.annova.environment.world.RPGAdvancement;
+import org.bukkit.GameMode;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -35,8 +36,10 @@ public class DarkForest implements Location {
     public void movement(Player player) {
         if (this.isOutside(player.getLocation())) return;
 
-        player.addPotionEffect(darkness);
-        player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation(), 30, 3.5, 2.5, 3.5);
+        if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+            player.addPotionEffect(darkness);
+            player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation(), 30, 3.5, 2.5, 3.5);
+        }
 
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
@@ -58,6 +61,6 @@ public class DarkForest implements Location {
 
     @Override
     public int squaredRadius() {
-        return 15625;
+        return 16921;
     }
 }

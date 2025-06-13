@@ -18,7 +18,7 @@ import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 public class OreCollector extends RPGEntity implements EntityAction {
     @Override
     public EntityType<?> type() {
-        return EntityType.ZOMBIE;
+        return null;
     }
 
     @Override

@@ -3,7 +3,10 @@ package net.annova.object.item.base;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
-import net.annova.object.item.sector0.dryad.WolfsWool;
+import net.annova.object.item.equipment.forest.DarkElfBow;
+import net.annova.object.item.sector0.dryad.WolfSkin;
+import net.annova.object.item.sector0.forest.DarknessConcentration;
+import net.annova.object.item.sector0.meteorite.MeteoriteFragment;
 import net.annova.object.item.sector0.mines.MagicScrap;
 import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
@@ -99,11 +102,15 @@ public enum Item {
     RANGE_TOKEN(new RangeTokenItem()),
     SATURATION_TOKEN(new SaturationTokenItem()),
     // S0 - Dryad Pedestal
-    WOLFS_WOOL(new WolfsWool()),
+    WOLF_SKIN(new WolfSkin()),
     // S0 - Mines
     MAGIC_SCRAP(new MagicScrap()),
     // S0 - FOREST
+    DARK_ELF_BOW(new DarkElfBow()),
+    DARKNESS_CONCENTRATION(new DarknessConcentration()),
     ENT_ROOT(new EntRoot()),
+    // S0 - METEORITE
+    METEORITE_FRAGMENT(new MeteoriteFragment()),
     // S0 - OASIS
     TIDE_BLADE(new TideBlade()),
     TIDE_GRASP_RING(new TideGraspRing()),
@@ -269,7 +276,7 @@ public enum Item {
 
         String name = getLangFile(getInstance(), person == null ? "ru" : person.getLanguage())
                 .getString(this.name(), "unknown-name");
-        meta.setDisplayName(color(STR."\{this.item.rarity().getColor()}\{name}"));
+        meta.setDisplayName(color(this.item.rarity().getColor() + name));
         CustomModelData model = new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of());
         meta.setCustomModelDataComponent(new CraftCustomModelDataComponent(model));
 

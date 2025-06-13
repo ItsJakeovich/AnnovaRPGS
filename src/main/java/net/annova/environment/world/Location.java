@@ -7,6 +7,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Set;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.util.BukkitObjects.random;
 
 public interface Location {
@@ -19,7 +20,7 @@ public interface Location {
 
     default boolean isOutside(org.bukkit.Location location) {
         for (org.bukkit.Location locationPoint : this.points()) {
-            if (locationPoint.distanceSquared(locationPoint) < this.squaredRadius()) return false;
+            if (location.distanceSquared(locationPoint) <= this.squaredRadius()) return false;
         }
         return true;
     }
@@ -47,10 +48,12 @@ public interface Location {
         check.setY(300);
         Material action = check.getBlock().getType().isAir() ? Material.REDSTONE_BLOCK : Material.AIR;
         for (org.bukkit.Location location : this.points()) {
+            int lX = location.getBlockX(), lZ = location.getBlockZ();
+            sendInfo(lX + ", 300, " + lZ);
             int radius = (int) Math.sqrt(this.squaredRadius());
             for (int z = -radius; z <= radius; z++) {
                 for (int x = -radius; x <= radius; x++) {
-                    new org.bukkit.Location(world, x, 300, z).getBlock().setType(action);
+                    new org.bukkit.Location(world, lX+x, 300, lZ+z).getBlock().setType(action);
                 }
             }
         }

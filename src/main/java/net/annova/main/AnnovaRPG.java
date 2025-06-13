@@ -1,6 +1,7 @@
 package net.annova.main;
 
 import net.annova.config.RPGConfig;
+import net.annova.environment.world.GlobalWorld;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -19,7 +20,6 @@ import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.thread.TaskMaster.asyncTimer;
 import static net.annova.thread.TaskMaster.syncTimer;
 
 public final class AnnovaRPG extends JavaPlugin {
@@ -51,7 +51,7 @@ public final class AnnovaRPG extends JavaPlugin {
         loadAllStructures();
         DungeonTemplate.createDungeonWorld();
 
-        this.initSQL();
+        this.initialization();
     }
 
     @Override
@@ -74,17 +74,19 @@ public final class AnnovaRPG extends JavaPlugin {
     }
 
     private void initThreads() {
-        asyncTimer(this, new PersonUpdateTimer(), 200); // 10s
+        syncTimer(this, new PersonUpdateTimer(), 200); // 10s
         // PersonStaminaTimer - SecondTickEvent
         syncTimer(this, new UpdateSpawnTimer(), 1200); // 60sec
         // PersonStatusTimer - SecondTickEvent
     }
-    private void initSQL() {
+    private void initialization() {
+        // SQL
         RPGPerson.init();
-        StructureBase.init(); // init database
+        RPGEntity.init();
+        StructureBase.init();
 
-//        Altar.init();
-//        FireAltar.init();
+        // World
+        GlobalWorld.init();
     }
 
     public static JavaPlugin getInstance() {

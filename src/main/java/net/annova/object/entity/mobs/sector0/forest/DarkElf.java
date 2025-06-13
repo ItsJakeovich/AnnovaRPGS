@@ -16,13 +16,15 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.object.item.base.Item.DARKNESS_CONCENTRATION;
+import static net.annova.object.item.base.Item.DARK_ELF_BOW;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class DarkElf extends RPGEntity implements RPGActivity {
     @Override
     public EntityType<?> type() {
-        return EntityType.ZOMBIE;
+        return EntityType.BOGGED;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class DarkElf extends RPGEntity implements RPGActivity {
 
     @Override
     public float speed() {
-        return 0;
+        return 0.345f;
     }
 
     @Override
@@ -57,7 +59,10 @@ public class DarkElf extends RPGEntity implements RPGActivity {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of();
+        return List.of(
+                DARKNESS_CONCENTRATION.create(player, random.nextInt(4)+1, 0.05),
+                DARK_ELF_BOW.create(player, 0.01)
+        );
     }
 
     @Override

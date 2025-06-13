@@ -33,7 +33,7 @@ public class TeleportStoneItem extends RPGItem implements Listener {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.RARE;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -59,12 +59,12 @@ public class TeleportStoneItem extends RPGItem implements Listener {
         if (loc.getX() > border || loc.getX() < -border || loc.getZ() > border || loc.getZ() < -border) return;
         if (player.isSneaking()) {
             setLore(item,
-                    STR."\{ChatColor.DARK_PURPLE}Локация: \{loc.getWorld().getName()}, \{loc.getBlockX()}, \{loc.getBlockY()}, \{loc.getBlockZ()}");
+                    ChatColor.DARK_PURPLE + "Локация: " + loc.getWorld().getName() + ", " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
             return;
         }
         List<String> lore = item.getItemMeta().getLore();
         String first = lore.getFirst();
-        if (!first.startsWith(STR."\{ChatColor.DARK_PURPLE}Локация: ")) return;
+        if (!first.startsWith(ChatColor.DARK_PURPLE + "Локация: ")) return;
         String[] str = first.split(": ")[1].split(", ");
 
         if (chance(0.5)) {

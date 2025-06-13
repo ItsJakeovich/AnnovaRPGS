@@ -36,13 +36,13 @@ public class PsyonicStoneItem extends RPGItem {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.RARE;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
     public List<String> lore() {
         return List.of(
-                "&3= &fСоздает слабое магнитное поле"
+                "&3| &fСоздает слабое магнитное поле"
         );
     }
 }

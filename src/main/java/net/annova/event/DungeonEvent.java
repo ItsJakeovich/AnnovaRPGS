@@ -4,16 +4,12 @@ import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.*;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -24,7 +20,6 @@ import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getDungeonWorld;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.main.Keys.NK_ID;
 
 public class DungeonEvent implements Listener {
     @EventHandler
@@ -88,17 +83,17 @@ public class DungeonEvent implements Listener {
         }
     }
 
-    @EventHandler
-    public void spawn(EntitySpawnEvent event) {
-        if (!event.getLocation().getWorld().equals(getDungeonWorld())) return;
-
-        Entity entity = event.getEntity();
-        if (entity instanceof ArmorStand) return;
-        if (!(entity instanceof LivingEntity)) return;
-        if (entity.getPersistentDataContainer().has(NK_ID)) return;
-
-        event.setCancelled(true);
-    }
+//    @EventHandler
+//    public void spawn(EntitySpawnEvent event) {
+//        if (!event.getLocation().getWorld().equals(getDungeonWorld())) return;
+//
+//        Entity entity = event.getEntity();
+//        if (entity instanceof ArmorStand) return;
+//        if (!(entity instanceof LivingEntity)) return;
+//        if (entity.getPersistentDataContainer().has(NK_ID)) return;
+//
+//        event.setCancelled(true);
+//    }
 
     @EventHandler
     public void place(BlockPlaceEvent event) {

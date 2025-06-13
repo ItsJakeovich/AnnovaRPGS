@@ -12,7 +12,7 @@
   <name>AnnovaRPG</name>
 
   <properties>
-    <java.version>21</java.version>
+    <java.version>24</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -48,9 +48,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <source>21</source>
-          <target>21</target>
-            <compilerArgs>--enable-preview</compilerArgs>
+          <source>24</source>
+          <target>24</target>
         </configuration>
       </plugin>
       <plugin>
@@ -105,7 +104,7 @@
           <artifactId>AnnovaAPI</artifactId>
           <version>0.0.8</version>
           <scope>system</scope>
-        <systemPath>C:/Users/annov/IdeaProjects/AnnovaRegionApi/target/AnnovaAPI-0.0.8.jar</systemPath>
+        <systemPath>/home/itsjakeovich/IdeaProjects/AnnovaRegionApi/target/AnnovaAPI-0.0.8.jar</systemPath>
       </dependency>
   </dependencies>
 </project>

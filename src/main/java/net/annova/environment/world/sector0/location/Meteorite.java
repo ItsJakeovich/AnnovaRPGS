@@ -2,10 +2,8 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.Location;
 import net.annova.environment.world.RPGAdvancement;
-import org.bukkit.Particle;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Set;
 
@@ -16,11 +14,24 @@ public class Meteorite implements Location {
 
     @Override
     public void movement(Player player) {
-        if (player.getLocation().distanceSquared(theMeteorite) < 4096) {
+        double pDistanceSquared = player.getLocation().distanceSquared(theMeteorite);
+        if (pDistanceSquared <= this.squaredRadius()) {
             player.setFireTicks(120);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 120, 0));
-
-            player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation(), 30, 3.5, 2.5, 3.5);
+            if (player.getGameMode() == GameMode.SURVIVAL) {
+                double damage;
+                int fireTicks;
+                if (pDistanceSquared <= 576) {
+                    damage = 16;
+                    fireTicks = 600;
+                }
+                else {
+                    double koefficient = 1 - pDistanceSquared/3600;
+                    damage = 6 * koefficient;
+                    fireTicks = (int) (200 * koefficient);
+                }
+                player.setFireTicks(fireTicks);
+                player.damage(damage);
+            }
         }
     }
 
@@ -31,11 +42,13 @@ public class Meteorite implements Location {
 
     @Override
     public org.bukkit.Location[] points() {
-        return new org.bukkit.Location[0];
+        return new org.bukkit.Location[] {
+                new org.bukkit.Location(world0, 715, 70, -183)
+        };
     }
 
     @Override
     public int squaredRadius() {
-        return 0;
+        return 3600;
     }
 }

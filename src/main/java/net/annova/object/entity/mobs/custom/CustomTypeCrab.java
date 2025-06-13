@@ -1,12 +1,13 @@
 package net.annova.object.entity.mobs.custom;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
@@ -15,9 +16,7 @@ import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import static net.annova.object.entity.core.RPGEntity.register;
-
-public class Crab extends CaveSpider {
+public class CustomTypeCrab extends CaveSpider {
 //    public static final EntityType<Crab> CRAB;
 //
 //    static {
@@ -28,7 +27,7 @@ public class Crab extends CaveSpider {
 //        );
 //    }
 
-    public Crab(EntityType<? extends CaveSpider> entitytypes, Level world) {
+    public CustomTypeCrab(EntityType<? extends CaveSpider> entitytypes, Level world) {
         super(entitytypes, world);
         this.setInvisible(true);
         this.moveControl = new CrabMoveControl(this);
@@ -41,7 +40,13 @@ public class Crab extends CaveSpider {
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(CaveSpider.class));
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
+        if (damagesource.is(DamageTypes.DROWN)) return false;
+        return super.hurtServer(worldserver, damagesource, f);
     }
 
     @Override
@@ -60,9 +65,9 @@ public class Crab extends CaveSpider {
     }
 
     static class CrabMoveControl extends MoveControl {
-        private final Crab crab;
+        private final CustomTypeCrab crab;
 
-        public CrabMoveControl(Crab var0) {
+        public CrabMoveControl(CustomTypeCrab var0) {
             super(var0);
             this.crab = var0;
         }

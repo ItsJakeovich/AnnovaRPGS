@@ -1,11 +1,12 @@
 package net.annova.command.cmdRPG;
 
 import net.annova.command.register.CommandArg;
-import net.annova.object.entity.mobs.custom.Crab;
+import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.entity.mobs.custom.CustomTypeCrab;
 import net.annova.object.item.base.Item;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.CaveSpider;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
@@ -15,6 +16,9 @@ import org.bukkit.inventory.Inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.annova.environment.world.sector0.SuruWahare.sectorZones;
+import static net.annova.environment.world.sector0.SuruWahare.world0;
+
 public class RPGCode {
     private static final List<Inventory> itemsInterface = new ArrayList<>();
     static {
@@ -22,7 +26,7 @@ public class RPGCode {
         Inventory inventory = null;
         for (Item item : Item.values()) {
             if (i % 54 == 0) {
-                inventory = Bukkit.createInventory(null, 54, STR."Items - page: \{1 + (i/54)}");
+                inventory = Bukkit.createInventory(null, 54, "Items - page: " + 1 + i/54);
                 itemsInterface.add(inventory);
             }
             inventory.addItem(item.create(1));
@@ -31,7 +35,7 @@ public class RPGCode {
     }
     @CommandArg(name = "items")
     public void items(Player player, String[] args) {
-        String wrong = STR."Pages: \{Math.ceil((double)(Item.values().length)/54)} (/rpg items {page})";
+        String wrong = "Pages: " + Math.ceil((double)(Item.values().length)/54) + " (/rpg items {page})";
         if (args.length == 1) {
             player.sendMessage(wrong);
             return;
@@ -42,22 +46,28 @@ public class RPGCode {
             return;
         }
         Inventory template = itemsInterface.get(page-1);
-        Inventory toOpen = Bukkit.createInventory(null, 54, STR."Items - page: \{page}");
+        Inventory toOpen = Bukkit.createInventory(null, 54, "Items - page: " +page);
         toOpen.setContents(template.getContents());
         player.openInventory(toOpen);
     }
 
-    @CommandArg(name = "testt")
-    public void testt(Player player) {
-        player.sendMessage("cave_spider должен был бы быть");
-        ServerLevel level = ((CraftWorld) player.getWorld()).getHandle();
-        Location location = player.getLocation();
-        CaveSpider spider = new CaveSpider(EntityType.CAVE_SPIDER, level);
-        spider.setPos(location.getX(), location.getY(), location.getZ());
-        level.tryAddFreshEntityWithPassengers(spider);
+    @CommandArg(name = "show-borders")
+    public void showBorders(Player player, String[] args) {
+        if (args.length == 1) {
+            player.sendMessage("Usage: /rpg show-borders {1-6}");
+            return;
+        }
+        int location = Integer.parseInt(args[1]);
+        sectorZones.get(location).showTerritory(world0);
+    }
 
-        Crab crab = new Crab(EntityType.CAVE_SPIDER, level);
-        crab.setPos(location.getX(), location.getY(), location.getZ());
-        level.tryAddFreshEntityWithPassengers(crab);
+    @CommandArg(name = "summon")
+    public void summon(Player player, String[] args) {
+        if (args.length == 1) {
+            player.sendMessage("Usage: /rpg summon {entity-name}");
+            return;
+        }
+        RPGEntityType type = RPGEntityType.valueOf(args[1]);
+        type.getEntity().create(player.getLocation());
     }
 }

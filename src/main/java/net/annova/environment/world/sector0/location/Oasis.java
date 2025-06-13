@@ -81,15 +81,14 @@ public class Oasis implements Location, Listener {
     @Override
     public org.bukkit.Location[] points() {
         return new org.bukkit.Location[]{
-                new org.bukkit.Location(world0, -991, 69, 416),
-                new org.bukkit.Location(world0, -1096, 70, 422),
-                new org.bukkit.Location(world0, -921, 73, 446)
+                new org.bukkit.Location(world0, -1092, 76, 451),
+                new org.bukkit.Location(world0, -971, 76, 451),
         };
     }
 
     @Override
     public int squaredRadius() {
-        return 1600;
+        return 3660;
     }
 
     private final org.bukkit.Location[] bubblePoints = {

@@ -5,7 +5,7 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.Location;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -24,7 +24,7 @@ import static net.annova.util.BukkitObjects.chance;
 public class OlderEnt extends RPGEntity implements RPGActivity {
     @Override
     public EntityType<?> type() {
-        return EntityType.ZOMBIE;
+        return EntityType.IRON_GOLEM;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class OlderEnt extends RPGEntity implements RPGActivity {
 
     @Override
     public float speed() {
-        return 0;
+        return 0.285f;
     }
 
     @Override
@@ -74,9 +74,9 @@ public class OlderEnt extends RPGEntity implements RPGActivity {
         if (lastBlock != null) {
             lastBlock.setType(Material.AIR);
         }
-        LivingEntity target = ((Creature) entity).getTarget();
+        LivingEntity target = ((Creature) entity.getBukkitEntity()).getTarget();
         if (target != null && chance(0.2)) {
-            Block block = target.getEyeLocation().getBlock();
+            Block block = target.getLocation().getBlock();
             if (block.getType().isAir()) {
                 block.setType(Material.OAK_LEAVES);
                 target.addPotionEffect(slowness);
@@ -96,7 +96,7 @@ public class OlderEnt extends RPGEntity implements RPGActivity {
         this.entity.heal(5);
         entity.getWorld().spawnParticle(Particle.TINTED_LEAVES,
                 entity.getLocation().add(0, 1, 0),
-                8, 0.6, 1.2, 0.6
+                8, 0.6, 1.2, 0.6, Color.GREEN
         );
         return true;
     }

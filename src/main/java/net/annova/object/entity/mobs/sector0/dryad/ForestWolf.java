@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.object.entity.core.RPGEntityType.FOREST_WOLF;
-import static net.annova.object.item.base.Item.WOLFS_WOOL;
+import static net.annova.object.item.base.Item.WOLF_SKIN;
 import static net.annova.util.BukkitObjects.random;
 
 public class ForestWolf extends RPGEntity implements RPGSpawn {
@@ -55,7 +55,7 @@ public class ForestWolf extends RPGEntity implements RPGSpawn {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                WOLFS_WOOL.create(player, random.nextInt(2)+1, 0.05)
+                WOLF_SKIN.create(player, random.nextInt(2)+1, 0.05)
         );
     }
 

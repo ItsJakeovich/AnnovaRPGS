@@ -13,6 +13,8 @@ import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.ValueType;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import javax.annotation.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.Set;
 
@@ -44,7 +47,7 @@ public class RPGPerson {
 
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
 
-    private float health;
+    private float health = 20;
     private float maxHealth = 20;
     private float regeneration = 0f;
     private float additionalHealth = 0;
@@ -111,6 +114,7 @@ public class RPGPerson {
     }
 
     public void damage(int damage) {
+        this.person.getPlayer().sendMessage(LocalDate.now() + ": damage: " + damage);
         this.setHealth(this.health - damage);
     }
     public void regen() {
@@ -119,6 +123,9 @@ public class RPGPerson {
         if (food == 0) regeneration -= 6;
         else           regeneration += 3 * food/20;
 
+        if (regeneration < 0) {
+            this.person.getPlayer().damage(0.1, DamageSource.builder(DamageType.STARVE).build());
+        }
         this.regen(regeneration);
     }
     public void regen(float regen) {

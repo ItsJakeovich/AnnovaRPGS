@@ -69,8 +69,8 @@ public class Duelist extends RPGEntity implements RPGEquipment, Listener {
     @Override
     public ItemStack[] equipment() {
         return new ItemStack[] {
-            createItem(Material.IRON_SWORD, STR."\{ChatColor.GRAY}Стальная зубочистка"),
-            createItem(Material.IRON_SWORD, STR."\{ChatColor.GRAY}Стальная зубочистка"),
+            createItem(Material.IRON_SWORD, ChatColor.GRAY + "Стальная зубочистка"),
+            createItem(Material.IRON_SWORD, ChatColor.GRAY + "Стальная зубочистка"),
             createItem(Material.CHAINMAIL_HELMET),
             createItem(Material.CHAINMAIL_CHESTPLATE),
             createItem(Material.CHAINMAIL_LEGGINGS),

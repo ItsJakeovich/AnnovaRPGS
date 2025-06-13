@@ -26,7 +26,7 @@ public class Ent extends RPGEntity implements EntityAction {
 
     @Override
     public String name() {
-        return STR."\{ChatColor.DARK_GREEN}Ent";
+        return ChatColor.DARK_GREEN + "Ent";
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Ent extends RPGEntity implements EntityAction {
 
     @Override
     public float speed() {
-        return 0.315f;
+        return 0.33f;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Ent extends RPGEntity implements EntityAction {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of(ENT_ROOT.create(player, 0.03));
+        return List.of(ENT_ROOT.create(player, 0.01));
     }
 
     @Override

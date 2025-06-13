@@ -35,7 +35,7 @@ public class DungeonCode {
         person.send(getInstance(), "dungeon-list");
         for (Dungeon dungeon : getDungeons()) {
             Location loc = dungeon.getLocation();
-            person.send(STR."{pc}= \{dungeon.getKey()} | \{loc.getBlockX()}, \{loc.getBlockY()}, \{loc.getBlockZ()}");
+            person.send("{pc}= " + dungeon.getKey() + " | " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         }
     }
     @CommandArg(name = "delete")

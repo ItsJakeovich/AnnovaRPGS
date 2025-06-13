@@ -5,10 +5,15 @@ import net.annova.object.person.status.ValueType;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static net.annova.object.person.status.ValueType.ORATOR_DAMAGE_BUFF;
+import static net.annova.object.person.status.ValueType.*;
 
 public enum StatusType {
-    LEADER_DAMAGE_BUFF(Map.of(ORATOR_DAMAGE_BUFF, 0.15))
+    LEADER_DAMAGE_BUFF(Map.of(ORATOR_DAMAGE_BUFF, 0.15)),
+    METEORITE_GOLEM_BUFF(Map.of(
+            DAMAGE_BUFF, 10.0,
+            SPEED_BUFF, 0.15,
+            REGENERATION_BUFF, 5.0)
+    ),
     ;
 
     private final Map<ValueType, Double> values = new EnumMap<>(ValueType.class);

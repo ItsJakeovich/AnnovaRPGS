@@ -11,6 +11,8 @@ import static net.annova.util.BukkitObjects.getNewIcon;
 public class Equipment {
     public enum Type {
         RING,
+        SCARF,
+        HAIR_CLIP,
         BELT,
         AMULET,
         GLOVE,
@@ -22,19 +24,21 @@ public class Equipment {
         COMPANION;
     }
 
-    private final ItemStack[] equipment = new ItemStack[22];
+    private final ItemStack[] equipment = new ItemStack[24];
 
 
     /** Slots:
      * 0-9 ring's,
-     * 10 belt,
-     * 11 amulet,
-     * 12-13 glove's,
-     * 14-15 bracelet's,
-     * 16-17 shoulder pads,
-     * 18-19 knee pads,
-     * 20 cloak,
-     * 21 is pet companion.
+     * 10 scarf
+     * 11 hair_clip
+     * 12 belt,
+     * 13 amulet,
+     * 14-15 glove's,
+     * 16-17 bracelet's,
+     * 18-19 shoulder pads,
+     * 20-21 knee pads,
+     * 22 cloak,
+     * 23 is pet companion.
      * @param index ItemStack[] array
      * @return ItemStack / null if slot is empty
      */
@@ -48,14 +52,16 @@ public class Equipment {
 
     /**
      * 0 - ring
-     * 1 - belt
-     * 2 - amulet
-     * 3 - glove
-     * 4 - bracelet
-     * 5 - shoulder pads
-     * 6 - knee pads
-     * 7 - cloak
-     * 8 - companion
+     * 1 - scarf
+     * 2 - hair clip
+     * 3 - belt
+     * 4 - amulet
+     * 5 - glove
+     * 6 - bracelet
+     * 7 - shoulder pads
+     * 8 - knee pads
+     * 9 - cloak
+     * 10 - companion
      */
     private static final ItemStack[] icons = new ItemStack[] {
             getNewIcon(0f),
@@ -91,24 +97,28 @@ public class Equipment {
         inv.setItem(16, this.getItemSlot(8, 0));
         inv.setItem(17, this.getItemSlot(9, 0));
 
-        inv.setItem(31, this.getItemSlot(10, 1)); // belt
+        inv.setItem(3, this.getItemSlot(10, 1));
 
-        inv.setItem(4, this.getItemSlot(11, 2)); // amulet
+        inv.setItem(5, this.getItemSlot(11, 2));
 
-        inv.setItem(18, this.getItemSlot(12, 3)); // gloves
-        inv.setItem(26, this.getItemSlot(13, 3));
+        inv.setItem(31, this.getItemSlot(12, 3)); // belt
 
-        inv.setItem(19, this.getItemSlot(14, 4)); // bracelets
-        inv.setItem(25, this.getItemSlot(15, 4));
+        inv.setItem(4, this.getItemSlot(13, 4)); // amulet
 
-        inv.setItem(45, this.getItemSlot(16, 5)); // shoulder pads
-        inv.setItem(53, this.getItemSlot(17, 5));
+        inv.setItem(18, this.getItemSlot(14, 5)); // gloves
+        inv.setItem(26, this.getItemSlot(15, 5));
 
-        inv.setItem(46, this.getItemSlot(18, 6)); // knee pads
-        inv.setItem(52, this.getItemSlot(19, 6));
+        inv.setItem(19, this.getItemSlot(16, 6)); // bracelets
+        inv.setItem(25, this.getItemSlot(17, 6));
 
-        inv.setItem(13, this.getItemSlot(20, 7)); // cloak
-        inv.setItem(22, this.getItemSlot(21, 8)); // companion
+        inv.setItem(45, this.getItemSlot(18, 7)); // shoulder pads
+        inv.setItem(53, this.getItemSlot(19, 7));
+
+        inv.setItem(46, this.getItemSlot(20, 8)); // knee pads
+        inv.setItem(52, this.getItemSlot(21, 8));
+
+        inv.setItem(13, this.getItemSlot(22, 9)); // cloak
+        inv.setItem(22, this.getItemSlot(23, 10)); // companion
         return inv;
     }
     private ItemStack getItemSlot(int slot, int iconIndex) {

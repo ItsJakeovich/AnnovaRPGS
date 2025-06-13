@@ -26,7 +26,7 @@ public class ConfigCrafts {
         for (ConfigCrafts mat : confM) {
             if (count > 53) {
                 invCount++;
-                inventories.add(Bukkit.createInventory(null, 54, color(STR."&l&bAboba \{invCount + 1}")));
+                inventories.add(Bukkit.createInventory(null, 54, color("&l&bAboba " + invCount + 1)));
                 count = 0;
             }
             Inventory inv = inventories.get(invCount);
@@ -103,7 +103,7 @@ public class ConfigCrafts {
                     }
                 }
             } catch(NullPointerException e) {
-                throw new AnnovaException(STR."Ошибка предмета: \{b.get("id")}");
+                throw new AnnovaException("Ошибка предмета: " + b.get("id"));
             }
 
             crafts.put(craft.id, craft);
@@ -132,7 +132,7 @@ public class ConfigCrafts {
 
             int count = 0;
             for (SubCraft craft : mat.subCrafts) {
-                mat.loadWorkbenceRecipe(craft.getCraftType(), STR."\{mat.id}-\{count}", craft.getRecipe(), craft.getIngredients());
+                mat.loadWorkbenceRecipe(craft.getCraftType(), mat.id + "-" + count, craft.getRecipe(), craft.getIngredients());
                 count++;
             }
             Bukkit.addRecipe(mat.recipe);

@@ -35,7 +35,7 @@ public class RedStoneItem extends RPGItem implements Listener {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.RARE;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
@@ -43,24 +43,5 @@ public class RedStoneItem extends RPGItem implements Listener {
         return List.of(
                 "&3| &fУсиливает эффективность колец&3: &a+0.8% &7(макс. +6.4%)"
         );
-    }
-
-    private final Map<UUID, ItemStack[]> contents = new HashMap<>();
-    @EventHandler
-    private void mechanic(PlayerDeathEvent event) {
-        ItemStack item = RED_STONE.getFromInventory(event.getEntity());
-        if (item == null) return;
-        Player player = event.getEntity();
-        subtractItem(player, item);
-        this.contents.put(player.getUniqueId(), player.getInventory().getContents());
-        event.getDrops().clear();
-    }
-    @EventHandler
-    private void revive(PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
-        UUID id = player.getUniqueId();
-        if (!contents.containsKey(id)) return;
-        player.getInventory().setContents(contents.get(id));
-        this.contents.remove(id);
     }
 }

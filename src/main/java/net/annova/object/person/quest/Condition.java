@@ -13,7 +13,7 @@ public class Condition {
             @Override
             public String resolve(Object obj) {
                 Location loc = (Location) obj;
-                return STR."\{loc.getBlockX()},\{loc.getBlockY()},\{loc.getBlockZ()}";
+                return loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ();
             }
         },
         ITEMS {
@@ -60,7 +60,7 @@ public class Condition {
     }
 
     public String getDesctiption(Person person) {
-        return person.getString(getInstance(), STR."\{type.toString()}").replace("{obj}", type.resolve(objective));
+        return person.getString(getInstance(), type.toString()).replace("{obj}", type.resolve(objective));
     }
 
     /** Information can be split by '-'
@@ -69,7 +69,7 @@ public class Condition {
      * 3. is amount in objective (TEN zombies, ...)
      */
     public String serialize() {
-        return STR."\{type.name()}-\{type.resolve(objective)}-\{amount}";
+        return type.name() + "-" + type.resolve(objective) + "-" + amount;
     }
     public static Condition deserialize(String serialized) {
         String[] data = serialized.split("-");

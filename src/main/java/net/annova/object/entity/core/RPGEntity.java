@@ -2,6 +2,7 @@ package net.annova.object.entity.core;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.RPGRarity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.RPGActivity;
 import net.annova.object.entity.core.attribute.RPGEquipment;
 import net.annova.object.entity.core.attribute.RPGSpawn;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.level.Level;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
@@ -32,8 +34,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addEntity;
@@ -96,9 +100,17 @@ public abstract class RPGEntity {
         this.dungeon = dungeon;
 
         ServerLevel level = ((CraftWorld) location.getWorld()).getHandle();
-        LivingEntity ent = (LivingEntity) this.type().create(level, EntitySpawnReason.EVENT);
+        LivingEntity ent = null;
+        if (this instanceof CustomType type) {
+            try {
+                ent = (LivingEntity) type.clazz().getDeclaredConstructor(EntityType.class, Level.class).newInstance(this.type(), level);
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                sendInfo("&e| No such method while creating entity: " + this.getClass().getName());
+            }
+        } else ent = (LivingEntity) this.type().create(level, EntitySpawnReason.EVENT);
         ent.setPos(location.getBlockX()+0.5, location.getBlockY(), location.getBlockZ()+0.5);
-        ent.setCustomName(Component.literal(this.rarity().getColor() + this.name()));
+        ent.setCustomName(Component.literal(this.name()));
+        ent.setCustomNameVisible(true);
 
         AttributeInstance attribute = ent.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attribute != null) attribute.setBaseValue(this.damage() + addDamage);
@@ -156,11 +168,12 @@ public abstract class RPGEntity {
                 }.runTaskTimer(getInstance(), 0, activity.repeating());
             }
             if (activity.syncRepeating() != 0) {
+                LivingEntity finalEnt = ent;
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (!entity.getBukkitEntity().isValid()
-                                || !activity.syncActivity((org.bukkit.entity.LivingEntity) ent.getBukkitEntity())
+                                || !activity.syncActivity((org.bukkit.entity.LivingEntity) finalEnt.getBukkitEntity())
                         ) this.cancel();
                     }
                 }.runTaskTimer(getInstance(), 0, activity.syncRepeating());
