@@ -5,7 +5,7 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.RPGSpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
-import net.annova.object.entity.mobs.custom.CustomTypeCrab;
+import net.annova.object.entity.mobs.custom.CustomCrab;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.*;
@@ -24,7 +24,7 @@ import static net.minecraft.world.entity.EntityType.CAVE_SPIDER;
 public class Crab extends RPGEntity implements CustomType, RPGSpawn {
     @Override
     public Class<?> clazz() {
-        return CustomTypeCrab.class;
+        return CustomCrab.class;
     }
 
     @Override

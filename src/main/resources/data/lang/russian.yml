@@ -26,9 +26,6 @@ weapon-cast: "{pc}=- {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 bar-health: "{pc}=- {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
 ### Items
-## components
-FORIUM_FRAGMENT: "Осколок фориума"
-FORIUM_INGOT: "Слиток фориума"
 ## containers
 PRISON_CONTAINER: "Пыльный контейнер"
 ## stones
@@ -69,6 +66,9 @@ PRISON_SWORD: "Клинок заключенного"
 
 CONTROL_MOVEMENT_STICK: "Палочка передвижения"
 CONTROL_STOP_STICK: "Палочка остановки передвижения"
+## components
+FORIUM_FRAGMENT: "Осколок фориума"
+FORIUM_INGOT: "Слиток фориума"
 ## Tokens
 CREEPER_TOKEN: "Жетон крипера"
 DURABILITY_TOKEN: "Жетон прочности"
@@ -76,8 +76,16 @@ FLY_TOKEN: "Жетон полёта"
 PRISON_TOKEN: "Жетон заключения"
 RANGE_TOKEN: "Жетон радиуса"
 SATURATION_TOKEN: "Жетон насыщения"
+## S0 - DRYAD
+WOLF_SKIN: "Волчья шкура"
 ## S0 - FOREST
+DARK_ELF_BOW: "Лук тёмного эльфа"
+DARKNESS_CONCENTRATION: "Концентрация темени"
 ENT_ROOT: "Корень энта"
+## S0 - METEORITE
+METEORITE_FRAGMENT: "Осколок метеорита"
+## S0 - MINES
+MAGIC_SCRAP: "Волшебный лом"
 ## S0 - OASIS
 TIDE_BLADE: "Клешня краба"
 TIDE_GRASP_RING: "Кольцо прилива"

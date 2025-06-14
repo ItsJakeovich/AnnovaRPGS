@@ -46,12 +46,12 @@ public class SpiderSwamps implements Location {
     @Override
     public org.bukkit.Location[] points() {
         return new org.bukkit.Location[] {
-                new org.bukkit.Location(world0, -1111, 64, 357)
+                new org.bukkit.Location(world0, -759, 63, 163)
         };
     }
 
     @Override
     public int squaredRadius() {
-        return 64;
+        return 256;
     }
 }

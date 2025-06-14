@@ -38,7 +38,7 @@ public class DarkForest implements Location {
 
         if (player.getGameMode().equals(GameMode.SURVIVAL)) {
             player.addPotionEffect(darkness);
-            player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation(), 30, 3.5, 2.5, 3.5);
+            player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 0.1, 0), 100, 15, 0, 15, 0);
         }
 
         long millis = System.currentTimeMillis();
@@ -61,6 +61,6 @@ public class DarkForest implements Location {
 
     @Override
     public int squaredRadius() {
-        return 16921;
+        return 17781;
     }
 }

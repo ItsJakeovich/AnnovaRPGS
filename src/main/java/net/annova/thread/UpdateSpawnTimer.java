@@ -21,7 +21,7 @@ public class UpdateSpawnTimer extends AnnovaAsyncTask {
             for (RPGSpawning spawning : RPGSpawning.values()) {
                 spawning.trySpawn(location);
             }
-            //player.playSound(player, "howlsothestorm", 5, 5);
+            player.playSound(player, "howlsothestorm", 5, 5);
         }
     }
 }

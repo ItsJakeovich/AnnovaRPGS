@@ -11,6 +11,7 @@ import net.annova.object.entity.mobs.sector0.dryad.ForestWolf;
 import net.annova.object.entity.mobs.sector0.forest.DarkElf;
 import net.annova.object.entity.mobs.sector0.forest.OlderEnt;
 import net.annova.object.entity.mobs.sector0.meteorite.MeteoriteGolem;
+import net.annova.object.entity.mobs.sector0.meteorite.Shards;
 import net.annova.object.entity.mobs.sector0.mines.*;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
@@ -62,6 +63,7 @@ public enum RPGEntityType {
     OLDER_ENT(S0_FOREST, OlderEnt.class),
     // Sector - Meteorite
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
+    SHARDS(S0_METEORITE, Shards.class),
     // Sector 0 - Mines
     GOLEM(S0_MINES, Golem.class),
     GOLEM_BOSS(S0_MINES, GolemBoss.class),

@@ -3,7 +3,7 @@ package net.annova.object.item.base;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
-import net.annova.object.item.equipment.forest.DarkElfBow;
+import net.annova.object.item.sector0.forest.DarkElfBow;
 import net.annova.object.item.sector0.dryad.WolfSkin;
 import net.annova.object.item.sector0.forest.DarknessConcentration;
 import net.annova.object.item.sector0.meteorite.MeteoriteFragment;
@@ -15,8 +15,8 @@ import net.annova.object.item.container.PrisonContainerItem;
 import net.annova.object.item.crystal.*;
 import net.annova.object.item.equipment.ControlMovementStickItem;
 import net.annova.object.item.equipment.ControlStopStickItem;
-import net.annova.object.item.equipment.oasis.TideBlade;
-import net.annova.object.item.equipment.oasis.TideGraspRing;
+import net.annova.object.item.sector0.oasis.TideBlade;
+import net.annova.object.item.sector0.oasis.TideGraspRing;
 import net.annova.object.item.equipment.prison.*;
 import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
@@ -103,14 +103,14 @@ public enum Item {
     SATURATION_TOKEN(new SaturationTokenItem()),
     // S0 - Dryad Pedestal
     WOLF_SKIN(new WolfSkin()),
-    // S0 - Mines
-    MAGIC_SCRAP(new MagicScrap()),
     // S0 - FOREST
     DARK_ELF_BOW(new DarkElfBow()),
     DARKNESS_CONCENTRATION(new DarknessConcentration()),
     ENT_ROOT(new EntRoot()),
     // S0 - METEORITE
     METEORITE_FRAGMENT(new MeteoriteFragment()),
+    // S0 - Mines
+    MAGIC_SCRAP(new MagicScrap()),
     // S0 - OASIS
     TIDE_BLADE(new TideBlade()),
     TIDE_GRASP_RING(new TideGraspRing()),

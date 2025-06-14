@@ -83,6 +83,7 @@ public class Oasis implements Location, Listener {
         return new org.bukkit.Location[]{
                 new org.bukkit.Location(world0, -1092, 76, 451),
                 new org.bukkit.Location(world0, -971, 76, 451),
+                new org.bukkit.Location(world0, -933, 76, 451),
         };
     }
 

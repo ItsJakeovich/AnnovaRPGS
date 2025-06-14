@@ -2,6 +2,7 @@ package net.annova.environment.world;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -53,7 +54,9 @@ public interface Location {
             int radius = (int) Math.sqrt(this.squaredRadius());
             for (int z = -radius; z <= radius; z++) {
                 for (int x = -radius; x <= radius; x++) {
-                    new org.bukkit.Location(world, lX+x, 300, lZ+z).getBlock().setType(action);
+                    Block block = new org.bukkit.Location(world, lX+x, 300, lZ+z).getBlock();
+                    if (!block.getType().equals(Material.REDSTONE_BLOCK) && !block.getType().equals(Material.AIR)) continue;
+                    block.setType(action);
                 }
             }
         }

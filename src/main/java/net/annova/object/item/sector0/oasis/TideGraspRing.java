@@ -1,4 +1,4 @@
-package net.annova.object.item.equipment.oasis;
+package net.annova.object.item.sector0.oasis;
 
 import net.annova.object.item.base.attribute.RPGEquipment;
 import net.annova.object.item.base.RPGItem;

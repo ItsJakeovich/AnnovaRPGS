@@ -16,7 +16,7 @@ import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class CustomTypeCrab extends CaveSpider {
+public class CustomCrab extends CaveSpider {
 //    public static final EntityType<Crab> CRAB;
 //
 //    static {
@@ -27,7 +27,7 @@ public class CustomTypeCrab extends CaveSpider {
 //        );
 //    }
 
-    public CustomTypeCrab(EntityType<? extends CaveSpider> entitytypes, Level world) {
+    public CustomCrab(EntityType<? extends CaveSpider> entitytypes, Level world) {
         super(entitytypes, world);
         this.setInvisible(true);
         this.moveControl = new CrabMoveControl(this);
@@ -65,9 +65,9 @@ public class CustomTypeCrab extends CaveSpider {
     }
 
     static class CrabMoveControl extends MoveControl {
-        private final CustomTypeCrab crab;
+        private final CustomCrab crab;
 
-        public CrabMoveControl(CustomTypeCrab var0) {
+        public CrabMoveControl(CustomCrab var0) {
             super(var0);
             this.crab = var0;
         }
@@ -91,7 +91,7 @@ public class CustomTypeCrab extends CaveSpider {
                 this.crab.setYRot(this.rotlerp(this.crab.getYRot(), var9, 90.0F));
                 this.crab.yBodyRot = this.crab.getYRot();
                 float var10 = (float)(this.speedModifier * this.crab.getAttributeValue(Attributes.MOVEMENT_SPEED));
-                float var11 = Mth.lerp(0.125F, this.crab.getSpeed(), var10);
+                float var11 = Mth.lerp(0.3F, this.crab.getSpeed(), var10);
                 this.crab.setSpeed(var11);
                 this.crab.setDeltaMovement(this.crab.getDeltaMovement().add((double)var11 * var1 * 0.005, (double)var11 * var3 * 0.1, (double)var11 * var5 * 0.005));
             } else {

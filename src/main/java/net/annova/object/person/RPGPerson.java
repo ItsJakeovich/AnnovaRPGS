@@ -45,6 +45,8 @@ public class RPGPerson {
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
 
+    private net.annova.environment.world.Location location;
+
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
 
     private float health = 20;
@@ -119,9 +121,13 @@ public class RPGPerson {
     }
     public void regen() {
         float regeneration = this.regeneration;
-        float food = this.person.getPlayer().getFoodLevel();
-        if (food == 0) regeneration -= 6;
-        else           regeneration += 3 * food/20;
+        Player player = this.person.getPlayer();
+        float food = player.getFoodLevel();
+        if (food == 0) {
+            regeneration -= 3;
+            player.sendHurtAnimation(10);
+        }
+        else regeneration += 3 * food/20;
 
         if (regeneration < 0) {
             this.person.getPlayer().damage(0.1, DamageSource.builder(DamageType.STARVE).build());

@@ -1,4 +1,4 @@
-package net.annova.object.item.equipment.forest;
+package net.annova.object.item.sector0.forest;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
