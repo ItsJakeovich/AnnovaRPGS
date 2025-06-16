@@ -2,9 +2,11 @@ package net.annova.object.person.status;
 
 import net.annova.object.item.base.Item;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -23,6 +25,7 @@ import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOW
 import static net.annova.object.person.status.ValueType.CHARGE;
 import static net.annova.object.person.status.ValueType.DEFENCE_DEBUFF;
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.util.BukkitObjects.random;
 
 public enum StatusType {
     CB_DAMAGE_DEBUFF(Map.of(ValueType.DAMAGE_DEBUFF, 0.5)),
@@ -45,26 +48,18 @@ public enum StatusType {
         }
     }),
 
-    SHAKING(10_000, new StatusActivity() {
-        private int cycle = 0;
+    SHAKING(new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            switch (cycle) {
-                case 0 -> player.teleport(player.getLocation().add(0.05, 0, 0.05));
-                case 1 -> player.teleport(player.getLocation().add(-0.05, 0, 0.05));
-                case 2 -> player.teleport(player.getLocation().add(0.05, 0, -0.05));
-                default -> {
-                    cycle = -1;
-                    player.teleport(player.getLocation().add(-0.05, 0, -0.05));
-                }
-            }
-            cycle++;
+            Location location = player.getLocation();
+
+            player.setRotation(location.getYaw() + random.nextInt(12)-6, location.getPitch() + random.nextInt(12)-6);
             return true;
         }
 
         @Override
         public long repeating() {
-            return 5;
+            return 2;
         }
     }),
 

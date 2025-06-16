@@ -3,7 +3,7 @@ package net.annova.object.entity.mobs.sector0.mines;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
-import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 
-public class Guardian extends RPGEntity implements RPGSpawn, EntityAction {
+public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;

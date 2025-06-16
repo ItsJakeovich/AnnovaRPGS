@@ -50,7 +50,7 @@ public class StatusManager {
     }
     private final Map<StatusType, Long> cooldowns = new EnumMap<>(StatusType.class);
     @Nullable
-    public Status addStatus( Player player, StatusType type, Object object) {
+    public Status addStatus(Player player, StatusType type, Object object) {
         Status status = new Status(type);
         long millis = System.currentTimeMillis();
         if (cooldowns.containsKey(type) && millis < cooldowns.get(type)) return status;

@@ -1,15 +1,18 @@
 package net.annova.environment.world.sector0.location;
 
-import net.annova.environment.world.Location;
+import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.RPGAdvancement;
+import net.annova.object.LocationCategory;
+import net.annova.object.entity.core.RPGEntityType;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 
-public class Meteorite implements Location {
+public class Meteorite extends SectorLocation {
     private static final org.bukkit.Location theMeteorite = new org.bukkit.Location(world0, 730, 51, -191);
 
     @Override
@@ -38,6 +41,11 @@ public class Meteorite implements Location {
     @Override
     public Set<RPGAdvancement> advancements() {
         return Set.of();
+    }
+
+    @Override
+    public Set<RPGEntityType> entitiesToSpawn() {
+        return getEntitiesByCategory(LocationCategory.S0_METEORITE);
     }
 
     @Override

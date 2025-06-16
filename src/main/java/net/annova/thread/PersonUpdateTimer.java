@@ -14,9 +14,10 @@ public class PersonUpdateTimer extends AnnovaAsyncTask {
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
-            person.updateSet();
-            person.updateArmor();
-            person.regen();
+            person.updateSet(player);
+            person.updateArmor(player);
+            person.regen(player);
+            person.updateSectorLocation(player);
 
             StatusManager manager = person.getStatusManager();
             for (StatusType type : StatusType.getForActivation()) {

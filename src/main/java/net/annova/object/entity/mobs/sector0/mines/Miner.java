@@ -1,7 +1,7 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.object.RPGRarity;
-import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
@@ -19,7 +19,7 @@ import java.util.Set;
 
 import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 
-public class Miner extends RPGEntity implements RPGSpawn {
+public class Miner extends RPGEntity implements EntitySpawn {
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;

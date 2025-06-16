@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.prison;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.magic.projectile.HarryBall;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +21,7 @@ import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.item.base.Item.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
-public class Harry extends RPGEntity implements RPGActivity {
+public class Harry extends RPGEntity implements EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.EVOKER;

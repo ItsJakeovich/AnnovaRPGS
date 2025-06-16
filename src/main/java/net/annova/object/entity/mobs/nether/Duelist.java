@@ -3,7 +3,7 @@ package net.annova.object.entity.mobs.nether;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGEquipment;
+import net.annova.object.entity.core.attribute.EntityEquipment;
 import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.ChatColor;
@@ -18,7 +18,7 @@ import java.util.Set;
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.REFLECT;
 
-public class Duelist extends RPGEntity implements RPGEquipment, Listener {
+public class Duelist extends RPGEntity implements EntityEquipment, Listener {
     @Override
     public EntityType<?> type() {
         return EntityType.WITHER_SKELETON;

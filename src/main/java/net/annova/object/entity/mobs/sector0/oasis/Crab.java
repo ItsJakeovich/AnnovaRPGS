@@ -3,7 +3,7 @@ package net.annova.object.entity.mobs.sector0.oasis;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
-import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomCrab;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +21,7 @@ import static net.annova.object.item.base.Item.CRAB_CLAW;
 import static net.annova.util.BukkitObjects.random;
 import static net.minecraft.world.entity.EntityType.CAVE_SPIDER;
 
-public class Crab extends RPGEntity implements CustomType, RPGSpawn {
+public class Crab extends RPGEntity implements CustomType, EntitySpawn {
     @Override
     public Class<?> clazz() {
         return CustomCrab.class;

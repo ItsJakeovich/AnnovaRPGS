@@ -2,9 +2,11 @@ package net.annova.object.entity.mobs.sector0.forest;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
+import net.annova.object.entity.core.attribute.EntityEquipment;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
@@ -21,7 +23,7 @@ import static net.annova.object.item.base.Item.DARK_ELF_BOW;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
-public class DarkElf extends RPGEntity implements RPGActivity {
+public class DarkElf extends RPGEntity implements EntityEquipment, EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.BOGGED;
@@ -100,5 +102,17 @@ public class DarkElf extends RPGEntity implements RPGActivity {
     @Override
     public long syncRepeating() {
         return 50;
+    }
+
+    @Override
+    public ItemStack[] equipment() {
+        return new ItemStack[] {
+                new ItemStack(Material.BOW),
+                null,
+                null,
+                null,
+                null,
+                null
+        };
     }
 }

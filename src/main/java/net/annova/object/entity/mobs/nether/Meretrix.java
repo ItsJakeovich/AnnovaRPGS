@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Entity;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-public class Meretrix extends RPGEntity implements RPGActivity {
+public class Meretrix extends RPGEntity implements EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.VEX;

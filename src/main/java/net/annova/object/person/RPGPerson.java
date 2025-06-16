@@ -2,6 +2,8 @@ package net.annova.object.person;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.world.RPGAdvancement;
+import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.WorldSector;
 import net.annova.object.item.base.*;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaGlobal;
@@ -26,6 +28,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.Set;
 
+import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
 import static net.annova.util.MessageObjects.sendForAll;
@@ -45,7 +48,7 @@ public class RPGPerson {
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
 
-    private net.annova.environment.world.Location location;
+    private SectorLocation sectorLocation;
 
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
 
@@ -119,9 +122,8 @@ public class RPGPerson {
         this.person.getPlayer().sendMessage(LocalDate.now() + ": damage: " + damage);
         this.setHealth(this.health - damage);
     }
-    public void regen() {
+    public void regen(Player player) {
         float regeneration = this.regeneration;
-        Player player = this.person.getPlayer();
         float food = player.getFoodLevel();
         if (food == 0) {
             regeneration -= 3;
@@ -229,11 +231,10 @@ public class RPGPerson {
 
         this.set = set;
     }
-    public void updateSet() {
-        Player player = this.getPerson().getPlayer();
+    public void updateSet(Player player) {
 //        this.setSet(Set.getSet(player));
     }
-    public void updateArmor() {
+    public void updateArmor(Player player) {
 //        Player player = this.getPerson().getPlayer();
 //        ItemStack[] armorContent = player.getEquipment().getArmorContents();
 //        for (int i = 0; i < 4; i++) {
@@ -326,6 +327,28 @@ public class RPGPerson {
     }
     public float getAdditionalHealth() {
         return additionalHealth;
+    }
+
+    @Nullable
+    public SectorLocation getSectorLocation() {
+        return sectorLocation;
+    }
+    public void updateSectorLocation(Player player) {
+        WorldSector sector = worldSectors.get(player.getWorld());
+        if (sector == null) {
+            this.sectorLocation = null;
+            return;
+        }
+        Location playerLocation = player.getLocation();
+        for (SectorLocation sectorLocation : sector.zones()) {
+            if (sectorLocation.isOutside(playerLocation)) continue;
+            this.sectorLocation = sectorLocation;
+            break;
+        }
+
+        // Movement event
+        if (sectorLocation == null) return;
+        sectorLocation.movement(player);
     }
 
     public boolean isTeleportAccess() {

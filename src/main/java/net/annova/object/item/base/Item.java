@@ -3,6 +3,7 @@ package net.annova.object.item.base;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.annova.object.item.sector0.forest.BladeImbuedWithMagic;
 import net.annova.object.item.sector0.forest.DarkElfBow;
 import net.annova.object.item.sector0.dryad.WolfSkin;
 import net.annova.object.item.sector0.forest.DarknessConcentration;
@@ -104,6 +105,7 @@ public enum Item {
     // S0 - Dryad Pedestal
     WOLF_SKIN(new WolfSkin()),
     // S0 - FOREST
+    BLADE_IMBUED_WITH_MAGIC(new BladeImbuedWithMagic()),
     DARK_ELF_BOW(new DarkElfBow()),
     DARKNESS_CONCENTRATION(new DarknessConcentration()),
     ENT_ROOT(new EntRoot()),

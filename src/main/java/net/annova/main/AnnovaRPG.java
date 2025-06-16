@@ -10,7 +10,9 @@ import net.annova.environment.structure.StructureBase;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.*;
 import net.minecraft.world.entity.Entity;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.main.AnnovaAPI.initEvents;
+import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
 import static net.annova.main.GlobalRPG.*;
 import static net.annova.thread.TaskMaster.syncTimer;
@@ -52,6 +55,12 @@ public final class AnnovaRPG extends JavaPlugin {
         DungeonTemplate.createDungeonWorld();
 
         this.initialization();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!containsRPGPerson(player)) {
+                addRPGPerson(getPerson(player));
+            }
+        }
     }
 
     @Override
@@ -84,9 +93,6 @@ public final class AnnovaRPG extends JavaPlugin {
         RPGPerson.init();
         RPGEntity.init();
         StructureBase.init();
-
-        // World
-        GlobalWorld.init();
     }
 
     public static JavaPlugin getInstance() {

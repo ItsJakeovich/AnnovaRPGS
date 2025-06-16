@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.environment.world.Location.getChorusLocation;
+import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.util.BukkitObjects.random;
 
 public class Dodger extends RPGEntity implements EntityAction {

@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.sector0.dryad;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Location;
@@ -16,7 +16,7 @@ import static net.annova.object.entity.core.RPGEntityType.FOREST_WOLF;
 import static net.annova.object.item.base.Item.WOLF_SKIN;
 import static net.annova.util.BukkitObjects.random;
 
-public class ForestWolf extends RPGEntity implements RPGSpawn {
+public class ForestWolf extends RPGEntity implements EntitySpawn {
     @Override
     public EntityType<?> type() {
         return EntityType.WOLF;

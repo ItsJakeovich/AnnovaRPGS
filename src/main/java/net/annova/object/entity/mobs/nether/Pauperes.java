@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.*;
@@ -18,7 +18,7 @@ import java.util.Set;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.BukkitObjects.random;
 
-public class Pauperes extends RPGEntity implements RPGActivity, Listener {
+public class Pauperes extends RPGEntity implements EntityActivity, Listener {
     @Override
     public EntityType<?> type() {
         return EntityType.GHAST;

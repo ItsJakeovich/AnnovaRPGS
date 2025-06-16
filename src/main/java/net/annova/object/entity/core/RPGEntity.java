@@ -3,9 +3,9 @@ package net.annova.object.entity.core;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
-import net.annova.object.entity.core.attribute.RPGActivity;
-import net.annova.object.entity.core.attribute.RPGEquipment;
-import net.annova.object.entity.core.attribute.RPGSpawn;
+import net.annova.object.entity.core.attribute.EntityActivity;
+import net.annova.object.entity.core.attribute.EntityEquipment;
+import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
@@ -26,7 +26,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -138,7 +137,7 @@ public abstract class RPGEntity {
         level.tryAddFreshEntityWithPassengers(ent);
         addEntity(this);
 
-        if (this instanceof RPGSpawn spawn)
+        if (this instanceof EntitySpawn spawn)
             spawn.onSpawn(location);
 //        for (RPGAbility ability : this.abilities()) {
 //            switch (ability.getType()) {
@@ -156,7 +155,7 @@ public abstract class RPGEntity {
 //                }
 //            }
 //        }
-        if (this instanceof RPGActivity activity) {
+        if (this instanceof EntityActivity activity) {
             if (activity.repeating() != 0) {
                 new BukkitRunnable() {
                     @Override
@@ -180,8 +179,8 @@ public abstract class RPGEntity {
             }
         }
 
-        if (this instanceof RPGEquipment equipment) {
-            EntityEquipment equip = ((org.bukkit.entity.LivingEntity) ent.getBukkitEntity()).getEquipment();
+        if (this instanceof EntityEquipment equipment) {
+            org.bukkit.inventory.EntityEquipment equip = ((org.bukkit.entity.LivingEntity) ent.getBukkitEntity()).getEquipment();
             equip.setItemInMainHand(equipment.equipment()[0]);
             equip.setItemInOffHand(equipment.equipment()[1]);
             equip.setHelmet(equipment.equipment()[2]);

@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.sector0.swamps;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Creature;
@@ -17,7 +17,7 @@ import static net.annova.object.entity.core.RPGEntityType.SWAMP_SPIDER;
 import static net.annova.object.item.base.Item.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 
-public class Melanox extends RPGEntity implements RPGActivity {
+public class Melanox extends RPGEntity implements EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.SPIDER;

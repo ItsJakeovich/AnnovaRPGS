@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.sector0.meteorite;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -15,7 +15,7 @@ import java.util.Set;
 
 import static net.annova.object.item.base.Item.METEORITE_FRAGMENT;
 
-public class MeteoriteGolem extends RPGEntity implements RPGActivity, Listener {
+public class MeteoriteGolem extends RPGEntity implements EntityActivity, Listener {
     @Override
     public EntityType<?> type() {
         return EntityType.IRON_GOLEM;

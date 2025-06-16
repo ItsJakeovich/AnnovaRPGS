@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static net.annova.environment.world.Location.getChorusLocation;
+import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.HARRY_DEFENCE_DEBUFF;
 import static net.annova.util.BukkitObjects.random;

@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static net.annova.environment.world.Location.getChorusLocation;
+import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.GlobalRPG.getEntity;
 import static net.annova.util.BukkitObjects.chance;
 

@@ -2,26 +2,27 @@ package net.annova.object.entity.mobs.sector0.forest;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityAction;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.util.BukkitObjects.chance;
+import static net.annova.environment.world.SectorLocation.getChorusLocation;
+import static net.annova.object.entity.core.RPGEntityType.ENT;
+import static net.annova.object.item.base.Item.BLADE_IMBUED_WITH_MAGIC;
+import static net.annova.object.item.base.Item.ENT_ROOT;
+import static net.annova.util.BukkitObjects.random;
 
-public class OlderEnt extends RPGEntity implements RPGActivity {
+public class OlderEnt extends RPGEntity implements EntityAction, EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.IRON_GOLEM;
@@ -59,7 +60,10 @@ public class OlderEnt extends RPGEntity implements RPGActivity {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of();
+        return List.of(
+                ENT_ROOT.create(player, random.nextInt(7)+1),
+                BLADE_IMBUED_WITH_MAGIC.create(player, 0.04)
+        );
     }
 
     @Override
@@ -67,42 +71,63 @@ public class OlderEnt extends RPGEntity implements RPGActivity {
         return Set.of();
     }
 
-    private Block lastBlock;
-    private final static PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 30, 9);
+    private int healingCooldown = 20; // 10 seconds
+    Vec3 vec3;
     @Override
     public boolean activity() {
-        if (lastBlock != null) {
-            lastBlock.setType(Material.AIR);
-        }
-        LivingEntity target = ((Creature) entity.getBukkitEntity()).getTarget();
-        if (target != null && chance(0.2)) {
-            Block block = target.getLocation().getBlock();
-            if (block.getType().isAir()) {
-                block.setType(Material.OAK_LEAVES);
-                target.addPotionEffect(slowness);
-                lastBlock = block;
-            }
+        // healing
+        if (healingCooldown != 0) healingCooldown--;
+        else {
+            this.regen(2.5f);
+            if (vec3 == null) vec3 = this.entity.position();
+            entity.level().getWorld().spawnParticle(Particle.TINTED_LEAVES,
+                    vec3.x, vec3.y+1, vec3.z,
+                    8, 0.6, 1.2, 0.6, Color.GREEN
+            );
+            entity.setPos(vec3);
         }
         return true;
     }
-
     @Override
     public long repeating() {
-        return 30;
+        return 10;
     }
 
     @Override
     public boolean syncActivity(LivingEntity entity) {
-        this.entity.heal(5);
-        entity.getWorld().spawnParticle(Particle.TINTED_LEAVES,
-                entity.getLocation().add(0, 1, 0),
-                8, 0.6, 1.2, 0.6, Color.GREEN
-        );
+        // summoning
+        Location location = entity.getLocation();
+        if (((Mob) entity).getTarget() != null) {
+            for (int i = random.nextInt(3)+1; i != 0; i--) {
+                ENT.getEntity().create(getChorusLocation(location, 8));
+            }
+        }
+        return true;
+    }
+    @Override
+    public long syncRepeating() {
+        return 300;
+    }
+
+    @Override
+    public boolean onTarget(Entity target) {
         return true;
     }
 
     @Override
-    public long syncRepeating() {
-        return 100;
+    public boolean onAttack(LivingEntity target) {
+        return true;
+    }
+
+    @Override
+    public boolean onDamage(Entity damager) {
+        this.healingCooldown = 20;
+        this.vec3 = null;
+        return true;
+    }
+
+    @Override
+    public void onDeath() {
+
     }
 }

@@ -46,6 +46,7 @@ public class DungeonEvent implements Listener {
     public void login(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         RPGPerson pers = getRPGPerson(player);
+        if (pers == null) return;
         if (!player.getWorld().equals(getDungeonWorld())) return;
         if (pers.getDungeon() != null) return;
 

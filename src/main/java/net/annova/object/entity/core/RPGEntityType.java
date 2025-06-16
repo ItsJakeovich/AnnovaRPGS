@@ -3,6 +3,7 @@ package net.annova.object.entity.core;
 import net.annova.main.GlobalRPG;
 import net.annova.object.LocationCategory;
 import net.annova.object.entity.mobs.Boar;
+import net.annova.object.entity.mobs.Frog;
 import net.annova.object.entity.mobs.Snake;
 import net.annova.object.entity.mobs.nether.*;
 import net.annova.object.entity.mobs.prison.*;
@@ -20,12 +21,15 @@ import net.annova.object.entity.mobs.sector0.swamps.FatSpider;
 import net.annova.object.entity.mobs.sector0.swamps.Melanox;
 import net.annova.object.entity.mobs.sector0.swamps.SwampSpider;
 import net.annova.object.entity.mobs.sector0.swamps.WhipSpider;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.object.LocationCategory.*;
+import static net.annova.util.BukkitObjects.chance;
 
 public enum RPGEntityType {
     PRISONER(D_PRISON, Prisoner.class),
@@ -41,8 +45,9 @@ public enum RPGEntityType {
     MAJOR(D_PRISON, Major.class),
     SECURITY(D_PRISON, Security.class),
 
-    BOAR(Boar.class), // unique legendary mob
-    SNAKE(Snake.class),
+    BOAR(EVERYWHERE, Boar.class, 0.05), // unique legendary mob
+    FROG(EVERYWHERE, Frog.class, 0.01666), // 5/3
+    SNAKE(EVERYWHERE, Snake.class, 0.05),
 
     // nether mobs
     BERSERK(NETHER, Berserk.class),
@@ -60,7 +65,7 @@ public enum RPGEntityType {
     // Sector 0 - Forest
     DARK_ELF(S0_FOREST, DarkElf.class),
     ENT(S0_FOREST, Ent.class),
-    OLDER_ENT(S0_FOREST, OlderEnt.class),
+    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03),
     // Sector - Meteorite
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     SHARDS(S0_METEORITE, Shards.class),
@@ -84,6 +89,8 @@ public enum RPGEntityType {
     final LocationCategory category;
     final Class<? extends RPGEntity> clazz;
 
+    private final double chance;
+
     private static final Map<LocationCategory, Set<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
     private static final Map<Class<? extends RPGEntity>, String> KEY_BY_CLASS = new HashMap<>();
 
@@ -101,8 +108,12 @@ public enum RPGEntityType {
         this(WITHOUT, clazz);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz) {
+        this(category, clazz, 1.0);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
         this.category = category;
         this.clazz = clazz;
+        this.chance = chance;
     }
 
     public RPGEntity getEntity() {
@@ -125,5 +136,15 @@ public enum RPGEntityType {
     }
     public boolean equals(RPGEntity entity) {
         return entity != null && this.name().equals(entity.getId());
+    }
+
+    public boolean tryNaturalSpawn(Location location) {
+        if (!chance(chance)) return false;
+
+        Location spawn = getChorusLocation(location, 30);
+        if (spawn.distanceSquared(location) < 64) return false;
+        if (spawn.getBlock().getLightFromBlocks() > 7) return false;
+        this.getEntity().create(spawn);
+        return true;
     }
 }

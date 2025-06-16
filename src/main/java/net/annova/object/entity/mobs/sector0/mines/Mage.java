@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Creature;
@@ -18,7 +18,7 @@ import java.util.Set;
 import static net.annova.object.item.base.Item.MAGIC_SCRAP;
 import static net.annova.util.BukkitObjects.random;
 
-public class Mage extends RPGEntity implements RPGActivity {
+public class Mage extends RPGEntity implements EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;

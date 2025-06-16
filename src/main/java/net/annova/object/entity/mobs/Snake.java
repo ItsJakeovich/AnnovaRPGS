@@ -1,9 +1,11 @@
 package net.annova.object.entity.mobs;
 
 import net.annova.object.RPGRarity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
+import net.annova.object.entity.mobs.custom.CustomSnake;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,7 +18,12 @@ import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.POISON;
 import static net.annova.util.BukkitObjects.random;
 
-public class Snake extends RPGEntity {
+public class Snake extends RPGEntity implements CustomType {
+    @Override
+    public Class<?> clazz() {
+        return CustomSnake.class;
+    }
+
     @Override
     public EntityType<?> type() {
         return EntityType.SILVERFISH;

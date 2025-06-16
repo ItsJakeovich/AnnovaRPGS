@@ -1,8 +1,10 @@
 package net.annova.environment.world.sector0.location;
 
-import net.annova.environment.world.Location;
+import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.RPGAdvancement;
+import net.annova.object.LocationCategory;
 import net.annova.object.Person;
+import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
 import org.bukkit.Color;
@@ -24,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.object.item.base.Item.UNKNOWN_SOURCE_WATER;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
@@ -31,7 +34,7 @@ import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.random;
 import static net.annova.environment.world.RPGAdvancement.*;
 
-public class Oasis implements Location, Listener {
+public class Oasis extends SectorLocation implements Listener {
     //public static final org.bukkit.Location theOasis = new org.bukkit.Location(world0, -1023, 72, 412);;
     private final String[] messageKeys = {
             "s0-oasis-msg-0",
@@ -76,6 +79,11 @@ public class Oasis implements Location, Listener {
                 THATS_LUCK,
                 GOOD_CATCH
         );
+    }
+
+    @Override
+    public Set<RPGEntityType> entitiesToSpawn() {
+        return getEntitiesByCategory(LocationCategory.S0_OASIS);
     }
 
     @Override

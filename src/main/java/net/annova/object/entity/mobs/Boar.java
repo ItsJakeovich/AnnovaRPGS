@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
-import net.annova.object.entity.core.attribute.RPGActivity;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
 import net.minecraft.server.level.ServerLevel;
@@ -10,14 +10,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPig;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -27,10 +22,9 @@ import java.util.Set;
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.Person.getCardinalDirection;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
-public class Boar extends RPGEntity implements RPGActivity {
+public class Boar extends RPGEntity implements EntityActivity {
     @Override
     public EntityType<?> type() {
         return EntityType.PIG;

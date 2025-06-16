@@ -6,21 +6,17 @@ import org.bukkit.World;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.util.BukkitObjects.chance;
-import static net.annova.util.BukkitObjects.random;
 
 public class WorldEvent implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (!containsRPGPerson(player)) addRPGPerson(getPerson(player));

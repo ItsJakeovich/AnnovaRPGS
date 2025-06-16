@@ -1,17 +1,21 @@
 package net.annova.command.cmdRPG;
 
 import net.annova.command.register.CommandArg;
+import net.annova.environment.world.WorldSector;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.item.base.Item;
+import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.StatusManager;
+import net.annova.object.person.status.StatusType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import static net.annova.environment.world.sector0.SuruWahare.sectorZones;
+import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class RPGCode {
     private static final List<Inventory> itemsInterface = new ArrayList<>();
@@ -45,14 +49,25 @@ public class RPGCode {
         player.openInventory(toOpen);
     }
 
+    @CommandArg(name = "shaking")
+    public void shaking(Player player) {
+        RPGPerson person = getRPGPerson(player);
+        StatusManager manager = person.getStatusManager();
+        if (manager.containStatus(StatusType.SHAKING)) {
+            manager.removeStatus(StatusType.SHAKING);
+        } else manager.addStatus(player, StatusType.SHAKING);
+    }
+
     @CommandArg(name = "show-borders")
     public void showBorders(Player player, String[] args) {
         if (args.length == 1) {
             player.sendMessage("Usage: /rpg show-borders {1-6}");
             return;
         }
+        WorldSector sector = worldSectors.get(player.getWorld());
+        if (sector == null) return;
         int location = Integer.parseInt(args[1]);
-        sectorZones.get(location).showTerritory(world0);
+        sector.zones().get(location).showTerritory(world0);
     }
 
     @CommandArg(name = "summon")

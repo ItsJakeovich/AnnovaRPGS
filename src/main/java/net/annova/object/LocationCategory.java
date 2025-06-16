@@ -2,6 +2,7 @@ package net.annova.object;
 
 public enum LocationCategory {
     WITHOUT, // without category
+    EVERYWHERE,
 
     D_PRISON,
     NETHER,

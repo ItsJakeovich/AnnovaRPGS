@@ -1,8 +1,10 @@
 package net.annova.environment.world.sector0.location;
 
-import net.annova.environment.world.Location;
+import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.RPGAdvancement;
+import net.annova.object.LocationCategory;
 import net.annova.object.Person;
+import net.annova.object.entity.core.RPGEntityType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -12,9 +14,10 @@ import java.util.Set;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
 
-public class SpiderSwamps implements Location {
+public class SpiderSwamps extends SectorLocation {
     private final String[] messageKeys = {
             "s0-swamps-msg-0",
             "s0-swamps-msg-1",
@@ -41,6 +44,11 @@ public class SpiderSwamps implements Location {
     @Override
     public Set<RPGAdvancement> advancements() {
         return Set.of();
+    }
+
+    @Override
+    public Set<RPGEntityType> entitiesToSpawn() {
+        return getEntitiesByCategory(LocationCategory.S0_SWAMPS);
     }
 
     @Override
