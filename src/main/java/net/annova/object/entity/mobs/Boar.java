@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -90,88 +91,99 @@ public class Boar extends RPGEntity implements EntityActivity {
     private double speed = 1.75; // Начальная скорость
     private Person.CardinalDirection direction;
     private ServerPlayer targetPlayer = null; // Текущая цель
-    @Override
-    public boolean activity() {
-        Mob mob = (Mob) this.entity;
-        if (targetPlayer == null) {
-            ServerPlayer nearestPlayer = (ServerPlayer) mob.level().getNearestPlayer(mob, followRange);
-            if (nearestPlayer != null && mob.hasLineOfSight(nearestPlayer)) {
-                targetPlayer = nearestPlayer;
-            } else {
-                return true;
-            }
-        }
-        double minSpeed = 1.75;
-        double distance = mob.distanceToSqr(targetPlayer);
-        if (distance > followRange*followRange) {
-            targetPlayer = null;
-            speed = minSpeed;
-            return true;
-        }
-        mob.getNavigation().moveTo(targetPlayer, speed);
-
-        Player player = targetPlayer.getBukkitEntity();
-        org.bukkit.entity.Mob pig = (org.bukkit.entity.Mob) mob.getBukkitEntity();
-        if (pig.isOnGround() && player.getLocation().getY() - pig.getLocation().getY() > 1) {
-            pig.setVelocity(player.getLocation()
-                    .toVector()
-                    .subtract(mob.getBukkitEntity().getLocation().toVector())
-                    .normalize().multiply(1.2).setY(0.6)
-            );
-        }
-
-        if (direction != getCardinalDirection(mob.getBukkitEntity())) {
-            this.speed = Math.max(speed - 0.35, minSpeed);
-        }
-        direction = getCardinalDirection(mob.getBukkitEntity());
-
-        // Если кабан близко, бей!
-        if (distance > 2.0 || !canAttack) return true;
-
-        targetPlayer.hurtServer((ServerLevel) mob.level(), mob.damageSources().mobAttack(mob), 15.0f);
-
-        // Отталкивание игрока
-        Vec3 pigPosition = mob.position();
-        Vec3 playerPosition = targetPlayer.position();
-        Vec3 knockback = new Vec3(
-                playerPosition.x - pigPosition.x,
-                playerPosition.y - pigPosition.y,
-                playerPosition.z - pigPosition.z
-        ).normalize().scale(-2.0);
-
-        knockback = new Vec3(knockback.x, 0.5, knockback.z);
-        targetPlayer.setDeltaMovement(knockback);
-
-        // Сброс агрессии после удара
-        canAttack = false;
-        speed = minSpeed;
-        targetPlayer = null;
-
-        // Таймер восстановления атаки
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                canAttack = true;
-            }
-        }.runTaskLater(getInstance(), 40L); // 2 seconds
-        return true;
-    }
-    @Override
-    public long repeating() {
-        return 20;
-    }
 
     @Override
-    public boolean syncActivity(LivingEntity entity) {
-        if (targetPlayer == null) return true;
-        if (this.entity.distanceToSqr(targetPlayer) > followRange*followRange || !canAttack) return true;
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        Mob mob = (Mob) Boar.this.entity;
+                        if (targetPlayer == null) {
+                            ServerPlayer nearestPlayer = (ServerPlayer) mob.level().getNearestPlayer(mob, followRange);
+                            if (nearestPlayer != null && mob.hasLineOfSight(nearestPlayer)) {
+                                targetPlayer = nearestPlayer;
+                            } else {
+                                return true;
+                            }
+                        }
+                        double minSpeed = 1.75;
+                        double distance = mob.distanceToSqr(targetPlayer);
+                        if (distance > followRange * followRange) {
+                            targetPlayer = null;
+                            speed = minSpeed;
+                            return true;
+                        }
+                        mob.getNavigation().moveTo(targetPlayer, speed);
 
-        // Увеличиваем скорость до максимума
-        speed = Math.min(speed + 0.05, 2.5);
-        return true;
-    }
-    @Override
-    public long syncRepeating() {
-        return 2;
+                        Player player = targetPlayer.getBukkitEntity();
+                        org.bukkit.entity.Mob pig = (org.bukkit.entity.Mob) mob.getBukkitEntity();
+                        if (pig.isOnGround() && player.getLocation().getY() - pig.getLocation().getY() > 1) {
+                            pig.setVelocity(player.getLocation()
+                                    .toVector()
+                                    .subtract(mob.getBukkitEntity().getLocation().toVector())
+                                    .normalize().multiply(1.2).setY(0.6)
+                            );
+                        }
+
+                        if (direction != getCardinalDirection(mob.getBukkitEntity())) {
+                            Boar.this.speed = Math.max(speed - 0.35, minSpeed);
+                        }
+                        direction = getCardinalDirection(mob.getBukkitEntity());
+
+                        // Если кабан близко, бей!
+                        if (distance > 2.0 || !canAttack) return true;
+
+                        targetPlayer.hurtServer((ServerLevel) mob.level(), mob.damageSources().mobAttack(mob), 15.0f);
+
+                        // Отталкивание игрока
+                        Vec3 pigPosition = mob.position();
+                        Vec3 playerPosition = targetPlayer.position();
+                        Vec3 knockback = new Vec3(
+                                playerPosition.x - pigPosition.x,
+                                playerPosition.y - pigPosition.y,
+                                playerPosition.z - pigPosition.z
+                        ).normalize().scale(-2.0);
+
+                        knockback = new Vec3(knockback.x, 0.5, knockback.z);
+                        targetPlayer.setDeltaMovement(knockback);
+
+                        // Сброс агрессии после удара
+                        canAttack = false;
+                        speed = minSpeed;
+                        targetPlayer = null;
+
+                        // Таймер восстановления атаки
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                canAttack = true;
+                            }
+                        }.runTaskLater(getInstance(), 40L); // 2 seconds
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 20;
+                    }
+                },
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        if (targetPlayer == null) return true;
+                        if (Boar.this.entity.distanceToSqr(targetPlayer) > followRange*followRange || !canAttack) return true;
+
+                        // Увеличиваем скорость до максимума
+                        speed = Math.min(speed + 0.05, 2.5);
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 2;
+                    }
+                }
+        );
     }
 }

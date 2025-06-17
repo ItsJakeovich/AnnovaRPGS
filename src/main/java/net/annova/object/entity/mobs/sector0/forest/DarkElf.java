@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.forest;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -72,38 +73,6 @@ public class DarkElf extends RPGEntity implements EntityEquipment, EntityActivit
         return Set.of();
     }
 
-    private final PotionEffect invisibility = new PotionEffect(PotionEffectType.INVISIBILITY, 100, 0);
-    @Override
-    public boolean activity() {
-        ((Creature) entity).addPotionEffect(invisibility);
-        return true;
-    }
-
-    @Override
-    public long repeating() {
-        return 400;
-    }
-
-    private final PotionEffect[] effects = new PotionEffect[] {
-            new PotionEffect(PotionEffectType.BLINDNESS, 80, 0),
-            new PotionEffect(PotionEffectType.WEAKNESS, 100, 0),
-            new PotionEffect(PotionEffectType.POISON, 100, 0)
-    };
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        LivingEntity target = ((Creature) entity).getTarget();
-        if (target != null && chance(0.1)) {
-            target.addPotionEffect(effects[random.nextInt(effects.length)]);
-            target.getWorld().spawnParticle(Particle.WITCH, target.getEyeLocation(), 8, 0.6, 1.2, 0.6);
-        }
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 50;
-    }
-
     @Override
     public ItemStack[] equipment() {
         return new ItemStack[] {
@@ -114,5 +83,45 @@ public class DarkElf extends RPGEntity implements EntityEquipment, EntityActivit
                 null,
                 null
         };
+    }
+
+    private final PotionEffect invisibility = new PotionEffect(PotionEffectType.INVISIBILITY, 100, 0);
+    private final PotionEffect[] effects = new PotionEffect[] {
+            new PotionEffect(PotionEffectType.BLINDNESS, 80, 0),
+            new PotionEffect(PotionEffectType.WEAKNESS, 100, 0),
+            new PotionEffect(PotionEffectType.POISON, 100, 0)
+    };
+    @Override
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        ((Creature) entity).addPotionEffect(invisibility);
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 400;
+                    }
+                },
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        LivingEntity target = ((Creature) entity).getTarget();
+                        if (target != null && chance(0.1)) {
+                            target.addPotionEffect(effects[random.nextInt(effects.length)]);
+                            target.getWorld().spawnParticle(Particle.WITCH, target.getEyeLocation(), 8, 0.6, 1.2, 0.6);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 50;
+                    }
+                }
+        );
     }
 }

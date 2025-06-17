@@ -47,6 +47,7 @@ public class RPGPerson {
     private final Map<String, Long> speedModifiers = new HashMap<>();
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
+    private boolean showBar = true;
 
     private SectorLocation sectorLocation;
 
@@ -160,6 +161,7 @@ public class RPGPerson {
         this.maxHealth = newMaxHealth;
     }
     public void updateStatusBar() {
+        if (!this.showBar) return;
         String message = this.person.getString(getInstance(), "bar-health")
                 .replace("{h}", String.valueOf((int) this.health))
                 .replace("{m}", String.valueOf((int) this.maxHealth));
@@ -367,6 +369,13 @@ public class RPGPerson {
     public void teleport(Player player, Location location) {
         this.teleportAccess = true;
         player.teleport(location);
+    }
+
+    public boolean isShowBar() {
+        return showBar;
+    }
+    public void setShowBar(boolean showBar) {
+        this.showBar = showBar;
     }
 
     public Set<RPGAdvancement> getAdvancements() {

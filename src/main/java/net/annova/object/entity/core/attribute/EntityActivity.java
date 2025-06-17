@@ -1,10 +1,9 @@
 package net.annova.object.entity.core.attribute;
 
-import org.bukkit.entity.LivingEntity;
+import net.annova.object.CustomRunnable;
+
+import java.util.List;
 
 public interface EntityActivity {
-    boolean activity();
-    long repeating();
-    boolean syncActivity(LivingEntity entity);
-    long syncRepeating();
+    List<CustomRunnable> runnables();
 }

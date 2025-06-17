@@ -1,6 +1,7 @@
 package net.annova.object.entity.core;
 
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -89,6 +90,10 @@ public abstract class RPGEntity {
         this.statuses.remove(type);
     }
 
+    public Location getLocation() {
+        return CraftLocation.toBukkit(entity.position(), entity.level().getWorld());
+    }
+
     public LivingEntity create(LivingEntity entity) {
         return this.create(CraftLocation.toBukkit(entity.position(), entity.level().getWorld()));
     }
@@ -156,26 +161,14 @@ public abstract class RPGEntity {
 //            }
 //        }
         if (this instanceof EntityActivity activity) {
-            if (activity.repeating() != 0) {
+            for (CustomRunnable custom :  activity.runnables()) {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (!entity.getBukkitEntity().isValid()
-                                || !activity.activity()
-                        ) this.cancel();
+                        if (entity.isAlive() && entity.valid && custom.activity()) return;
+                        this.cancel();
                     }
-                }.runTaskTimer(getInstance(), 0, activity.repeating());
-            }
-            if (activity.syncRepeating() != 0) {
-                LivingEntity finalEnt = ent;
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (!entity.getBukkitEntity().isValid()
-                                || !activity.syncActivity((org.bukkit.entity.LivingEntity) finalEnt.getBukkitEntity())
-                        ) this.cancel();
-                    }
-                }.runTaskTimer(getInstance(), 0, activity.syncRepeating());
+                }.runTaskTimer(getInstance(), 0, custom.repeating());
             }
         }
 
@@ -201,10 +194,6 @@ public abstract class RPGEntity {
     }
     public void setEntity(LivingEntity entity) {
         this.entity = entity;
-    }
-
-    public Location getLocation() {
-        return CraftLocation.toBukkit(entity.position(), entity.level().getWorld());
     }
 
     public Dungeon getDungeon() {

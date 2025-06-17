@@ -2,6 +2,7 @@ package net.annova.event;
 
 import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.StatusManager;
 import org.bukkit.World;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.*;

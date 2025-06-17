@@ -1,6 +1,8 @@
 package net.annova.object.entity.mobs.custom;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -27,5 +29,11 @@ public class CustomEnt extends Zombie {
             }
             return true;
         } else return false;
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
+        if (damagesource.is(DamageTypes.ON_FIRE)) f*=3;
+        return super.hurtServer(worldserver, damagesource, f);
     }
 }

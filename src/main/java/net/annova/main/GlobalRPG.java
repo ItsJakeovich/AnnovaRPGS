@@ -4,6 +4,7 @@ import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
+import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.npc.RPGNPC;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.quest.QuestBase;
@@ -103,6 +104,13 @@ public class GlobalRPG {
     }
     public static boolean containEntity(Entity entity) {
         return entities.containsKey(entity);
+    }
+    public static int getAmountByTypeEntity(RPGEntityType type) {
+        int amount = 0;
+        for (RPGEntity entity : entities.values()) {
+            if (type.equals(entity)) amount++;
+        }
+        return amount;
     }
     public static Collection<RPGEntity> getEntities() {
         return entities.values();

@@ -63,14 +63,18 @@ public class StatusManager {
             status.setRunnable(new BukkitRunnable() {
                 @Override
                 public void run() {
+                    if (!player.isOnline()) return;
                     if (activity.activity(person, player, object)) return;
+
                     this.cancel();
+                    StatusManager.this.removeStatus(type);
                 }
             }.runTaskTimer(getInstance(), 0, activity.repeating()));
         }
         this.update();
         return status;
     }
+
     public void removeStatus(StatusType type) {
         if (statuses.containsKey(type)) {
             BukkitTask runnable = statuses.get(type).getRunnable();

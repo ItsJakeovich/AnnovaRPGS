@@ -27,7 +27,9 @@ import org.bukkit.entity.LivingEntity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
+import static net.annova.main.GlobalRPG.getAmountByTypeEntity;
 import static net.annova.object.LocationCategory.*;
 import static net.annova.util.BukkitObjects.chance;
 
@@ -90,6 +92,7 @@ public enum RPGEntityType {
     final Class<? extends RPGEntity> clazz;
 
     private final double chance;
+    private final int maxAmount;
 
     private static final Map<LocationCategory, Set<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
     private static final Map<Class<? extends RPGEntity>, String> KEY_BY_CLASS = new HashMap<>();
@@ -111,9 +114,13 @@ public enum RPGEntityType {
         this(category, clazz, 1.0);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
+        this(category, clazz, chance, 0);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount) {
         this.category = category;
         this.clazz = clazz;
         this.chance = chance;
+        this.maxAmount = maxAmount;
     }
 
     public RPGEntity getEntity() {
@@ -140,6 +147,10 @@ public enum RPGEntityType {
 
     public boolean tryNaturalSpawn(Location location) {
         if (!chance(chance)) return false;
+        if (this.maxAmount != 0 && this.maxAmount >= getAmountByTypeEntity(this)) {
+            /* for test */ sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
+            return false;
+        }
 
         Location spawn = getChorusLocation(location, 30);
         if (spawn.distanceSquared(location) < 64) return false;

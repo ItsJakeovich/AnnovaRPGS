@@ -21,7 +21,12 @@ dungeon-deleted: "{pc}=- {mc}Подземелье закрыто{ac}!"
 
 weapon-cast: "{pc}=- {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 
+
 ### Person
+## commands
+# avatar
+avatar-switchui: "{pc}| {mc}Переключено отображение окон{sc}: {ac}{status}"
+
 # Status bar
 bar-health: "{pc}=- {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 

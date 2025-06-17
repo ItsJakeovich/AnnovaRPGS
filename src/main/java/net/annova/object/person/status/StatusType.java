@@ -2,11 +2,9 @@ package net.annova.object.person.status;
 
 import net.annova.object.item.base.Item;
 import net.annova.object.person.RPGPerson;
-import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -53,7 +51,7 @@ public enum StatusType {
         public boolean activity(RPGPerson person, Player player, Object object) {
             Location location = player.getLocation();
 
-            player.setRotation(location.getYaw() + random.nextInt(12)-6, location.getPitch() + random.nextInt(12)-6);
+            player.setRotation(location.getYaw() + random.nextInt(9)-4, location.getPitch() + random.nextInt(5)-2);
             return true;
         }
 
@@ -68,6 +66,7 @@ public enum StatusType {
     FROZEN(new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
+            if (object == null) return false;
             person.teleport((Player) object);
             return true;
         }

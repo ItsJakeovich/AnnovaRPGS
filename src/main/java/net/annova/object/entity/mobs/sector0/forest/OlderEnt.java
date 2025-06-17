@@ -1,14 +1,16 @@
 package net.annova.object.entity.mobs.sector0.forest;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.CustomOlderEnt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +24,12 @@ import static net.annova.object.item.base.Item.BLADE_IMBUED_WITH_MAGIC;
 import static net.annova.object.item.base.Item.ENT_ROOT;
 import static net.annova.util.BukkitObjects.random;
 
-public class OlderEnt extends RPGEntity implements EntityAction, EntityActivity {
+public class OlderEnt extends RPGEntity implements CustomType, EntityAction, EntityActivity {
+    @Override
+    public Class<?> clazz() {
+        return CustomOlderEnt.class;
+    }
+
     @Override
     public EntityType<?> type() {
         return EntityType.IRON_GOLEM;
@@ -73,41 +80,6 @@ public class OlderEnt extends RPGEntity implements EntityAction, EntityActivity 
 
     private int healingCooldown = 20; // 10 seconds
     Vec3 vec3;
-    @Override
-    public boolean activity() {
-        // healing
-        if (healingCooldown != 0) healingCooldown--;
-        else {
-            this.regen(2.5f);
-            if (vec3 == null) vec3 = this.entity.position();
-            entity.level().getWorld().spawnParticle(Particle.TINTED_LEAVES,
-                    vec3.x, vec3.y+1, vec3.z,
-                    8, 0.6, 1.2, 0.6, Color.GREEN
-            );
-            entity.setPos(vec3);
-        }
-        return true;
-    }
-    @Override
-    public long repeating() {
-        return 10;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        // summoning
-        Location location = entity.getLocation();
-        if (((Mob) entity).getTarget() != null) {
-            for (int i = random.nextInt(3)+1; i != 0; i--) {
-                ENT.getEntity().create(getChorusLocation(location, 8));
-            }
-        }
-        return true;
-    }
-    @Override
-    public long syncRepeating() {
-        return 300;
-    }
 
     @Override
     public boolean onTarget(Entity target) {
@@ -129,5 +101,48 @@ public class OlderEnt extends RPGEntity implements EntityAction, EntityActivity 
     @Override
     public void onDeath() {
 
+    }
+
+    @Override
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        if (healingCooldown != 0) healingCooldown--;
+                        else {
+                            OlderEnt.this.regen(2.5f);
+                            if (vec3 == null) vec3 = OlderEnt.this.entity.position();
+                            entity.level().getWorld().spawnParticle(Particle.TINTED_LEAVES,
+                                    vec3.x, vec3.y + 1, vec3.z,
+                                    8, 0.6, 1.2, 0.6, Color.GREEN
+                            );
+                            entity.setPos(vec3);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 0;
+                    }
+                },
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        if (((Mob) entity).getTarget() != null) {
+                            for (int i = random.nextInt(3) + 1; i != 0; i--) {
+                                ENT.getEntity().create(getChorusLocation(OlderEnt.this.getLocation(), 8));
+                            }
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 300;
+                    }
+                }
+        );
     }
 }
