@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.annova.object.item.base.Item.NALIM_FISH;
+import static net.annova.object.item.base.ItemType.NALIM_FISH;
 
 public class NalimFish extends RPGItem implements Listener {
     @Override

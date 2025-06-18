@@ -3,7 +3,7 @@ package net.annova.command.cmdRPG;
 import net.annova.command.register.CommandArg;
 import net.annova.environment.world.WorldSector;
 import net.annova.object.entity.core.RPGEntityType;
-import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
@@ -22,18 +22,18 @@ public class RPGCode {
     static {
         int i = 0;
         Inventory inventory = null;
-        for (Item item : Item.values()) {
+        for (ItemType itemType : ItemType.values()) {
             if (i % 54 == 0) {
                 inventory = Bukkit.createInventory(null, 54, "Items - page: " + 1 + i/54);
                 itemsInterface.add(inventory);
             }
-            inventory.addItem(item.create(1));
+            inventory.addItem(itemType.create(1));
             i++;
         }
     }
     @CommandArg(name = "items")
     public void items(Player player, String[] args) {
-        String wrong = "Pages: " + Math.ceil((double)(Item.values().length)/54) + " (/rpg items {page})";
+        String wrong = "Pages: " + Math.ceil((double)(ItemType.values().length)/54) + " (/rpg items {page})";
         if (args.length == 1) {
             player.sendMessage(wrong);
             return;

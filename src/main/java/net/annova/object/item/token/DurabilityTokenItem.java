@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerItemDamageEvent;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.DURABILITY_TOKEN;
+import static net.annova.object.item.base.ItemType.DURABILITY_TOKEN;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DurabilityTokenItem extends RPGItem implements Listener {

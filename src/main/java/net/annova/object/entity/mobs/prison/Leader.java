@@ -1,14 +1,15 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.main.GlobalRPG;
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.status.StatusType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
-import static net.annova.object.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.ItemType.PRISON_TOKEN;
 import static net.annova.object.entity.core.RPGEntityType.PRISONER;
 import static net.annova.util.BukkitObjects.random;
 
@@ -75,41 +76,50 @@ public class Leader extends RPGEntity implements EntityActivity {
 
     private final Set<net.minecraft.world.entity.LivingEntity> prisoners = new HashSet<>();
     @Override
-    public boolean activity() {
-        RPGEntity summon = PRISONER.getEntity();
-        prisoners.removeIf(ent -> ent.isAlive() && ent.valid && ent.isChunkLoaded() && ent.inWorld);
-        if (prisoners.size() < 8) {
-            for (int i = 4; i > 0; i--) {
-                prisoners.add(summon.create(entity));
-            }
-        }
-        return true;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        RPGEntity summon = PRISONER.getEntity();
+                        prisoners.removeIf(ent -> ent.isAlive() && ent.valid && ent.isChunkLoaded() && ent.inWorld);
+                        if (prisoners.size() < 8) {
+                            for (int i = 4; i > 0; i--) {
+                                prisoners.add(summon.create(entity));
+                            }
+                        }
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 1200;
-    }
+                    @Override
+                    public long repeating() {
+                        return 1200;
+                    }
+                },
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        for (Entity craftTarget : entity.level().getEntities(entity, entity.getBoundingBox().inflate(8, 4, 8))) {
+                            org.bukkit.entity.Entity target = craftTarget.getBukkitEntity();
+                            if (target instanceof Player) return true;
+                            if (target instanceof LivingEntity targ) {
+                                targ.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 120, 0));
 
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        for (Entity target : entity.getNearbyEntities(8, 4, 8)) {
-            if (target instanceof Player) return true;
-            if (target instanceof LivingEntity targ) {
-                targ.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 120, 0));
+                                healEntity(1, targ);
 
-                healEntity(1, targ);
+                                RPGEntity rpgTarget = GlobalRPG.getEntity(targ);
+                                if (rpgTarget == null) return true;
+                                rpgTarget.addStatus(StatusType.LEADER_DAMAGE_BUFF);
+                            }
+                        }
+                        return true;
+                    }
 
-                RPGEntity rpgTarget = GlobalRPG.getEntity(targ);
-                if (rpgTarget == null) return true;
-                rpgTarget.addStatus(StatusType.LEADER_DAMAGE_BUFF);
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 100;
+                    @Override
+                    public long repeating() {
+                        return 100;
+                    }
+                }
+        );
     }
 }

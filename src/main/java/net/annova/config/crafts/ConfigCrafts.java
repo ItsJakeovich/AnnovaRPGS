@@ -1,6 +1,7 @@
 package net.annova.config.crafts;
 
 import net.annova.exception.AnnovaException;
+import net.annova.object.item.base.ItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.annova.config.RPGConfig.getAllCrafts;
-import static net.annova.object.item.base.Item.getItem;
+import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.main.Keys.getNamespacedKey;
 import static net.annova.util.MessageObjects.color;
 import static net.annova.util.MessageObjects.sendLog;
@@ -118,7 +119,7 @@ public class ConfigCrafts {
         try {
             return new ItemStack(Material.valueOf(id), amount);
         } catch (IllegalArgumentException e) {
-            return getItem(id).create(amount);
+            return ItemType.getItemType(id).create(amount);
         }
     }
 

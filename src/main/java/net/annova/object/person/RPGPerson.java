@@ -42,6 +42,7 @@ public class RPGPerson {
     private RPGSet set;
     private final RPGItem[] armor = new RPGItem[4];
     private boolean ready = false;
+    private final Equipment equipment = new Equipment(this);
     private final StatusManager statusManager = new StatusManager(this);
     private final List<ItemStack> pendingItems = new ArrayList<>();
     private final Map<String, Long> speedModifiers = new HashMap<>();

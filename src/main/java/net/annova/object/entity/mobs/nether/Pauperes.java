@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.nether;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -75,42 +76,38 @@ public class Pauperes extends RPGEntity implements EntityActivity, Listener {
 //        this.create(ent.getLocation());
 //        event.setCancelled(true);
 //    }
-
     @Override
-    public boolean activity() {
-        LivingEntity target = ((Mob) entity).getTarget();
-        if (target == null) return true;
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        LivingEntity target = ((Mob) entity).getTarget();
+                        if (target == null) return true;
 
-        target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0));
+                        target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0));
 
-        new BukkitRunnable() {
-            private int i = 0;
-            private final int max = random.nextInt(6)+2;
-            private final LivingEntity living = (LivingEntity) entity.getBukkitEntity();
-            @Override
-            public void run() {
-                if (i > max) this.cancel();
-                Fireball fireball = living.launchProjectile(Fireball.class);
-                fireball.setYield(2);
-                fireball.setVelocity(target.getLocation().toVector().subtract(fireball.getLocation().toVector()).normalize().multiply(1.5));
-                i++;
-            }
-        }.runTaskTimer(getInstance(), 0L, 5L);
-        return  true;
-    }
+                        new BukkitRunnable() {
+                            private int i = 0;
+                            private final int max = random.nextInt(6)+2;
+                            private final LivingEntity living = (LivingEntity) entity.getBukkitEntity();
+                            @Override
+                            public void run() {
+                                if (i > max) this.cancel();
+                                Fireball fireball = living.launchProjectile(Fireball.class);
+                                fireball.setYield(2);
+                                fireball.setVelocity(target.getLocation().toVector().subtract(fireball.getLocation().toVector()).normalize().multiply(1.5));
+                                i++;
+                            }
+                        }.runTaskTimer(getInstance(), 0L, 5L);
+                        return  true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 60;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 60;
+                    }
+                }
+        );
     }
 }

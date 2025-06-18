@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.nether;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -82,31 +83,27 @@ public class Meretrix extends RPGEntity implements EntityActivity {
 //            }
 //        }.runTaskTimer(getInstance(), 0L, 100L);
 //    }
-
     @Override
-    public boolean activity() {
-        LivingEntity ent = (LivingEntity) entity.getBukkitEntity();
-        for (Entity check : ent.getNearbyEntities(5, 5, 5)) {
-            if (check instanceof Player player) {
-                ent.setVelocity(check.getLocation().toVector().subtract(ent.getLocation().toVector()).normalize().multiply(1.1));
-                break;
-            }
-        }
-        return true;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        LivingEntity ent = (LivingEntity) entity.getBukkitEntity();
+                        for (Entity check : ent.getNearbyEntities(5, 5, 5)) {
+                            if (check instanceof Player player) {
+                                ent.setVelocity(check.getLocation().toVector().subtract(ent.getLocation().toVector()).normalize().multiply(1.1));
+                                break;
+                            }
+                        }
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 100;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 100;
+                    }
+                }
+        );
     }
 }

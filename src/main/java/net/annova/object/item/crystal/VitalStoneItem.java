@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.VITAL_STONE;
+import static net.annova.object.item.base.ItemType.VITAL_STONE;
 
 public class VitalStoneItem extends RPGItem implements Listener {
     @Override

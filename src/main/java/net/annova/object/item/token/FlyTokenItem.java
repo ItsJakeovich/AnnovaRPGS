@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static net.annova.object.item.base.Item.FLY_TOKEN;
+import static net.annova.object.item.base.ItemType.FLY_TOKEN;
 import static net.annova.main.AnnovaRPG.getInstance;
 
 public class FlyTokenItem extends RPGItem implements Listener {

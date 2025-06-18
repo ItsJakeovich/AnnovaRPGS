@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.prison;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -8,7 +9,6 @@ import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,7 +17,7 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.*;
-import static net.annova.object.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.ItemType.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Zero extends RPGEntity implements EntityActivity {
@@ -74,25 +74,22 @@ public class Zero extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public boolean activity() {
-        Creature creature = (Creature) entity;
-        if (creature.getTarget() == null) return true;
-        creature.setTarget(null);
-        return true;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        Creature creature = (Creature) entity;
+                        if (creature.getTarget() == null) return true;
+                        creature.setTarget(null);
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 200;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 200;
+                    }
+                }
+        );
     }
 }

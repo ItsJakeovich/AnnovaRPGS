@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.PRISON_SWORD;
+import static net.annova.object.item.base.ItemType.PRISON_SWORD;
 import static net.annova.util.BukkitObjects.chance;
 
 public class PrisonSwordItem extends RPGItem implements RPGTool, Listener {

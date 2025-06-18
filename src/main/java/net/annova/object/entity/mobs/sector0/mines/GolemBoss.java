@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.MAGIC_SCRAP;
+import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 
 public class GolemBoss extends RPGEntity {
     @Override

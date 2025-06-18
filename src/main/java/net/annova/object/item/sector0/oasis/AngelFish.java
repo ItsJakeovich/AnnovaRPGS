@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.ANGEL_FISH;
+import static net.annova.object.item.base.ItemType.ANGEL_FISH;
 
 public class AngelFish extends RPGItem implements Listener {
     @Override

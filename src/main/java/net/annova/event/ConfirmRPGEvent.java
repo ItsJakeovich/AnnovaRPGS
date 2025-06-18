@@ -4,7 +4,7 @@ import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.environment.dungeon.type.Prison;
 import net.annova.event.custom.PersonConfirmCE;
-import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemType;
 import net.annova.object.*;
 import net.annova.environment.structure.Structure;
 import net.annova.object.person.RPGPerson;
@@ -53,8 +53,8 @@ public class ConfirmRPGEvent implements Listener {
             }
             case "dungeon" -> {
                 Player player = person.getPlayer();
-                Item item = Item.DUNGEON_KEY;
-                if (!player.getInventory().removeItem(item.create(player)).isEmpty()) {
+                ItemType itemType = ItemType.DUNGEON_KEY;
+                if (!player.getInventory().removeItem(itemType.create(player)).isEmpty()) {
                     person.send(getInstance(), "dungeon-missing-key");
                     break;
                 }
@@ -82,7 +82,7 @@ public class ConfirmRPGEvent implements Listener {
                             timer--;
                             if (dungeon.startIfTrue()) cancel();
                             if (timer == 0) {
-                                addItems(player, item.create(player));
+                                addItems(player, itemType.create(player));
                                 for (RPGPerson ready : dungeon.getPlayers()) {
                                     ready.setReady(false);
                                 }

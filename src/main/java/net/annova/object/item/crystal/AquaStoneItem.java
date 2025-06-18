@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.AQUA_STONE;
+import static net.annova.object.item.base.ItemType.AQUA_STONE;
 
 public class AquaStoneItem extends RPGItem implements Listener {
     @Override

@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.prison;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.EntityType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +20,7 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.REFLECT;
-import static net.annova.object.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.ItemType.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
@@ -82,26 +82,23 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
     }
 
     @Override
-    public boolean activity() {
-        for (Entity ent : entity.getBukkitEntity().getNearbyEntities(10, 5, 10)) {
-            if (!(ent instanceof Player player)) continue;
-            player.setFreezeTicks(400);
-        }
-        return true;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        for (Entity ent : entity.getBukkitEntity().getNearbyEntities(10, 5, 10)) {
+                            if (!(ent instanceof Player player)) continue;
+                            player.setFreezeTicks(400);
+                        }
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 200;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 200;
+                    }
+                }
+        );
     }
 }

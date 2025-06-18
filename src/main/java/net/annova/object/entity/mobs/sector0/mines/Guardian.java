@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.MAGIC_SCRAP;
+import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 
 public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
     @Override
@@ -70,23 +70,18 @@ public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
     AttributeModifier modifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("annovas", "guardian_boost")
             , 0.15f, AttributeModifier.Operation.ADD_VALUE
     );
-    private boolean boosted = false;
     @Override
     public boolean onTarget(Entity target) {
         AttributeInstance attribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (!attribute.hasModifier(modifier.id())) {
-            attribute.addPermanentModifier(modifier);
-            this.boosted = true;
+            attribute.addTransientModifier(modifier);
         }
         return true;
     }
 
     @Override
     public boolean onAttack(LivingEntity target) {
-        if (boosted) {
-            entity.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(modifier);
-            this.boosted = false;
-        }
+        entity.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(modifier);
         return true;
     }
 

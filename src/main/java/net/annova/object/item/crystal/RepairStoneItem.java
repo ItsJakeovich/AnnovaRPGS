@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.REPAIR_STONE;
+import static net.annova.object.item.base.ItemType.REPAIR_STONE;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.REPAIR_COOLDOWN;
 

@@ -1,6 +1,6 @@
 package net.annova.object.person.status;
 
-import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
-import static net.annova.object.item.base.Item.*;
+import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
 import static net.annova.object.person.status.ValueType.CHARGE;
@@ -197,7 +197,7 @@ public enum StatusType {
 
     private final long duration;
     private final long cooldown;
-    private final Item whileHas;
+    private final ItemType whileHas;
     private final Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
     private final StatusActivity activity;
 
@@ -216,16 +216,16 @@ public enum StatusType {
     StatusType(long duration, StatusActivity activity) {
         this(duration, 0, null, new HashMap<>(), activity);
     }
-    StatusType(Item whileHas, StatusActivity activity) {
+    StatusType(ItemType whileHas, StatusActivity activity) {
         this(0, 0, whileHas, new HashMap<>(), activity);
     }
     StatusType(long duration, Map<ValueType, Double> values) {
         this(duration, 0, null, values, null);
     }
-    StatusType(Item whileHas, Map<ValueType, Double> values) {
+    StatusType(ItemType whileHas, Map<ValueType, Double> values) {
         this(0, 0, whileHas, values, null);
     }
-    StatusType(long duration, long cooldown, Item whileHas, Map<ValueType, Double> values, StatusActivity activity) {
+    StatusType(long duration, long cooldown, ItemType whileHas, Map<ValueType, Double> values, StatusActivity activity) {
         this.duration = duration;
         this.cooldown = cooldown;
         this.whileHas = whileHas;
@@ -250,7 +250,7 @@ public enum StatusType {
         return cooldown;
     }
 
-    public Item getWhileHas() {
+    public ItemType getWhileHas() {
         return whileHas;
     }
     public static EnumSet<StatusType> getForActivation() {

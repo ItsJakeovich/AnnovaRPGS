@@ -27,7 +27,7 @@ import java.util.Set;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
-import static net.annova.object.item.base.Item.UNKNOWN_SOURCE_WATER;
+import static net.annova.object.item.base.ItemType.UNKNOWN_SOURCE_WATER;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;

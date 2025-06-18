@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.KOI_FISH;
+import static net.annova.object.item.base.ItemType.KOI_FISH;
 
 public class KoiFish extends RPGItem implements Listener {
     @Override

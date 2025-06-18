@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.RANGE_TOKEN;
+import static net.annova.object.item.base.ItemType.RANGE_TOKEN;
 import static net.annova.main.AnnovaRPG.getInstance;
 
 public class RangeTokenItem extends RPGItem implements Listener {

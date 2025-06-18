@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.METEORITE_FRAGMENT;
+import static net.annova.object.item.base.ItemType.METEORITE_FRAGMENT;
 
 public class Shards extends RPGEntity implements CustomType {
     @Override

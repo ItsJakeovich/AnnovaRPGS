@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.annova.object.item.base.Item.DEATH_STONE;
+import static net.annova.object.item.base.ItemType.DEATH_STONE;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DeathStoneItem extends RPGItem implements Listener {

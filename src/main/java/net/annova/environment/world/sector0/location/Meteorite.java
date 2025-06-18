@@ -3,22 +3,36 @@ package net.annova.environment.world.sector0.location;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.LocationCategory;
+import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.main.AnnovaGlobal.getPerson;
+import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
+import static net.annova.util.BukkitObjects.random;
 
 public class Meteorite extends SectorLocation {
-    private static final org.bukkit.Location theMeteorite = new org.bukkit.Location(world0, 730, 51, -191);
-
+    private final String[] messageKeys = {
+            "s0-meteorite-msg-0",
+            "s0-meteorite-msg-1",
+            "s0-meteorite-msg-2",
+            "s0-meteorite-msg-3",
+            "s0-meteorite-msg-4",
+            "s0-meteorite-msg-5",
+            "s0-meteorite-msg-6",
+    };
+    private final Map<Player, Long> messageCooldown = new HashMap<>();
     @Override
     public void movement(Player player) {
-        double pDistanceSquared = player.getLocation().distanceSquared(theMeteorite);
-        if (pDistanceSquared <= this.squaredRadius()) {
+        double pDistanceSquared = player.getLocation().distanceSquared(this.points()[0]);
+        if (pDistanceSquared <= this.squaredRadius()) { // тут не isOutside потому что нужно расстояние ниже.
             player.setFireTicks(120);
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 double damage;
@@ -35,6 +49,13 @@ public class Meteorite extends SectorLocation {
                 player.setFireTicks(fireTicks);
                 player.damage(damage);
             }
+
+            long millis = System.currentTimeMillis();
+            if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
+            messageCooldown.put(player, millis + 1800_000); // 30 min
+
+            Person person = getPerson(player);
+            person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
         }
     }
 

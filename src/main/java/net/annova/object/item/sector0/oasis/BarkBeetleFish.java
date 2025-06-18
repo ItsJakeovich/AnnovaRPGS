@@ -15,7 +15,7 @@ import java.util.List;
 
 import static net.annova.event.CapitatorEvent.Capitator;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.object.item.base.Item.BARK_BEETLE_FISH;
+import static net.annova.object.item.base.ItemType.BARK_BEETLE_FISH;
 
 public class BarkBeetleFish extends RPGItem implements Listener {
     @Override

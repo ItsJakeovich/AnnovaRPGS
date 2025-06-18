@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.CHRONO_STONE;
+import static net.annova.object.item.base.ItemType.CHRONO_STONE;
 
 public class ChronoStoneItem extends RPGItem implements Listener {
     @Override

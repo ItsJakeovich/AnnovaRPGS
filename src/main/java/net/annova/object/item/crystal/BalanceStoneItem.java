@@ -13,7 +13,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.BALANCE_STONE;
+import static net.annova.object.item.base.ItemType.BALANCE_STONE;
 
 public class BalanceStoneItem extends RPGItem implements Listener {
     @Override

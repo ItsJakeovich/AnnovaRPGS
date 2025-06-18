@@ -1,5 +1,6 @@
 package net.annova.environment.world;
 
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,6 +28,15 @@ public abstract class SectorLocation {
             if (location.distanceSquared(locationPoint) <= this.squaredRadius()) return false;
         }
         return true;
+    }
+
+    private RPGEntity boss;
+
+    public RPGEntity getBoss() {
+        return boss;
+    }
+    public void setBoss(RPGEntity boss) {
+        this.boss = boss;
     }
 
     public static Location getChorusLocation(Location location, int radius) {

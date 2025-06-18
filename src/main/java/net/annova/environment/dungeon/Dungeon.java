@@ -2,7 +2,7 @@ package net.annova.environment.dungeon;
 
 import net.annova.environment.dungeon.type.DungeonBase;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemType;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
@@ -105,8 +105,8 @@ public class Dungeon {
     }
     public void endDungeon(boolean force) {
         this.close = true;
-        Item container = switch (base.getTemplate().getId()) {
-            case 0 -> Item.PRISON_CONTAINER;
+        ItemType container = switch (base.getTemplate().getId()) {
+            case 0 -> ItemType.PRISON_CONTAINER;
             default -> throw new IllegalStateException("Unexpected value: " + key);
         };
         for (LivingEntity ent : this.entity) {

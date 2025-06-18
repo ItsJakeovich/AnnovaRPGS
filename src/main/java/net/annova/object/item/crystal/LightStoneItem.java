@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.LIGHT_STONE;
+import static net.annova.object.item.base.ItemType.LIGHT_STONE;
 import static net.annova.object.item.crystal.BalanceStoneItem.UNDEAD;
 
 public class LightStoneItem extends RPGItem implements Listener {

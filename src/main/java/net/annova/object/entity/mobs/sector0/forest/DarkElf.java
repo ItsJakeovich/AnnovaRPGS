@@ -19,8 +19,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.DARKNESS_CONCENTRATION;
-import static net.annova.object.item.base.Item.DARK_ELF_BOW;
+import static net.annova.object.item.base.ItemType.DARKNESS_CONCENTRATION;
+import static net.annova.object.item.base.ItemType.DARK_ELF_BOW;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 

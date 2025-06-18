@@ -1,11 +1,11 @@
 package net.annova.object.entity.mobs.sector0.meteorite;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.METEORITE_FRAGMENT;
+import static net.annova.object.item.base.ItemType.METEORITE_FRAGMENT;
 
 public class MeteoriteGolem extends RPGEntity implements EntityActivity, Listener {
     @Override
@@ -62,22 +62,19 @@ public class MeteoriteGolem extends RPGEntity implements EntityActivity, Listene
     }
 
     @Override
-    public boolean activity() {
-        return false;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        return false;
+                    }
 
-    @Override
-    public long repeating() {
-        return 300;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return false;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 300;
+                    }
+                }
+        );
     }
 }

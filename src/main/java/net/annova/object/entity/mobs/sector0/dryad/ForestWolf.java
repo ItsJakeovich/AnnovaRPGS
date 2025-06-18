@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.object.entity.core.RPGEntityType.FOREST_WOLF;
-import static net.annova.object.item.base.Item.WOLF_SKIN;
+import static net.annova.object.item.base.ItemType.WOLF_SKIN;
 import static net.annova.util.BukkitObjects.random;
 
 public class ForestWolf extends RPGEntity implements EntitySpawn {

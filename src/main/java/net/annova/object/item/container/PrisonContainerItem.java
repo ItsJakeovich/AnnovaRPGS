@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.*;
+import static net.annova.object.item.base.ItemType.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.BukkitObjects.*;

@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.AIR_STONE;
+import static net.annova.object.item.base.ItemType.AIR_STONE;
 
 public class AirStoneItem extends RPGItem implements Listener {
     @Override

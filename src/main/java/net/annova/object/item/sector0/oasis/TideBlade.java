@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.TIDE_BLADE;
+import static net.annova.object.item.base.ItemType.TIDE_BLADE;
 import static net.annova.main.GlobalRPG.getEntity;
 
 public class TideBlade extends RPGItem implements Listener {

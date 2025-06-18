@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.prison;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
-import static net.annova.object.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.ItemType.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Velder extends RPGEntity implements EntityActivity {
@@ -71,33 +72,30 @@ public class Velder extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public boolean activity() {
-        Creature creature = (Creature) entity;
-        LivingEntity target = creature.getTarget();
-        if (target == null) return true;
-        Location from = creature.getEyeLocation(), to = target.getEyeLocation();
-        if (!from.getWorld().equals(to.getWorld())) return true;
-        if (from.distanceSquared(to) < 5*5) return true;
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        Creature creature = (Creature) entity;
+                        LivingEntity target = creature.getTarget();
+                        if (target == null) return true;
+                        Location from = creature.getEyeLocation(), to = target.getEyeLocation();
+                        if (!from.getWorld().equals(to.getWorld())) return true;
+                        if (from.distanceSquared(to) < 5*5) return true;
 
-        // Создает стрелу, если в 5 блоках от цели
-        Vector vector = to.toVector().subtract(from.toVector()).normalize();
-        Arrow arrow = entity.level().getWorld().spawnArrow(from, vector, 0.7f, 0.1f);
-        arrow.setDamage(this.damage());
-        return true;
-    }
+                        // Создает стрелу, если в 5 блоках от цели
+                        Vector vector = to.toVector().subtract(from.toVector()).normalize();
+                        Arrow arrow = entity.level().getWorld().spawnArrow(from, vector, 0.7f, 0.1f);
+                        arrow.setDamage(Velder.this.damage());
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 50L;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 50;
+                    }
+                }
+        );
     }
 }

@@ -10,13 +10,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.item.base.Item.CONTROL_MOVEMENT_STICK;
+import static net.annova.object.item.base.ItemType.CONTROL_MOVEMENT_STICK;
 import static net.annova.object.person.status.StatusType.FROZEN;
 
 public class ControlMovementStickItem extends RPGItem implements Listener {

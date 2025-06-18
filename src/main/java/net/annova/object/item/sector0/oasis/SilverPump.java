@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import java.util.List;
-import static net.annova.object.item.base.Item.SILVER_PUMP;
+import static net.annova.object.item.base.ItemType.SILVER_PUMP;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.person.RPGPerson.teleportHome;
 

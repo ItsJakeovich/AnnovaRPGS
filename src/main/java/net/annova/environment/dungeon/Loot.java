@@ -1,6 +1,6 @@
 package net.annova.environment.dungeon;
 
-import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.ItemCategory;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.annova.object.item.base.Item.*;
+import static net.annova.object.item.base.ItemType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 import static net.annova.util.MessageObjects.color;
@@ -109,14 +109,14 @@ public class Loot {
                             createBook(Enchantment.QUICK_CHARGE, 10, 0.004),
                             createBook(Enchantment.MENDING, 2, 0.004)
                     ));
-                    for (Item item : getItemsByCategory(ItemCategory.CRYSTALL)) {
-                        if (item == TIME_STONE) continue;
-                        double chance = switch (item) {
+                    for (ItemType itemType : getItemsByCategory(ItemCategory.CRYSTALL)) {
+                        if (itemType == TIME_STONE) continue;
+                        double chance = switch (itemType) {
                             case RUNIC_STONE, RUNIC_DEFENCE_STONE -> 0.002;
                             default -> 0.01;
                         };
 
-                        items.add(item.create(chance));
+                        items.add(itemType.create(chance));
                     }
                     return items;
                 }

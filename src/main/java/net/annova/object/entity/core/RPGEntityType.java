@@ -47,6 +47,7 @@ public enum RPGEntityType {
     MAJOR(D_PRISON, Major.class),
     SECURITY(D_PRISON, Security.class),
 
+    // 'EVERYWHERE' category doesn't have a boss.
     BOAR(EVERYWHERE, Boar.class, 0.05), // unique legendary mob
     FROG(EVERYWHERE, Frog.class, 0.01666), // 5/3
     SNAKE(EVERYWHERE, Snake.class, 0.05),
@@ -65,9 +66,9 @@ public enum RPGEntityType {
     DARK_WOLF(S0_DRYAD, DarkWolf.class),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
     // Sector 0 - Forest
-    DARK_ELF(S0_FOREST, DarkElf.class),
-    ENT(S0_FOREST, Ent.class),
+    ENT(S0_FOREST, Ent.class, 0.1, 15),
     OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03),
+    DARK_ELF(S0_FOREST, DarkElf.class, 0.03),
     // Sector - Meteorite
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     SHARDS(S0_METEORITE, Shards.class),
@@ -93,9 +94,10 @@ public enum RPGEntityType {
 
     private final double chance;
     private final int maxAmount;
+    private final boolean boss;
 
     private static final Map<LocationCategory, Set<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
-    private static final Map<Class<? extends RPGEntity>, String> KEY_BY_CLASS = new HashMap<>();
+    private static final Map<Class<? extends RPGEntity>, RPGEntityType> TYPE_BY_CLASS = new HashMap<>();
 
     static {
         for (LocationCategory cat : LocationCategory.values()) {
@@ -103,7 +105,7 @@ public enum RPGEntityType {
         }
         for (RPGEntityType type : values()) {
             ENTITIES_BY_CATEGORY.get(type.category).add(type);
-            KEY_BY_CLASS.put(type.clazz, type.name());
+            TYPE_BY_CLASS.put(type.clazz, type);
         }
     }
 
@@ -121,18 +123,26 @@ public enum RPGEntityType {
         this.clazz = clazz;
         this.chance = chance;
         this.maxAmount = maxAmount;
+        this.boss = false;
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, boolean boss) {
+        this.category = category;
+        this.clazz = clazz;
+        this.chance = chance;
+        this.maxAmount = 1;
+        this.boss = true;
     }
 
     public RPGEntity getEntity() {
         try {
-            return clazz.getDeclaredConstructor().newInstance();
+            return clazz.getDeclaredConstructor(RPGEntityType.class).newInstance(this);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |IllegalAccessException e) {
             throw new EnumConstantNotPresentException(RPGEntityType.class, "RPGEntity .class");
         }
     }
 
-    public static String getId(RPGEntity entity) {
-        return KEY_BY_CLASS.get(entity.getClass());
+    public static RPGEntityType getType(RPGEntity entity) {
+        return TYPE_BY_CLASS.get(entity.getClass());
     }
     public static Set<RPGEntityType> getEntitiesByCategory(LocationCategory category) {
         return ENTITIES_BY_CATEGORY.get(category);
@@ -142,20 +152,25 @@ public enum RPGEntityType {
         return this.equals(GlobalRPG.getEntity(entity));
     }
     public boolean equals(RPGEntity entity) {
-        return entity != null && this.name().equals(entity.getId());
+        return this.equals(entity.getRPGType());
     }
 
-    public boolean tryNaturalSpawn(Location location) {
-        if (!chance(chance)) return false;
+    public boolean isBoss() {
+        return boss;
+    }
+
+    public RPGEntity tryNaturalSpawn(Location location) {
+        if (!chance(chance)) return null;
         if (this.maxAmount != 0 && this.maxAmount >= getAmountByTypeEntity(this)) {
             /* for test */ sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
-            return false;
+            return null;
         }
 
         Location spawn = getChorusLocation(location, 30);
-        if (spawn.distanceSquared(location) < 64) return false;
-        if (spawn.getBlock().getLightFromBlocks() > 7) return false;
-        this.getEntity().create(spawn);
-        return true;
+        if (spawn.distanceSquared(location) < 64) return null;
+        if (spawn.getBlock().getLightFromBlocks() > 7) return null;
+        RPGEntity entity = this.getEntity();
+        entity.create(spawn);
+        return entity;
     }
 }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.CRAB_CLAW;
+import static net.annova.object.item.base.ItemType.CRAB_CLAW;
 import static net.annova.util.BukkitObjects.random;
 import static net.minecraft.world.entity.EntityType.CAVE_SPIDER;
 

@@ -20,7 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-import static net.annova.object.item.base.Item.IGNIS_STONE;
+import static net.annova.object.item.base.ItemType.IGNIS_STONE;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.IGNIS;
 

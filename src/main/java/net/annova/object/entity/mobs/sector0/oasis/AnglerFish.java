@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.oasis;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
@@ -69,26 +70,25 @@ public class AnglerFish extends RPGEntity implements EntityActivity {
             Material.STICK, Material.GLASS_BOTTLE, Material.LEATHER, Material.STRING
     };
     @Override
-    public boolean activity() {
-        if (chance(0.05)) return false;
-        LivingEntity living = (LivingEntity) entity.getBukkitEntity();
-        living.getWorld().dropItemNaturally(living.getLocation()
-                , new ItemStack((Material) (chance(0.2) ? getRandom(TRASH_ITEMS) : getRandom(FISH_ITEMS)) // material
-                        , chance(0.05) ? 2 : 1) // amount
-        );
-        return true;
-    }
-    @Override
-    public long repeating() {
-        return 6000;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        if (chance(0.05)) return false;
+                        LivingEntity living = (LivingEntity) entity.getBukkitEntity();
+                        living.getWorld().dropItemNaturally(living.getLocation()
+                                , new ItemStack((Material) (chance(0.2) ? getRandom(TRASH_ITEMS) : getRandom(FISH_ITEMS)) // material
+                                        , chance(0.05) ? 2 : 1) // amount
+                        );
+                        return true;
+                    }
 
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return false;
-    }
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 6000;
+                    }
+                }
+        );
     }
 }

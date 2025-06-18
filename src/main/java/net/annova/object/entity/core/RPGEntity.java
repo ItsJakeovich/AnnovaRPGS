@@ -1,6 +1,7 @@
 package net.annova.object.entity.core;
 
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.environment.world.SectorLocation;
 import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
@@ -49,6 +50,8 @@ public abstract class RPGEntity {
     public LivingEntity entity;
     public Dungeon dungeon;
     public int point;
+    private SectorLocation sectorLocation;
+    private final RPGEntityType rpgType;
     private final Map<StatusType, EntityStatus> statuses = new EnumMap<>(StatusType.class);
     public abstract EntityType<?> type();
     public abstract String name();
@@ -60,6 +63,10 @@ public abstract class RPGEntity {
     public abstract List<ItemStack> loot(Player player);
 
     public abstract Set<RPGAbility> abilities();
+
+    public RPGEntity() {
+        this.rpgType = RPGEntityType.getType(this);
+    }
 
     public static final String TABLE = "ENTITY";
     public static void init() {
@@ -125,7 +132,7 @@ public abstract class RPGEntity {
             attribute.setBaseValue(health);
             ent.setHealth(health);
         }
-        ent.persist = true;
+        ent.persist = false;
 
         attribute = ent.getAttribute(Attributes.MOVEMENT_SPEED);
         if (attribute != null) attribute.setBaseValue(this.speed() * multSpeed);
@@ -136,7 +143,7 @@ public abstract class RPGEntity {
             slime.setSize(1, false);
         }
 
-        ent.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.STRING, RPGEntityType.getId(this));
+        ent.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.STRING, RPGEntityType.getType(this).name());
 
         this.entity = ent;
         level.tryAddFreshEntityWithPassengers(ent);
@@ -209,6 +216,17 @@ public abstract class RPGEntity {
 
     public void setPoint(int point) {
         this.point = point;
+    }
+
+    public SectorLocation getSectorLocation() {
+        return sectorLocation;
+    }
+    public void setSectorLocation(SectorLocation sectorLocation) {
+        this.sectorLocation = sectorLocation;
+    }
+
+    public RPGEntityType getRPGType() {
+        return rpgType;
     }
 
     public void remove() {

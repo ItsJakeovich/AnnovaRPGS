@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.PRISON_STEEL_SWORD;
+import static net.annova.object.item.base.ItemType.PRISON_STEEL_SWORD;
 
 public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     @Override

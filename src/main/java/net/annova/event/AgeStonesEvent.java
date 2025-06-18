@@ -7,8 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static net.annova.object.item.base.Item.CHRONO_STONE;
-import static net.annova.object.item.base.Item.VITAL_STONE;
+import static net.annova.object.item.base.ItemType.CHRONO_STONE;
+import static net.annova.object.item.base.ItemType.VITAL_STONE;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;

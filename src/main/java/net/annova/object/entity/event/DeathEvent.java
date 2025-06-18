@@ -2,6 +2,7 @@ package net.annova.object.entity.event;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
+import net.annova.environment.world.SectorLocation;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.event.custom.RPGEntityDeathCE;
 import net.annova.object.Person;
@@ -22,6 +23,7 @@ import java.util.List;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
+import static net.annova.object.entity.core.RPGEntityType.getType;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DeathEvent implements Listener {
@@ -37,6 +39,10 @@ public class DeathEvent implements Listener {
 
         if (entity instanceof EntityAction action) {
             action.onDeath();
+        }
+        if (entity.getRPGType().isBoss()) {
+            SectorLocation sectorLocation = entity.getSectorLocation();
+            if (sectorLocation != null) sectorLocation.setBoss(null);
         }
 
         RPGEntityDeathCE ev = new RPGEntityDeathCE(entity, event);

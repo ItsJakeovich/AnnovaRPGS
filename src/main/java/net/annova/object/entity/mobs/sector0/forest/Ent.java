@@ -2,24 +2,18 @@ package net.annova.object.entity.mobs.sector0.forest;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
-import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.mobs.custom.CustomEnt;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.ENT_ROOT;
-import static net.annova.util.BukkitObjects.random;
+import static net.annova.object.item.base.ItemType.ENT_ROOT;
 
 public class Ent extends RPGEntity implements CustomType {
     @Override

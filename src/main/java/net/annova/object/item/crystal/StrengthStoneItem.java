@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.STRENGTH_STONE;
+import static net.annova.object.item.base.ItemType.STRENGTH_STONE;
 
 public class StrengthStoneItem extends RPGItem implements Listener {
     @Override

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.CONTROL_STOP_STICK;
+import static net.annova.object.item.base.ItemType.CONTROL_STOP_STICK;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.STOPPED;
 

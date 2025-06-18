@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
-import static net.annova.object.item.base.Item.SATURATION_TOKEN;
+import static net.annova.object.item.base.ItemType.SATURATION_TOKEN;
 
 public class SaturationTokenItem extends RPGItem implements Listener {
     @Override

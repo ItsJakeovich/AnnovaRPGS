@@ -21,7 +21,7 @@ import java.util.Set;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.item.base.Item.TIME_STONE;
+import static net.annova.object.item.base.ItemType.TIME_STONE;
 import static net.annova.object.person.status.StatusType.STOPPED;
 
 public class TimeStoneItem extends RPGItem implements Listener {

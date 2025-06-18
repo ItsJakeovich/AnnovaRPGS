@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.AZURE_FISH;
+import static net.annova.object.item.base.ItemType.AZURE_FISH;
 
 public class VolcanicStreamsMalma extends RPGItem implements Listener {
     @Override

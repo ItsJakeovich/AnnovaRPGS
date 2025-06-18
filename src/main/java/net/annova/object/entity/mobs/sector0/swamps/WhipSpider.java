@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.item.base.Item.SPIDER_CHITIN;
+import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 
 public class WhipSpider extends RPGEntity implements EntityAction, EntityActivity {
@@ -90,22 +91,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
     }
 
     @Override
-    public boolean activity() {
-        return true;
-    }
-
-    @Override
-    public long repeating() {
-        return 0;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+    public List<CustomRunnable> runnables() {
+        return List.of();
     }
 }

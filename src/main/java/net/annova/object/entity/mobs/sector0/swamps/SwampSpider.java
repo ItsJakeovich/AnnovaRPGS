@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.object.entity.core.RPGEntityType.SWAMP_SPIDER;
-import static net.annova.object.item.base.Item.SPIDER_CHITIN;
+import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 
 public class SwampSpider extends RPGEntity implements EntityAction {

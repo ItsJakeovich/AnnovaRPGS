@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.GRAVITY_STONE;
+import static net.annova.object.item.base.ItemType.GRAVITY_STONE;
 
 public class GravityStoneItem extends RPGItem implements Listener {
     @Override

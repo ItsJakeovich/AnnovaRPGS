@@ -51,7 +51,7 @@ import static net.annova.main.Keys.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.MessageObjects.color;
 
-public enum Item {
+public enum ItemType {
     // Containers
     PRISON_CONTAINER(new PrisonContainerItem()),
     // Stones
@@ -146,10 +146,10 @@ public enum Item {
     private final RPGItem item;
     private final ItemCategory category;
     private final String id;
-    Item(RPGItem item) {
+    ItemType(RPGItem item) {
         this(ItemCategory.WITHOUT, item);
     }
-    Item(ItemCategory category, RPGItem item) {
+    ItemType(ItemCategory category, RPGItem item) {
         this.item = item;
         this.category = category;
         this.id = this.name().toLowerCase();
@@ -159,21 +159,25 @@ public enum Item {
         return item;
     }
 
-    private static final Map<ItemCategory, Set<Item>> ITEMS_BY_CATEGORY = new EnumMap<>(ItemCategory.class);
-    private static final Map<String, Item> BY_NAME = new HashMap<>();
+    private static final Map<ItemCategory, Set<ItemType>> ITEMS_BY_CATEGORY = new EnumMap<>(ItemCategory.class);
+    private static final Map<String, ItemType> BY_NAME = new HashMap<>();
     static {
         for (ItemCategory cat : ItemCategory.values()) {
             ITEMS_BY_CATEGORY.put(cat, new HashSet<>());
         }
-        for (Item item : Item.values()) {
-            ITEMS_BY_CATEGORY.get(item.category).add(item);
-            BY_NAME.put(item.id, item);
+        for (ItemType itemType : ItemType.values()) {
+            ITEMS_BY_CATEGORY.get(itemType.category).add(itemType);
+            BY_NAME.put(itemType.id, itemType);
         }
     }
-    public static Item getItem(String itemName) {
+    public static ItemType getItemType(String itemName) {
         return BY_NAME.get(itemName);
     }
-    public static Set<Item> getItemsByCategory(ItemCategory category) {
+    @Nullable
+    public static ItemType getItemType(ItemStack item) {
+        return BY_NAME.get(getItemId(item));
+    }
+    public static Set<ItemType> getItemsByCategory(ItemCategory category) {
         return ITEMS_BY_CATEGORY.get(category);
     }
 

@@ -21,7 +21,7 @@ import java.util.List;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.object.item.base.Item.RUNIC_DEFENCE_STONE;
+import static net.annova.object.item.base.ItemType.RUNIC_DEFENCE_STONE;
 import static net.annova.object.person.status.StatusType.SHIELD_CHARGE;
 import static net.annova.object.person.status.ValueType.CHARGE;
 

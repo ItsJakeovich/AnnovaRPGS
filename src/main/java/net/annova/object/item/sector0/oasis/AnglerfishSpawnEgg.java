@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.ANGLER_FISH_SPAWN_EGG;
+import static net.annova.object.item.base.ItemType.ANGLER_FISH_SPAWN_EGG;
 
 public class AnglerfishSpawnEgg extends RPGItem implements Listener {
     @Override

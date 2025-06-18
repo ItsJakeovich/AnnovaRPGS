@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.ELK_FISH;
+import static net.annova.object.item.base.ItemType.ELK_FISH;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.ELK_FISH_DAMAGE_BUFF;
 

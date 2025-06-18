@@ -1,6 +1,12 @@
 package net.annova.object.person;
 
+import net.annova.object.item.base.ItemType;
+import net.annova.object.item.base.attribute.ItemEquipment;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,35 +16,38 @@ import static net.annova.util.BukkitObjects.getNewIcon;
 
 public class Equipment {
     public enum Type {
-        RING,
-        SCARF,
-        HAIR_CLIP,
-        BELT,
-        AMULET,
-        GLOVE,
-        BRACELET,
+        RING(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
+        SCARF(10),
+        HAIR_CLIP(11),
+        BELT(12),
+        AMULET(13),
+        GLOVE(14, 15),
+        BRACELET(16, 17),
 
-        SHOULDER_PADS,
-        KNEE_PADS,
-        CLOAK,
-        COMPANION;
+        SHOULDER_PADS(18, 19),
+        KNEE_PADS(20, 21),
+        CLOAK(22),
+        COMPANION(23);
+
+        private final int[] slots;
+
+        Type(int... slots) {
+            this.slots = slots;
+        }
+
+        public int[] getSlots() {
+            return slots;
+        }
     }
 
+    private final RPGPerson person;
     private final ItemStack[] equipment = new ItemStack[24];
 
+    public Equipment(RPGPerson person) {
+        this.person = person;
+    }
 
-    /** Slots:
-     * 0-9 ring's,
-     * 10 scarf
-     * 11 hair_clip
-     * 12 belt,
-     * 13 amulet,
-     * 14-15 glove's,
-     * 16-17 bracelet's,
-     * 18-19 shoulder pads,
-     * 20-21 knee pads,
-     * 22 cloak,
-     * 23 is pet companion.
+    /**
      * @param index ItemStack[] array
      * @return ItemStack / null if slot is empty
      */
@@ -50,6 +59,32 @@ public class Equipment {
         return equipment;
     }
 
+    public void addEquipment(Player player, ItemStack item) {
+        ItemType itemType = ItemType.getItemType(item);
+        if (itemType.getItem() instanceof ItemEquipment equip) {
+            int[] slots = equip.getEquipmentType().getSlots();
+            int maxSlot = slots[slots.length-1];
+            for (int slot = slots[0]; slot <= maxSlot; slot++) {
+                if (equipment[slot] != null) continue;
+                this.equipment[slot] = item;
+                player.getEquipment().setItemInMainHand(null);
+                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 1);
+
+                equip.effect(player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void inventory(InventoryClickEvent event) {
+        if (event.getView().getTitle().equals(" ")) {
+            event.setCancelled(true);
+            ItemStack current = event.getCurrentItem();
+            if (current == null) return;
+            if (current.getItemMeta().getDisplayName().equals(" ")) return;
+
+        }
+    }
     /**
      * 0 - ring
      * 1 - scarf
@@ -85,7 +120,8 @@ public class Equipment {
      * @return Inventory with equipment slot's
      */
     public Inventory open() {
-        Inventory inv = Bukkit.createInventory(null, 54);
+        Inventory inv = Bukkit.createInventory(null, 54, " ");
+
         inv.setItem(0, this.getItemSlot(0, 0)); // rings
         inv.setItem(1, this.getItemSlot(1, 0));
         inv.setItem(2, this.getItemSlot(2, 0));

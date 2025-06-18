@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.Item.DARK_STONE;
+import static net.annova.object.item.base.ItemType.DARK_STONE;
 
 public class DarkStoneItem extends RPGItem implements Listener {
     @Override

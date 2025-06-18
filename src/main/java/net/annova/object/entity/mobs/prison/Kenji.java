@@ -15,7 +15,7 @@ import java.util.Set;
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.AVOIDANCE;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.SLOWDOWN;
-import static net.annova.object.item.base.Item.PRISON_TOKEN;
+import static net.annova.object.item.base.ItemType.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Kenji extends RPGEntity {

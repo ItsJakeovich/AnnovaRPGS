@@ -1,11 +1,10 @@
 package net.annova.object.person.status;
 
-import net.annova.object.item.base.Item;
+import net.annova.object.item.base.ItemType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Status {
@@ -45,8 +44,8 @@ public class Status {
     public boolean toRemove(Player player) {
         boolean byTime = type.getDuration() != 0 && System.currentTimeMillis() >= expires;
 
-        Item item = this.type.getWhileHas();
-        boolean byItem = item != null && !item.has(player);
+        ItemType itemType = this.type.getWhileHas();
+        boolean byItem = itemType != null && !itemType.has(player);
 
         return byTime || byItem;
     }

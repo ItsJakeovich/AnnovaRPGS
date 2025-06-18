@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.annova.object.item.base.Item.BIOME_STONE;
+import static net.annova.object.item.base.ItemType.BIOME_STONE;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.main.Keys.NK_BIOME;

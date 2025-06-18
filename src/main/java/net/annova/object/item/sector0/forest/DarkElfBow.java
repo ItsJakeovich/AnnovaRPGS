@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 import static net.annova.environment.world.GlobalWorld.isNight;
-import static net.annova.object.item.base.Item.DARK_ELF_BOW;
+import static net.annova.object.item.base.ItemType.DARK_ELF_BOW;
 import static net.annova.util.BukkitObjects.random;
 
 public class DarkElfBow extends RPGItem implements RPGTool, Listener {

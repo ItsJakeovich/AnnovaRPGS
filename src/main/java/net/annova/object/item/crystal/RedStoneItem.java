@@ -3,19 +3,9 @@ package net.annova.object.item.crystal;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import static net.annova.object.item.base.Item.RED_STONE;
 
 public class RedStoneItem extends RPGItem implements Listener {
     @Override

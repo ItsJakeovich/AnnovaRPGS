@@ -1,12 +1,14 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.object.entity.core.RPGEntityType.SWAMP_SPIDER;
-import static net.annova.object.item.base.Item.SPIDER_CHITIN;
+import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 
 public class Melanox extends RPGEntity implements EntityActivity {
@@ -64,29 +66,38 @@ public class Melanox extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public boolean activity() {
-        for (int i = 0; i < 4; i++) {
-            SWAMP_SPIDER.getEntity().create(entity);
-        }
-        return true;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        for (int i = 0; i < 4; i++) {
+                            SWAMP_SPIDER.getEntity().create(entity);
+                        }
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 200;
-    }
+                    @Override
+                    public long repeating() {
+                        return 200;
+                    }
+                },
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        LivingEntity target = ((Mob) entity).getTarget();
+                        if (target == null) return true;
 
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        LivingEntity target = ((Creature) entity).getTarget();
-        if (target == null) return true;
+                        Vec3 vec3 = target.position();
+                        if (chance(0.3)) entity.teleportTo(vec3.x, vec3.y, vec3.z);
+                        return true;
+                    }
 
-        if (chance(0.3)) entity.teleport(target);
-        return true;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 60;
+                    @Override
+                    public long repeating() {
+                        return 60;
+                    }
+                }
+        );
     }
 }

@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
+import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -15,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.MAGIC_SCRAP;
+import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 import static net.annova.util.BukkitObjects.random;
 
 public class Mage extends RPGEntity implements EntityActivity {
@@ -72,26 +73,23 @@ public class Mage extends RPGEntity implements EntityActivity {
             new PotionEffect(PotionEffectType.POISON, 60, 3),
     };
     @Override
-    public boolean activity() {
-        LivingEntity target = ((Creature) entity).getTarget();
-        if (target != null) {
-            target.addPotionEffect(effects[random.nextInt(effects.length)]);
-        }
-        return true;
-    }
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        LivingEntity target = ((Creature) entity).getTarget();
+                        if (target != null) {
+                            target.addPotionEffect(effects[random.nextInt(effects.length)]);
+                        }
+                        return true;
+                    }
 
-    @Override
-    public long repeating() {
-        return 200;
-    }
-
-    @Override
-    public boolean syncActivity(LivingEntity entity) {
-        return false;
-    }
-
-    @Override
-    public long syncRepeating() {
-        return 0;
+                    @Override
+                    public long repeating() {
+                        return 200;
+                    }
+                }
+        );
     }
 }

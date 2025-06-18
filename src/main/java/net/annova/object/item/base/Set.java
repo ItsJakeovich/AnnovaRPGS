@@ -6,13 +6,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public enum Set {
-    PRISON(new PrisonSet(), Item.PRISON_HELMET, Item.PRISON_CHESTPLATE, Item.PRISON_LEGGINGS, Item.PRISON_BOOTS),
+    PRISON(new PrisonSet(), ItemType.PRISON_HELMET, ItemType.PRISON_CHESTPLATE, ItemType.PRISON_LEGGINGS, ItemType.PRISON_BOOTS),
     ;
 
     private final RPGSet set;
-    private final Item[] armor;
+    private final ItemType[] armor;
 
-    Set(RPGSet set, Item... armor) {
+    Set(RPGSet set, ItemType... armor) {
         this.set = set;
         this.armor = armor;
     }
@@ -20,7 +20,7 @@ public enum Set {
     public RPGSet getSet() {
         return set;
     }
-    public Item[] getArmor() {
+    public ItemType[] getArmor() {
         return armor;
     }
 

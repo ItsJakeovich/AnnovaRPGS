@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.Item.SPIDER_CHITIN;
+import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 
 public class FatSpider extends RPGEntity implements EntityAction {
     @Override
