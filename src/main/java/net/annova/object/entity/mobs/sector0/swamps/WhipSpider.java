@@ -82,7 +82,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
     }
 
     @Override
-    public boolean onDamage(Entity damager) {
+    public boolean onDamage(LivingEntity damager) {
         return true;
     }
 

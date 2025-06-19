@@ -90,7 +90,7 @@ public class Lex extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public boolean onDamage(Entity damager) {
+    public boolean onDamage(LivingEntity damager) {
         if (!this.spawnedSoldiers) {
             Soldier soldier = new Soldier();
             for (int i = 0; i < 8; i++) {

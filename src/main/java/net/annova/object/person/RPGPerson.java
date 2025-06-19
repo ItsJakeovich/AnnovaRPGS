@@ -10,6 +10,7 @@ import net.annova.main.AnnovaGlobal;
 import net.annova.main.AnnovaSQL;
 import net.annova.object.Person;
 import net.annova.object.item.base.RPGSet;
+import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.ValueType;
@@ -155,7 +156,7 @@ public class RPGPerson {
         Player player = person.getPlayer();
         if (player == null) return;
 
-        double valueHealth = statusManager.getFinalValue(ValueType.HEALTH_BUFF) - statusManager.getFinalValue(ValueType.HEALTH_DEBUFF);
+        double valueHealth = this.getFinalValue(ValueType.HEALTH);
         newMaxHealth += (float) (additionalHealth + valueHealth);
 
         this.setHealth(newMaxHealth * health / maxHealth);
@@ -291,8 +292,15 @@ public class RPGPerson {
         this.ready = ready;
     }
 
+    public Equipment getEquipment() {
+        return equipment;
+    }
     public StatusManager getStatusManager() {
         return statusManager;
+    }
+
+    public double getFinalValue(ValueType type) {
+        return this.equipment.getFinalValue(type) + this.statusManager.getFinalValue(type);
     }
 
     public List<ItemStack> getPendingItems() {

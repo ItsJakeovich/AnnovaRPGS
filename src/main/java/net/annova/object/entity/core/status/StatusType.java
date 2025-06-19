@@ -10,9 +10,9 @@ import static net.annova.object.person.status.ValueType.*;
 public enum StatusType {
     LEADER_DAMAGE_BUFF(Map.of(ORATOR_DAMAGE_BUFF, 0.15)),
     METEORITE_GOLEM_BUFF(Map.of(
-            DAMAGE_BUFF, 10.0,
-            SPEED_BUFF, 0.15,
-            REGENERATION_BUFF, 5.0)
+            DAMAGE, 10.0,
+            SPEED, 0.15,
+            REGENERATION, 5.0)
     ),
     ;
 

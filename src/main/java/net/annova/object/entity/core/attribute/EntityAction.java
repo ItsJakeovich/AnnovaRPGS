@@ -6,6 +6,6 @@ import org.bukkit.entity.LivingEntity;
 public interface EntityAction {
     boolean onTarget(Entity target);
     boolean onAttack(LivingEntity target);
-    boolean onDamage(Entity damager);
+    boolean onDamage(LivingEntity damager);
     void onDeath();
 }

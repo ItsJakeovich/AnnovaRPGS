@@ -106,7 +106,7 @@ public class Dodger extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public boolean onDamage(Entity damager) {
+    public boolean onDamage(LivingEntity damager) {
         return true;
     }
 

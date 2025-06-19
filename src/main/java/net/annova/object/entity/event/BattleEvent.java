@@ -1,12 +1,15 @@
 package net.annova.object.entity.event;
 
 import net.annova.event.custom.BattleCE;
+import net.annova.event.custom.EntityDamageByEntityCE;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +22,14 @@ import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class BattleEvent implements Listener {
+    @EventHandler
+    public void onArrow(EntityDamageByEntityCE event) {
+        if (event.getDamager() instanceof Arrow arrow
+                && arrow.getShooter() instanceof LivingEntity living) {
+            RPGEntity entity = getEntity(living);
+            event.setDamage(entity.damage());
+        }
+    }
     @EventHandler
     public void onBattle(BattleCE event) {
         LivingEntity entity = event.getEntity();

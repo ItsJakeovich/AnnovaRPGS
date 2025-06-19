@@ -34,17 +34,17 @@ public class ForestWolf extends RPGEntity implements EntitySpawn {
 
     @Override
     public int health() {
-        return 100;
+        return 20;
     }
 
     @Override
     public double damage() {
-        return 5;
+        return 2;
     }
 
     @Override
     public float speed() {
-        return 0.35f;
+        return 0.36f;
     }
 
     @Override

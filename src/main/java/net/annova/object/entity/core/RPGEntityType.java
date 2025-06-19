@@ -68,7 +68,7 @@ public enum RPGEntityType {
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class, 0.1, 15),
     OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03),
-    DARK_ELF(S0_FOREST, DarkElf.class, 0.03),
+    DARK_ELF(S0_FOREST, DarkElf.class, 0.02),
     // Sector - Meteorite
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     SHARDS(S0_METEORITE, Shards.class),
@@ -135,7 +135,7 @@ public enum RPGEntityType {
 
     public RPGEntity getEntity() {
         try {
-            return clazz.getDeclaredConstructor(RPGEntityType.class).newInstance(this);
+            return clazz.getDeclaredConstructor().newInstance();
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |IllegalAccessException e) {
             throw new EnumConstantNotPresentException(RPGEntityType.class, "RPGEntity .class");
         }

@@ -99,7 +99,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
 
 
     @Override
-    public boolean onDamage(Entity damager) {
+    public boolean onDamage(LivingEntity damager) {
         this.healingCooldown = 20;
         this.vec3 = null;
 

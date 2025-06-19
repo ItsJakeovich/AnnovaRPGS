@@ -1,47 +1,30 @@
-package net.annova.object.person;
+package net.annova.object.person.equipment;
 
 import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.attribute.ItemEquipment;
+import net.annova.object.person.RPGPerson;
+import net.annova.object.person.status.ValueType;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import static net.annova.util.BukkitObjects.getNewIcon;
 
 public class Equipment {
-    public enum Type {
-        RING(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
-        SCARF(10),
-        HAIR_CLIP(11),
-        BELT(12),
-        AMULET(13),
-        GLOVE(14, 15),
-        BRACELET(16, 17),
-
-        SHOULDER_PADS(18, 19),
-        KNEE_PADS(20, 21),
-        CLOAK(22),
-        COMPANION(23);
-
-        private final int[] slots;
-
-        Type(int... slots) {
-            this.slots = slots;
-        }
-
-        public int[] getSlots() {
-            return slots;
-        }
-    }
-
     private final RPGPerson person;
     private final ItemStack[] equipment = new ItemStack[24];
+    private final Map<ValueType, Double> finalValue = new EnumMap<>(ValueType.class) {{
+        for (ValueType type : ValueType.values()) {
+            this.put(type, 0.0);
+        }
+    }};
 
     public Equipment(RPGPerson person) {
         this.person = person;
@@ -60,8 +43,9 @@ public class Equipment {
     }
 
     public void addEquipment(Player player, ItemStack item) {
+        if (item == null) return;
         ItemType itemType = ItemType.getItemType(item);
-        if (itemType.getItem() instanceof ItemEquipment equip) {
+        if (itemType != null && itemType.getItem() instanceof ItemEquipment equip) {
             int[] slots = equip.getEquipmentType().getSlots();
             int maxSlot = slots[slots.length-1];
             for (int slot = slots[0]; slot <= maxSlot; slot++) {
@@ -71,20 +55,30 @@ public class Equipment {
                 player.playSound(player, Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 1);
 
                 equip.effect(player);
+                this.update(player);
+                break;
             }
         }
     }
 
-    @EventHandler
-    public void inventory(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals(" ")) {
-            event.setCancelled(true);
-            ItemStack current = event.getCurrentItem();
-            if (current == null) return;
-            if (current.getItemMeta().getDisplayName().equals(" ")) return;
-
+    private void update(Player player) {
+        for (ValueType type : ValueType.values()) {
+            finalValue.put(type, 0.0);
+        }
+        for (ItemStack item : this.equipment) {
+            if (item == null) continue;
+            ItemEquipment equip = (ItemEquipment) ItemType.getItemType(item).getItem();
+            Map<ValueType, Double> values = equip.values(player);
+            for (ValueType type : values.keySet()) {
+                finalValue.merge(type, values.get(type), Double::sum);
+            }
         }
     }
+
+    public double getFinalValue(ValueType type) {
+        return this.finalValue.get(type);
+    }
+
     /**
      * 0 - ring
      * 1 - scarf
@@ -109,6 +103,7 @@ public class Equipment {
             getNewIcon(0f),
             getNewIcon(0f),
             getNewIcon(0f),
+            getNewIcon(0f),
     };
     /** (e - belt)
      * R R R - A - R R R   7
@@ -117,9 +112,8 @@ public class Equipment {
      * - - - - e - - - -   1
      * - - - - - - - - -   0
      * S K - - - - - K S   4
-     * @return Inventory with equipment slot's
      */
-    public Inventory open() {
+    public void open(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, " ");
 
         inv.setItem(0, this.getItemSlot(0, 0)); // rings
@@ -155,7 +149,7 @@ public class Equipment {
 
         inv.setItem(13, this.getItemSlot(22, 9)); // cloak
         inv.setItem(22, this.getItemSlot(23, 10)); // companion
-        return inv;
+        player.openInventory(inv);
     }
     private ItemStack getItemSlot(int slot, int iconIndex) {
         ItemStack item = equipment[slot];

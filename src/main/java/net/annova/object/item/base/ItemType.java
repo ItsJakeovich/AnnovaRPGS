@@ -3,13 +3,10 @@ package net.annova.object.item.base;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.RPGTool;
-import net.annova.object.item.sector0.forest.BladeImbuedWithMagic;
-import net.annova.object.item.sector0.forest.DarkElfBow;
+import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
-import net.annova.object.item.sector0.forest.DarknessConcentration;
 import net.annova.object.item.sector0.meteorite.MeteoriteFragment;
 import net.annova.object.item.sector0.mines.MagicScrap;
-import net.annova.object.item.sector0.forest.EntRoot;
 import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
 import net.annova.object.item.container.PrisonContainerItem;
@@ -105,6 +102,7 @@ public enum ItemType {
     // S0 - Dryad Pedestal
     WOLF_SKIN(new WolfSkin()),
     // S0 - FOREST
+    ABSORBS_NIGHT_RING(new AbsorbsNightRing()),
     BLADE_IMBUED_WITH_MAGIC(new BladeImbuedWithMagic()),
     DARK_ELF_BOW(new DarkElfBow()),
     DARKNESS_CONCENTRATION(new DarknessConcentration()),

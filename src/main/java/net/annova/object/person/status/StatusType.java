@@ -21,14 +21,14 @@ import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
 import static net.annova.object.person.status.ValueType.CHARGE;
-import static net.annova.object.person.status.ValueType.DEFENCE_DEBUFF;
+import static net.annova.object.person.status.ValueType.DEFENCE;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public enum StatusType {
-    CB_DAMAGE_DEBUFF(Map.of(ValueType.DAMAGE_DEBUFF, 0.5)),
+    CB_DAMAGE_DEBUFF(Map.of(ValueType.DAMAGE, -0.5)),
 
-    HARRY_DEFENCE_DEBUFF(15_000, Map.of(DEFENCE_DEBUFF, 0.5)),
+    HARRY_DEFENCE_DEBUFF(15_000, Map.of(DEFENCE, -0.5)),
 
     ICENAGE(ICE_STONE, new StatusActivity() {
         @Override
@@ -172,11 +172,11 @@ public enum StatusType {
         }
     }),
 
-    GREEN_STONE_HEALTH_BUFF(GREEN_STONE, Map.of(ValueType.HEALTH_BUFF, 8.0)),
+    GREEN_STONE_HEALTH_BUFF(GREEN_STONE, Map.of(ValueType.HEALTH, 8.0)),
 
-    CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE_BUFF, 12.0)),
+    CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE, 12.0)),
 
-    ELK_FISH_DAMAGE_BUFF(60_000,  Map.of(ValueType.DAMAGE_BUFF, 6.0)),
+    ELK_FISH_DAMAGE_BUFF(60_000,  Map.of(ValueType.DAMAGE, 6.0)),
 
     PARALYSIS(2_000, new StatusActivity() {
         @Override

@@ -9,6 +9,8 @@ import net.annova.object.npc.RPGNPC;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.quest.QuestBase;
 import net.annova.environment.structure.Structure;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -170,5 +172,9 @@ public class GlobalRPG {
     }
     public static Map<String, QuestBase> getQuestsMap() {
         return quests;
+    }
+
+    public static SoundEvent getSoundFromString(String string) {
+        return SoundEvent.createVariableRangeEvent(ResourceLocation.parse(string));
     }
 }

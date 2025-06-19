@@ -92,7 +92,7 @@ public class Berserk extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public boolean onDamage(Entity damager) {
+    public boolean onDamage(LivingEntity damager) {
         if (!this.regened) {
             double maxHealth = entity.getMaxHealth();
             if (entity.getHealth() < maxHealth / 10) { // health < 10%

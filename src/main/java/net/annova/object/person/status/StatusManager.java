@@ -94,6 +94,10 @@ public class StatusManager {
             }
         }
     }
+
+    /**
+     * @return value of all status buffs (it can be < 0);
+     */
     public double getFinalValue(ValueType type) {
         return this.finalValue.get(type);
     }

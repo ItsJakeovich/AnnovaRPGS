@@ -15,9 +15,7 @@ public class DefenceEvent implements Listener {
     public void status(EntityDamageCE event) {
         if (event.getEntity() instanceof Player player) {
             RPGPerson person = getRPGPerson(player);
-            StatusManager manager = person.getStatusManager();
-            double value = manager.getFinalValue(DEFENCE_BUFF)
-                    - manager.getFinalValue(DEFENCE_DEBUFF);
+            double value = person.getFinalValue(DEFENCE);
             if (value == 0) return;
             event.decreaseDamage(event.getBaseDamage() * value);
         }
