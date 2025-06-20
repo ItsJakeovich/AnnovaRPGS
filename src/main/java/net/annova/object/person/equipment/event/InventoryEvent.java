@@ -5,38 +5,43 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.util.BukkitObjects.getNewIcon;
 
 public class InventoryEvent implements Listener {
+    Inventory inventory = null;
     @EventHandler
     public void inventory(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         RPGPerson person = getRPGPerson(player);
-        person.getPerson().send(event.getInventory().getType() + ", slot: " + event.getSlot());
+        int slot = event.getSlot();
+        // Open inventory action
         if (event.getInventory().getType().equals(InventoryType.CRAFTING)) {
-            if (event.getSlot() == 9) {
-                event.setCancelled(true);
+            inventory = event.getInventory();
+            if (slot == -999 && event.getCursor().getType().isAir()) {
                 person.getEquipment().open(player);
+                event.setCancelled(true);
             }
         }
-        if (event.getView().getTitle().equals(" ")) {
+
+        if (event.getView().getTitle().equals("Equipment")) {
             event.setCancelled(true);
+            // Close inventory action
+            if (slot == -999) {
+                player.closeInventory();
+                return;
+            }
             ItemStack current = event.getCurrentItem();
             if (current == null) return;
             if (current.getItemMeta().getDisplayName().equals(" ")) return;
-        }
-    }
-
-    public static final ItemStack equipmentIcon = getNewIcon(0f);
-    @EventHandler
-    public void open(InventoryOpenEvent event) {
-        if (event.getInventory().getType().equals(InventoryType.CRAFTING)) {
-            event.getInventory().setItem(9, equipmentIcon);
+            InventoryType type = event.getClickedInventory().getType();
+            switch (type) {
+                case CHEST -> person.getEquipment().removeEquipment(player, current, slot); // move from equipment
+                case PLAYER -> person.getEquipment().addEquipment(player, current, slot); // move to equipment
+            }
         }
     }
 }

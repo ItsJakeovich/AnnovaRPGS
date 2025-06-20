@@ -16,6 +16,7 @@ import java.util.*;
 import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
     private static final List<Inventory> itemsInterface = new ArrayList<>();
@@ -78,5 +79,15 @@ public class RPGCode {
         }
         RPGEntityType type = RPGEntityType.valueOf(args[1]);
         type.getEntity().create(player.getLocation());
+    }
+
+    @CommandArg(name = "item")
+    public void item(Player player, String[] args) {
+        if (args.length == 1) {
+            player.sendMessage("Usage: /rpg item {item-name}");
+            return;
+        }
+        ItemType type = ItemType.valueOf(args[1]);
+        addItems(player, type.create(1));
     }
 }

@@ -21,8 +21,9 @@ dungeon-deleted: "{pc}=- {mc}Подземелье закрыто{ac}!"
 
 weapon-cast: "{pc}=- {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 
-
 ### Person
+## equipment
+equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот полон!"
 ## commands
 # avatar
 avatar-switchui: "{pc}| {mc}Переключено отображение окон{sc}: {ac}{status}"

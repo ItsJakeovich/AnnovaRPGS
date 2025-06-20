@@ -37,7 +37,6 @@ import static net.annova.util.MessageObjects.sendForAll;
 public class RPGPerson {
     private final Person person;
     private Dungeon dungeon;
-//    private Location location =
     private int dungeonPoints = 0;
     private Team team;
     private RPGSet set;

@@ -14,13 +14,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.object.person.equipment.event.InventoryEvent.equipmentIcon;
 
 public class WorldEvent implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        player.getInventory().setItem(9, equipmentIcon);
         if (!containsRPGPerson(player)) addRPGPerson(getPerson(player));
         RPGPerson person = getRPGPerson(player);
         person.updateHealth();

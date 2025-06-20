@@ -37,17 +37,17 @@ public class Melanox extends RPGEntity implements EntityActivity {
 
     @Override
     public int health() {
-        return 600;
+        return 220;
     }
 
     @Override
     public double damage() {
-        return 15;
+        return 11;
     }
 
     @Override
     public float speed() {
-        return 0.4f;
+        return 0.345f;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Melanox extends RPGEntity implements EntityActivity {
 
                     @Override
                     public long repeating() {
-                        return 200;
+                        return 1100;
                     }
                 },
                 new CustomRunnable() {
@@ -95,7 +95,7 @@ public class Melanox extends RPGEntity implements EntityActivity {
 
                     @Override
                     public long repeating() {
-                        return 60;
+                        return 300;
                     }
                 }
         );
