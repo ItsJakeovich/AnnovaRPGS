@@ -8,8 +8,10 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -99,11 +101,13 @@ public class Boar extends RPGEntity implements EntityActivity {
                     public boolean activity() {
                         Mob mob = (Mob) Boar.this.entity;
                         if (targetPlayer == null) {
-                            ServerPlayer nearestPlayer = (ServerPlayer) mob.level().getNearestPlayer(mob, followRange);
-                            if (nearestPlayer != null && mob.hasLineOfSight(nearestPlayer)) {
-                                targetPlayer = nearestPlayer;
-                            } else {
-                                return true;
+                            for (Entity entity : mob.level().getEntities(entity, entity.getBoundingBox().inflate(16, 8, 16))) {
+                                if (entity instanceof ServerPlayer player && player.gameMode().equals(GameType.SURVIVAL)) {
+                                    if (player.gameMode().equals(GameType.SURVIVAL)) {
+                                        targetPlayer = player;
+                                        break;
+                                    }
+                                }
                             }
                         }
                         double minSpeed = 1.75;
