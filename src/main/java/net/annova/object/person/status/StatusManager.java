@@ -71,7 +71,7 @@ public class StatusManager {
                 }
             }.runTaskTimer(getInstance(), 0, activity.repeating()));
         }
-        this.update();
+        this.update(player);
         return status;
     }
 
@@ -80,11 +80,11 @@ public class StatusManager {
             BukkitTask runnable = statuses.get(type).getRunnable();
             if (runnable != null) runnable.cancel();
             statuses.remove(type);
-            this.update();
+            this.update(this.person.getPerson().getPlayer());
         }
     }
 
-    private void update() {
+    private void update(Player player) {
         for (ValueType type : ValueType.values()) {
             finalValue.put(type, 0.0);
         }
@@ -93,6 +93,7 @@ public class StatusManager {
                 finalValue.merge(type, status.getValue(type), Double::sum);
             }
         }
+        this.person.updateAttributes(player);
     }
 
     /**

@@ -1,7 +1,7 @@
 package net.annova.object.entity.event;
 
 import net.annova.event.custom.BattleCE;
-import net.annova.event.custom.EntityDamageByEntityCE;
+import net.annova.event.custom.LivingEntityDamageByEntityCE;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
@@ -9,9 +9,7 @@ import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
@@ -23,7 +21,7 @@ import static net.annova.util.BukkitObjects.random;
 
 public class BattleEvent implements Listener {
     @EventHandler
-    public void onArrow(EntityDamageByEntityCE event) {
+    public void onArrow(LivingEntityDamageByEntityCE event) {
         if (event.getDamager() instanceof Arrow arrow
                 && arrow.getShooter() instanceof LivingEntity living) {
             RPGEntity entity = getEntity(living);

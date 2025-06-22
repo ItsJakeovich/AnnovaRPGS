@@ -250,7 +250,7 @@ public enum StatusType {
         return cooldown;
     }
 
-    public ItemType getWhileHas() {
+    public ItemType getActivationItem() {
         return whileHas;
     }
     public static EnumSet<StatusType> getForActivation() {

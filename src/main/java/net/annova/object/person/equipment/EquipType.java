@@ -10,7 +10,7 @@ public enum EquipType {
     HAIR_CLIP(getNewIcon(20002f), new int[]{11}, new int[]{5}),
     BELT(getNewIcon(20003f), new int[]{12}, new int[]{31}),
     AMULET(getNewIcon(20004f), new int[]{13}, new int[]{4}),
-    GLOVE(getNewIcon(20005f), new int[]{14, 15}, new int[]{19, 26}),
+    GLOVE(getNewIcon(20005f), new int[]{14, 15}, new int[]{18, 26}),
     BRACELET(getNewIcon(20006f), new int[]{16, 17}, new int[]{19, 25}),
 
     SHOULDER_PADS(getNewIcon(20007f), new int[]{18, 19}, new int[]{45, 53}),

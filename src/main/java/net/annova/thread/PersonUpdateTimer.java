@@ -22,7 +22,7 @@ public class PersonUpdateTimer extends AnnovaAsyncTask {
             StatusManager manager = person.getStatusManager();
             for (StatusType type : StatusType.getForActivation()) {
                 if (manager.hasStatus(type)) continue;
-                if (!type.getWhileHas().has(player)) continue;
+                if (!type.getActivationItem().has(player)) continue; // если у игрока нет предмета
                 manager.addStatus(type);
                 player.playSound(player, Sound.ENTITY_WANDERING_TRADER_YES, 1, 1);
             }

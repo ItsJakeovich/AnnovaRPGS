@@ -45,7 +45,6 @@ public class TideGraspRing extends RPGItem implements ItemEquipment {
     public EquipType getEquipmentType() {
         return EquipType.RING;
     }
-
     @Override
     public Map<ValueType, Double> values(Player player) {
         Map<ValueType, Double> values = new EnumMap<>(ValueType.class);

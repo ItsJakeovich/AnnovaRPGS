@@ -44,7 +44,7 @@ public class Status {
     public boolean toRemove(Player player) {
         boolean byTime = type.getDuration() != 0 && System.currentTimeMillis() >= expires;
 
-        ItemType itemType = this.type.getWhileHas();
+        ItemType itemType = this.type.getActivationItem();
         boolean byItem = itemType != null && !itemType.has(player);
 
         return byTime || byItem;

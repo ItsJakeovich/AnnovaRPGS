@@ -14,8 +14,14 @@ import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.ValueType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
@@ -120,8 +126,14 @@ public class RPGPerson {
         this.dungeonPoints -= points;
     }
 
-    public void damage(int damage) {
-        this.person.getPlayer().sendMessage(LocalDate.now() + ": damage: " + damage);
+    public void damageWithCooldown(Player player, float damage) {
+        if (player.getNoDamageTicks() != 0) return;
+        player.setNoDamageTicks(10);
+        this.damage(player, damage);
+    }
+    public void damage(Player player, float damage) {
+        player.playHurtAnimation(1.0f);
+        player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
         this.setHealth(this.health - damage);
     }
     public void regen(Player player) {
@@ -173,6 +185,9 @@ public class RPGPerson {
 
     public void death() {
         Player player = this.person.getPlayer();
+        player.setFireTicks(0);
+        player.setFreezeTicks(0);
+        player.setNoDamageTicks(60);
         if (dungeon != null) {
             player.setGameMode(GameMode.SPECTATOR);
             sendForAll(getInstance(), "death-dungeon", "{name}", this.person.getName());
@@ -297,9 +312,31 @@ public class RPGPerson {
     public StatusManager getStatusManager() {
         return statusManager;
     }
-
     public double getFinalValue(ValueType type) {
         return this.equipment.getFinalValue(type) + this.statusManager.getFinalValue(type);
+    }
+    public String getStringFinalValue(ValueType type) {
+        String string;
+        double value = (double) (int) (this.getFinalValue(type) * 100) / 100;
+        if (value == 0)     return "{sc}" + value;
+        else if (value > 0) return "{tc}+" + value;
+        else                return "{fc}" + value;
+    }
+    private AttributeInstance blockInteraction, entityInteraction;
+    private static final ResourceLocation blockRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "block_range");
+    private static final ResourceLocation entityRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "entity_range");
+    public void updateAttributes(Player player) {
+        if (blockInteraction == null) {
+            ServerPlayer server = ((CraftPlayer) player).getHandle();
+            this.blockInteraction = server.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
+            this.entityInteraction = server.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
+        }
+        blockInteraction.addOrUpdateTransientModifier(new AttributeModifier(
+                blockRangeLocation, this.getFinalValue(ValueType.BLOCK_RANGE), AttributeModifier.Operation.ADD_VALUE
+        ));
+        entityInteraction.addOrUpdateTransientModifier(new AttributeModifier(
+                entityRangeLocation, this.getFinalValue(ValueType.ENTITY_RANGE), AttributeModifier.Operation.ADD_VALUE
+        ));
     }
 
     public List<ItemStack> getPendingItems() {

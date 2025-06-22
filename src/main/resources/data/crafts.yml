@@ -52,6 +52,6 @@ material:
       - id: 'CRAB_CLAW' #custom
         letter: 'e'
     recipe:
-      - ' qw'
-      - 'qeq'
+      - ' qe'
+      - 'qwq'
       - ' q '

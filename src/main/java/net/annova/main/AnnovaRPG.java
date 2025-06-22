@@ -1,7 +1,6 @@
 package net.annova.main;
 
 import net.annova.config.RPGConfig;
-import net.annova.environment.world.GlobalWorld;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -12,6 +11,7 @@ import net.annova.thread.*;
 import net.minecraft.world.entity.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import static net.annova.command.AnnovaCommandInit.initCommands;
+import static net.annova.event.summon.EntityEvent.indicators;
 import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
@@ -68,6 +69,9 @@ public final class AnnovaRPG extends JavaPlugin {
         for (RPGEntity entity : getEntities()) {
             entity.entity.remove(Entity.RemovalReason.DISCARDED);
         }
+        for (ArmorStand indicator : indicators) {
+            indicator.remove();
+        }
         for (Dungeon dungeon : getDungeons()) {
             dungeon.endDungeon(true);
         }
@@ -83,7 +87,7 @@ public final class AnnovaRPG extends JavaPlugin {
     }
 
     private void initThreads() {
-        syncTimer(this, new PersonUpdateTimer(), 100); // 10s
+        syncTimer(this, new PersonUpdateTimer(), 100); // 5s
         // PersonStaminaTimer - SecondTickEvent
         syncTimer(this, new UpdateSpawnTimer(), 1200); // 60sec
         // PersonStatusTimer - SecondTickEvent

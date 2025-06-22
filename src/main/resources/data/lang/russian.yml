@@ -27,6 +27,16 @@ equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот п
 ## commands
 # avatar
 avatar-switchui: "{pc}| {mc}Переключено отображение окон{sc}: {ac}{status}"
+avatar-info: "{pc}=-= {mc}Информация о персонаже
+\n{pc}= {mc}Имя{sc}: {mc}{name}
+\n{pc}= {mc}Модификаторы{pc}:
+\n{pc} ◆ {mc}Урон{sc}: {damage}
+\n{pc} ◆ {mc}Защита{sc}: {defence}
+\n{pc} ◆ {mc}Здоровье{sc}: {health}
+\n{pc} ◆ {mc}Восстановление{sc}: {regen}
+\n{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
+\n{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}
+"
 
 # Status bar
 bar-health: "{pc}=- {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"

@@ -1,4 +1,4 @@
-package net.annova.event;
+package net.annova.event.summon;
 
 import net.annova.event.custom.MouseClickCE;
 import org.bukkit.Bukkit;

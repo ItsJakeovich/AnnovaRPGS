@@ -4,11 +4,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class EntityDamageByEntityCE extends EntityDamageCE {
+public class LivingEntityDamageByEntityCE extends MobDamageCE {
 
     private final Entity damager;
 
-    public EntityDamageByEntityCE(LivingEntity entity, EntityDamageByEntityEvent event) {
+    public LivingEntityDamageByEntityCE(LivingEntity entity, EntityDamageByEntityEvent event) {
         super(entity, event);
         this.damager = event.getDamager();
     }

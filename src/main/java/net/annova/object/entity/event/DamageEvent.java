@@ -1,6 +1,6 @@
 package net.annova.object.entity.event;
 
-import net.annova.event.custom.EntityDamageCE;
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
@@ -17,7 +17,7 @@ import static net.annova.util.BukkitObjects.chance;
 
 public class DamageEvent implements Listener {
     @EventHandler
-    public void onDamage(EntityDamageCE event) {
+    public void onDamage(MobDamageCE event) {
         LivingEntity entity = event.getEntity();
         RPGEntity rpg = getEntity(entity);
         if (rpg == null) return;

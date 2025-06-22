@@ -99,6 +99,7 @@ public class Equipment {
                 finalValue.merge(type, values.get(type), Double::sum);
             }
         }
+        this.person.updateAttributes(player);
     }
 
     public double getFinalValue(ValueType type) {

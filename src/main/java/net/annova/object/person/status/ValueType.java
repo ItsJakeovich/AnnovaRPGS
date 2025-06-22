@@ -5,8 +5,8 @@ public enum ValueType {
     ORATOR_DAMAGE_BUFF,
     DEFENCE,
     HEALTH,
-    SPEED,
     REGENERATION,
+    SPEED,
     BLOCK_RANGE,
     ENTITY_RANGE,
 

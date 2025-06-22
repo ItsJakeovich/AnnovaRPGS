@@ -9,7 +9,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class EntityDamageCE extends Event implements Cancellable {
+public class MobDamageCE extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final LivingEntity entity;
@@ -19,7 +19,7 @@ public class EntityDamageCE extends Event implements Cancellable {
 
     private boolean cancelled = false;
 
-    public EntityDamageCE(LivingEntity entity, EntityDamageEvent event) {
+    public MobDamageCE(LivingEntity entity, EntityDamageEvent event) {
         this.entity = entity;
         this.event = event;
         double damage = event.getDamage();

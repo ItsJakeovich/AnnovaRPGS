@@ -2,7 +2,7 @@ package net.annova.object.item.crystal;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
-import net.annova.event.custom.EntityDamageCE;
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
@@ -68,7 +68,7 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void damage(EntityDamageCE event) {
+    private void damage(MobDamageCE event) {
         LivingEntity entity = event.getEntity();
         if (!RUNIC_DEFENCE_STONE.hasPlayer(entity)) return;
 

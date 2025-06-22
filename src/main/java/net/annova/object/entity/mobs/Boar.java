@@ -100,7 +100,7 @@ public class Boar extends RPGEntity implements EntityActivity {
                     @Override
                     public boolean activity() {
                         Mob mob = (Mob) Boar.this.entity;
-                        if (targetPlayer == null) {
+                        if (targetPlayer == null || !targetPlayer.valid) {
                             for (Entity entity : mob.level().getEntities(entity, entity.getBoundingBox().inflate(16, 8, 16))) {
                                 if (entity instanceof ServerPlayer player && player.gameMode().equals(GameType.SURVIVAL)) {
                                     if (player.gameMode().equals(GameType.SURVIVAL)) {

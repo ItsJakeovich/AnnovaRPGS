@@ -3,7 +3,7 @@ package net.annova.event.custom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamageCE extends EntityDamageCE {
+public class PlayerDamageCE extends MobDamageCE {
     private final Player player;
 
     public PlayerDamageCE(Player player, EntityDamageEvent event) {

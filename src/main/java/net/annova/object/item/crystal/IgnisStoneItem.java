@@ -3,7 +3,7 @@ package net.annova.object.item.crystal;
 import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.event.custom.BattleCE;
-import net.annova.event.custom.EntityDamageCE;
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
@@ -80,7 +80,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
         targets.put(entity, System.currentTimeMillis()+1200);
     }
     @EventHandler
-    private void damager(EntityDamageCE event) {
+    private void damager(MobDamageCE event) {
         LivingEntity entity = event.getEntity();
         if (!targets.containsKey(entity)) return;
         if (System.currentTimeMillis() >= targets.get(entity)) {

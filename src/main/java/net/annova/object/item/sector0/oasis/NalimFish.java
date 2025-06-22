@@ -1,6 +1,6 @@
 package net.annova.object.item.sector0.oasis;
 
-import net.annova.event.custom.EntityDamageCE;
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
@@ -49,7 +49,7 @@ public class NalimFish extends RPGItem implements Listener {
         duration.put(event.getPlayer(), System.currentTimeMillis()+600_000);
     }
     @EventHandler
-    public void onDamage(EntityDamageCE event) {
+    public void onDamage(MobDamageCE event) {
         if (!event.getEvent().getCause().equals(EntityDamageEvent.DamageCause.DROWNING)) return;
         LivingEntity player = event.getEntity();
         Long until = duration.get(player);

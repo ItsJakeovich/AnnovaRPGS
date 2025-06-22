@@ -1,6 +1,6 @@
 package net.annova.object.item.crystal;
 
-import net.annova.event.custom.EntityDamageByEntityCE;
+import net.annova.event.custom.LivingEntityDamageByEntityCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
@@ -41,7 +41,7 @@ public class StrengthStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void damager(EntityDamageByEntityCE event) {
+    private void damager(LivingEntityDamageByEntityCE event) {
         if (STRENGTH_STONE.has(event.getEntity())) {
             event.increaseDamage(event.getBaseDamage() * 1.5);
         }
