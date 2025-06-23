@@ -68,7 +68,7 @@ public class ForestWolf extends RPGEntity implements EntitySpawn {
     public void onSpawn(Location location) {
         // от 0 до 3 собратьев
         for (int i = random.nextInt(4); i != 0; i--) {
-            FOREST_WOLF.getEntity().create(location);
+            FOREST_WOLF.getEntity().create(location, true);
         }
     }
 }

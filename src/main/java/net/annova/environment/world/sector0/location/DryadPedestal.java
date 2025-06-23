@@ -7,9 +7,7 @@ import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
@@ -27,14 +25,20 @@ public class DryadPedestal extends SectorLocation {
             "s0-dryad-msg-5",
             "s0-dryad-msg-6",
     };
-    private final Map<Player, Long> messageCooldown = new HashMap<>();
+    private final Map<UUID, Long> messageCooldown = new HashMap<>();
+
+    @Override
+    public void activity() {
+
+    }
+
     @Override
     public void movement(Player player) {
-        if (this.isOutside(player.getLocation())) return;
-
         long millis = System.currentTimeMillis();
-        if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
-        messageCooldown.put(player, millis + 1800_000); // 30 min
+        UUID id = player.getUniqueId();
+        if (messageCooldown.containsKey(id) && millis < messageCooldown.get(id)) return;
+        messageCooldown.put(id, millis + 1800_000); // 30 min
+
 
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
@@ -46,7 +50,7 @@ public class DryadPedestal extends SectorLocation {
     }
 
     @Override
-    public Set<RPGEntityType> entitiesToSpawn() {
+    public EnumSet<RPGEntityType> entitiesToSpawn() {
         return getEntitiesByCategory(LocationCategory.S0_DRYAD);
     }
 

@@ -96,12 +96,12 @@ public enum RPGEntityType {
     private final int maxAmount;
     private final boolean boss;
 
-    private static final Map<LocationCategory, Set<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
+    private static final Map<LocationCategory, EnumSet<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
     private static final Map<Class<? extends RPGEntity>, RPGEntityType> TYPE_BY_CLASS = new HashMap<>();
 
     static {
         for (LocationCategory cat : LocationCategory.values()) {
-            ENTITIES_BY_CATEGORY.put(cat, new HashSet<>());
+            ENTITIES_BY_CATEGORY.put(cat, EnumSet.noneOf(RPGEntityType.class));
         }
         for (RPGEntityType type : values()) {
             ENTITIES_BY_CATEGORY.get(type.category).add(type);
@@ -144,7 +144,7 @@ public enum RPGEntityType {
     public static RPGEntityType getType(RPGEntity entity) {
         return TYPE_BY_CLASS.get(entity.getClass());
     }
-    public static Set<RPGEntityType> getEntitiesByCategory(LocationCategory category) {
+    public static EnumSet<RPGEntityType> getEntitiesByCategory(LocationCategory category) {
         return ENTITIES_BY_CATEGORY.get(category);
     }
 

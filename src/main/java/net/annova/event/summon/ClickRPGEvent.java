@@ -11,7 +11,8 @@ import org.bukkit.inventory.EquipmentSlot;
 public class ClickRPGEvent implements Listener {
     @EventHandler
     public void click(PlayerInteractEvent event) {
-        if (event.getHand().equals(EquipmentSlot.OFF_HAND)) return;
+        EquipmentSlot slot = event.getHand();
+        if (slot == null || event.getHand().equals(EquipmentSlot.OFF_HAND)) return;
 
         MouseClickCE.ClickType type = null;
         Action action = event.getAction();

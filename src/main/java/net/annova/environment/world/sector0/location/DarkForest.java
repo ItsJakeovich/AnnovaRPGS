@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -35,10 +36,14 @@ public class DarkForest extends SectorLocation {
     };
     private final Map<Player, Long> messageCooldown = new HashMap<>();
     private final PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 300, 1);
+
+    @Override
+    public void activity() {
+
+    }
+
     @Override
     public void movement(Player player) {
-        if (this.isOutside(player.getLocation())) return;
-
         if (player.getGameMode().equals(GameMode.SURVIVAL)) {
             player.addPotionEffect(darkness);
             player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 0.1, 0), 100, 15, 0, 15, 0);
@@ -56,7 +61,7 @@ public class DarkForest extends SectorLocation {
     }
 
     @Override
-    public Set<RPGEntityType> entitiesToSpawn() {
+    public EnumSet<RPGEntityType> entitiesToSpawn() {
         return getEntitiesByCategory(LocationCategory.S0_FOREST);
     }
 

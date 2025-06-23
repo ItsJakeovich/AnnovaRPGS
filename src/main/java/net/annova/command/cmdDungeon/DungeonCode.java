@@ -24,18 +24,13 @@ public class DungeonCode {
         addItems(player, DUNGEON_KEY.create(player));
     }
 
-    @CommandArg(name = "kaban")
-    public void kaban(Player player) {
-        BOAR.getEntity().create(player.getLocation());
-    }
-
     @CommandArg(name = "list")
     public void list(Player player) {
         Person person = getPerson(player);
-        person.send(getInstance(), "dungeon-list");
+        person.send(getInstance(), "dungeon-list-list");
         for (Dungeon dungeon : getDungeons()) {
             Location loc = dungeon.getLocation();
-            person.send("{pc}= " + dungeon.getKey() + " | " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
+            person.send("{pc}● " + dungeon.getKey() + " | " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         }
     }
     @CommandArg(name = "delete")
@@ -53,38 +48,5 @@ public class DungeonCode {
         }
         dungeon.endDungeon(true);
         person.send(getInstance(), "dungeon-deleted");
-    }
-
-    @CommandArg(name = "iceball")
-    public void iceball(Player player) {
-        Location spawn = player.getEyeLocation().clone().add(0, -0.5, 0);
-        spawn.add(spawn.getDirection().multiply(2.5));
-
-        new IceBall().create(spawn);
-    }
-
-    @CommandArg(name = "testball")
-    public void ball(Player player) {
-        Location spawn = player.getEyeLocation().clone().add(0, -0.5, 0);
-        spawn.add(spawn.getDirection().multiply(2.5));
-
-        new HarryBall(player).create(spawn);
-    }
-
-    @CommandArg(name = "testfireball")
-    public void fireball(Player player) {
-        for (int i = 0; i < 32; i++) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {
-                Location spawn = player.getEyeLocation().clone().add(0, -0.5, 0);
-                spawn.add(spawn.getDirection().multiply(2.5));
-
-                new FireBall().create(spawn);
-            }, 1 + i);
-        }
-    }
-
-    @CommandArg(name = "harry")
-    public void harry(Player player) {
-        HARRY.getEntity().create(player.getLocation());
     }
 }

@@ -215,6 +215,6 @@ public class Dungeon {
 
     public void spawnEntity(RPGEntity entity, Location location) {
         float value = players.size()-1;
-        this.entity.add(entity.create(this, location, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
+        this.entity.add(entity.create(this, location, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
     }
 }

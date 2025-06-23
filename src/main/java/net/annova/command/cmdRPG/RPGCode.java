@@ -59,16 +59,16 @@ public class RPGCode {
         } else manager.addStatus(player, StatusType.SHAKING);
     }
 
-    @CommandArg(name = "show-borders")
-    public void showBorders(Player player, String[] args) {
+    @CommandArg(name = "border")
+    public void border(Player player, String[] args) {
         if (args.length == 1) {
-            player.sendMessage("Usage: /rpg show-borders {1-6}");
+            player.sendMessage("Usage: /rpg border {1-6}");
             return;
         }
         WorldSector sector = worldSectors.get(player.getWorld());
         if (sector == null) return;
         int location = Integer.parseInt(args[1]);
-        sector.zones().get(location).showTerritory(world0);
+        sector.zones()[location].showTerritory(world0);
     }
 
     @CommandArg(name = "summon")

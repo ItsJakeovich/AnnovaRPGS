@@ -25,6 +25,7 @@ public class BattleEvent implements Listener {
         if (event.getDamager() instanceof Arrow arrow
                 && arrow.getShooter() instanceof LivingEntity living) {
             RPGEntity entity = getEntity(living);
+            if (entity == null) return;
             event.setDamage(entity.damage());
         }
     }

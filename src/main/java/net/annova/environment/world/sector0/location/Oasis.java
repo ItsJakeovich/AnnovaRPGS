@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -49,10 +50,14 @@ public class Oasis extends SectorLocation implements Listener {
             "s0-oasis-msg-9",
     };
     private final Map<Player, Long> messageCooldown = new HashMap<>();
+
+    @Override
+    public void activity() {
+
+    }
+
     @Override
     public void movement(Player player) {
-        if (this.isOutside(player.getLocation())) return;
-
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
@@ -82,7 +87,7 @@ public class Oasis extends SectorLocation implements Listener {
     }
 
     @Override
-    public Set<RPGEntityType> entitiesToSpawn() {
+    public EnumSet<RPGEntityType> entitiesToSpawn() {
         return getEntitiesByCategory(LocationCategory.S0_OASIS);
     }
 

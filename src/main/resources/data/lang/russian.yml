@@ -1,45 +1,106 @@
-map-url: "{pc}=- {mc}Нажатием откройте карту"
+map-url: "{pc}❖ {mc}Нажатием откройте карту"
 night-skip: "{tc}Доброе утро, наше счастье {fc}🖤"
-night-enter: "{pc}=- &r&k123 {tc}Сладких снов &r&k123"
+night-enter: "{pc}❖ &r&k123 {tc}Сладких снов &r&k123"
 
 death-base: "{pc}| {sc}{name} {mc}погиб!"
 death-dungeon: "{pc}| {sc}{name} {mc}погиб в подземелье!"
 
-dungeon-key: "{pc}=- {mc}Подтвердите открытие ключа командой {sc}/{mc}confirm"
-dungeon-key-already: "{pc}=- {mc}Вы уже находитесь в подземелье{sc}."
-dungeon-missing-key: "{pc}=- {mc}Вы должны иметь ключ{sc}, {mc}чтобы открыть подземелье{sc}."
-dungeon-end-timer: "{pc}=- {mc}Подземелье закроется через {ac}{timer}{sc}"
-dungeon-points: "{pc}=- {mc}Очки подземелья +{plus} {sc}({ac}{points}{sc})"
-dungeon-respawn: "{pc}=- {mc}Перерождение через {ac}{delay}{sc}"
-
-
-dungeon-list: "{pc}=- {mc}Список активных данжей{sc}:"
-
-dungeon-delete-args: "{pc}=- {mc}Напишите ключ данжа{ac}! {sc}(число в /dung list)"
-dungeon-delete-not-found: "{pc}=- {mc}Подземелье не найдено - {ac}{key}"
-dungeon-deleted: "{pc}=- {mc}Подземелье закрыто{ac}!"
-
-weapon-cast: "{pc}=- {mc}Подготовка{sc}: {ac}{percent}{mc}%"
+weapon-cast: "{pc}❖ {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 
 ### Person
+## Sector location
+sector-loc-empty: "{sc}пустошь"
 ## equipment
 equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот полон!"
-## commands
+## commands ≡ ● ◆ ❖
 # avatar
+avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
+avatar-switch-ui:   "{pc} ● {mc}/avatar switch-ui {sc}- {mc}отображение интерфейса"
+avatar-equipment:   "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает меню экипировки"
+avatar-information: "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
+
 avatar-switchui: "{pc}| {mc}Переключено отображение окон{sc}: {ac}{status}"
-avatar-info: "{pc}=-= {mc}Информация о персонаже
-\n{pc}= {mc}Имя{sc}: {mc}{name}
-\n{pc}= {mc}Модификаторы{pc}:
-\n{pc} ◆ {mc}Урон{sc}: {damage}
-\n{pc} ◆ {mc}Защита{sc}: {defence}
-\n{pc} ◆ {mc}Здоровье{sc}: {health}
-\n{pc} ◆ {mc}Восстановление{sc}: {regen}
-\n{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
-\n{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}
-"
+avatar-info: "{pc}  {mc}Информация о персонаже
+\n{pc} ● {mc}Имя{sc}: {mc}{name}
+\n{pc} ● {mc}Локация{sc}: {location}
+\n{pc} ● {mc}Модификаторы{pc}:
+\n{pc}  ◆ {mc}Урон{sc}: {damage}
+\n{pc}  ◆ {mc}Защита{sc}: {defence}
+\n{pc}  ◆ {mc}Здоровье{sc}: {health}
+\n{pc}  ◆ {mc}Восстановление{sc}: {regen}
+\n{pc}  ◆ {mc}Взаимодействие с блоками{sc}: {block}
+\n{pc}  ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
+# calculator
+calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
+#calc-creative: "{pc}❖ {mc}Творческий режим{sc}."
+calc-result: "{pc}❖ {mc}Результат{sc}: {ac}{result}"
+calc-error: "{pc}❖ {mc}Невозможно выполнить уравнение{sc}: {ac}{input}"
+# dungeon
+dungeon-menu: "{pc}≡ {mc}Управление подземельями{pc}:"
+dungeon-key:    "{pc} ● {mc}/dung key {sc}- {mc}выдает ключ от подземелья"
+dungeon-list:   "{pc} ● {mc}/dung list {sc}- {mc}список открытых подземелий"
+dungeon-delete: "{pc} ● {mc}/dung delete {sc}{id} - {mc}закрывает введенное подземелье"
+
+dungeon-key-confirm: "{pc}❖ {mc}Подтвердите открытие ключа командой {sc}/{mc}confirm"
+dungeon-key-already: "{pc}❖ {mc}Вы уже находитесь в подземелье{sc}."
+dungeon-missing-key: "{pc}❖ {mc}Вы должны иметь ключ{sc}, {mc}чтобы открыть подземелье{sc}."
+dungeon-end-timer: "{pc}❖ {mc}Подземелье закроется через {ac}{timer}{sc}"
+dungeon-points: "{pc}❖ {mc}Очки подземелья +{plus} {sc}({ac}{points}{sc})"
+dungeon-respawn: "{pc}❖ {mc}Перерождение через {ac}{delay}{sc}"
+
+dungeon-list-list: "{pc}≡ {mc}Список активных данжей{sc}:"
+
+dungeon-delete-args: "{pc}❖ {mc}Напишите ключ данжа{ac}! {sc}(число в /dung list)"
+dungeon-delete-not-found: "{pc}❖ {mc}Подземелье не найдено - {ac}{key}"
+dungeon-deleted: "{pc}❖ {mc}Подземелье закрыто{ac}!"
+# inventory
+invsee-args: "{pc}❖ {mc}Введите ник игрока{sc}. Дописав в конце 'ec', откроется эндер сундук"
+# rpg
+#rpg-altar-exist: "{fc}❖ {mc}Алтарь уже установлен{sc}. \n {sc}|● Для пересоздания пропишите команду /confirm"
+#rpg-altar-recreate: "{tc}❖ {mc}Алтарь пересоздан{sc}."
+rpg-menu: "{pc}≡ {mc}Управление плагином{mc}:"
+rpg-items:   "{pc} ● {mc}/rpg items {sc}{page} - {mc}открывает меню с предметами"
+rpg-shaking: "{pc} ● {mc}/rpg shaking {sc} - {mc}тряска экрана (заменить)"
+rpg-border:  "{pc} ● {mc}/rpg border {sc}{id} - {mc}показывает границы локаций"
+rpg-summon:  "{pc} ● {mc}/rpg summon {sc}{name} - {mc}спавнит серверную сущность"
+rpg-item:    "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серверный предмет"
+# team
+team-menu     : "{pc}≡ {mc}Управление командой{mc}:"
+team-create   : "{pc} ● {mc}/team create {sc}{name} - {mc}создать команду"
+team-leave    : "{pc} ● {mc}/team leave{sc} - {mc}покинуть команду"
+team-disband  : "{pc} ● {mc}/team disband{sc} - {mc}расформировать команду"
+team-invite   : "{pc} ● {mc}/team invite {sc}{name} - {mc}пригласить игрока в команду"
+team-kick     : "{pc} ● {mc}/team kick {sc}{name} - {mc}выгнать игрока из команды"
+#team-gathering: "{pc} ● {mc}/team gathering{sc} - {mc}позвать игроков в подземелье"
+
+team-absent: "{pc}❖ {mc}Вы не состоите в команде{sc}."
+team-not-owner: "{pc}❖ {mc}Вы должны быть лидером команды{sc}."
+
+team-create-already: "{pc}❖ {mc}Вы уже состоите в команде {ac}{team}{sc}. \n {sc}|● {mc}Но вы можете покинуть ее {sc}/{mc}team leave"
+team-create-name: "{pc}❖ {mc}Введите название команды{sc}."
+team-create-successfully: "{pc}❖ {mc}Команда {ac}{team} {mc}создана{sc}!"
+
+team-leave-owner: "{pc}❖ {mc}Лидер не может покинуть команду{sc}, {mc}расформируйте ее {sc}/{mc}team disband"
+team-leave-successfully: "{pc}❖ {mc}Вы покинули команду {ac}{team}{sc}."
+
+team-disband-successfully: "{pc}❖ {mc}Вы расформировали команду {ac}{team}{sc}."
+
+team-invite-name: "{pc}❖ {mc}Введите имя приглашаемого игрока{sc}."
+team-invite-invited: "{pc}❖ {mc}Игрок приглашен {sc}{name}."
+team-invite-request: "{pc}❖ {mc}Приглашение о вступлении от {ac}{team}{sc}, {mc}подтвердите командой {sc}/{mc}confirm"
+team-invite-request-already: "{pc}❖ {mc}Вы уже состоите в команде {ac}{team}{sc}. \n {sc}|● {mc}Но вы можете ее покинуть {sc}/{mc}team leave"
+team-invite-successfully: "{pc}❖ {mc}Игрок {ac}{name} {mc}присоединился к команде{sc}!"
+
+team-kick-name: "{pc}❖ {mc}Введите имя изгоняемого игрока{sc}."
+team-kick-wrong: "{pc}❖ {mc}Данный игрок не состоит в вашей команде{sc}!"
+team-kick-kicked: "{pc}❖ {mc}Вы были изгнаны из команды {sc}{team}."
+
+team-gathering-request: "{pc}❖ {ac}{name} приглашает участников команды в подземелье{sc}! \n {sc}|● {mc}Подтвердите комадной {sc}/{mc}confirm"
+team-gathering-successfully: "{pc}❖ {mc}Все участники команды были приглашены в подземелье{sc}!"
+team-gathering-already: "{pc}❖ {mc}Вы уже находитесь в подземелье{sc}."
 
 # Status bar
-bar-health: "{pc}=- {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
+bar-health: "{pc}❖ {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
 ### Items
 ## containers
@@ -201,71 +262,23 @@ s0-swamps-msg-5: "{sc}Они где-то рядом. Прячутся в тен�
 s0-swamps-msg-6: "{sc}Лес дрожит. А может, это я дрожу?"
 s0-swamps-msg-7: "{sc}Кажется, из-под воды кто-то вылезает..."
 
-# калькулячка
-calc-args: "{pc}=- {mc}Введите аргументы{sc}."
-calc-creative: "{pc}=- {mc}Творческий режим{sc}."
-calc-result: "{pc}=- {mc}Результат{sc}: {ac}{result}"
-calc-error: "{pc}=- {mc}Невозможно выполнить уравнение{sc}: {ac}{input}"
-
-# rpg
-rpg-altar-exist: "{fc}=- {mc}Алтарь уже установлен{sc}. \n {sc}|= Для пересоздания пропишите команду /confirm"
-rpg-altar-recreate: "{tc}=- {mc}Алтарь пересоздан{sc}."
-
-# inventory see
-invsee-args: "{pc}=- {mc}Введите ник игрока{sc}. Дописав в конце 'ec', откроется эндер сундук"
-
 # dungeons
-dungeon-starts: "{pc}=- {mc}Подземелье начнется через{sc}: {mc}{s}{sc}!"
-dungeon-failstart: "{pc}=- {mc}Не все игроки были готовы. Запуск отменен."
+dungeon-starts: "{pc}❖ {mc}Подземелье начнется через{sc}: {mc}{s}{sc}!"
+dungeon-failstart: "{pc}❖ {mc}Не все игроки были готовы. Запуск отменен."
 
 # Тут позже надо написать так же и название данжа, когда их будет больше 1. "Подземелье PRISON было зачищего командой хомяков [LEADER]"
-dungeon-complete-person: "{pc}=- {mc}Подземелье было зачищено игроком {ac}{person}{sc}"
-dungeon-complete-team: "{pc}=- {mc}Подземелье было зачищено командой {ac}{team} {sc}[{mc}{leader}{sc}]"
+dungeon-complete-person: "{pc}❖ {mc}Подземелье было зачищено игроком {ac}{person}{sc}"
+dungeon-complete-team: "{pc}❖ {mc}Подземелье было зачищено командой {ac}{team} {sc}[{mc}{leader}{sc}]"
 
-dungeon-prison-major: "{pc}=- {mc}Вы слышите странный шум{sc}."
-dungeon-killed-major-person: "{pc}=- {mc}Майор был убил игроком {ac}{person}{sc}"
-dungeon-killed-major-team: "{pc}=- {mc}Майор был убит командой {ac}{team} {sc}[{mc}{leader}{sc}]"
+dungeon-prison-major: "{pc}❖ {mc}Вы слышите странный шум{sc}."
+dungeon-killed-major-person: "{pc}❖ {mc}Майор был убил игроком {ac}{person}{sc}"
+dungeon-killed-major-team: "{pc}❖ {mc}Майор был убит командой {ac}{team} {sc}[{mc}{leader}{sc}]"
 
-player-not-found: "{pc}=- {mc}Игрок не найден {sc}{name}."
-
-# Command: team
-team-menu     : "{pc}=-= {mc}Управление командой{sc}:"
-team-create   : "{pc} = {mc}/team create {sc}{name} - {mc}создать команду"
-team-leave    : "{pc} = {mc}/team leave{sc} - {mc}покинуть команду"
-team-disband  : "{pc} = {mc}/team disband{sc} - {mc}расформировать команду"
-team-invite   : "{pc} = {mc}/team invite {sc}{name} - {mc}пригласить игрока в команду"
-team-kick     : "{pc} = {mc}/team kick {sc}{name} - {mc}выгнать игрока из команды"
-team-gathering: "{pc} = {mc}/team gathering{sc} - {mc}позвать игроков в подземелье"
-
-team-absent: "{pc}=- {mc}Вы не состоите в команде{sc}."
-team-not-owner: "{pc}=- {mc}Вы должны быть лидером команды{sc}."
-
-team-create-already: "{pc}=- {mc}Вы уже состоите в команде {ac}{team}{sc}. \n {sc}|= {mc}Но вы можете покинуть ее {sc}/{mc}team leave"
-team-create-name: "{pc}=- {mc}Введите название команды{sc}."
-team-create-successfully: "{pc}=- {mc}Команда {ac}{team} {mc}создана{sc}!"
-
-team-leave-owner: "{pc}=- {mc}Лидер не может покинуть команду{sc}, {mc}расформируйте ее {sc}/{mc}team disband"
-team-leave-successfully: "{pc}=- {mc}Вы покинули команду {ac}{team}{sc}."
-
-team-disband-successfully: "{pc}=- {mc}Вы расформировали команду {ac}{team}{sc}."
-
-team-invite-name: "{pc}=- {mc}Введите имя приглашаемого игрока{sc}."
-team-invite-invited: "{pc}=- {mc}Игрок приглашен {sc}{name}."
-team-invite-request: "{pc}=- {mc}Приглашение о вступлении от {ac}{team}{sc}, {mc}подтвердите командой {sc}/{mc}confirm"
-team-invite-request-already: "{pc}=- {mc}Вы уже состоите в команде {ac}{team}{sc}. \n {sc}|= {mc}Но вы можете ее покинуть {sc}/{mc}team leave"
-team-invite-successfully: "{pc}=- {mc}Игрок {ac}{name} {mc}присоединился к команде{sc}!"
-
-team-kick-name: "{pc}=- {mc}Введите имя изгоняемого игрока{sc}."
-team-kick-wrong: "{pc}=- {mc}Данный игрок не состоит в вашей команде{sc}!"
-team-kick-kicked: "{pc}=- {mc}Вы были изгнаны из команды {sc}{team}."
-
-team-gathering-request: "{pc}=- {ac}{name} приглашает участников команды в подземелье{sc}! \n {sc}|= {mc}Подтвердите комадной {sc}/{mc}confirm"
-team-gathering-successfully: "{pc}=- {mc}Все участники команды были приглашены в подземелье{sc}!"
-team-gathering-already: "{pc}=- {mc}Вы уже находитесь в подземелье{sc}."
+player-not-found: "{pc}❖ {mc}Игрок не найден {sc}{name}."
 
 # amethysts
-defence-stone-remain: "{pc}=- {mc}Остаток зарядов{sc}: {ac}{charges}{sc}."
-defence-stone-charges: "{pc}=- {mc}Использован щит{sc}, {mc}оставшиеся заряды{sc}: {ac}{charges}{sc}."
+defence-stone-remain: "{pc}❖ {mc}Остаток зарядов{sc}: {ac}{charges}{sc}."
+defence-stone-charges: "{pc}❖ {mc}Использован щит{sc}, {mc}оставшиеся заряды{sc}: {ac}{charges}{sc}."
 
 # locations
-loc-inF-on: "{mc}=- {sc}Весь лес вдруг стал очень мрачным..."
+loc-inF-on: "{mc}❖ {sc}Весь лес вдруг стал очень мрачным..."

@@ -39,7 +39,7 @@ public class DungeonEvent implements Listener {
             return;
         }
         person.getConfirm().setConfirmType("dungeon");
-        person.send(getInstance(), "dungeon-key");
+        person.send(getInstance(), "dungeon-key-confirm");
     }
 
     @EventHandler

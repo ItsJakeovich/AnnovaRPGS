@@ -39,7 +39,7 @@
 #
 #
 
-material:
+materials:
   - id: "TIDE_GRASP_RING"
     amount: 1
     craft_type: 'shaped'

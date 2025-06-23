@@ -9,17 +9,19 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.util.BukkitObjects.random;
 
 public abstract class SectorLocation {
+    public abstract void activity();
     public abstract void movement(Player player);
 
     public abstract Set<RPGAdvancement> advancements();
 
-    public abstract Set<RPGEntityType> entitiesToSpawn();
+    public abstract EnumSet<RPGEntityType> entitiesToSpawn();
     public abstract Location[] points();
     public abstract int squaredRadius();
 

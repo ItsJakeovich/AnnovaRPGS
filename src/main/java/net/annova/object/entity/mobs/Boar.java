@@ -99,17 +99,17 @@ public class Boar extends RPGEntity implements EntityActivity {
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
+                        if (!entity.valid || !entity.isAlive()) return false;
                         Mob mob = (Mob) Boar.this.entity;
                         if (targetPlayer == null || !targetPlayer.valid) {
                             for (Entity entity : mob.level().getEntities(entity, entity.getBoundingBox().inflate(16, 8, 16))) {
                                 if (entity instanceof ServerPlayer player && player.gameMode().equals(GameType.SURVIVAL)) {
-                                    if (player.gameMode().equals(GameType.SURVIVAL)) {
-                                        targetPlayer = player;
-                                        break;
-                                    }
+                                    targetPlayer = player;
+                                    break;
                                 }
                             }
                         }
+                        if (targetPlayer == null) return true;
                         double minSpeed = 1.75;
                         double distance = mob.distanceToSqr(targetPlayer);
                         if (distance > followRange * followRange) {

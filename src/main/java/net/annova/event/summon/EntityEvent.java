@@ -7,11 +7,11 @@ import net.annova.event.custom.PlayerDamageCE;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,11 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.random;
 
 public class EntityEvent implements Listener {
+    @EventHandler // Отключение восстановления здоровья
+    public void regain(EntityRegainHealthEvent event) {
+        if (event.getEntity() instanceof Player) event.setCancelled(true);
+    }
+
     @EventHandler
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
@@ -64,7 +69,7 @@ public class EntityEvent implements Listener {
             event.setCancelled(true);
             if (player.getNoDamageTicks() != 0) return;
 
-            getRPGPerson(player).damageWithCooldown(player, (float) ev.getDamage());
+            getRPGPerson(player).damageWithCooldown(player, event.getDamageSource().getDirectEntity(), (float) ev.getDamage());
         } else {
             event.setDamage(ev.getDamage());
         }

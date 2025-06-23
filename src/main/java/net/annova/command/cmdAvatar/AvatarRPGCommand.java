@@ -4,7 +4,7 @@ import net.annova.command.register.CommandBase;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static net.annova.main.AnnovaAPI.getInstance;
+import static net.annova.main.AnnovaRPG.getInstance;
 
 public class AvatarRPGCommand extends CommandBase {
     public AvatarRPGCommand() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

@@ -17,13 +17,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -107,9 +105,12 @@ public abstract class RPGEntity {
         return this.create(CraftLocation.toBukkit(entity.position(), entity.level().getWorld()));
     }
     public LivingEntity create(Location location) {
-        return this.create(null, location, 0, 1, 1);
+        return this.create(null, location, false, 0, 1, 1);
     }
-    public LivingEntity create(Dungeon dungeon, Location location, float addDamage, float multHealth, float multSpeed) {
+    public LivingEntity create(Location location, boolean additional) {
+        return this.create(null, location, additional, 0, 1, 1);
+    }
+    public LivingEntity create(Dungeon dungeon, Location location, boolean additional, float addDamage, float multHealth, float multSpeed) {
         this.dungeon = dungeon;
 
         ServerLevel level = ((CraftWorld) location.getWorld()).getHandle();
@@ -151,24 +152,8 @@ public abstract class RPGEntity {
         level.tryAddFreshEntityWithPassengers(ent);
         addEntity(this);
 
-        if (this instanceof EntitySpawn spawn)
+        if (this instanceof EntitySpawn spawn && !additional)
             spawn.onSpawn(location);
-//        for (RPGAbility ability : this.abilities()) {
-//            switch (ability.getType()) {
-//                case NEUTRAL -> {
-//                    GoalSelector selector = ((Mob) entity).targetSelector;
-//                    List<WrappedGoal> toRemove = new ArrayList<>();
-//                    for (WrappedGoal goal : selector.getAvailableGoals()) {
-//                        if (goal.getGoal() instanceof NearestAttackableTargetGoal) {
-//                            toRemove.add(goal);
-//                        }
-//                    }
-//                    for (WrappedGoal goal : toRemove) {
-//                        selector.removeGoal(goal.getGoal());
-//                    }
-//                }
-//            }
-//        }
         if (this instanceof EntityActivity activity) {
             for (CustomRunnable custom :  activity.runnables()) {
                 new BukkitRunnable() {
@@ -246,10 +231,6 @@ public abstract class RPGEntity {
     }
 
     public void regen(float regen) {
-//        org.bukkit.entity.LivingEntity ent = (org.bukkit.entity.LivingEntity) this.entity.getBukkitEntity();
-//        double maxHealth = ent.getAttribute(Attribute.MAX_HEALTH).getValue();
-//        ent.setHealth(Math.min(ent.getHealth()+regen, maxHealth));
-
         this.entity.heal(regen);
     }
 

@@ -22,15 +22,15 @@ public class UpdateSpawnTimer extends AnnovaAsyncTask {
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
+            if (person.getSectorLocation() != null) return;
+
             SectorLocation sectorLocation = person.getSectorLocation();
-            List<RPGEntityType> entities;
-            if (sectorLocation != null) entities = List.copyOf(sectorLocation.entitiesToSpawn());
-            else                        entities = List.copyOf(getEntitiesByCategory(LocationCategory.EVERYWHERE));
+            RPGEntityType[] entities = getEntitiesByCategory(LocationCategory.EVERYWHERE).toArray(new RPGEntityType[0]);
 
             // Entity spawn
             Location location = player.getLocation();
             for (int i = random.nextInt(5)+1; i != 0; i--) { // от 1 до 5
-                RPGEntityType type = entities.get(random.nextInt(entities.size()));
+                RPGEntityType type = entities[random.nextInt(entities.length)];
                 if (type.isBoss() && sectorLocation.getBoss() != null) {
                     i++;
                     continue;

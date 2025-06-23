@@ -26,7 +26,6 @@ public class InventoryEvent implements Listener {
                 event.setCancelled(true);
             }
         }
-
         if (event.getView().getTitle().equals("Equipment")) {
             event.setCancelled(true);
             // Close inventory action

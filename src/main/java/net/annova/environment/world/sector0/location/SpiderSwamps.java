@@ -7,6 +7,7 @@ import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import org.bukkit.entity.Player;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -29,10 +30,14 @@ public class SpiderSwamps extends SectorLocation {
             "s0-swamps-msg-7",
     };
     private final Map<Player, Long> messageCooldown = new HashMap<>();
+
+    @Override
+    public void activity() {
+
+    }
+
     @Override
     public void movement(Player player) {
-        if (this.isOutside(player.getLocation())) return;
-
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
@@ -47,7 +52,7 @@ public class SpiderSwamps extends SectorLocation {
     }
 
     @Override
-    public Set<RPGEntityType> entitiesToSpawn() {
+    public EnumSet<RPGEntityType> entitiesToSpawn() {
         return getEntitiesByCategory(LocationCategory.S0_SWAMPS);
     }
 

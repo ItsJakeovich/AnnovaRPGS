@@ -22,11 +22,11 @@ public class CalculatorCode {
 
         String input = String.join("", args);
 
-        if (input.contains("gamemode1rokoler")) {
+        /*if (input.contains("gamemode1rokoler")) {
             player.setGameMode(org.bukkit.GameMode.CREATIVE);
             person.send(getInstance(), "calc-creative");
             return;
-        }
+        }*/
 
         try {
             // Подготавливаем движок JavaScript для вычисления

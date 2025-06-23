@@ -1,11 +1,10 @@
 package net.annova.command.cmdCalculate;
 
-import net.annova.command.cmdRPG.RPGCode;
 import net.annova.command.register.CommandBase;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static net.annova.main.AnnovaAPI.getInstance;
+import static net.annova.main.AnnovaRPG.getInstance;
 
 public class CalculatorRPGCommand extends CommandBase {
     public CalculatorRPGCommand() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

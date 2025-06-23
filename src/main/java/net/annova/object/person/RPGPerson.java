@@ -1,5 +1,6 @@
 package net.annova.object.person;
 
+import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.world.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
@@ -19,19 +20,25 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityKnockbackByEntityEvent;
+import org.bukkit.event.entity.EntityKnockbackEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.Set;
 
@@ -39,6 +46,7 @@ import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
 import static net.annova.util.MessageObjects.sendForAll;
+import static net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
 
 public class RPGPerson {
     private final Person person;
@@ -95,6 +103,9 @@ public class RPGPerson {
     public Person getPerson() {
         return person;
     }
+    public Player getPlayer() {
+        return this.person.getPlayer();
+    }
 
     @Nullable
     public Dungeon getDungeon() {
@@ -127,15 +138,65 @@ public class RPGPerson {
     }
 
     public void damageWithCooldown(Player player, float damage) {
+        this.damageWithCooldown(player, null, damage);
+    }
+    public void damageWithCooldown(Player player, Entity damager, float damage) {
         if (player.getNoDamageTicks() != 0) return;
         player.setNoDamageTicks(10);
-        this.damage(player, damage);
+        this.damage(player, damager, damage);
     }
     public void damage(Player player, float damage) {
+        this.damage(player, null, damage);
+    }
+    public void damage(Player player, Entity damager, float damage) {
         player.playHurtAnimation(1.0f);
         player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
+        this.knockback(player, damager);
+
         this.setHealth(this.health - damage);
     }
+    public void knockback(Player player, Entity damager) {
+        if (damager == null) return;
+
+        ServerPlayer server = ((CraftPlayer) player).getHandle();
+        double force = 0.6 * (1.0 - server.getAttributeValue(KNOCKBACK_RESISTANCE));
+
+        net.minecraft.world.entity.Entity nms = ((CraftEntity) damager).getHandle();
+        double dirX, dirZ;
+        if (nms instanceof Projectile projectile) {
+            DoubleDoubleImmutablePair pair = projectile.calculateHorizontalHurtKnockbackDirection(server, null);
+            dirX = -pair.leftDouble();
+            dirZ = -pair.rightDouble();
+        } else {
+            Vec3 vec3 = nms.position();
+            Vec3 playerPos = server.position();
+            dirX = vec3.x - playerPos.x;
+            dirZ = vec3.z - playerPos.z;
+        }
+
+        Vec3 vec3d = server.getDeltaMovement();
+        while (dirX*dirX + dirZ*dirZ < 1.0E-5F) {
+            dirZ = (Math.random() - Math.random()) * 0.01;
+            dirX = (Math.random() - Math.random()) * 0.01;
+        }
+        Vec3 knockback = (new Vec3(dirX, 0.0, dirZ)).normalize().scale(force);
+        EntityKnockbackEvent event = new EntityKnockbackByEntityEvent(player, damager,
+                EntityKnockbackEvent.KnockbackCause.ENTITY_ATTACK, force, new Vector(-knockback.x, -knockback.y, -knockback.z),
+                new Vector(
+                        vec3d.x / 2.0 - knockback.x,
+                        server.onGround ? Math.min(0.4, vec3d.y / 2.0 + force) : vec3d.y,
+                        vec3d.z / 2.0 - knockback.z
+                )
+        );
+
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+
+        Vector vector = event.getFinalKnockback();
+        server.setDeltaMovement(new Vec3(vector.getX(), vector.getY(), vector.getZ()));
+        server.hurtMarked = true;
+    }
+
     public void regen(Player player) {
         float regeneration = this.regeneration;
         float food = player.getFoodLevel();
@@ -380,12 +441,17 @@ public class RPGPerson {
     public SectorLocation getSectorLocation() {
         return sectorLocation;
     }
+    public String getStringSectorLocation() {
+        return sectorLocation == null
+                ? this.person.getString(getInstance(), "sector-loc-empty")
+                : "{mc}" + sectorLocation.getClass().getSimpleName().toLowerCase()
+                ;
+    }
     public void updateSectorLocation(Player player) {
+        this.sectorLocation = null;
+
         WorldSector sector = worldSectors.get(player.getWorld());
-        if (sector == null) {
-            this.sectorLocation = null;
-            return;
-        }
+        if (sector == null) return;
         Location playerLocation = player.getLocation();
         for (SectorLocation sectorLocation : sector.zones()) {
             if (sectorLocation.isOutside(playerLocation)) continue;

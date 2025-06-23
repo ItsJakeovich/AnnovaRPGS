@@ -8,8 +8,6 @@ import net.annova.util.AISString;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.regex.Pattern;
-
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
@@ -29,12 +27,13 @@ public class AvatarCode {
         getRPGPerson(player).getEquipment().open(player);
     }
 
-    @CommandArg(name = "info", aliases = {"information", "инфо", "информация", "штащ", "byaj"})
+    @CommandArg(name = "information", aliases = {"info", "инфо", "информация", "штащ", "byaj"})
     public void information(Player player) {
         RPGPerson person = getRPGPerson(player);
         Person apiPerson = person.getPerson();
         AISString message = apiPerson.getAISString(getInstance(), "avatar-info")
                 .replaceFirst("{name}", player.getName())
+                .replaceFirst("{location}", person.getStringSectorLocation())
                 // Modifiers
                 .replaceFirst("{damage}", person.getStringFinalValue(ValueType.DAMAGE))
                 .replaceFirst("{defence}", person.getStringFinalValue(ValueType.DEFENCE))
