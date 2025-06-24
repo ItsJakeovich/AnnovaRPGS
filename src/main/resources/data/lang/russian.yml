@@ -17,19 +17,19 @@ equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот п
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
 avatar-switch-ui:   "{pc} ● {mc}/avatar switch-ui {sc}- {mc}отображение интерфейса"
 avatar-equipment:   "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает меню экипировки"
-avatar-information: "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
+avatar-info: "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
 
 avatar-switchui: "{pc}| {mc}Переключено отображение окон{sc}: {ac}{status}"
-avatar-info: "{pc}  {mc}Информация о персонаже
-\n{pc} ● {mc}Имя{sc}: {mc}{name}
-\n{pc} ● {mc}Локация{sc}: {location}
-\n{pc} ● {mc}Модификаторы{pc}:
-\n{pc}  ◆ {mc}Урон{sc}: {damage}
-\n{pc}  ◆ {mc}Защита{sc}: {defence}
-\n{pc}  ◆ {mc}Здоровье{sc}: {health}
-\n{pc}  ◆ {mc}Восстановление{sc}: {regen}
-\n{pc}  ◆ {mc}Взаимодействие с блоками{sc}: {block}
-\n{pc}  ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
+avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
+\n{pc}● {mc}Имя{sc}: {mc}{name}
+\n{pc}● {mc}Локация{sc}: {location}
+\n{pc}● {mc}Модификаторы{pc}:
+\n{pc} ◆ {mc}Урон{sc}: {damage}
+\n{pc} ◆ {mc}Защита{sc}: {defence}
+\n{pc} ◆ {mc}Здоровье{sc}: {health}
+\n{pc} ◆ {mc}Восстановление{sc}: {regen}
+\n{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
+\n{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
 # calculator
 calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
 #calc-creative: "{pc}❖ {mc}Творческий режим{sc}."
@@ -103,20 +103,40 @@ team-gathering-already: "{pc}❖ {mc}Вы уже находитесь в под�
 bar-health: "{pc}❖ {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
 ### Items
+## Attributes
+tool-damage: "{pc}◆ {mc}Сила атаки{sc}: {ac}"
+tool-speed:  "{pc}◆ {mc}Скорость атаки{sc}: {ac}"
+
 ## containers
 PRISON_CONTAINER: "Пыльный контейнер"
+PRISON_CONTAINER-lore: "{pc}| {mc}Большой пыльный контейнер{sc}."
 ## stones
 AIR_STONE: "Кристалл воздуха"
+AIR_STONE-lore: " \n{pc}❖ {mc}Отталкивает ближайщих существ{sc}."
 AQUA_STONE: "Водяной кристалл"
+AQUA_STONE-lore: " \n{pc}❖ {mc}При использовании накладывает эффект {ac}Грация дельфина{sc}.
+\n{pc}❖ {mc}При использовании накладывает эффект {ac}Подводное дыхание{sc}."
 BALANCE_STONE: "Кристалл &fбаланса"
+BALANCE_STONE-lore: " \n{pc}❖ {mc}Увеличивает вдвое урон по нежити{sc}.
+\n{pc}❖ {mc}Уменьшает вдвое урон по не-нежити{sc}."
 BIOME_STONE: "Частичный кристалл"
+BIOME_STONE-lore: "{pc}| {mc}Когда-то был частью чего-то большего{sc}..."
 CHRONO_STONE: "Кристалл старости"
+CHRONO_STONE-lore: " \n{pc}❖ {mc}Урон{sc}: {tc}+2% {mc}за каждое лишенное &c🖤{sc}."
 DARK_STONE: "Кристалл тьмы"
-DEATH_STONE: "Кристалл смерти"
+DARK_STONE-lore: " \n{pc}❖ {mc}При использовании окружающие сущности атакуют друг друга{sc}."
+DEATH_STONE: "Кристалл душ"
+DEATH_STONE-lore: "{pc}| {mc}Кристалл душ{sc}, {mc}крайне нестабилен{sc}...
+\n\n{pc}❖ {mc}Добыча{sc}: {tc}+100%{sc}."
 DEFENCE_STONE: "Кристалл защиты"
+DEFENCE_STONE-lore: " \n{pc}❖ {mc}Эффект{sc}: {mc}сопративление{sc}.
+\n{pc}❖ {mc}Эффект{sc}: {mc}замедление{sc}."
 DRAGON_STONE: "Драконий кристалл"
+DRAGON_STONE-lore: " \n{pc}❖ {mc}Входящий урон{sc}: {tc}-10%{sc}."
 EARTH_STONE: "Земляной кристалл"
+EARTH_STONE-lore: " \n{pc}❖ {mc}При использовании заменяет камень на руды{sc}."
 GRAVITY_STONE: "Кристалл гравитации"
+GRAVITY_STONE-lore: " \n{pc}❖ {mc}Единожды защищает от эффекта левитации{sc}."
 GREEN_STONE: "Зеленый кристалл"
 ICE_STONE: "Ледяной кристалл"
 IGNIS_STONE: "Огненный кристалл"

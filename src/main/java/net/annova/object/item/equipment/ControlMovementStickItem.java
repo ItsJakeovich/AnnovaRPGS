@@ -56,7 +56,7 @@ public class ControlMovementStickItem extends RPGItem implements Listener {
         RPGPerson person = getRPGPerson(entity);
         StatusManager manager = person.getStatusManager();
         if (manager.getStatus(FROZEN) == null) {
-            manager.addStatus(entity, FROZEN, damager);
+            manager.addStatus(FROZEN, damager);
         } else manager.removeStatus(FROZEN);
     }
 }

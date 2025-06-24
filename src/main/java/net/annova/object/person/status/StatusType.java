@@ -67,7 +67,7 @@ public enum StatusType {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
             if (object == null) return false;
-            person.teleport((Player) object);
+            person.teleport(player.getLocation());
             return true;
         }
 

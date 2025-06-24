@@ -3,8 +3,8 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.annova.object.person.RPGPerson;
 import net.annova.object.person.equipment.EquipType;
-import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.status.ValueType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class TideGraspRing extends RPGItem implements ItemEquipment {
         return EquipType.RING;
     }
     @Override
-    public Map<ValueType, Double> values(Player player) {
+    public Map<ValueType, Double> values(RPGPerson person) {
         Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
         values.put(ValueType.DAMAGE, 2.0);
         values.put(ValueType.BLOCK_RANGE, -0.5);

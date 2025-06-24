@@ -38,8 +38,8 @@ public class InventoryEvent implements Listener {
             if (current.getItemMeta().getDisplayName().equals(" ")) return;
             InventoryType type = event.getClickedInventory().getType();
             switch (type) {
-                case CHEST -> person.getEquipment().removeEquipment(player, current, slot); // move from equipment
-                case PLAYER -> person.getEquipment().addEquipment(player, current, slot); // move to equipment
+                case CHEST -> person.getEquipment().removeEquipment(current, slot); // move from equipment
+                case PLAYER -> person.getEquipment().addEquipment(current, slot); // move to equipment
             }
         }
     }

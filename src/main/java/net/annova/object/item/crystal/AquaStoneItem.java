@@ -35,14 +35,6 @@ public class AquaStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fПри использовании накладывает эффект &bГрация дельфина",
-                "&3| &fПри использовании накладывает эффект &bПодводное дыхание"
-        );
-    }
-
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();

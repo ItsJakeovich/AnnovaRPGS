@@ -2,6 +2,7 @@ package net.annova.object.item.base;
 
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
+import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
@@ -20,11 +21,13 @@ import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
+import net.annova.object.person.status.StatusType;
 import net.minecraft.world.item.component.CustomModelData;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.components.CraftCustomModelDataComponent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -40,6 +43,7 @@ import java.util.*;
 import java.util.Set;
 
 import static net.annova.config.AnnovaConfig.getLangFile;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemCategory.CRYSTALL;
 import static net.annova.object.item.base.RPGItem.getItemId;
 import static net.annova.main.AnnovaGlobal.getPerson;
@@ -277,23 +281,25 @@ public enum ItemType {
 
         ItemStack item = new ItemStack(this.item.type(), amount);
         ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
 
-        String name = getLangFile(getInstance(), person == null ? "ru" : person.getLanguage())
-                .getString(this.name(), "unknown-name");
+        FileConfiguration langFile = getLangFile(getInstance(), person == null ? "ru" : person.getLanguage());
+
+        String name = langFile.getString(this.name(), "unknown-name");
         meta.setDisplayName(color(this.item.rarity().getColor() + name));
         CustomModelData model = new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of());
         meta.setCustomModelDataComponent(new CraftCustomModelDataComponent(model));
 
-        if (!this.item.lore().isEmpty()) {
-            List<String> newLore = new ArrayList<>();
-            newLore.add("");
+        List<String> newLore = new ArrayList<>();
+        String lore = langFile.getString(this.name() + "-lore", null);
+        if (lore != null) {
             for (String string : this.item.lore()) {
                 String[] loreString = string.split("\n");
                 for (String str : loreString) {
                     newLore.add(color(str));
                 }
             }
-            meta.setLore(newLore);
+            newLore.add("");
         }
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         pdc.set(NK_ID, PersistentDataType.STRING, this.id);
@@ -303,9 +309,11 @@ public enum ItemType {
         }
 
         if (this.item instanceof RPGTool weapon) {
+            newLore.add(langFile.getString("tool-damage", "unknown") + weapon.damage() + "⚔");
+            newLore.add(langFile.getString("tool-speed", "unknown") + weapon.attackSpeed() + "⚡");
+
             meta.removeAttributeModifier(Attribute.ATTACK_DAMAGE);
             meta.removeAttributeModifier(Attribute.ATTACK_SPEED);
-            meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
 
             AttributeModifier damageModifier = new AttributeModifier(
                     NK_ATTACK_DAMAGE,
@@ -329,6 +337,7 @@ public enum ItemType {
             configuration.initConfiguration(meta);
         }
 
+        meta.setLore(newLore);
         item.setItemMeta(meta);
         return item;
     }

@@ -35,13 +35,6 @@ public class DarkStoneItem extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fОкружающие сущности атакуют друг друга"
-        );
-    }
     
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {

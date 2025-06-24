@@ -10,6 +10,6 @@ public class EquipEvent implements Listener {
     public void equip(MouseClickCE event) {
         if (event.getClickType().equals(MouseClickCE.ClickType.LEFT_CLICK)) return;
         Player player = event.getPlayer();
-        event.getPerson().getEquipment().addEquipment(player, event.getEvent().getItem(), player.getInventory().getHeldItemSlot());
+        event.getPerson().getEquipment().addEquipment(event.getEvent().getItem(), player.getInventory().getHeldItemSlot());
     }
 }

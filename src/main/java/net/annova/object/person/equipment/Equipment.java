@@ -1,11 +1,18 @@
 package net.annova.object.person.equipment;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.ValueType;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_21_R4.CraftServer;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -13,11 +20,11 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.item.base.ItemType.getItemType;
+import static net.annova.object.item.base.RPGItem.getItemId;
 import static net.annova.util.BukkitObjects.addItems;
 
 public class Equipment {
@@ -45,7 +52,11 @@ public class Equipment {
         return equipment;
     }
 
-    public void addEquipment(Player player, ItemStack item, int slot) {
+    public void addEquipment(int index, ItemStack item) {
+        if (item == null) return;
+        this.equipment[index] = item.clone();
+    }
+    public void addEquipment(ItemStack item, int slot) {
         if (item == null) return;
         ItemType itemType = getItemType(item);
         if (itemType != null && itemType.getItem() instanceof ItemEquipment equip) {
@@ -56,7 +67,8 @@ public class Equipment {
             }
 
             this.equipment[availableIndex] = item.clone();
-            player.getInventory().setItem(slot, null);
+            Player player = person.getPlayer();
+            if (slot != -1) player.getInventory().setItem(slot, null);
             InventoryView view = player.getOpenInventory();
             if (view.getTitle().equals("Equipment")) {
                 EquipType type = this.getEquipType(item);
@@ -64,19 +76,20 @@ public class Equipment {
             }
             player.playSound(player, Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 1);
 
-            this.update(player);
+            this.update();
         }
     }
 
-    public void removeEquipment(Player player, ItemStack item, int slot) {
+    public void removeEquipment(ItemStack item, int slot) {
         EquipType type = this.getEquipType(item);
         int index = this.getIndexBySlot(type, slot);
         if (index == -1) return;
         this.equipment[index] = null;
+        Player player = person.getPlayer();
         if (player.getOpenInventory().getTitle().equals("Equipment")) {
             player.getOpenInventory().setItem(slot, type.getIcon());
         }
-        this.update(player);
+        this.update();
         addItems(player, item);
     }
 
@@ -87,19 +100,23 @@ public class Equipment {
         return -1;
     }
 
-    private void update(Player player) {
+    public void update() {
         for (ValueType type : ValueType.values()) {
             finalValue.put(type, 0.0);
         }
+        Set<String> idList = new HashSet<>();
         for (ItemStack item : this.equipment) {
             if (item == null) continue;
             ItemEquipment equip = (ItemEquipment) getItemType(item).getItem();
-            Map<ValueType, Double> values = equip.values(player);
+            Map<ValueType, Double> values = equip.values(person);
+            String id = getItemId(item);
+            double coefficient = idList.contains(id) ? 0.2 : 1.0;
             for (ValueType type : values.keySet()) {
-                finalValue.merge(type, values.get(type), Double::sum);
+                finalValue.merge(type, values.get(type) * coefficient, Double::sum);
             }
+            idList.add(id);
         }
-        this.person.updateAttributes(player);
+        this.person.updateAttributes();
     }
 
     public double getFinalValue(ValueType type) {
@@ -133,6 +150,7 @@ public class Equipment {
         player.openInventory(inv);
     }
 
+    @Nullable
     public EquipType getEquipType(ItemStack itemStack) {
         EquipType type = null;
         if (getItemType(itemStack).getItem() instanceof ItemEquipment equip) {
@@ -158,5 +176,65 @@ public class Equipment {
             if (indices[i] == index) return slots[i];
         }
         return -1;
+    }
+
+    public static CompoundTag saveAllItems(CompoundTag var0, NonNullList<net.minecraft.world.item.ItemStack> var1, boolean var2, HolderLookup.Provider var3) {
+        ListTag var4 = new ListTag();
+
+        for(int var5 = 0; var5 < var1.size(); ++var5) {
+            net.minecraft.world.item.ItemStack var6 = (net.minecraft.world.item.ItemStack)var1.get(var5);
+            if (!var6.isEmpty()) {
+                CompoundTag var7 = new CompoundTag();
+                var7.putByte("Slot", (byte)var5);
+                var4.add(var6.save(var3, var7));
+            }
+        }
+
+        if (!var4.isEmpty() || var2) {
+            var0.put("Items", var4);
+        }
+
+        return var0;
+    }
+
+    private static RegistryAccess.Frozen opsTag = null;
+    private static RegistryAccess.Frozen getOpsTag() {
+        if (opsTag == null) {
+            opsTag = ((CraftServer) Bukkit.getServer()).getServer().registries()
+                    .compositeAccess();
+        }
+        return opsTag;
+    }
+    public String serialize() {
+        StringJoiner joiner = new StringJoiner(";");
+        for (ItemStack item : this.equipment) {
+            if (item == null) joiner.add(" ");
+            else {
+//                CompoundTag tag = (CompoundTag) nms.save(getOpsTag());
+
+                joiner.add(CraftItemStack.asNMSCopy(item).save(getOpsTag()).toString());
+            }
+        }
+        return joiner.toString();
+    }
+    public void deserialize(String serialized) {
+        if (serialized == null) return;
+        String[] serialItems = serialized.split(";");
+
+        for (int i = 0; i < serialItems.length; i++) {
+            String serialItem = serialItems[i];
+            if (serialItem.equals(" ")) continue;
+
+            try {
+                this.addEquipment(i, // index
+                        CraftItemStack.asBukkitCopy(
+                                net.minecraft.world.item.ItemStack.CODEC.parse(NbtOps.INSTANCE, TagParser.parseCompoundFully(serialItem))
+                                .getOrThrow()
+                        )
+                );
+            } catch (CommandSyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

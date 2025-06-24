@@ -41,13 +41,6 @@ public class EarthStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fЗаменяет близжайший камень на руду"
-        );
-    }
-
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getHand() == null) return;
@@ -66,7 +59,7 @@ public class EarthStoneItem extends RPGItem implements Listener {
                 Material.LAPIS_ORE,
                 Material.REDSTONE_ORE
         };
-        int radius = 10;
+        int radius = 12;
         Location location = player.getLocation();
         World world = location.getWorld();
 

@@ -16,8 +16,8 @@ public class PersonUpdateTimer extends AnnovaAsyncTask {
             RPGPerson person = getRPGPerson(player);
             person.updateSet(player);
             person.updateArmor(player);
-            person.regen(player);
-            person.updateSectorLocation(player);
+            person.regen();
+            person.updateSectorLocation();
 
             StatusManager manager = person.getStatusManager();
             for (StatusType type : StatusType.getForActivation()) {
@@ -26,6 +26,7 @@ public class PersonUpdateTimer extends AnnovaAsyncTask {
                 manager.addStatus(type);
                 player.playSound(player, Sound.ENTITY_WANDERING_TRADER_YES, 1, 1);
             }
+            person.getEquipment().update();
 
 //            long millis = System.currentTimeMillis();
 //            for (String modifier : person.getSpeedModifiers().keySet()) {

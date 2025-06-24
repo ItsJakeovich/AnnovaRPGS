@@ -35,13 +35,6 @@ public class GravityStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &aЗащищает &fигрока от &eэффекта левитации"
-        );
-    }
-
     @EventHandler
     private void mechanic(EntityPotionEffectEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {

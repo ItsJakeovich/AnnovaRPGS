@@ -34,13 +34,6 @@ public class ChronoStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &aУвеличивает &4⚔ &fна &62% &fза каждое отсутствующее &c\uD83D\uDDA4"
-        );
-    }
-
     // drop event in net.annova.event.AgeStonesEvent
     @EventHandler
     private void mechanic(BattleCE event) {

@@ -21,7 +21,8 @@ public class WorldEvent implements Listener {
         Player player = event.getPlayer();
         if (!containsRPGPerson(player)) addRPGPerson(getPerson(player));
         RPGPerson person = getRPGPerson(player);
-        person.updateAttributes(player);
+        person.getEquipment().update();
+        person.updateAttributes();
         person.updateHealth();
 
         for (RPGAdvancement rpg : RPGAdvancement.values()) {

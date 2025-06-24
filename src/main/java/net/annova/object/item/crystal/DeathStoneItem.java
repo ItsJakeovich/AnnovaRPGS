@@ -39,14 +39,6 @@ public class DeathStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &aУдваивает &fвесь дроп с мобов",
-                "&3| &fЕсть шанс &cвзрыва &fкристалла"
-        );
-    }
-
     @EventHandler
     private void mechanic(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();

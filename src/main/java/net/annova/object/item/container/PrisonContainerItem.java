@@ -44,13 +44,6 @@ public class PrisonContainerItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&fБольшой пыльный контейнер"
-        );
-    }
-
     @EventHandler
     private void secure(InventoryClickEvent event) {
         if (event.getView().getTitle().equals("Контейнер")) {

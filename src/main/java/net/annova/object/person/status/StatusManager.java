@@ -42,15 +42,11 @@ public class StatusManager {
     }
     @Nullable
     public Status addStatus(StatusType type) {
-        return this.addStatus(null, type, null);
-    }
-    @Nullable
-    public Status addStatus(Player player, StatusType type) {
-        return this.addStatus(player, type, null);
+        return this.addStatus(type, null);
     }
     private final Map<StatusType, Long> cooldowns = new EnumMap<>(StatusType.class);
     @Nullable
-    public Status addStatus(Player player, StatusType type, Object object) {
+    public Status addStatus(StatusType type, Object object) {
         Status status = new Status(type);
         long millis = System.currentTimeMillis();
         if (cooldowns.containsKey(type) && millis < cooldowns.get(type)) return status;
@@ -60,6 +56,7 @@ public class StatusManager {
         this.statuses.put(type, status);
         StatusActivity activity = type.getActivity();
         if (activity != null) {
+            Player player = person.getPlayer();
             status.setRunnable(new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -71,7 +68,7 @@ public class StatusManager {
                 }
             }.runTaskTimer(getInstance(), 0, activity.repeating()));
         }
-        this.update(player);
+        this.update();
         return status;
     }
 
@@ -80,11 +77,11 @@ public class StatusManager {
             BukkitTask runnable = statuses.get(type).getRunnable();
             if (runnable != null) runnable.cancel();
             statuses.remove(type);
-            this.update(this.person.getPerson().getPlayer());
+            this.update();
         }
     }
 
-    private void update(Player player) {
+    private void update() {
         for (ValueType type : ValueType.values()) {
             finalValue.put(type, 0.0);
         }
@@ -93,7 +90,7 @@ public class StatusManager {
                 finalValue.merge(type, status.getValue(type), Double::sum);
             }
         }
-        this.person.updateAttributes(player);
+        this.person.updateAttributes();
     }
 
     /**

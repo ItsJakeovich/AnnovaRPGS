@@ -45,6 +45,6 @@ public class ElkFish extends RPGItem implements Listener {
         if (!ELK_FISH.equals(event.getItem())) return;
 
         Player player = event.getPlayer();
-        getRPGPerson(player).getStatusManager().addStatus(player, ELK_FISH_DAMAGE_BUFF);
+        getRPGPerson(player).getStatusManager().addStatus(ELK_FISH_DAMAGE_BUFF);
     }
 }

@@ -47,13 +47,6 @@ public class BiomeStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&7Когда то был частью чего-то большего..."
-        );
-    }
-
     private final Map<Biome, Integer> biomeColors = new HashMap<>() {{
         this.put(OCEAN, 0x4682B4);
         this.put(PLAINS, 0x8DB360);

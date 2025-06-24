@@ -75,7 +75,7 @@ public class AnglerFish extends RPGEntity implements EntityActivity {
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        if (chance(0.05)) return false;
+                        if (chance(0.05)) return true;
                         LivingEntity living = (LivingEntity) entity.getBukkitEntity();
                         living.getWorld().dropItemNaturally(living.getLocation()
                                 , new ItemStack((Material) (chance(0.2) ? getRandom(TRASH_ITEMS) : getRandom(FISH_ITEMS)) // material
@@ -86,7 +86,7 @@ public class AnglerFish extends RPGEntity implements EntityActivity {
 
                     @Override
                     public long repeating() {
-                        return 6000;
+                        return 6000; // 5 минут
                     }
                 }
         );

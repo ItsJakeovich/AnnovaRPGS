@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -21,12 +22,12 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.random;
 
 public class EntityEvent implements Listener {
-    @EventHandler // Отключение восстановления здоровья
+    @EventHandler(priority = EventPriority.LOWEST) // Отключение восстановления здоровья
     public void regain(EntityRegainHealthEvent event) {
         if (event.getEntity() instanceof Player) event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
             PlayerDamageCE ev = new PlayerDamageCE(player, event);
@@ -36,7 +37,7 @@ public class EntityEvent implements Listener {
             this.baseFunction(event, ev);
         }
     }
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void damageByEntitySummoner(EntityDamageByEntityEvent event) {
         Entity eventEntity = event.getEntity();
         Entity eventDamager = event.getDamager();
@@ -62,18 +63,22 @@ public class EntityEvent implements Listener {
 
     private void baseFunction(org.bukkit.event.entity.EntityDamageEvent event, MobDamageCE ev) {
         Bukkit.getPluginManager().callEvent(ev);
+        event.setDamage(ev.getDamage());
         if (ev.isCancelled()) {
             event.setCancelled(true);
             return;
-        } else if (ev.getEntity() instanceof Player player) {
+        }
+        event.setDamage(ev.getDamage()); // Это и для моба, и для игрока.
+        double finalDamage = event.getFinalDamage();
+
+        if (ev.getEntity() instanceof Player player) { // для игрока
             event.setCancelled(true);
             if (player.getNoDamageTicks() != 0) return;
 
-            getRPGPerson(player).damageWithCooldown(player, event.getDamageSource().getDirectEntity(), (float) ev.getDamage());
-        } else {
             event.setDamage(ev.getDamage());
+            getRPGPerson(player).damageWithCooldown(event.getDamageSource().getDirectEntity(), (float) finalDamage);
         }
-        this.spawnIndicator(event.getEntity().getLocation().add(0, 1.5, 0), ev.getDamage());
+        this.spawnIndicator(event.getEntity().getLocation().add(0, 1.5, 0), finalDamage);
     }
 
     public static List<ArmorStand> indicators = new ArrayList<>();

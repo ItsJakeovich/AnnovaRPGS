@@ -75,6 +75,10 @@ public final class AnnovaRPG extends JavaPlugin {
         for (Dungeon dungeon : getDungeons()) {
             dungeon.endDungeon(true);
         }
+        AnnovaRPG.saveAll();
+    }
+
+    public static void saveAll() {
         for (Structure structure : getStructures()) {
             StructureBase base = structure.getBase();
             if (base.isSave()) {

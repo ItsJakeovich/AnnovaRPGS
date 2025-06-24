@@ -22,16 +22,16 @@ public class AvatarCode {
         person.getPerson().send(getInstance(), "avatar-switchui", "{status}", String.valueOf(status));
     }
 
-    @CommandArg(name = "equipment", aliases = {"equip", "экипировка", "экип", "уйгшзьуте", "'rbgbhjdrf"})
+    @CommandArg(name = "equipment", aliases = {"equip", "экипировка", "экип", "уйгшзьуте", "'rbgbhjdrf", "уйгшз"})
     public void equipment(Player player) {
         getRPGPerson(player).getEquipment().open(player);
     }
 
-    @CommandArg(name = "information", aliases = {"info", "инфо", "информация", "штащ", "byaj"})
+    @CommandArg(name = "info", aliases = {"information", "инфо", "информация", "штащ", "byaj"})
     public void information(Player player) {
         RPGPerson person = getRPGPerson(player);
         Person apiPerson = person.getPerson();
-        AISString message = apiPerson.getAISString(getInstance(), "avatar-info")
+        AISString message = apiPerson.getAISString(getInstance(), "avatar-information")
                 .replaceFirst("{name}", player.getName())
                 .replaceFirst("{location}", person.getStringSectorLocation())
                 // Modifiers

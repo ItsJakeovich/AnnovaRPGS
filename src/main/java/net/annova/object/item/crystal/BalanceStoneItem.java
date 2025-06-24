@@ -36,14 +36,6 @@ public class BalanceStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &aУвеличивает &6вдвое &fурон по нежити",
-                "&3|  &cУменьшает  &6вдвое &fурон по не-нежити"
-        );
-    }
-
     public static final Set<EntityType> UNDEAD = EnumSet.of(
             EntityType.ZOMBIE,
 //            EntityType.ZOMBIE_VILLAGER,

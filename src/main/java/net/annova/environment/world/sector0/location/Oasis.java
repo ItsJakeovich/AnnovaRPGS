@@ -65,7 +65,7 @@ public class Oasis extends SectorLocation implements Listener {
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
 
-        getRPGPerson(person).completeAdvancement(player, OASIS); // нашел оазис
+        getRPGPerson(person).completeAdvancement(OASIS); // нашел оазис
     }
 
     @Override
@@ -152,12 +152,12 @@ public class Oasis extends SectorLocation implements Listener {
                         int times = timesInBubble.getOrDefault(player, 0) + 1;
                         long cooldown = cooldowns.getOrDefault(player, 0L);
                         RPGPerson person = getRPGPerson(player);
-                        person.completeAdvancement(player, DROP_FROM_THE_SKY);
+                        person.completeAdvancement(DROP_FROM_THE_SKY);
                         long millis = System.currentTimeMillis();
                         if (cooldown == 0 || millis > cooldown) {
                             timesInBubble.put(player, times);
                             cooldowns.put(player, millis + 60_000);
-                            if (times == 3) person.completeAdvancement(player, BUBBLE_SEEKER);
+                            if (times == 3) person.completeAdvancement(BUBBLE_SEEKER);
                         }
                     }
                 }

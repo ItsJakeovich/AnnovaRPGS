@@ -32,14 +32,6 @@ public class DragonStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &aЗащищает &fвладельца от &cадского влияния",
-                "&3| &aУменьшает &fвходящий урон нa &610%"
-        );
-    }
-
     @EventHandler
     public void onDamage(PlayerDamageCE event) {
         if (DRAGON_STONE.has(event.getPlayer())) {

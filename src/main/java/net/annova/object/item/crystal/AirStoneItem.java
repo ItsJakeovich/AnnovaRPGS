@@ -38,13 +38,6 @@ public class AirStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fОтталкивает ближайших существ"
-        );
-    }
-
     @EventHandler
     public void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();

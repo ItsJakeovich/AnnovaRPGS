@@ -56,7 +56,7 @@ public class RPGCode {
         StatusManager manager = person.getStatusManager();
         if (manager.containStatus(StatusType.SHAKING)) {
             manager.removeStatus(StatusType.SHAKING);
-        } else manager.addStatus(player, StatusType.SHAKING);
+        } else manager.addStatus(StatusType.SHAKING);
     }
 
     @CommandArg(name = "border")
@@ -81,7 +81,7 @@ public class RPGCode {
         type.getEntity().create(player.getLocation());
     }
 
-    @CommandArg(name = "item")
+    @CommandArg(name = "item", aliases = {"предмет", "шеуь", "ghtlvtn"})
     public void item(Player player, String[] args) {
         if (args.length == 1) {
             player.sendMessage("Usage: /rpg item {item-name}");

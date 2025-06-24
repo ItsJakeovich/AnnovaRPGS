@@ -46,7 +46,7 @@ import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
 import static net.annova.util.MessageObjects.sendForAll;
-import static net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
+import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
 public class RPGPerson {
     private final Person person;
@@ -79,6 +79,7 @@ public class RPGPerson {
         sql.initTable(TABLE,
                 "NAME VARCHAR(24)",
                 "QUEST_MANAGER MEDIUMTEXT",
+                "EQUIPMENT TEXT",
 
                 "PRIMARY KEY (NAME)"
         );
@@ -89,6 +90,7 @@ public class RPGPerson {
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", this.person.getName());
         save.put("QUEST_MANAGER", this.questManager.serializeQuests());
+        save.put("EQUIPMENT", this.equipment.serialize());
         AnnovaAPI.getSQL().saveObject(TABLE, "NAME", save);
     }
     
@@ -98,6 +100,7 @@ public class RPGPerson {
     public RPGPerson(ResultSet rs) throws SQLException {
         this.person = AnnovaGlobal.getPerson(rs.getString("NAME"));
         this.questManager.deserialize(rs.getString("QUEST_MANAGER"));
+        this.equipment.deserialize(rs.getString("EQUIPMENT"));
     }
 
     public Person getPerson() {
@@ -137,27 +140,30 @@ public class RPGPerson {
         this.dungeonPoints -= points;
     }
 
-    public void damageWithCooldown(Player player, float damage) {
-        this.damageWithCooldown(player, null, damage);
+    public void damageWithCooldown(float damage) {
+        this.damageWithCooldown(null, damage);
     }
-    public void damageWithCooldown(Player player, Entity damager, float damage) {
+    public void damageWithCooldown(Entity damager, float damage) {
+        Player player = this.getPlayer();
         if (player.getNoDamageTicks() != 0) return;
         player.setNoDamageTicks(10);
-        this.damage(player, damager, damage);
+        this.damage(damager, damage);
     }
-    public void damage(Player player, float damage) {
-        this.damage(player, null, damage);
+    public void damage(float damage) {
+        this.damage(null, damage);
     }
-    public void damage(Player player, Entity damager, float damage) {
+    public void damage(Entity damager, float damage) {
+        Player player = this.getPlayer();
         player.playHurtAnimation(1.0f);
         player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
-        this.knockback(player, damager);
+        this.knockback(damager);
 
         this.setHealth(this.health - damage);
     }
-    public void knockback(Player player, Entity damager) {
+    public void knockback(Entity damager) {
         if (damager == null) return;
 
+        Player player = this.getPlayer();
         ServerPlayer server = ((CraftPlayer) player).getHandle();
         double force = 0.6 * (1.0 - server.getAttributeValue(KNOCKBACK_RESISTANCE));
 
@@ -197,7 +203,9 @@ public class RPGPerson {
         server.hurtMarked = true;
     }
 
-    public void regen(Player player) {
+    public void regen() {
+        Player player = this.getPlayer();
+
         float regeneration = this.regeneration;
         float food = player.getFoodLevel();
         if (food == 0) {
@@ -252,13 +260,14 @@ public class RPGPerson {
         if (dungeon != null) {
             player.setGameMode(GameMode.SPECTATOR);
             sendForAll(getInstance(), "death-dungeon", "{name}", this.person.getName());
-            this.startDungeonRespawn(player);
+            this.startDungeonRespawn();
         } else {
             teleportHome(player);
             sendForAll(getInstance(), "death-base", "{name}", this.person.getName());
         }
     }
-    private void startDungeonRespawn(Player player) {
+    private void startDungeonRespawn() {
+        Player player = this.getPlayer();
         new BukkitRunnable() {
             private int delay = 12;
             @Override
@@ -383,20 +392,30 @@ public class RPGPerson {
         else if (value > 0) return "{tc}+" + value;
         else                return "{fc}" + value;
     }
-    private AttributeInstance blockInteraction, entityInteraction;
+    private AttributeInstance blockInteraction, entityInteraction, movementSpeed, sneakingSpeed;
     private static final ResourceLocation blockRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "block_range");
     private static final ResourceLocation entityRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "entity_range");
-    public void updateAttributes(Player player) {
+    private static final ResourceLocation speedLocation = ResourceLocation.fromNamespaceAndPath("annovas", "entity_speed");
+    public void updateAttributes() {
         if (blockInteraction == null) {
-            ServerPlayer server = ((CraftPlayer) player).getHandle();
+            ServerPlayer server = ((CraftPlayer) this.person.getPlayer()).getHandle();
             this.blockInteraction = server.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
             this.entityInteraction = server.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
+            this.movementSpeed = server.getAttribute(MOVEMENT_SPEED);
+            this.sneakingSpeed = server.getAttribute(SNEAKING_SPEED);
         }
         blockInteraction.addOrUpdateTransientModifier(new AttributeModifier(
                 blockRangeLocation, this.getFinalValue(ValueType.BLOCK_RANGE), AttributeModifier.Operation.ADD_VALUE
         ));
         entityInteraction.addOrUpdateTransientModifier(new AttributeModifier(
                 entityRangeLocation, this.getFinalValue(ValueType.ENTITY_RANGE), AttributeModifier.Operation.ADD_VALUE
+        ));
+        double finalSpeed = this.getFinalValue(ValueType.SPEED);
+        movementSpeed.addOrUpdateTransientModifier(new AttributeModifier(
+                speedLocation, finalSpeed, AttributeModifier.Operation.ADD_MULTIPLIED_BASE
+        ));
+        sneakingSpeed.addOrUpdateTransientModifier(new AttributeModifier(
+                speedLocation, finalSpeed, AttributeModifier.Operation.ADD_MULTIPLIED_BASE
         ));
     }
 
@@ -447,9 +466,10 @@ public class RPGPerson {
                 : "{mc}" + sectorLocation.getClass().getSimpleName().toLowerCase()
                 ;
     }
-    public void updateSectorLocation(Player player) {
+    public void updateSectorLocation() {
         this.sectorLocation = null;
 
+        Player player = this.getPlayer();
         WorldSector sector = worldSectors.get(player.getWorld());
         if (sector == null) return;
         Location playerLocation = player.getLocation();
@@ -470,16 +490,10 @@ public class RPGPerson {
     public void setTeleportAccess(boolean teleportAccess) {
         this.teleportAccess = teleportAccess;
     }
-    public void teleport(Player player) {
-        this.teleport(person.getPlayer(), player.getLocation());
-    }
 
     public void teleport(Location location) {
-        this.teleport(person.getPlayer(), location);
-    }
-    public void teleport(Player player, Location location) {
         this.teleportAccess = true;
-        player.teleport(location);
+        this.getPlayer().teleport(location);
     }
 
     public boolean isShowBar() {
@@ -498,10 +512,10 @@ public class RPGPerson {
     public void removeAdvancement(RPGAdvancement advancement) {
         this.advancements.remove(advancement);
     }
-    public void completeAdvancement(Player player, RPGAdvancement advancement) {
+    public void completeAdvancement(RPGAdvancement advancement) {
         if (this.advancements.contains(advancement)) return;
         this.advancements.add(advancement);
-        AdvancementProgress progress = player.getAdvancementProgress(advancement.resolve());
+        AdvancementProgress progress = this.getPlayer().getAdvancementProgress(advancement.resolve());
         for (String criterion : progress.getRemainingCriteria()) {
             progress.awardCriteria(criterion);
         }

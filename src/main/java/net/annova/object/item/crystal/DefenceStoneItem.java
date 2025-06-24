@@ -32,14 +32,6 @@ public class DefenceStoneItem extends RPGItem {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fНакладывает пассивно эффект &3сопративления",
-                "&3| &fНакладывает пассивно эффект  &7замедления"
-        );
-    }
-
     public static final PotionEffect DEFENCE_STONE_RESISTANCE = new PotionEffect(PotionEffectType.RESISTANCE, 120, 1, true, false, true);
     public static final PotionEffect DEFENCE_STONE_SLOWNESS = new PotionEffect(PotionEffectType.SLOWNESS, 120, 0, true, false, true);
 }
