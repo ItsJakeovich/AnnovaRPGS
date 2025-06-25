@@ -129,8 +129,8 @@ DEATH_STONE: "Кристалл душ"
 DEATH_STONE-lore: "{pc}| {mc}Кристалл душ{sc}, {mc}крайне нестабилен{sc}...
 \n\n{pc}❖ {mc}Добыча{sc}: {tc}+100%{sc}."
 DEFENCE_STONE: "Кристалл защиты"
-DEFENCE_STONE-lore: " \n{pc}❖ {mc}Эффект{sc}: {mc}сопративление{sc}.
-\n{pc}❖ {mc}Эффект{sc}: {mc}замедление{sc}."
+DEFENCE_STONE-lore: " \n{pc}❖ {mc}Эффект{sc}: {tc}сопративление{sc}.
+\n{pc}❖ {mc}Эффект{sc}: {fc}замедление{sc}."
 DRAGON_STONE: "Драконий кристалл"
 DRAGON_STONE-lore: " \n{pc}❖ {mc}Входящий урон{sc}: {tc}-10%{sc}."
 EARTH_STONE: "Земляной кристалл"
@@ -138,8 +138,11 @@ EARTH_STONE-lore: " \n{pc}❖ {mc}При использовании заменя
 GRAVITY_STONE: "Кристалл гравитации"
 GRAVITY_STONE-lore: " \n{pc}❖ {mc}Единожды защищает от эффекта левитации{sc}."
 GREEN_STONE: "Зеленый кристалл"
+GREEN_STONE-lore: " \n{pc}❖ {mc}Здоровье{sc}: {tc}+8&c🖤{sc}."
 ICE_STONE: "Ледяной кристалл"
+ICE_STONE-lore: " \n{pc}❖ {mc}Эффект замедления в радиусе {ac}7 {mc}блоков{sc}."
 IGNIS_STONE: "Огненный кристалл"
+IGNIS_STONE-lore: " \n{pc}❖ {mc}Урон{sc}: {tc}+10.0\n{pc}❖ {mc}Эффект{sc}: {mc}огнестойкость{sc}."
 LIGHT_STONE: "Кристалл света"
 NATURE_STONE: "Кристалл природы"
 PSYONIC_STONE: "Псионический кристалл"

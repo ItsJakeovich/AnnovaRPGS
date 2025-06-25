@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.nether;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -90,7 +91,7 @@ public class Lex extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public boolean onDamage(LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         if (!this.spawnedSoldiers) {
             Soldier soldier = new Soldier();
             for (int i = 0; i < 8; i++) {

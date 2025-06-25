@@ -15,7 +15,7 @@ public class WebBall extends ParticleProjectile {
     public void onHit(Location location) {
         for (Entity entity : location.getWorld().getNearbyEntities(location, 1, 1, 1)) {
             if (entity instanceof Player player) {
-                getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);
+                getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS, 2_000);
             }
         }
     }
@@ -30,5 +30,10 @@ public class WebBall extends ParticleProjectile {
         return new Packet[] {
                 new ClientboundLevelParticlesPacket(ParticleTypes.ITEM_COBWEB, true, true, location.getX(), location.getY(), location.getZ(), 0.25f, 0.25f, 0.25f, 0, 8),
         };
+    }
+
+    @Override
+    public boolean isGravity() {
+        return true;
     }
 }

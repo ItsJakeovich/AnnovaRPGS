@@ -23,4 +23,9 @@ public class FireBall extends ParticleProjectile {
                 new ClientboundLevelParticlesPacket(ParticleTypes.CLOUD, true, true, location.getX(), location.getY(), location.getZ(), 0.1f, 0.1f, 0.1f, 0, 2)
         };
     }
+
+    @Override
+    public boolean isGravity() {
+        return true;
+    }
 }

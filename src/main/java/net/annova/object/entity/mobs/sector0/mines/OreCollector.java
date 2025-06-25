@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -72,7 +73,7 @@ public class OreCollector extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public boolean onDamage(LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         return false;
     }
 

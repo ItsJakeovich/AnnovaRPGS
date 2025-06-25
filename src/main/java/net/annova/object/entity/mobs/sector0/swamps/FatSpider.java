@@ -1,11 +1,15 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
+import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Entity;
@@ -20,7 +24,7 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 
-public class FatSpider extends RPGEntity implements EntityAction {
+public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
     @Override
     public EntityType<?> type() {
         return EntityType.SPIDER;
@@ -28,7 +32,7 @@ public class FatSpider extends RPGEntity implements EntityAction {
 
     @Override
     public String name() {
-        return "FatSpider";
+        return "";
     }
 
     @Override
@@ -38,17 +42,17 @@ public class FatSpider extends RPGEntity implements EntityAction {
 
     @Override
     public int health() {
-        return 200;
+        return 35;
     }
 
     @Override
     public double damage() {
-        return 9;
+        return 7;
     }
 
     @Override
     public float speed() {
-        return 0.15f;
+        return 0.27f;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class FatSpider extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public boolean onDamage(LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         return true;
     }
 
@@ -86,12 +90,17 @@ public class FatSpider extends RPGEntity implements EntityAction {
         AreaEffectCloud cloud = (AreaEffectCloud) entity.level().getWorld().spawnEntity(this.getLocation(), org.bukkit.entity.EntityType.AREA_EFFECT_CLOUD);
 
         cloud.setRadius(3.0f);
-        cloud.setDuration(150); // 7,5s
+        cloud.setDuration(120); // 5s
         cloud.setReapplicationDelay(20);
         cloud.setWaitTime(0);
         cloud.setColor(Color.LIME);
         cloud.setParticle(Particle.ENTITY_EFFECT);
 
-        cloud.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 100, 4), true); // 3 секунды яда II
+        cloud.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 100, 3), true); // 3 секунды яда 4
+    }
+
+    @Override
+    public void onSpawn(Location location) {
+        entity.getAttribute(Attributes.SCALE).setBaseValue(1.2);
     }
 }

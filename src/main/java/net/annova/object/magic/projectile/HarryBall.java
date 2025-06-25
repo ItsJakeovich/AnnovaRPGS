@@ -77,4 +77,9 @@ public class HarryBall extends ParticleProjectile {
             new ClientboundLevelParticlesPacket(ParticleTypes.CHERRY_LEAVES, true, true, location.getX(), location.getY(), location.getZ(), 0.1f, 0.1f, 0.1f, 0, 8)
         };
     }
+
+    @Override
+    public boolean isGravity() {
+        return true;
+    }
 }

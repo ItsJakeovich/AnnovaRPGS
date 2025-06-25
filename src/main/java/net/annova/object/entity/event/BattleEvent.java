@@ -37,7 +37,7 @@ public class BattleEvent implements Listener {
         RPGEntity rpg = getEntity(entity);
         if (rpg != null) { // при получении урона
             if (rpg instanceof EntityAction action) {
-                action.onDamage(damager);
+                action.onDamage(event, damager);
             }
             for (RPGAbility ability : rpg.abilities()) {
                 if (!chance(ability.getValue(ValueType.CHANCE))) continue;

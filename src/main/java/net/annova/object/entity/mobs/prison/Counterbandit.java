@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.prison;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -84,7 +85,7 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
     }
 
     @Override
-    public boolean onDamage(LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         return true;
     }
 

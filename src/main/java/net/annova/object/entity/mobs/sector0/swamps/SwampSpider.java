@@ -17,10 +17,10 @@ import static net.annova.object.entity.core.RPGEntityType.SWAMP_SPIDER;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 
-public class SwampSpider extends RPGEntity implements EntityAction {
+public class SwampSpider extends RPGEntity {
     @Override
     public EntityType<?> type() { // Вылезает из под воды - спавнить под водой.
-        return EntityType.CAVE_SPIDER;
+        return EntityType.SILVERFISH;
     }
 
     @Override
@@ -30,22 +30,22 @@ public class SwampSpider extends RPGEntity implements EntityAction {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.UNCOMMON;
+        return RPGRarity.COMMON;
     }
 
     @Override
     public int health() {
-        return 120;
+        return 5;
     }
 
     @Override
     public double damage() {
-        return 6;
+        return 1;
     }
 
     @Override
     public float speed() {
-        return 0.3f;
+        return 0.3525f;
     }
 
     @Override
@@ -55,33 +55,11 @@ public class SwampSpider extends RPGEntity implements EntityAction {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of(SPIDER_CHITIN.create(player, 0.01));
+        return List.of(SPIDER_CHITIN.create(player, 0.15));
     }
 
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of();
-    }
-
-    @Override
-    public boolean onTarget(Entity target) {
-        return true;
-    }
-
-    @Override
-    public boolean onAttack(LivingEntity target) {
-        return true;
-    }
-
-    @Override
-    public boolean onDamage(LivingEntity damager) {
-        return true;
-    }
-
-    @Override
-    public void onDeath() {
-        if (chance(0.25)) {
-            SWAMP_SPIDER.getEntity().create(entity);
-        }
     }
 }

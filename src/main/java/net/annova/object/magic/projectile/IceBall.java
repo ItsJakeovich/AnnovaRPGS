@@ -44,4 +44,9 @@ public class IceBall extends ParticleProjectile {
                 new ClientboundLevelParticlesPacket(ParticleTypes.CRIT, true, true, location.getX(), location.getY(), location.getZ(), 0.25f, 0.25f, 0.25f, 0, 16),
         };
     }
+
+    @Override
+    public boolean isGravity() {
+        return true;
+    }
 }

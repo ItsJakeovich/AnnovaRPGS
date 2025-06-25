@@ -45,14 +45,6 @@ public class IgnisStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fУрон&3: &a+10",
-                "&3| &aНакладывает &fэффект &cогнестойкости"
-        );
-    }
-
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();

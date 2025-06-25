@@ -42,12 +42,16 @@ public class StatusManager {
     }
     @Nullable
     public Status addStatus(StatusType type) {
-        return this.addStatus(type, null);
+        return this.addStatus(type, 0, null);
+    }
+    @Nullable
+    public Status addStatus(StatusType type, long durationOffset) {
+        return this.addStatus(type, durationOffset, null);
     }
     private final Map<StatusType, Long> cooldowns = new EnumMap<>(StatusType.class);
     @Nullable
-    public Status addStatus(StatusType type, Object object) {
-        Status status = new Status(type);
+    public Status addStatus(StatusType type, long durationOffset, Object object) {
+        Status status = new Status(type, durationOffset);
         long millis = System.currentTimeMillis();
         if (cooldowns.containsKey(type) && millis < cooldowns.get(type)) return status;
 

@@ -16,6 +16,7 @@ public abstract class ParticleProjectile {
     public abstract void onHit(Location location);
     public abstract double speed();
     public abstract Packet<?>[] particles(Location location);
+    public abstract boolean isGravity();
 
     public void create(LivingEntity entity, Entity target) {
         this.create(((Creature) entity).getEyeLocation(), target.getLocation());
@@ -34,6 +35,7 @@ public abstract class ParticleProjectile {
     private final double gravity = 0.025 * 9.81 / 20;
     public void tick(Location startLocation) {
         new BukkitRunnable() {
+            private int ticks = 400; // 20s
             private final Location location = startLocation.clone();
             private final World world = location.getWorld();
             private double speed = ParticleProjectile.this.speed() / 20;
@@ -65,7 +67,14 @@ public abstract class ParticleProjectile {
                 }
 
                 this.speed = Math.max(speed - airResistance * speed*speed, 0) / 20;
-                this.vertical -= gravity;
+                if (ParticleProjectile.this.isGravity()) this.vertical -= gravity;
+                else {
+                    if (ticks == 0) {
+                        this.cancel();
+                        return;
+                    }
+                    this.ticks--;
+                }
             }
         }.runTaskTimer(getInstance(), 0L, 1);
     }

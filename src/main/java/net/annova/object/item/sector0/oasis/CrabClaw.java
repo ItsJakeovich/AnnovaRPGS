@@ -14,7 +14,7 @@ public class CrabClaw extends RPGItem {
 
     @Override
     public List<Float> modelData() {
-        return List.of(20f);
+        return List.of(429f);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -11,6 +12,8 @@ import net.annova.object.person.status.StatusType;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
@@ -18,11 +21,12 @@ import java.util.Set;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.util.BukkitObjects.random;
 
 public class WhipSpider extends RPGEntity implements EntityAction, EntityActivity {
     @Override
     public EntityType<?> type() {
-        return EntityType.CAVE_SPIDER;
+        return EntityType.SPIDER;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
 
     @Override
     public int health() {
-        return 90;
+        return 55;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
 
     @Override
     public float speed() {
-        return 0.3f;
+        return 0.33f;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of(SPIDER_CHITIN.create(player, 0.01));
+        return List.of(SPIDER_CHITIN.create(player, random.nextInt(3)+2, 0.45));
     }
 
     @Override
@@ -73,17 +77,22 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
 
     @Override
     public boolean onAttack(LivingEntity target) {
-        if (chance(0.3)) {
-            if (target instanceof Player player) {
-                getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);
-            }
-        }
         return true;
     }
 
+    private final PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 40, 0);
     @Override
-    public boolean onDamage(LivingEntity damager) {
-        return true;
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
+        if (entity.getHealth() < entity.getMaxHealth()*0.5 && chance(0.3)) {
+            double reflection = event.getBaseDamage() * 0.9;
+            event.decreaseDamage(reflection);
+            damager.damage(reflection);
+
+            if (damager instanceof Player player) {
+                getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);
+            }
+            damager.addPotionEffect(blindness);
+        }
     }
 
     @Override

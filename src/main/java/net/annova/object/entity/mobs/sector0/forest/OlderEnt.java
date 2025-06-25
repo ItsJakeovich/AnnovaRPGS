@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.forest;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -99,7 +100,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
 
 
     @Override
-    public boolean onDamage(LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         this.healingCooldown = 20;
         this.vec3 = null;
 

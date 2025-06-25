@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.forest;
 
+import net.annova.event.custom.MobDamageCE;
 import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -208,7 +209,7 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
 
     private Long cooldown = 0L;
     @Override
-    public boolean onDamage(org.bukkit.entity.LivingEntity damager) {
+    public void onDamage(MobDamageCE event, org.bukkit.entity.LivingEntity damager) {
         long millis = System.currentTimeMillis();
         if (millis < cooldown) return true;
         this.cooldown = millis + 35_000;

@@ -144,8 +144,12 @@ public enum RPGEntityType {
     public static RPGEntityType getType(RPGEntity entity) {
         return TYPE_BY_CLASS.get(entity.getClass());
     }
-    public static EnumSet<RPGEntityType> getEntitiesByCategory(LocationCategory category) {
-        return ENTITIES_BY_CATEGORY.get(category);
+    public static EnumSet<RPGEntityType> getEntitiesByCategory(LocationCategory category, RPGEntityType... without) {
+        EnumSet<RPGEntityType> entities = ENTITIES_BY_CATEGORY.get(category).clone();
+        for (RPGEntityType type : without) {
+            entities.remove(type);
+        }
+        return entities;
     }
 
     public boolean equals(LivingEntity entity) {

@@ -36,6 +36,7 @@ public class CustomCrab extends CaveSpider {
     public CustomCrab(EntityType<? extends CaveSpider> entitytypes, Level world) {
         super(entitytypes, world);
         this.setInvisible(true);
+        this.getAttribute(Attributes.SCALE);
         this.moveControl = new CrabMoveControl(this);
     }
 

@@ -13,10 +13,10 @@ public class Status {
     private final Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
     private final long expires;
 
-    public Status(StatusType type) {
+    public Status(StatusType type, long durationOffset) {
         this.type = type;
         this.values.putAll(type.getBaseValues());
-        this.expires = System.currentTimeMillis()+type.getDuration();
+        this.expires = System.currentTimeMillis()+type.getDuration()+durationOffset;
     }
 
     public StatusType getType() {
