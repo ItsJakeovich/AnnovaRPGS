@@ -43,11 +43,6 @@ public class OasisFish extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fРедкая обитательница тёплых&3, &fкристально чистых вод&3, &fрыба &3«&fОазис&3» &fбудто собрана из осколков солнечного света и изумрудной тени водорослей");
-    }
-
     private final String[] messageKeys = {
             "s0-oasis-oasis-0",
             "s0-oasis-oasis-1",

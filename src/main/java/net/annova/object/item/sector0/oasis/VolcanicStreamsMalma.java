@@ -34,11 +34,6 @@ public class VolcanicStreamsMalma extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fЭта рыба родом из раскалённых источников у подножия гор&3. &fЕё кожа пропитана магмой и способна передать сопротивление огню тому&3, &fкто осмелится её съесть");
-    }
-
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!AZURE_FISH.equals(event.getItem())) return;

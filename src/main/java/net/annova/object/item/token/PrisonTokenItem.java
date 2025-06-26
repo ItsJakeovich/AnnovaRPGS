@@ -26,11 +26,4 @@ public class PrisonTokenItem extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fНужен для торговли в магазине &8меж-пространства"
-        );
-    }
 }

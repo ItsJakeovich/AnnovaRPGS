@@ -36,14 +36,6 @@ public class TeleportStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fМожет создать &1метку",
-                "&3= &fПосле чего при использовании телепортирует тебя на &1метку"
-        );
-    }
-
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         ItemStack item = event.getItem();

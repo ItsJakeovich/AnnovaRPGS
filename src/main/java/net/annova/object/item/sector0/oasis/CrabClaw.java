@@ -26,9 +26,4 @@ public class CrabClaw extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fТвёрдая клешня краба. Ещё тёплая.");
-    }
 }

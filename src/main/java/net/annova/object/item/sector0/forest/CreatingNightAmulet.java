@@ -41,11 +41,6 @@ public class CreatingNightAmulet extends RPGItem implements ItemEquipment {
     }
 
     @Override
-    public List<String> lore() {
-        return List.of("{pc}| {mc}Амулет выкованный ночью{sc}, \n{mc}артефакт энтов{sc}.");
-    }
-
-    @Override
     public EquipType getEquipmentType() {
         return EquipType.AMULET;
     }

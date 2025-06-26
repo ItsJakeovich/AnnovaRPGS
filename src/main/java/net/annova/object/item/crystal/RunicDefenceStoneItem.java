@@ -46,14 +46,6 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fЗащищает от урона свыше &6100 &fединиц",
-                "&3| &fИмеет &63 заряда&7. &fВосстановление каждые &630 &fминут"
-        );
-    }
-
     @EventHandler
     private void interact(PlayerInteractEvent event) {
         if (event.getAction().name().charAt(0) != 'R') return;

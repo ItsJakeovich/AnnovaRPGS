@@ -38,13 +38,6 @@ public class FlyTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fДает полёт на 15 минут"
-        );
-    }
-
     private static final Set<UUID> allow = new HashSet<>();
     @EventHandler
     private void use(PlayerInteractEvent event) {

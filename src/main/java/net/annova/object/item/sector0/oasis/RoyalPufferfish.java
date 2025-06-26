@@ -26,9 +26,4 @@ public class RoyalPufferfish extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fРедчайший обитатель&3, &fповелитель тропических ливней&3. &fПри его появлении небо будто склоняется перед ним и выпускает дожди &3— &fно сам он остаётся сухим");
-    }
 }

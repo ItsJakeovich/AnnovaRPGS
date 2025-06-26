@@ -82,7 +82,6 @@ public class DarkWolf extends RPGEntity implements EntityAction {
 
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        return true;
     }
 
     @Override

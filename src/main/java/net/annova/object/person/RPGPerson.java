@@ -392,6 +392,13 @@ public class RPGPerson {
         else if (value > 0) return "{tc}+" + value;
         else                return "{fc}" + value;
     }
+    public String getStringFinalPercent(ValueType type) {
+        String string;
+        double value = this.getFinalValue(type) * 100;
+        if (value == 0)     return "{sc}" + value + "%";
+        else if (value > 0) return "{tc}+" + value + "%";
+        else                return "{fc}" + value + "%";
+    }
     private AttributeInstance blockInteraction, entityInteraction, movementSpeed, sneakingSpeed;
     private static final ResourceLocation blockRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "block_range");
     private static final ResourceLocation entityRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "entity_range");

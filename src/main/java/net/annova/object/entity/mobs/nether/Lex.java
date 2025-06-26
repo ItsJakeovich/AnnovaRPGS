@@ -100,9 +100,8 @@ public class Lex extends RPGEntity implements EntityAction {
             this.spawnedSoldiers = true;
         } else {
             soldiers.removeIf(check -> !check.isValid());
-            return soldiers.isEmpty();
+            event.setCancelled(!soldiers.isEmpty()); // if is not empty -> event cancelled.
         }
-        return true;
     }
 
     @Override

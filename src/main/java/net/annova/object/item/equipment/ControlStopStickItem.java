@@ -38,13 +38,6 @@ public class ControlStopStickItem extends RPGItem implements Listener {
         return RPGRarity.IMPOSSIBLE;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fПри ударе блокирует передвижение игрока"
-        );
-    }
-
     @EventHandler
     public void hit(EntityDamageByEntityEvent conEvent) {
         if (!(conEvent.getDamager() instanceof Player damager)) return;

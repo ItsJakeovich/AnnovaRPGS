@@ -88,7 +88,6 @@ public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
 
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        return true;
     }
 
     @Override

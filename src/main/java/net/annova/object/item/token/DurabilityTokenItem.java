@@ -33,13 +33,6 @@ public class DurabilityTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fДаёт 15% шанс не потерять прочность предмета"
-        );
-    }
-
     @EventHandler
     private void mechanic(PlayerItemDamageEvent event) {
         if (!DURABILITY_TOKEN.has(event.getPlayer())) return;

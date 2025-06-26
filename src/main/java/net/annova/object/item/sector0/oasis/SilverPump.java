@@ -35,11 +35,6 @@ public class SilverPump extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fРедкая рыба&3, &fсвязанная с личными воспоминаниями&3. &fПри поедании она вызывает тёплое чувство уюта и желания вернуться \"домой\"&3, &fгде бы это ни было");
-    }
-
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!SILVER_PUMP.equals(event.getItem())) return;

@@ -211,10 +211,9 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     @Override
     public void onDamage(MobDamageCE event, org.bukkit.entity.LivingEntity damager) {
         long millis = System.currentTimeMillis();
-        if (millis < cooldown) return true;
+        if (millis < cooldown) return;
         this.cooldown = millis + 35_000;
         damager.damage(this.entity.lastHurt);
-        return true;
     }
 
     @Override

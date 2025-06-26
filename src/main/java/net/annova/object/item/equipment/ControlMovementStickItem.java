@@ -38,13 +38,6 @@ public class ControlMovementStickItem extends RPGItem implements Listener {
         return RPGRarity.IMPOSSIBLE;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fПри ударе забирает контроль у игрока"
-        );
-    }
-
     @EventHandler
     public void hit(EntityDamageByEntityEvent conEvent) {
         if (!(conEvent.getDamager() instanceof Player damager)) return;

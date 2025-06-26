@@ -26,9 +26,4 @@ public class Pearl extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fНе совсем рыба&3, &fно часть древней формы жизни&3, &fоставившая после себя сияющее ядро&3. &fТорговцы уважают её как знак удачной сделки и чистой энергии");
-    }
 }

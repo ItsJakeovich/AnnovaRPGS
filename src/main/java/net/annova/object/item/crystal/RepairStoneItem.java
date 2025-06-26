@@ -42,13 +42,6 @@ public class RepairStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fРемонтирует выбранный предмет"
-        );
-    }
-
     private final String title = ChatColor.BLUE + "Нажатием почините предмет:";
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {

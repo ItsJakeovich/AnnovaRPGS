@@ -26,9 +26,4 @@ public class BlobFishGray extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fБаланс между светом и тьмой&3. &fПризывает дождь не как разрушение&3, &fа как живительную влагу");
-    }
 }

@@ -48,6 +48,9 @@ public class StatusManager {
     public Status addStatus(StatusType type, long durationOffset) {
         return this.addStatus(type, durationOffset, null);
     }
+    public Status addStatus(StatusType type, Object object) {
+        return this.addStatus(type, 0, object);
+    }
     private final Map<StatusType, Long> cooldowns = new EnumMap<>(StatusType.class);
     @Nullable
     public Status addStatus(StatusType type, long durationOffset, Object object) {

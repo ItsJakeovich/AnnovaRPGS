@@ -27,11 +27,4 @@ public class RedStoneItem extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fУсиливает эффективность колец&3: &a+0.8% &7(макс. +6.4%)"
-        );
-    }
 }

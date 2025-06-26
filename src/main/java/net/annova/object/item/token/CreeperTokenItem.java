@@ -32,13 +32,6 @@ public class CreeperTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fКриперы больше на вас не реагируют"
-        );
-    }
-
     @EventHandler
     private void mechanic(EntityTargetEvent event) {
         if (!CREEPER_TOKEN.has(event.getTarget())) return;

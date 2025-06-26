@@ -35,11 +35,6 @@ public class TideBlade extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fКлинок&3, &fкоторый был давно затерян в неизвестных вам водах&3...");
-    }
-
     @EventHandler
     public void attack(BattleCE event) {
         LivingEntity damager = event.getDamager();

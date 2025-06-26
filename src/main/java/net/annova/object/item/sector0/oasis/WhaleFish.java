@@ -26,9 +26,4 @@ public class WhaleFish extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fНе настоящий кит&3, &fно имя своё она заслужила по праву&3. &fОбладательница огромной пасти и эластичного мешка&3, &fэта рыба охотится без усилий &3— &fпросто раскрывает рот и втягивает всё&3, &Fчто плывёт мимо");
-    }
 }

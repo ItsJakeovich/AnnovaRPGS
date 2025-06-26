@@ -34,11 +34,6 @@ public class AzureFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fОкрашенная небом и океаном одновременн&3, &fэта рыба оставляет после себя ощущение свежести и лёгкости&3. &fЕё вкус будто насыщает не только тело&3, &fно и разум");
-    }
-
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!AZURE_FISH.equals(event.getItem())) return;

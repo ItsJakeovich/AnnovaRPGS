@@ -26,9 +26,4 @@ public class Seasmith extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fМассивная и необычно прочная рыба&3, &fчешуя которой по твёрдости напоминает камень");
-    }
 }

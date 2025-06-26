@@ -33,11 +33,6 @@ public class AngelFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fПоявляется только в спокойных водах&3, &fгде никто не причиняет вреда&3. &fЕё присутствие внушает чувство безопасности");
-    }
-
     @EventHandler
     public void onDamage(PlayerDamageCE event) {
         Entity entity = event.getEntity();

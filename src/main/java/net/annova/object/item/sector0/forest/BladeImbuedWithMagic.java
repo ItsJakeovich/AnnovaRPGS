@@ -41,11 +41,6 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
     }
 
     @Override
-    public List<String> lore() {
-        return List.of();
-    }
-
-    @Override
     public double damage() {
         return 8.5;
     }

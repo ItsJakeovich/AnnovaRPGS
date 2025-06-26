@@ -33,13 +33,6 @@ public class VitalStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fУвеличивает &4⚔ &fна &61.5% &fза каждое &c\uD83D\uDDA4"
-        );
-    }
-
     // drop event in net.annova.event.AgeStonesEvent
 
     @EventHandler

@@ -2,7 +2,6 @@ package net.annova.object.item.base;
 
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
-import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
@@ -21,7 +20,6 @@ import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
-import net.annova.object.person.status.StatusType;
 import net.minecraft.world.item.component.CustomModelData;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -293,11 +291,9 @@ public enum ItemType {
         List<String> newLore = new ArrayList<>();
         String lore = langFile.getString(this.name() + "-lore", null);
         if (lore != null) {
-            for (String string : this.item.lore()) {
-                String[] loreString = string.split("\n");
-                for (String str : loreString) {
-                    newLore.add(color(str));
-                }
+            String[] loreString = lore.split("\n");
+            for (String str : loreString) {
+                newLore.add(color(str));
             }
             newLore.add("");
         }
@@ -308,7 +304,7 @@ public enum ItemType {
             pdc.set(NamespacedKey.fromString(UUID.randomUUID().toString(), getInstance()), PersistentDataType.INTEGER, 0);
         }
 
-        if (this.item instanceof RPGTool weapon) {
+        if (this.item instanceof RPGTool weapon && !this.getItem().type().equals(Material.BOW)) {
             newLore.add(langFile.getString("tool-damage", "unknown") + weapon.damage() + "⚔");
             newLore.add(langFile.getString("tool-speed", "unknown") + weapon.attackSpeed() + "⚡");
 

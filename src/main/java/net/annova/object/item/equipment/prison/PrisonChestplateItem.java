@@ -33,13 +33,6 @@ public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorA
     }
 
     @Override
-    public List<String> lore() {
-        return List.of(
-                "&fБыл снят с охранника во время бунта"
-        );
-    }
-
-    @Override
     public void activity(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 600, 0));
     }

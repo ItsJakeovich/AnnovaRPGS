@@ -104,7 +104,7 @@ public class Berserk extends RPGEntity implements EntityAction {
             }
         }
 
-        return !(damager instanceof Projectile); // if is Projective -> event cancelled
+        event.setCancelled(damager instanceof Projectile); // if is Projective -> event cancelled
     }
 
     @Override

@@ -43,16 +43,8 @@ public class DarkElfBow extends RPGItem implements RPGTool, Listener {
     }
 
     @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fДополнительные 3.5 урона при попадании",
-                "&3| &fЭффект тьмы при попадании"
-        );
-    }
-
-    @Override
     public double damage() {
-        return 1;
+        return 3.5;
     }
 
     @Override

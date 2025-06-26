@@ -1,5 +1,6 @@
 package net.annova.object.item.crystal;
 
+import net.annova.event.custom.MouseClickCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.*;
@@ -38,15 +39,9 @@ public class LightStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &aНегативно &fвлияет на &6нежить &fв радиусе &615 &fблоков"
-        );
-    }
-
     @EventHandler
-    private void mechanic(PlayerInteractEvent event) {
+    private void mechanic(MouseClickCE event) {
+        if (event.getClickType().equals(MouseClickCE.ClickType.LEFT_CLICK)) return;
         Player player = event.getPlayer();
         if (!LIGHT_STONE.use(player)) return;
 

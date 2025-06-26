@@ -111,7 +111,12 @@ public class Equipment {
             Map<ValueType, Double> values = equip.values(person);
             String id = getItemId(item);
             double coefficient = idList.contains(id) ? 0.2 : 1.0;
+            coefficient *= switch (equip.getEquipmentType()) {
+                case RING -> this.person.getFinalValue(ValueType.RING_BUFF);
+                default -> 1.0;
+            };
             for (ValueType type : values.keySet()) {
+                double value = values.get(type);
                 finalValue.merge(type, values.get(type) * coefficient, Double::sum);
             }
             idList.add(id);

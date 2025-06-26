@@ -26,9 +26,4 @@ public class MeteoriteFragment extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of();
-    }
 }

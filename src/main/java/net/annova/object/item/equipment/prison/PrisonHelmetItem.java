@@ -27,11 +27,4 @@ public class PrisonHelmetItem extends RPGItem implements RPGArmor {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&fБыл снят с охранника во время сна"
-        );
-    }
 }

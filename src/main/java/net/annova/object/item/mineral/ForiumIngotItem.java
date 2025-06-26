@@ -26,11 +26,4 @@ public class ForiumIngotItem extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.EVENT;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&fСнеговик теплее будет..."
-        );
-    }
 }

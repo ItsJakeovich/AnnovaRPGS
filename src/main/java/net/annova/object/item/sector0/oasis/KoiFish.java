@@ -35,11 +35,6 @@ public class KoiFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fСимвол удачи и силы&3, &fэтот карп будто вобрал в себя энергию всех потоков Оазиса");
-    }
-
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!KOI_FISH.equals(event.getItem())) return;

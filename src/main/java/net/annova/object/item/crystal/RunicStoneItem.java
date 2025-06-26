@@ -28,12 +28,4 @@ public class RunicStoneItem extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fУдваивает наносимый урон",
-                "&3= &fУдваивает получаемый урон"
-        );
-    }
 }

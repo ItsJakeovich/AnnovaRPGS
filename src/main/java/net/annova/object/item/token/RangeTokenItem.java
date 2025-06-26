@@ -41,35 +41,4 @@ public class RangeTokenItem extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fУвеличивает радиус взаимодействия с блоками"
-        );
-    }
-
-    @EventHandler
-    private void mechanic(PlayerInteractEvent event) {
-        if (event.getAction().name().charAt(0) != 'R') return;
-        if (!event.getHand().equals(EquipmentSlot.HAND)) return;
-        Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (!RANGE_TOKEN.equals(item)) return;
-
-        player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1);
-        CraftPlayer craftPlayer = (CraftPlayer) player;
-        ServerPlayer nms = craftPlayer.getHandle();
-        new BukkitRunnable() {
-            private final AttributeInstance attribute = nms.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-            @Override
-            public void run() {
-                if (RANGE_TOKEN.has(player)) attribute.setBaseValue(7);
-                else {
-                    attribute.setBaseValue(4.5);
-                    this.cancel();
-                }
-            }
-        }.runTaskTimer(getInstance(), 0L, 1200L);
-    }
 }

@@ -35,11 +35,6 @@ public class FuryCaviar extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fСодержит в себе мощь тысяч боевых инстинктов&3. &fКажется что после каждого употребления её в пищу&3, &fусиливает вас");
-    }
-
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!FURY_CAVIAR.equals(event.getItem())) return;

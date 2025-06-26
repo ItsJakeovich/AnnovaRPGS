@@ -37,11 +37,6 @@ public class TideGraspRing extends RPGItem implements ItemEquipment {
     }
 
     @Override
-    public List<String> lore() {
-        return List.of("&3= &fСозданный из закалённой клешни краба&3, &fэтот перстень наполняет владельца мощью прилива&3. &fЕго носитель тянется дальше обычного&3.");
-    }
-
-    @Override
     public EquipType getEquipmentType() {
         return EquipType.RING;
     }

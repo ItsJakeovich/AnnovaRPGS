@@ -26,9 +26,4 @@ public class BlobFishYellow extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fМрак этой рыбы будто шепчет о буре&3. &fЕё используют шаманы&3, &fкогда жаждут грозы и очищающей силы неба");
-    }
 }

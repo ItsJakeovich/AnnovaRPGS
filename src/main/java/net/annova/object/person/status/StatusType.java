@@ -20,15 +20,14 @@ import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
-import static net.annova.object.person.status.ValueType.CHARGE;
-import static net.annova.object.person.status.ValueType.DEFENCE;
+import static net.annova.object.person.status.ValueType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public enum StatusType {
     CB_DAMAGE_DEBUFF(Map.of(ValueType.DAMAGE, -0.5)),
 
-    HARRY_DEFENCE_DEBUFF(15_000, Map.of(DEFENCE, -0.5)),
+    HARRY_DEFENCE_DEBUFF(15_000, Map.of(DEFENCE_MULTIPLIER, 0.5)),
 
     ICENAGE(ICE_STONE, new StatusActivity() {
         @Override
@@ -107,6 +106,12 @@ public enum StatusType {
         }
     }),
 
+    RUNIC_BUFF_DEBUFF(RUNIC_STONE, Map.of(DAMAGE_MULTIPLIER, 1.0, DEFENCE_MULTIPLIER, -1.0)),
+
+    STRENGTH_BUFF_DEBUFF(STRENGTH_STONE, Map.of(DAMAGE_MULTIPLIER, 0.5, DEFENCE_MULTIPLIER, 0.3)),
+
+    RANGE_TOKEN_BUFF(RANGE_TOKEN, Map.of(BLOCK_RANGE, 2.5)),
+
     IGNIS(300_000),
 
     REPAIR_COOLDOWN(900_000),
@@ -173,6 +178,8 @@ public enum StatusType {
     }),
 
     GREEN_STONE_HEALTH_BUFF(GREEN_STONE, Map.of(ValueType.HEALTH, 8.0)),
+
+    RED_STONE_RING_BUFF(RED_STONE, Map.of(RING_BUFF, 0.8)),
 
     CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE, 12.0)),
 

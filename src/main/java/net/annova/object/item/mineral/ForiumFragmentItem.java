@@ -27,13 +27,6 @@ public class ForiumFragmentItem extends RPGItem {
         return RPGRarity.EVENT;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fИспускает тусклый яркий свет"
-        );
-    }
-
 //    public ItemStack create(RPGPerson person, double chance) {
 //        double plus = 0;
 //        for (RPGItem item : person.getRPGArmor()) {

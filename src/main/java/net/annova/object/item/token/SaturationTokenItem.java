@@ -1,5 +1,6 @@
 package net.annova.object.item.token;
 
+import net.annova.event.custom.MouseClickCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.Material;
@@ -34,16 +35,9 @@ public class SaturationTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fДаёт на 1 час насыщение"
-        );
-    }
-
     @EventHandler
-    private void use(PlayerInteractEvent event) {
-        if (event.getAction().name().charAt(0) != 'R') return;
+    private void use(MouseClickCE event) {
+        if (event.getClickType().equals(MouseClickCE.ClickType.LEFT_CLICK)) return;
         Player player = event.getPlayer();
         if (!SATURATION_TOKEN.use(player)) return;
 

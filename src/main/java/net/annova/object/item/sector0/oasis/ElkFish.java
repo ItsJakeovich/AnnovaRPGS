@@ -35,11 +35,6 @@ public class ElkFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fКрупная и горделивая&3, &fэта рыба будто сочетает в себе дух северных зверей&3. &fЕё мясо насыщает даже самых прожорливых");
-    }
-
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!ELK_FISH.equals(event.getItem())) return;

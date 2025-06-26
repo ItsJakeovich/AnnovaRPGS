@@ -36,15 +36,6 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     }
 
     @Override
-    public List<String> lore() {
-        return List.of(
-                "&4" + this.damage() + " ⚔ &7| &e" + this.attackSpeed() + " ⚡",
-                "",
-                "&fБыл создан внутри стен тюрьмы"
-        );
-    }
-
-    @Override
     public double damage() {
         return 12.5;
     }

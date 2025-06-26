@@ -45,13 +45,6 @@ public class TimeStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &f Останавливает время в радиусе на 5 секунд"
-        );
-    }
-
     private static final Set<Entity> stopped = new HashSet<>();
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {

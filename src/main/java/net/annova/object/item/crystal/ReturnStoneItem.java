@@ -37,13 +37,6 @@ public class ReturnStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fПри использовании возвращает вас на точку вашего спавна"
-        );
-    }
-
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getAction().name().charAt(0) != 'R') return;

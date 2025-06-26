@@ -86,7 +86,6 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
 
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        return true;
     }
 
     @Override

@@ -37,11 +37,6 @@ public class NalimFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fОбитатель самых тёмных и глубоких вод&3, &fналим впитал в себя терпение и силу подводного мира&3. &fЕго плоть наделяет едока способностью дышать почти как рыба &3— &fне полностью&3, &fно достаточно&3, &fчтобы вода не причиняла боли&3.");
-    }
-
     private final Map<LivingEntity, Long> duration = new HashMap<>();
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {

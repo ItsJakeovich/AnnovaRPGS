@@ -28,11 +28,4 @@ public class RegenerationStoneItem extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3| &fПассивно регенерирует &c\uD83D\uDDA4"
-        );
-    }
 }

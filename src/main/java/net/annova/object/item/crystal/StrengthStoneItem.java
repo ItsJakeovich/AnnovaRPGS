@@ -31,22 +31,4 @@ public class StrengthStoneItem extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fУвеличивает входящий урон на 30%",
-                "&3= &fУвеличивает наносимый урон на 50%"
-        );
-    }
-
-    @EventHandler
-    private void damager(LivingEntityDamageByEntityCE event) {
-        if (STRENGTH_STONE.has(event.getEntity())) {
-            event.increaseDamage(event.getBaseDamage() * 1.5);
-        }
-        if (STRENGTH_STONE.has(event.getDamager())) {
-            event.increaseDamage(event.getBaseDamage() * 1.3);
-        }
-    }
 }

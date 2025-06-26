@@ -35,11 +35,6 @@ public class AnglerfishSpawnEgg extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fМаленький&3, &fно упрямый рыбёныш&3, &fкоторый так и норовит помогать рыбачить&3. &fОдинокий в глубинах&3, &fон ищет напарника&3, &fкоторому сможет посвятить всю свою биолюминесцентную жизнь");
-    }
-
     @EventHandler
     public void entitySpawn(PlayerInteractEvent event) {
         if (!ANGLER_FISH_SPAWN_EGG.equals(event.getItem())) return;

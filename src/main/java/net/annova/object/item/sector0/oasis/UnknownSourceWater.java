@@ -35,11 +35,6 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration {
     }
 
     @Override
-    public List<String> lore() {
-        return List.of();
-    }
-
-    @Override
     public void initConfiguration(ItemMeta itemMeta) {
         ((PotionMeta) itemMeta).setBasePotionType(PotionType.WATER);
         itemMeta.getPersistentDataContainer().set(NK_MILLIS, PersistentDataType.LONG, System.currentTimeMillis());

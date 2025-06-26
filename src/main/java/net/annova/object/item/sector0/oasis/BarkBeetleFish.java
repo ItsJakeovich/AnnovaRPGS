@@ -38,13 +38,6 @@ public class BarkBeetleFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    @Override
-    public List<String> lore() {
-        return List.of(
-                "&3= &fПри попадании на дерево срубает его"
-        );
-    }
-
     @EventHandler
     public void capitatorEvent(PlayerDropItemEvent event) {
         Item item = event.getItemDrop();

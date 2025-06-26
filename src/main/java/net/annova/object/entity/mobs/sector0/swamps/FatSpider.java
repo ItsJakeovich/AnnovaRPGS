@@ -82,7 +82,6 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
 
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        return true;
     }
 
     @Override

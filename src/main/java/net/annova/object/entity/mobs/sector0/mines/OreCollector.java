@@ -64,17 +64,16 @@ public class OreCollector extends RPGEntity implements EntityAction {
 
     @Override
     public boolean onTarget(Entity target) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onAttack(LivingEntity target) {
-        return false;
+        return true;
     }
 
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        return false;
     }
 
     @Override

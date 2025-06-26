@@ -109,7 +109,6 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
                 EntRoots.addPhysicDebuff(target);
             }
         }
-        return true;
     }
 
     @Override

@@ -26,9 +26,4 @@ public class BlobFishBlue extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
-
-    @Override
-    public List<String> lore() {
-        return List.of("&3= &fМифическая рыба&3, &fпоявляющаяся только при рассеивании бурь&3. &fИспользуется в ритуалах очищения неба");
-    }
 }

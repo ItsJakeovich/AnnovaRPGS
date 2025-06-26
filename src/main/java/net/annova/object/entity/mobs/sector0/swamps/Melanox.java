@@ -187,7 +187,6 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
                     .normalize().multiply(3)
             );
         }
-        return true;
     }
 
     @Override
