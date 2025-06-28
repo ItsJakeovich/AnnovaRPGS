@@ -1,7 +1,7 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
-import net.annova.environment.world.RPGAdvancement;
+import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
@@ -42,11 +42,6 @@ public class DryadPedestal extends SectorLocation {
 
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
-    }
-
-    @Override
-    public Set<RPGAdvancement> advancements() {
-        return Set.of();
     }
 
     @Override

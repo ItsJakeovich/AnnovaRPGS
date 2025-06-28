@@ -40,18 +40,70 @@
 #
 
 materials:
-  - id: "TIDE_GRASP_RING"
+  - id: "tide_grasp_ring"
     amount: 1
     craft_type: 'shaped'
-    valid: true;
+    valid: true
     ingredients:
       - id: 'IRON_INGOT'
         letter: 'q'
       - id: 'GOLD_NUGGET'
         letter: 'w'
-      - id: 'CRAB_CLAW' #custom
+      - id: 'crab_claw'
         letter: 'e'
     recipe:
       - ' qe'
       - 'qwq'
       - ' q '
+
+  - id: "creating_night_amulet"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'GOLD_INGOT'
+        letter: 'q'
+      - id: 'STRING'
+        letter: 'w'
+      - id: 'LANTERN'
+        letter: 'e'
+      - id: 'darkness_concentration'
+        letter: 'r'
+    recipe:
+      - 'qwq'
+      - 'wrw'
+      - ' e '
+
+  - id: "ents_patron_amulet"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'ent_root'
+        letter: 'q'
+      - id: 'string'
+        letter: 'w'
+      - id: 'emerald'
+        letter: 'e'
+    recipe:
+      - 'qqq'
+      - 'qwq'
+      - 'qeq'
+
+#  - id: "roots_lash"
+#    amount: 1
+#    craft_type: 'shaped'
+#    valid: true
+#    ingredients:
+#      - id: 'ent_root'
+#        letter: 'q'
+#      - id: 'STRING'
+#        letter: 'w'
+#      - id: 'LEATHER'
+#        letter: 'e'
+#      - id: 'ent_core'
+#        letter: 'r'
+#    recipe:
+#      - 'qwq'
+#      - 'ere'
+#      - 'qeq'

@@ -45,23 +45,27 @@ public class DeathEvent implements Listener {
             if (sectorLocation != null) sectorLocation.setBoss(null);
         }
 
-        RPGEntityDeathCE ev = new RPGEntityDeathCE(entity, event);
+        RPGEntityDeathCE ev = new RPGEntityDeathCE(entity, ent.getKiller(), event);
         Bukkit.getPluginManager().callEvent(ev);
         removeEntity(ent);
 
+        RPGEntityType type = RPGEntityType.valueOf(entity.getId());
+        this.checkDungeonDeath(entity, ent, type);
+    }
+
+    private void checkDungeonDeath(RPGEntity entity, LivingEntity living, RPGEntityType type) {
         Dungeon dungeon = entity.getDungeon();
         if (dungeon == null) return;
 
-        RPGPerson person = getRPGPerson(ent.getKiller());
+        RPGPerson person = getRPGPerson(living.getKiller());
         if (person == null) person = (RPGPerson) dungeon.getPlayers().toArray()[0];
         if (person == null) return;
 
-        RPGEntityType type = RPGEntityType.valueOf(entity.getId());
         switch (type) {
             case PRISONER, SECURITY -> person.addDungeonPoints(2);
             case ZERO -> {
                 person.addDungeonPoints(1000);
-                getDungeonWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, ent.getLocation(), 3);
+                getDungeonWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, entity.getLocation(), 3);
                 if (chance(0.125)) {
                     DungeonTemplate dungeonTemplate = dungeon.getBase().getTemplate();
                     dungeonTemplate.getAnimation("boss_gate", 1).start(dungeon.getLocation(), dungeonTemplate.getStructure());

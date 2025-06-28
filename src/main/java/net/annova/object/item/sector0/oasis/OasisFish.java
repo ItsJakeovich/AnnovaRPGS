@@ -1,5 +1,6 @@
 package net.annova.object.item.sector0.oasis;
 
+import net.annova.event.custom.DropItemFoundBlockCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import org.bukkit.*;
@@ -57,33 +58,16 @@ public class OasisFish extends RPGItem implements Listener {
     );
     private final Map<Player, Long> cooldown = new HashMap<>();
     @EventHandler
-    public void dropItem(PlayerDropItemEvent event) {
-        Item item = event.getItemDrop();
-        if (!OASIS_FISH.equals(item.getItemStack())) return;
+    public void dropItem(DropItemFoundBlockCE event) {
+        if (!OASIS_FISH.equals(event.getItem())) return;
+        if (!event.getFoundedBlock().getType().equals(Material.WATER)) return;
         final Player player = event.getPlayer();
+
         long now = System.currentTimeMillis();
         if (cooldown.containsKey(player)) if (now < cooldown.get(player)) return;
 
-        new BukkitRunnable() {
-            private Location location = item.getLocation();
-            public void run() {
-                Location newLocation = item.getLocation();
-                if (!item.isValid() || location.equals(newLocation)) {
-                    this.cancel();
-                }
-                if (newLocation.add(newLocation.getDirection().normalize()).getBlock().getType().equals(Material.WATER)) {
-                    getPerson(player).send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
-                    cooldown.put(player, now + 14_400_000); // 4 hours
-                    World world = location.getWorld();
-                    world.spawnParticle(Particle.BUBBLE, location, 30, 3, 4, 3);
-                    world.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 5, 3);
-                    player.addPotionEffects(effects);
-                    item.remove();
-                    this.cancel();
-                    return;
-                }
-                this.location = newLocation;
-            }
-        }.runTaskTimer(getInstance(), 0L, 10L);
+        getPerson(player).send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+        cooldown.put(player, now + 14_400_000); // 4 hours
+        player.addPotionEffects(effects);
     }
 }

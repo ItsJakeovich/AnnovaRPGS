@@ -10,5 +10,4 @@ import java.util.Map;
 public interface ItemEquipment {
     EquipType getEquipmentType();
     Map<ValueType, Double> values(RPGPerson person);
-    boolean effect(Player player);
 }

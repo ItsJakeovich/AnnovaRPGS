@@ -4,6 +4,7 @@ public enum ValueType {
     DAMAGE,
     DAMAGE_MULTIPLIER,
     ORATOR_DAMAGE_BUFF,
+    DEFENCE,
     DEFENCE_MULTIPLIER,
     HEALTH,
     REGENERATION,

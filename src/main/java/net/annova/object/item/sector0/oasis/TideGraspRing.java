@@ -48,12 +48,4 @@ public class TideGraspRing extends RPGItem implements ItemEquipment {
         values.put(ValueType.ENTITY_RANGE, -0.2);
         return values;
     }
-
-    @Override
-    public boolean effect(Player player) {
-        if (!TIDE_GRASP_RING.has(player)) return false;
-
-
-        return true;
-    }
 }

@@ -63,10 +63,10 @@ public class AnglerFish extends RPGEntity implements EntityActivity {
     }
 
 
-    private final Material[] FISH_ITEMS = {
+    public static final Material[] FISH_ITEMS = {
             Material.SALMON, Material.TROPICAL_FISH, Material.PUFFERFISH, Material.COD
     };
-    private final Material[] TRASH_ITEMS = {
+    private static final Material[] TRASH_ITEMS = {
             Material.STICK, Material.GLASS_BOTTLE, Material.LEATHER, Material.STRING
     };
     @Override

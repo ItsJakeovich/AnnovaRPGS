@@ -1,22 +1,16 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
-import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,16 +18,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
+import static net.annova.event.CapitatorEvent.Capitator;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
+import static net.annova.object.item.base.ItemType.BARK_BEETLE_FISH;
 import static net.annova.object.item.base.ItemType.UNKNOWN_SOURCE_WATER;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.util.BukkitObjects.random;
-import static net.annova.environment.world.RPGAdvancement.*;
+import static net.annova.object.person.advancement.RPGAdvancement.*;
 
 public class Oasis extends SectorLocation implements Listener {
     //public static final org.bukkit.Location theOasis = new org.bukkit.Location(world0, -1023, 72, 412);;
@@ -66,24 +61,6 @@ public class Oasis extends SectorLocation implements Listener {
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
 
         getRPGPerson(person).completeAdvancement(OASIS); // нашел оазис
-    }
-
-    @Override
-    public Set<RPGAdvancement> advancements() {
-        return Set.of(
-                OASIS,
-                BUBBLE_SEEKER,
-                CRAB_IS_HAPPY,
-                DROP_FROM_THE_SKY,
-                FRIENDS_ON_SCALES,
-                GIME_ME_CRAB,
-                GOOD_BITE,
-                MOON_FISHERMAN,
-                PACIFICATION,
-                SWIM_LITTLE_FISH,
-                THATS_LUCK,
-                GOOD_CATCH
-        );
     }
 
     @Override

@@ -47,17 +47,17 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
 
     @Override
     public double attackSpeed() {
-        return 1.6;
+        return 1.9;
     }
 
     @Override
     public void onAttack(LivingEntity entity, LivingEntity target) {
         if (random.nextBoolean()) { // корни
-            if (chance(0.03)) {
+            if (chance(0.08)) {
                 EntRoots.addPhysicDebuff(target);
             }
         } else { // дружественный энт
-            if (chance(0.03)) {
+            if (chance(0.05)) {
                 net.minecraft.world.entity.LivingEntity ent = ENT.getEntity().create(entity.getLocation());
                 Mob mobEnt = (Mob) ent;
                 net.minecraft.world.entity.LivingEntity craftTarget = ((CraftLivingEntity) target).getHandle();

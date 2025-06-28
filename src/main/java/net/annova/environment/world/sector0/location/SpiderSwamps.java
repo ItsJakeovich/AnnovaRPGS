@@ -1,7 +1,6 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
-import net.annova.environment.world.RPGAdvancement;
 import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
@@ -44,11 +42,6 @@ public class SpiderSwamps extends SectorLocation {
 
         Person person = getPerson(player);
         person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
-    }
-
-    @Override
-    public Set<RPGAdvancement> advancements() {
-        return Set.of();
     }
 
     @Override

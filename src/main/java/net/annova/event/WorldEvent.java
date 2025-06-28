@@ -1,6 +1,6 @@
 package net.annova.event;
 
-import net.annova.environment.world.RPGAdvancement;
+import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.World;
 import org.bukkit.advancement.Advancement;

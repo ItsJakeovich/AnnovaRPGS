@@ -85,9 +85,6 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
         return Set.of();
     }
 
-    private int healingCooldown = 20; // 10 seconds
-    Vec3 vec3;
-
     @Override
     public boolean onTarget(Entity target) {
         return true;
@@ -98,7 +95,8 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
         return true;
     }
 
-
+    private int healingCooldown = 20; // 10 seconds
+    private Vec3 vec3;
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
         this.healingCooldown = 20;
@@ -113,7 +111,6 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
 
     @Override
     public void onDeath() {
-
     }
 
     @Override

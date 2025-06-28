@@ -2,6 +2,7 @@ package net.annova.environment.world;
 
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.person.advancement.RPGAdvancement;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -18,8 +19,6 @@ import static net.annova.util.BukkitObjects.random;
 public abstract class SectorLocation {
     public abstract void activity();
     public abstract void movement(Player player);
-
-    public abstract Set<RPGAdvancement> advancements();
 
     public abstract EnumSet<RPGEntityType> entitiesToSpawn();
     public abstract Location[] points();

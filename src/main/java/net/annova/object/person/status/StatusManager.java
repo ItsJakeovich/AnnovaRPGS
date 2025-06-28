@@ -37,9 +37,6 @@ public class StatusManager {
     public boolean hasStatus(StatusType type) {
         return statuses.containsKey(type);
     }
-    public boolean containStatus(StatusType type) {
-        return statuses.containsKey(type);
-    }
     @Nullable
     public Status addStatus(StatusType type) {
         return this.addStatus(type, 0, null);
@@ -68,7 +65,7 @@ public class StatusManager {
                 @Override
                 public void run() {
                     if (!player.isOnline()) return;
-                    if (activity.activity(person, player, object)) return;
+                    if (type.getActivationItem().has(player) && activity.activity(person, player, object)) return;
 
                     this.cancel();
                     StatusManager.this.removeStatus(type);

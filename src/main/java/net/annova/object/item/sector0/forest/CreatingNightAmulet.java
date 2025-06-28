@@ -49,20 +49,18 @@ public class CreatingNightAmulet extends RPGItem implements ItemEquipment {
     @Override
     public Map<ValueType, Double> values(RPGPerson person) {
         Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
-        values.put(ValueType.DAMAGE, 4.0);
-        values.put(ValueType.SPEED, 0.15);
         Player player = person.getPlayer();
         player.addPotionEffect(darkness);
-        if (isNight(player.getWorld())) {
+        if (isNight(player.getWorld())) { // night
+            values.put(ValueType.DAMAGE, 6.0);
+            values.put(ValueType.SPEED, 0.2);
+        } else { // day
+            values.put(ValueType.DAMAGE, 4.0);
+            values.put(ValueType.SPEED, 0.15);
             for (Entity entity : player.getNearbyEntities(7, 5, 7)) {
                 if (entity instanceof LivingEntity living) living.addPotionEffect(darkness);
             }
         }
         return values;
-    }
-
-    @Override
-    public boolean effect(Player player) {
-        return false;
     }
 }

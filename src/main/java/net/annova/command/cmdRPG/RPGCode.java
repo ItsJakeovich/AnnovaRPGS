@@ -54,7 +54,7 @@ public class RPGCode {
     public void shaking(Player player) {
         RPGPerson person = getRPGPerson(player);
         StatusManager manager = person.getStatusManager();
-        if (manager.containStatus(StatusType.SHAKING)) {
+        if (manager.hasStatus(StatusType.SHAKING)) {
             manager.removeStatus(StatusType.SHAKING);
         } else manager.addStatus(StatusType.SHAKING);
     }

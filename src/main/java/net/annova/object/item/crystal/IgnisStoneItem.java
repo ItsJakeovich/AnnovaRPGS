@@ -65,7 +65,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
     @EventHandler
     private void damager(BattleCE event) {
         if (!(event.getDamager() instanceof Player player)) return;
-        if (!getRPGPerson(player).getStatusManager().containStatus(IGNIS)) return;
+        if (!getRPGPerson(player).getStatusManager().hasStatus(IGNIS)) return;
 
         LivingEntity entity = event.getEntity();
         if (targets.containsKey(entity)) return;

@@ -42,7 +42,7 @@ public class AnglerfishSpawnEgg extends RPGItem implements Listener {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
         if (block == null) return;
-        new AnglerFish().create(block.getLocation().add(0, 1, 0));
+        new AnglerFish().create(block.getRelative(event.getBlockFace()).getLocation());
 
         event.setCancelled(true);
         player.swingMainHand();

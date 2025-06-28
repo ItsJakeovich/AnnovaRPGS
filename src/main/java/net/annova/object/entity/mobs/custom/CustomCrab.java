@@ -1,9 +1,14 @@
 package net.annova.object.entity.mobs.custom;
 
+import net.annova.object.person.RPGPerson;
+import net.annova.object.person.advancement.RPGAdvancement;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -15,12 +20,21 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import org.bukkit.craftbukkit.v1_21_R4.event.CraftEventFactory;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.event.entity.EntityKnockbackEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 
 import java.util.Optional;
+import java.util.Set;
+
+import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class CustomCrab extends CaveSpider {
 //    public static final EntityType<Crab> CRAB;
@@ -38,6 +52,21 @@ public class CustomCrab extends CaveSpider {
         this.setInvisible(true);
         this.getAttribute(Attributes.SCALE);
         this.moveControl = new CrabMoveControl(this);
+    }
+
+    private static final Set<Item> FISH_ITEMS = Set.of(
+            Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH
+    );
+    @Override
+    protected InteractionResult mobInteract(Player entityhuman, InteractionHand enumhand) {
+        ItemStack itemstack = entityhuman.getItemInHand(enumhand);
+        if (FISH_ITEMS.contains(itemstack.getItem())) {
+            RPGPerson person = getRPGPerson(entityhuman.getUUID());
+            entityhuman.setItemInHand(enumhand, ItemStack.EMPTY);
+            person.completeAdvancement(RPGAdvancement.CRAB_IS_HAPPY);
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(entityhuman, enumhand);
     }
 
     @Override

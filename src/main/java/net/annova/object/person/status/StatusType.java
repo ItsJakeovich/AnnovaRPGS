@@ -1,6 +1,9 @@
 package net.annova.object.person.status;
 
+import net.annova.environment.world.sector0.location.DarkForest;
 import net.annova.object.item.base.ItemType;
+import net.annova.object.item.base.RPGItem;
+import net.annova.object.item.sector0.forest.AbsorbsNightRing;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -17,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
+import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
@@ -108,7 +112,7 @@ public enum StatusType {
 
     RUNIC_BUFF_DEBUFF(RUNIC_STONE, Map.of(DAMAGE_MULTIPLIER, 1.0, DEFENCE_MULTIPLIER, -1.0)),
 
-    STRENGTH_BUFF_DEBUFF(STRENGTH_STONE, Map.of(DAMAGE_MULTIPLIER, 0.5, DEFENCE_MULTIPLIER, 0.3)),
+    STRENGTH_BUFF_DEBUFF(STRENGTH_STONE, Map.of(DAMAGE_MULTIPLIER, 0.5, DEFENCE_MULTIPLIER, -0.3)),
 
     RANGE_TOKEN_BUFF(RANGE_TOKEN, Map.of(BLOCK_RANGE, 2.5)),
 
@@ -179,7 +183,7 @@ public enum StatusType {
 
     GREEN_STONE_HEALTH_BUFF(GREEN_STONE, Map.of(ValueType.HEALTH, 8.0)),
 
-    RED_STONE_RING_BUFF(RED_STONE, Map.of(RING_BUFF, 0.8)),
+    RED_STONE_RING_BUFF(RED_STONE, Map.of(RING_BUFF, 4.0)),
 
     CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE, 12.0)),
 
@@ -200,6 +204,31 @@ public enum StatusType {
             return 2;
         }
     }),
+
+    ENT_PATRON_BUFF(ENTS_PATRON_AMULET),
+    ROOTS_LASH_BUFF(ROOTS_LASH),
+
+    ABSORB_NIGHT_BUFF(ABSORBS_NIGHT_RING, new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            if (!(person.getSectorLocation() instanceof DarkForest)) {
+                person.minutesInDarkForest = 0;
+                return true;
+            }
+            if (person.minutesInDarkForest < 60) {
+                person.minutesInDarkForest++;
+                if (person.minutesInDarkForest == 59) {
+                    person.getPerson().send(getInstance(), "absorb-night-ring-limit");
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 1200;
+        }
+    })
     ;
 
     private final long duration;
@@ -213,6 +242,9 @@ public enum StatusType {
     }
     StatusType(long duration) {
         this(duration, 0, null, new HashMap<>(), null);
+    }
+    StatusType(ItemType whileHas) {
+        this(0, 0, whileHas, new HashMap<>(), null);
     }
     StatusType(Map<ValueType, Double> values) {
         this(0, 0, null, values, null);

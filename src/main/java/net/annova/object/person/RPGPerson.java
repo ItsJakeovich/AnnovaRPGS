@@ -2,7 +2,7 @@ package net.annova.object.person;
 
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.environment.world.RPGAdvancement;
+import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.WorldSector;
 import net.annova.object.item.base.*;
@@ -72,6 +72,8 @@ public class RPGPerson {
     private float maxHealth = 20;
     private float regeneration = 0f;
     private float additionalHealth = 0;
+
+    public int minutesInDarkForest = 0;
 
     private static final String TABLE = "RPGPERSON";
     public static void init() {
@@ -513,6 +515,9 @@ public class RPGPerson {
     public Set<RPGAdvancement> getAdvancements() {
         return advancements;
     }
+    public boolean hasAdvancement(RPGAdvancement advancement) {
+        return this.advancements.contains(advancement);
+    }
     public void addAdvancement(RPGAdvancement advancement) {
         this.advancements.add(advancement);
     }
@@ -526,6 +531,8 @@ public class RPGPerson {
         for (String criterion : progress.getRemainingCriteria()) {
             progress.awardCriteria(criterion);
         }
+
+        advancement.getCategory().getActions().onAdvancement(this);
     }
 
     public static void teleportHome(Player player) {

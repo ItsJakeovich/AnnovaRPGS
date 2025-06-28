@@ -20,6 +20,7 @@ import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
+import net.annova.object.person.RPGPerson;
 import net.minecraft.world.item.component.CustomModelData;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -40,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.Set;
 
+import static net.annova.config.AnnovaConfig.colorString;
 import static net.annova.config.AnnovaConfig.getLangFile;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemCategory.CRYSTALL;
@@ -106,9 +108,12 @@ public enum ItemType {
     // S0 - FOREST
     ABSORBS_NIGHT_RING(new AbsorbsNightRing()),
     BLADE_IMBUED_WITH_MAGIC(new BladeImbuedWithMagic()),
+    CREATING_NIGHT_AMULET(new CreatingNightAmulet()),
     DARK_ELF_BOW(new DarkElfBow()),
     DARKNESS_CONCENTRATION(new DarknessConcentration()),
     ENT_ROOT(new EntRoot()),
+    ENTS_PATRON_AMULET(new EntsPatronAmulet()),
+    ROOTS_LASH(new RootsLash()),
     // S0 - METEORITE
     METEORITE_FRAGMENT(new MeteoriteFragment()),
     // S0 - Mines
@@ -197,6 +202,10 @@ public enum ItemType {
     public boolean has(Player player) {
         if (player == null) return false;
         for (ItemStack item : player.getInventory().getContents()) {
+            if (this.id.equals(getItemId(item))) return true;
+        }
+        RPGPerson person = getRPGPerson(player);
+        for (ItemStack item : person.getEquipment().getAllEquipment()) {
             if (this.id.equals(getItemId(item))) return true;
         }
         return false;
@@ -291,6 +300,9 @@ public enum ItemType {
         List<String> newLore = new ArrayList<>();
         String lore = langFile.getString(this.name() + "-lore", null);
         if (lore != null) {
+            if (person != null) lore = person.colorString(lore);
+            else                lore = colorString(lore);
+
             String[] loreString = lore.split("\n");
             for (String str : loreString) {
                 newLore.add(color(str));
@@ -305,8 +317,17 @@ public enum ItemType {
         }
 
         if (this.item instanceof RPGTool weapon && !this.getItem().type().equals(Material.BOW)) {
-            newLore.add(langFile.getString("tool-damage", "unknown") + weapon.damage() + "⚔");
-            newLore.add(langFile.getString("tool-speed", "unknown") + weapon.attackSpeed() + "⚡");
+            String damage = langFile.getString("tool-damage", "unknown") + weapon.damage() + "⚔";
+            String speed = langFile.getString("tool-speed", "unknown") + weapon.attackSpeed() + "⚡";
+            if (person != null) {
+                damage = person.colorString(damage);
+                speed = person.colorString(speed);
+            } else {
+                damage = colorString(damage);
+                speed = colorString(speed);
+            }
+            newLore.add(damage);
+            newLore.add(speed);
 
             meta.removeAttributeModifier(Attribute.ATTACK_DAMAGE);
             meta.removeAttributeModifier(Attribute.ATTACK_SPEED);
@@ -333,6 +354,12 @@ public enum ItemType {
             configuration.initConfiguration(meta);
         }
 
+        if (!newLore.isEmpty()) {
+            int lastIndex = newLore.size()-1;
+            if (newLore.get(lastIndex).isEmpty()) {
+                newLore.remove(lastIndex);
+            }
+        }
         meta.setLore(newLore);
         item.setItemMeta(meta);
         return item;

@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import static net.annova.config.RPGConfig.getAllCrafts;
-import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.main.Keys.getNamespacedKey;
 import static net.annova.util.MessageObjects.color;
 import static net.annova.util.MessageObjects.sendLog;
@@ -67,44 +66,40 @@ public class ConfigCrafts {
             if (craft.source != null) {
                 craft.ingredients.add(new ItemIngredient(new ItemStack(craft.source), 1, null));
             }
-            try {
-                if (b.containsKey("ingredients")) {
-                    for (Map<?, ?> i : (List<Map<?, ?>>) b.get("ingredients")) {
-                        int count = i.containsKey("count") ? (int) i.get("count") : 1;
+            if (b.containsKey("ingredients")) {
+                for (Map<?, ?> i : (List<Map<?, ?>>) b.get("ingredients")) {
+                    int count = i.containsKey("count") ? (int) i.get("count") : 1;
 
-                        craft.ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
-                        if (b.containsKey("recipe")) {
-                            craft.recipeCraft = (List<String>) b.get("recipe");
-                        }
+                    craft.ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
+                    if (b.containsKey("recipe")) {
+                        craft.recipeCraft = (List<String>) b.get("recipe");
                     }
                 }
-                if (b.containsKey("sub-crafts")) {
-                    for (Map<?, ?> sc : (List<Map<?, ?>>) b.get("sub-crafts")) {
-                        if (!(boolean) sc.get("valid")) continue;
-                        CraftType craft_type = CraftType.valueOf(((String) sc.get("craft_type")).toUpperCase());
-                        int amount = 1;
-                        if (sc.containsKey("amount")) {
-                            amount = (int) sc.get("amount");
-                        }
-                        List<ItemIngredient> ingredients = new ArrayList<>();
-                        List<String> recipe = new ArrayList<>();
-                        for (Map<?, ?> i : (List<Map<?, ?>>) sc.get("ingredients")) {
-                            int count = 1;
-
-                            if (i.containsKey("count")) {
-                                count = (int) i.get("count");
-                            }
-                            ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
-                            crafts.put(craft.id, craft);
-                        }
-                        if (sc.containsKey("recipe")) {
-                            recipe = (List<String>) sc.get("recipe");
-                        }
-                        craft.subCrafts.add(new SubCraft(craft_type, amount, ingredients, recipe));
+            }
+            if (b.containsKey("sub-crafts")) {
+                for (Map<?, ?> sc : (List<Map<?, ?>>) b.get("sub-crafts")) {
+                    if (!(boolean) sc.get("valid")) continue;
+                    CraftType craft_type = CraftType.valueOf(((String) sc.get("craft_type")).toUpperCase());
+                    int amount = 1;
+                    if (sc.containsKey("amount")) {
+                        amount = (int) sc.get("amount");
                     }
+                    List<ItemIngredient> ingredients = new ArrayList<>();
+                    List<String> recipe = new ArrayList<>();
+                    for (Map<?, ?> i : (List<Map<?, ?>>) sc.get("ingredients")) {
+                        int count = 1;
+
+                        if (i.containsKey("count")) {
+                            count = (int) i.get("count");
+                        }
+                        ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
+                        crafts.put(craft.id, craft);
+                    }
+                    if (sc.containsKey("recipe")) {
+                        recipe = (List<String>) sc.get("recipe");
+                    }
+                    craft.subCrafts.add(new SubCraft(craft_type, amount, ingredients, recipe));
                 }
-            } catch(NullPointerException e) {
-                throw new AnnovaException("Ошибка предмета: " + b.get("id"));
             }
 
             crafts.put(craft.id, craft);
