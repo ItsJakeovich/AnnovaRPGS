@@ -85,7 +85,7 @@ public final class AnnovaRPG extends JavaPlugin {
                 base.save();
             }
         }
-        for (RPGPerson person : getAllRPGPersons()) {
+        for (RPGPerson person : getRPGPersons()) {
             person.save();
         }
     }

@@ -5,19 +5,15 @@ import net.annova.object.LocationCategory;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
-import net.annova.threading.AnnovaAsyncTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import java.util.List;
-import java.util.Set;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
 
-public class UpdateSpawnTimer extends AnnovaAsyncTask {
+public class UpdateSpawnTimer extends AnnovaTask {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {

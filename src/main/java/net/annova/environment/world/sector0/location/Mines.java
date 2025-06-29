@@ -2,8 +2,9 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
-import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.person.RPGPerson;
+import net.annova.object.person.advancement.RPGAdvancement;
 import org.bukkit.entity.Player;
 
 import java.util.EnumSet;
@@ -11,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
-import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
 
@@ -42,8 +43,10 @@ public class Mines extends SectorLocation {
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        Person person = getPerson(player);
-        person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+        RPGPerson person = getRPGPerson(player);
+        person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+
+        person.completeAdvancement(RPGAdvancement.MINES);
     }
 
     @Override

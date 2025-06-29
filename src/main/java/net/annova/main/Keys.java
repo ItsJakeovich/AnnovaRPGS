@@ -13,6 +13,9 @@ public class Keys {
     public static final NamespacedKey NK_MOVEMENT_SPEED = getNamespacedKey("movement_speed");
     public static final NamespacedKey NK_JUMP_POWER = getNamespacedKey("jump_power");
     public static final NamespacedKey NK_MILLIS = getNamespacedKey("millis");
+    public static final NamespacedKey NK_EXPIRE = getNamespacedKey("expire");
+    public static final NamespacedKey NK_SOURCE_WATER = getNamespacedKey("source_water");
+    public static final NamespacedKey NK_BLOB_FISH = getNamespacedKey("blob_fish");
 
     public static NamespacedKey getNamespacedKey(String string) {
         return new NamespacedKey("annovas", string);

@@ -74,6 +74,7 @@ public class RPGPerson {
     private float additionalHealth = 0;
 
     public int minutesInDarkForest = 0;
+    public int catchedTreasures = 0;
 
     private static final String TABLE = "RPGPERSON";
     public static void init() {

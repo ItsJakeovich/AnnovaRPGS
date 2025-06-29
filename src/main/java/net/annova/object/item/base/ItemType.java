@@ -121,6 +121,7 @@ public enum ItemType {
     // S0 - OASIS
     TIDE_BLADE(new TideBlade()),
     TIDE_GRASP_RING(new TideGraspRing()),
+    UNKNOWN_SOURCE_WATER(new UnknownSourceWater()),
 
     ANGEL_FISH(new AngelFish()),
     ANGLER_FISH_SPAWN_EGG(new AnglerfishSpawnEgg()),
@@ -131,6 +132,7 @@ public enum ItemType {
     BLOB_FISH_YELLOW(new BlobFishYellow()),
     CRAB_CLAW(new CrabClaw()),
     ELK_FISH(new ElkFish()),
+    FIRE_FISH(new FireFish()),
     FURY_CAVIAR(new FuryCaviar()),
     KOI_FISH(new KoiFish()),
     NALIM_FISH(new NalimFish()),
@@ -139,7 +141,6 @@ public enum ItemType {
     ROYAL_PUFFERFISH(new RoyalPufferfish()),
     SEASMITH(new Seasmith()),
     SILVER_PUMP(new SilverPump()),
-    UNKNOWN_SOURCE_WATER(new UnknownSourceWater()),
     VOLCANIC_STREAMS_MALMA(new VolcanicStreamsMalma()),
     WHALE_FISH(new WhaleFish()),
     // S0 - Swamps
@@ -262,6 +263,9 @@ public enum ItemType {
     public ItemStack create(Person person) {
         return this.create(person, 1);
     }
+    public ItemStack create(RPGPerson person) {
+        return this.create(person, 1);
+    }
     public ItemStack create(int amount) {
         return this.create((Person) null, amount);
     }
@@ -269,6 +273,9 @@ public enum ItemType {
         return this.create((Person) null, 1, chance);
     }
     public ItemStack create(Person person, int amount) {
+        return this.create(person, amount, 1.00);
+    }
+    public ItemStack create(RPGPerson person, int amount) {
         return this.create(person, amount, 1.00);
     }
     public ItemStack create(Player player, int amount) {
@@ -282,6 +289,9 @@ public enum ItemType {
     }
     public ItemStack create(Player player, int amount, double chance) {
         return this.create(getPerson(player), amount, chance);
+    }
+    public ItemStack create(RPGPerson person, int amount, double chance) {
+        return this.create(person.getPerson(), amount, chance);
     }
     public ItemStack create(Person person, int amount, double chance) {
         if (amount < 1 || (chance != 1 && !chance(chance))) return new ItemStack(Material.AIR);

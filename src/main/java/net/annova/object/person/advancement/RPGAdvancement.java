@@ -63,8 +63,11 @@ public enum RPGAdvancement {
     THATS_LUCK(S0_OASIS, "oasis/thats_luck"), // поймать "Оазис".
     DROP_FROM_THE_SKY(S0_OASIS, "oasis/drop_from_the_sky"), // единожды в пузырь
     GOOD_BITE(S0_OASIS, "oasis/good_bite"), // Выловить рыбу в оазисе.
-    WATER(S0_OASIS, "oasis/water"),
+    WATER(S0_OASIS, "oasis/water"), // набрать воды из неизвестного источника
     SWIM_LITTLE_FISH(S0_OASIS, "oasis/swim_little_fish_big_and_small..."), // Отпустить редкую рыбу обратно в воду
+    WOW_BEAUTIFUL(S0_OASIS, "oasis/"), // выловить 1 аксессуаров
+    GOOD_DAY(S0_OASIS, "oasis/"), // выловить 10 аксессуаров
+    GOLD_MANIA(S0_OASIS, "oasis/"), // выловить 100 аксессуаров
     GOOD_CATCH("oasis/good_catch"), // 30% достижений оазиса.
     LUCKY_MASTER("oasis/lucky_master"), // 100% достижений оазиса.
     ;

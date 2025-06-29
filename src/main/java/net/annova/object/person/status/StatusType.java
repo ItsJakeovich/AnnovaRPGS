@@ -189,6 +189,8 @@ public enum StatusType {
 
     ELK_FISH_DAMAGE_BUFF(60_000,  Map.of(ValueType.DAMAGE, 6.0)),
 
+    FIRE_FISH_DAMAGE_BUFF(15_000, Map.of(DAMAGE, 4.0)),
+
     PARALYSIS(2_000, new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {

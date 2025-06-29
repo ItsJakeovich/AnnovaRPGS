@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
-public class PersonUpdateTimer extends AnnovaAsyncTask {
+public class PersonUpdateTimer extends AnnovaTask {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {

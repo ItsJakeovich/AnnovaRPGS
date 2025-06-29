@@ -4,29 +4,32 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.item.base.ItemType;
+import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static net.annova.event.CapitatorEvent.Capitator;
+import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
-import static net.annova.object.item.base.ItemType.BARK_BEETLE_FISH;
-import static net.annova.object.item.base.ItemType.UNKNOWN_SOURCE_WATER;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
+import static net.annova.object.item.base.ItemType.*;
+import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 import static net.annova.object.person.advancement.RPGAdvancement.*;
 
@@ -57,10 +60,10 @@ public class Oasis extends SectorLocation implements Listener {
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        Person person = getPerson(player);
-        person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+        RPGPerson person = getRPGPerson(player);
+        person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
 
-        getRPGPerson(person).completeAdvancement(OASIS); // нашел оазис
+        person.completeAdvancement(OASIS); // нашел оазис
     }
 
     @Override
@@ -82,13 +85,13 @@ public class Oasis extends SectorLocation implements Listener {
         return 3660;
     }
 
-    private final org.bukkit.Location[] bubblePoints = {
+    private static final org.bukkit.Location[] bubblePoints = {
             new org.bukkit.Location(world0, -1006, 69, 483),
             new org.bukkit.Location(world0, -1106, 69, 485),
             new org.bukkit.Location(world0, -971, 69, 488),
     };
     int bubbleCooldown = 0;
-    private ArmorStand bubble = null;
+    private static ArmorStand bubble = null;
     @EventHandler
     public void onHourTick(HourTickEvent event) {
         if (bubbleCooldown != 0) {
@@ -96,13 +99,14 @@ public class Oasis extends SectorLocation implements Listener {
             return;
         }
         bubbleCooldown = -3;
-
-        org.bukkit.Location point = bubblePoints[random.nextInt(bubblePoints.length)].clone();
-        Oasis.this.bubble = (ArmorStand) world0.spawnEntity(point, EntityType.ARMOR_STAND);
+        spawnOasisBubble();
+    }
+    public static Location spawnOasisBubble() {
+        Location point = bubblePoints[random.nextInt(bubblePoints.length)].clone();
+        bubble = (ArmorStand) world0.spawnEntity(point, EntityType.ARMOR_STAND);
         bubble.setGravity(false);
         bubble.setInvulnerable(true);
         bubble.setVisible(false);
-        bubble.setSmall(true);
 
         Map<Player, Integer> timesInBubble = new HashMap<>();
         Map<Player, Long> cooldowns = new HashMap<>();
@@ -118,8 +122,8 @@ public class Oasis extends SectorLocation implements Listener {
                     return;
                 }
                 if (i < 20) {
-                    world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 4, 0.2, 0.2, 0.2, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F));
-                    point.add(0, 1, 0);
+                    world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 12, 0.4, 0.4, 0.4, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F), true);
+                    point.add(0, 0.5, 0);
                     bubble.teleport(point);
                     i++;
                     return;
@@ -139,10 +143,12 @@ public class Oasis extends SectorLocation implements Listener {
                     }
                 }
 
-                world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 0.6, 0.6, 0.6, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F));
+                world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 1.6, 1.6, 1.6, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F), true);
             }
         }.runTaskTimer(getInstance(), 0, 10L);
+        return point;
     }
+
     @EventHandler
     public void bottleClickBubble(PlayerInteractAtEntityEvent event) {
         if (!event.getRightClicked().equals(bubble)) return;
@@ -153,5 +159,62 @@ public class Oasis extends SectorLocation implements Listener {
 
         inventory.setItemInMainHand(UNKNOWN_SOURCE_WATER.create(player));
         player.playSound(player, Sound.ITEM_BOTTLE_FILL, 1, 1);
+        getRPGPerson(player).completeAdvancement(WATER);
+    }
+
+    public static final Map<ItemType, Double> OASIS_FISHS = new HashMap<>() {{
+        this.put(ANGEL_FISH, 0.007);
+        this.put(ANGLER_FISH_SPAWN_EGG, 0.005);
+        this.put(AZURE_FISH, 0.01);
+        this.put(BARK_BEETLE_FISH, 0.04);
+        this.put(BLOB_FISH_BLUE, 0.01);
+        this.put(BLOB_FISH_GRAY, 0.01);
+        this.put(BLOB_FISH_YELLOW, 0.01);
+        this.put(CRAB_CLAW, 0.01);
+        this.put(ELK_FISH, 0.025);
+        this.put(FIRE_FISH, 0.037);
+        this.put(FURY_CAVIAR, 0.012);
+        this.put(KOI_FISH, 0.02);
+        this.put(NALIM_FISH, 0.0184);
+        this.put(OASIS_FISH, 0.005);
+        this.put(PEARL, 0.008);
+        this.put(ROYAL_PUFFERFISH, 0.004);
+        this.put(SEASMITH, 0.04);
+        this.put(SILVER_PUMP, 0.01);
+        this.put(VOLCANIC_STREAMS_MALMA, 0.03);
+        this.put(WHALE_FISH, 0.0121);
+
+        this.put(TIDE_BLADE, 0.008);
+    }};
+    public static final List<ItemType> FISHS = List.copyOf(OASIS_FISHS.keySet());
+    @EventHandler
+    public void fishing(PlayerFishEvent event) {
+        RPGPerson person = getRPGPerson(event.getPlayer());
+        if (person.getSectorLocation() instanceof Oasis) {
+            if (chance(0.7)) return; // 70% на обычную рыбу
+
+            ItemType finalFish;
+            while (true) {
+                ItemType fish = FISHS.get(random.nextInt(FISHS.size()));
+                if (chance(OASIS_FISHS.get(fish))) {
+                    finalFish = fish;
+                    break;
+                }
+            }
+            Item item = (Item) event.getCaught();
+            item.setItemStack(finalFish.create(person, 1));
+
+            person.completeAdvancement(GOOD_BITE);
+            if (finalFish.equals(OASIS_FISH)) person.completeAdvancement(THATS_LUCK);
+            if (isNight(world0)) {
+                person.completeAdvancement(MOON_FISHERMAN);
+            }
+            if (finalFish.getItem() instanceof ItemEquipment) {
+                person.catchedTreasures++;
+                person.completeAdvancement(WOW_BEAUTIFUL);
+                if (person.catchedTreasures >= 10) person.completeAdvancement(GOOD_DAY);
+                if (person.catchedTreasures >= 100) person.completeAdvancement(GOLD_MANIA);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package net.annova.command.cmdRPG;
 
 import net.annova.command.register.CommandArg;
 import net.annova.environment.world.WorldSector;
+import net.annova.environment.world.sector0.location.Oasis;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
@@ -69,6 +70,11 @@ public class RPGCode {
         if (sector == null) return;
         int location = Integer.parseInt(args[1]);
         sector.zones()[location].showTerritory(world0);
+    }
+
+    @CommandArg(name = "oasis-bubble")
+    public void oasisBubble(Player player) {
+        player.sendMessage(Oasis.spawnOasisBubble().toString());
     }
 
     @CommandArg(name = "summon")

@@ -59,7 +59,7 @@ public class GlobalRPG {
     public static RPGPerson getRPGPerson(Person person) {
         return personsUid.get(person.getUid());
     }
-    public static Collection<RPGPerson> getAllRPGPersons() {
+    public static Collection<RPGPerson> getRPGPersons() {
         return persons.values();
     }
 

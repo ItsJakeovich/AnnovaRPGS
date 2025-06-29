@@ -61,7 +61,7 @@ public class OasisFish extends RPGItem implements Listener {
     public void dropItem(DropItemFoundBlockCE event) {
         if (!OASIS_FISH.equals(event.getItem())) return;
         if (!event.getFoundedBlock().getType().equals(Material.WATER)) return;
-        final Player player = event.getPlayer();
+        Player player = event.getPlayer();
 
         long now = System.currentTimeMillis();
         if (cooldown.containsKey(player)) if (now < cooldown.get(player)) return;
