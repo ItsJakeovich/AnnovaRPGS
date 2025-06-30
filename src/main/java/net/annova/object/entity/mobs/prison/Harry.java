@@ -76,18 +76,19 @@ public class Harry extends RPGEntity implements EntityActivity {
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        if (((Creature) entity).getTarget() == null) {
+                        Creature creature = (Creature) entity.getBukkitEntity();
+                        if (creature.getTarget() == null) {
                             entity.setSpeed(Harry.this.speed());
                             return true;
                         } else {
                             entity.setSpeed(0);
                         }
 
-                        Location from = ((Creature) entity).getEyeLocation().clone().add(0, -0.5, 0);
+                        Location from = creature.getEyeLocation().clone().add(0, -0.5, 0);
                         from.add(from.getDirection().multiply(2.5));
 
-                        Vector direction = ((Creature) entity).getTarget().getEyeLocation().toVector().subtract(from.toVector()).normalize();
-                        new HarryBall((org.bukkit.entity.LivingEntity) entity.getBukkitEntity()).create(from.setDirection(direction));
+                        Vector direction = creature.getTarget().getEyeLocation().toVector().subtract(from.toVector()).normalize();
+                        new HarryBall((org.bukkit.entity.LivingEntity) creature).create(from.setDirection(direction));
                         return true;
                     }
 

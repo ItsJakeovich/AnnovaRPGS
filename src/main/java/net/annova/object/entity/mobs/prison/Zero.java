@@ -79,7 +79,7 @@ public class Zero extends RPGEntity implements EntityActivity {
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        Creature creature = (Creature) entity;
+                        Creature creature = (Creature) entity.getBukkitEntity();
                         if (creature.getTarget() == null) return true;
                         creature.setTarget(null);
                         return true;

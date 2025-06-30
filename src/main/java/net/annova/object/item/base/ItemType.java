@@ -2,6 +2,7 @@ package net.annova.object.item.base;
 
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
+import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
@@ -111,6 +112,8 @@ public enum ItemType {
     CREATING_NIGHT_AMULET(new CreatingNightAmulet()),
     DARK_ELF_BOW(new DarkElfBow()),
     DARKNESS_CONCENTRATION(new DarknessConcentration()),
+    DARKNESS_FRAGMENT(new DarknessFragment()),
+    ENT_CORE(new EntCore()),
     ENT_ROOT(new EntRoot()),
     ENTS_PATRON_AMULET(new EntsPatronAmulet()),
     ROOTS_LASH(new RootsLash()),
@@ -202,11 +205,17 @@ public enum ItemType {
     }
     public boolean has(Player player) {
         if (player == null) return false;
+        if (this.getItem() instanceof ItemEquipment) return this.hasEquipment(player);
+        else return this.hasItem(player);
+    }
+    public boolean hasItem(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
             if (this.id.equals(getItemId(item))) return true;
         }
-        RPGPerson person = getRPGPerson(player);
-        for (ItemStack item : person.getEquipment().getAllEquipment()) {
+        return false;
+    }
+    public boolean hasEquipment(Player player) {
+        for (ItemStack item : getRPGPerson(player).getEquipment().getAllEquipment()) {
             if (this.id.equals(getItemId(item))) return true;
         }
         return false;

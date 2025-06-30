@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 
@@ -82,10 +83,33 @@ public class Dungeon {
         for (RPGPerson person : players) {
             if (!person.isReady()) return false;
         }
-        this.players.forEach(player -> player.setReady(false));
-        this.createDungeon();
-        this.teleportAll();
-        this.base.start(this);
+
+        /*new BukkitRunnable() {
+            private int timer = 12;
+            @Override
+            public void run() {
+                Dungeon.this.send("dungeon-starts", "{s}", String.valueOf(timer));
+                timer--;
+                if (!Dungeon.this.startIfTrue()) {
+//                    addItems(player, itemType.create(player));
+                    for (RPGPerson ready : Dungeon.this.getPlayers()) {
+                        ready.setReady(false);
+                    }
+                    Dungeon.this.send("dungeon-failstart");
+                    this.cancel();
+                    return;
+                }
+                if (timer == 0) {
+                    Dungeon.this.players.forEach(player -> player.setReady(false));
+                    Dungeon.this.teleportAll();
+                    Dungeon.this.base.start(Dungeon.this);
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(getInstance(), 0L, 20);*/
+        Dungeon.this.players.forEach(player -> player.setReady(false));
+        Dungeon.this.teleportAll();
+        Dungeon.this.base.start(Dungeon.this);
         return true;
     }
     public void endDungeon() {

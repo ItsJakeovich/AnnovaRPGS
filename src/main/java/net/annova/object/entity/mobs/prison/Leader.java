@@ -82,7 +82,7 @@ public class Leader extends RPGEntity implements EntityActivity {
                     @Override
                     public boolean activity() {
                         RPGEntity summon = PRISONER.getEntity();
-                        prisoners.removeIf(ent -> ent.isAlive() && ent.valid && ent.isChunkLoaded() && ent.inWorld);
+                        prisoners.removeIf(ent -> ent.isAlive() && ent.valid && ent.inWorld);
                         if (prisoners.size() < 8) {
                             for (int i = 4; i > 0; i--) {
                                 prisoners.add(summon.create(entity));

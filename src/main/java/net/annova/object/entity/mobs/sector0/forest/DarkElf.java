@@ -57,12 +57,12 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
 
     @Override
     public int health() {
-        return 400;
+        return 110;
     }
 
     @Override
     public double damage() {
-        return 12;
+        return 6;
     }
 
     @Override
@@ -78,9 +78,10 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                DARKNESS_CONCENTRATION.create(player, random.nextInt(4)+1),
-                DARK_ELF_BOW.create(player, 0.048),
-                ABSORBS_NIGHT_RING.create(player, 0.037)
+                DARKNESS_CONCENTRATION.create(player, 1),
+                DARK_ELF_BOW.create(player, 0.091),
+                ABSORBS_NIGHT_RING.create(player, 0.087),
+                DARKNESS_FRAGMENT.create(player, 0.125)
         );
     }
 
@@ -110,41 +111,21 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     @Override
     public List<CustomRunnable> runnables() {
         return List.of(
-                new CustomRunnable() {
+                new CustomRunnable() { // тут и восстановление, и град стрел
+                    int cooldown = 60;
+
                     @Override
                     public boolean activity() {
                         AttributeInstance instance = entity.getAttribute(Attributes.MOVEMENT_SPEED);
                         if (isNight(entity.level().getWorld())) {
                             DarkElf.this.regen(1.0f);
-                            if (instance.hasModifier(SPEED_MODIFIER.id())) return true;
-                            instance.addTransientModifier(SPEED_MODIFIER);
+                            if (!instance.hasModifier(SPEED_MODIFIER.id())) {
+                                instance.addTransientModifier(SPEED_MODIFIER);
+                            }
                         } else {
                             instance.removeModifier(SPEED_MODIFIER);
                         }
-                        return true;
-                    }
 
-                    @Override
-                    public long repeating() {
-                        return 20;
-                    }
-                }, // abilities
-                new CustomRunnable() {
-                    @Override
-                    public boolean activity() {
-                        entity.addEffect(INVISIBILITY); // неуязвимость в классе типа.
-                        return true;
-                    }
-
-                    @Override
-                    public long repeating() {
-                        return 900;
-                    }
-                },
-                new CustomRunnable() {
-                    int cooldown = 60;
-                    @Override
-                    public boolean activity() {
                         if (((Mob) entity).getTarget() == null || cooldown == -4) {
                             cooldown = 60;
                             return true;
@@ -170,6 +151,18 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
                     @Override
                     public long repeating() {
                         return 20;
+                    }
+                }, // abilities
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        entity.addEffect(INVISIBILITY); // неуязвимость в классе типа.
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 900;
                     }
                 },
                 new CustomRunnable() {
@@ -213,7 +206,7 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
         long millis = System.currentTimeMillis();
         if (millis < cooldown) return;
         this.cooldown = millis + 35_000;
-        damager.damage(this.entity.lastHurt);
+        damager.damage(event.getBaseDamage());
     }
 
     @Override

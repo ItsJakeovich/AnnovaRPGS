@@ -40,18 +40,18 @@ public class Prison implements DungeonBase {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (dungeon.isClose()) cancel();
-                if (!mechanic()) return;
+                if (dungeon.isClose()) this.cancel();
+                if (!Prison.this.mechanic()) return;
 
                 template.getAnimation("boss_gate", 0).start(location, structure);
-                cancel();
+                this.cancel();
             }
         }.runTaskTimer(getInstance(), 0L, 600L);
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (dungeon.isClose()) cancel();
-                trigger();
+                if (dungeon.isClose()) this.cancel();
+                Prison.this.trigger();
             }
         }.runTaskTimer(getInstance(), 0L, 100L);
 
@@ -117,7 +117,6 @@ public class Prison implements DungeonBase {
 
     @Override
     public Inventory merchant() {
-        Inventory inv = Bukkit.createInventory(null, 9);
-        return inv;
+        return Bukkit.createInventory(null, 9);
     }
 }

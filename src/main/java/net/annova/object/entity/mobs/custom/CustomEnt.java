@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.custom;
 
+import net.annova.object.magic.physic.EntRoots;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +19,8 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ItemType.ENT_CORE;
+import static net.minecraft.world.effect.MobEffects.SLOWNESS;
 
 public class CustomEnt extends Zombie {
     public CustomEnt(EntityType<? extends Zombie> entitytypes, Level world) {
@@ -29,6 +32,7 @@ public class CustomEnt extends Zombie {
         if (entityliving instanceof Player player) {
             RPGPerson person = getRPGPerson(player.getUUID());
             if (person.getStatusManager().hasStatus(StatusType.ENT_PATRON_BUFF)) return false;
+            if (ENT_CORE.has(player.getBukkitEntity())) return false;
         }
         return super.setTarget(entityliving, reason, fireEvent);
     }
@@ -37,6 +41,9 @@ public class CustomEnt extends Zombie {
     public boolean doHurtTarget(ServerLevel worldserver, Entity entity) {
         if (super.doHurtTarget(worldserver, entity)) {
             if (entity instanceof LivingEntity living) {
+                if (living.hasEffect(SLOWNESS)) {
+                    EntRoots.addPhysicDebuff(living);
+                }
                 living.addEffect(new MobEffectInstance(
                         CraftPotionEffectType.bukkitToMinecraftHolder(PotionEffectType.SLOWNESS), 60, 1, true, false),
                         EntityPotionEffectEvent.Cause.PLUGIN

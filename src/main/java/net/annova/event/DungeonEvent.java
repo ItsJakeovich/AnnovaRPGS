@@ -4,9 +4,11 @@ import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -40,6 +42,24 @@ public class DungeonEvent implements Listener {
         }
         person.getConfirm().setConfirmType("dungeon");
         person.send(getInstance(), "dungeon-key-confirm");
+    }
+
+    @EventHandler
+    public void interactGate(PlayerInteractEvent event) {
+        if (!event.getHand().equals(EquipmentSlot.HAND)) return;
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+
+        Player player = event.getPlayer();
+        RPGPerson person = getRPGPerson(player);
+        Dungeon dungeon = person.getDungeon();
+        if (dungeon == null) return;
+        Block block = event.getClickedBlock();
+        if (block == null || !block.getType().name().endsWith("WALL")) return;
+
+        person.setReady(!person.isReady());
+        player.sendMessage(String.valueOf(person.isReady()));
+
+        dungeon.startIfTrue();
     }
 
     @EventHandler

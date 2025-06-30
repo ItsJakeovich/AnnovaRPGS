@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.forest;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.main.GlobalRPG;
 import net.annova.object.CustomRunnable;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -17,17 +18,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.object.entity.core.RPGEntityType.ENT;
-import static net.annova.object.item.base.ItemType.BLADE_IMBUED_WITH_MAGIC;
-import static net.annova.object.item.base.ItemType.ENT_ROOT;
+import static net.annova.object.item.base.ItemType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
@@ -49,17 +51,17 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.UNCOMMON;
+        return RPGRarity.RARE;
     }
 
     @Override
     public int health() {
-        return 500;
+        return 170;
     }
 
     @Override
     public double damage() {
-        return 14;
+        return 6;
     }
 
     @Override
@@ -75,8 +77,11 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                ENT_ROOT.create(player, random.nextInt(7)+1),
-                BLADE_IMBUED_WITH_MAGIC.create(player, 0.04)
+                ENT_ROOT.create(player, random.nextInt(7)+2),
+                BLADE_IMBUED_WITH_MAGIC.create(player, 0.074),
+                new ItemStack(Material.OAK_LOG, random.nextInt(33)+16),
+                new ItemStack(Material.STICK, random.nextInt(225)+20),
+                ENT_CORE.create(player, 0.1)
         );
     }
 
@@ -99,13 +104,14 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     private Vec3 vec3;
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        this.healingCooldown = 20;
-        this.vec3 = null;
+        LivingEntity nonRPG =event.getEntity();
+        RPGEntity rpg = GlobalRPG.getEntity(nonRPG);
+        if (rpg instanceof OlderEnt ent) {
+            ent.ENTS.removeIf(entCheck -> !entCheck.isAlive());
+            if (!ent.ENTS.isEmpty()) event.decreaseDamage(event.getBaseDamage() * 0.15);
 
-        if (chance(0.1)) {
-            for (Entity target : this.entity.level().getWorld().getNearbyEntities(this.getLocation(), 8, 6, 8)) {
-                EntRoots.addPhysicDebuff(target);
-            }
+            ent.healingCooldown = 20;
+            ent.vec3 = null;
         }
     }
 
@@ -113,6 +119,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     public void onDeath() {
     }
 
+    private final List<net.minecraft.world.entity.LivingEntity> ENTS = new ArrayList<>();
     @Override
     public List<CustomRunnable> runnables() {
         return List.of(
@@ -121,7 +128,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
                     public boolean activity() {
                         if (healingCooldown != 0) healingCooldown--;
                         else {
-                            OlderEnt.this.regen(2.5f);
+                            OlderEnt.this.regen(10f);
                             if (vec3 == null) vec3 = OlderEnt.this.entity.position();
                             entity.level().getWorld().spawnParticle(Particle.TINTED_LEAVES,
                                     vec3.x, vec3.y + 1, vec3.z,
@@ -134,7 +141,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
 
                     @Override
                     public long repeating() {
-                        return 0;
+                        return 400;
                     }
                 },
                 new CustomRunnable() {
@@ -143,7 +150,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
                         if (((Mob) entity).getTarget() != null) {
                             Location location = OlderEnt.this.getLocation();
                             for (int i = random.nextInt(3) + 1; i != 0; i--) {
-                                ENT.getEntity().create(getChorusLocation(location, 8));
+                                ENTS.add(ENT.getEntity().create(getChorusLocation(location, 8)));
                             }
                         }
                         return true;
@@ -151,35 +158,24 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
 
                     @Override
                     public long repeating() {
-                        return 300;
+                        return 900;
                     }
                 },
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        if (((net.minecraft.world.entity.Mob) entity).getTarget() == null) return true;
-
-                        Vec3 vec3 = entity.position();
-                        Level level = entity.level();
-                        net.minecraft.world.entity.AreaEffectCloud cloud = new net.minecraft.world.entity.AreaEffectCloud(
-                                level, vec3.x, vec3.y, vec3.z
-                        );
-                        cloud.setRadius(8F);
-                        cloud.setDuration(320);
-                        cloud.setWaitTime(20); // 1s delay
-                        cloud.setRadiusPerTick(0.2f); // посмотрим.
-                        cloud.setOwner(null);
-
-                        // Эффект — яд
-                        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 2));
-
-                        level.addFreshEntity(cloud);
+                        for (Entity target : entity.level().getWorld().getNearbyEntities(OlderEnt.this.getLocation(), 8, 6, 8)) {
+                            if (target instanceof LivingEntity living) {
+                                EntRoots.addPhysicDebuff(living);
+                                living.damage(1);
+                            }
+                        }
                         return true;
                     }
 
                     @Override
                     public long repeating() {
-                        return 2400;
+                        return 600;
                     }
                 }
         );

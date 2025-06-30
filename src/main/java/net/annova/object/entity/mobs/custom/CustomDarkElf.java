@@ -28,7 +28,7 @@ public class CustomDarkElf extends Bogged {
 
     @Override
     protected SoundEvent getStepSound() {
-        return super.getStepSound();
+        return getSoundFromString("custom.darkelf.walk");
     }
 
     @Override

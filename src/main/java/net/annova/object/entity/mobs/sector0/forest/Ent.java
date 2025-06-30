@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.ENT_ROOT;
+import static net.annova.util.BukkitObjects.random;
 
 public class Ent extends RPGEntity implements CustomType {
     @Override
@@ -33,22 +34,22 @@ public class Ent extends RPGEntity implements CustomType {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.COMMON;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override
     public int health() {
-        return 160;
+        return 40;
     }
 
     @Override
     public double damage() {
-        return 7;
+        return 3;
     }
 
     @Override
     public float speed() {
-        return 0.315f;
+        return 0.33f;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class Ent extends RPGEntity implements CustomType {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of(ENT_ROOT.create(player, 0.01));
+        return List.of(ENT_ROOT.create(player, random.nextInt(2)+1, 0.055));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package net.annova.event;
 
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.environment.dungeon.type.Prison;
 import net.annova.event.custom.PersonConfirmCE;
 import net.annova.object.item.base.ItemType;
@@ -49,7 +48,8 @@ public class ConfirmRPGEvent implements Listener {
                 }
                 Dungeon dungeon = (Dungeon) person.getConfirm().getData().get("dungeon");
                 pers.setDungeon(dungeon);
-                pers.setReady(true);
+                pers.setReady(false);
+                dungeon.teleportPerson(pers);
             }
             case "dungeon" -> {
                 Player player = person.getPlayer();
@@ -63,10 +63,9 @@ public class ConfirmRPGEvent implements Listener {
 
                 RPGPerson pers = getRPGPerson(person.getUid());
                 dungeon.addPlayers(pers.getTeam().getMembers());
-                pers.setReady(true);
-                if (!dungeon.startIfTrue()) {
-                    Team team = pers.getTeam();
-
+                pers.setReady(false);
+                Team team = pers.getTeam();
+                if (team != null) {
                     for (RPGPerson membr : team.getMembers()) {
                         if (membr.equals(pers)) continue;
                         Person member = membr.getPerson();
@@ -74,28 +73,12 @@ public class ConfirmRPGEvent implements Listener {
                         member.send(getInstance(), "team-gathering-request", "{name}", person.getName());
                     }
                     person.send(getInstance(), "team-gathering-successfully");
-                    new BukkitRunnable() {
-                        private int timer = 12;
-                        @Override
-                        public void run() {
-                            dungeon.send("dungeon-starts", "{s}", String.valueOf(timer));
-                            timer--;
-                            if (dungeon.startIfTrue()) cancel();
-                            if (timer == 0) {
-                                addItems(player, itemType.create(player));
-                                for (RPGPerson ready : dungeon.getPlayers()) {
-                                    ready.setReady(false);
-                                }
-                                dungeon.send("dungeon-failstart");
-                                cancel();
-                            }
-                        }
-                    }.runTaskTimer(getInstance(), 0L, 200);
                 }
                 pers.setDungeon(dungeon);
-                pers.setReady(true);
 
-                DungeonTemplate dungeonTemplate = dungeon.getBase().getTemplate();
+//                DungeonTemplate dungeonTemplate = dungeon.getBase().getTemplate();
+
+                dungeon.createDungeon();
 
                 dungeon.teleportPerson(pers);
             }

@@ -37,7 +37,7 @@ public class EntRoots {
         AttributeInstance jumpInstance = target.getAttribute(Attributes.JUMP_STRENGTH);
         jumpInstance.addTransientModifier(modifier);
 
-        entities.put(target, System.currentTimeMillis()+4_000);
+        entities.put(target, System.currentTimeMillis()+3_000);
         Bukkit.getScheduler().runTaskLater(getInstance(), () -> {
             if (entities.get(target) > System.currentTimeMillis()) return;
             movementInstance.removeModifier(modifier);

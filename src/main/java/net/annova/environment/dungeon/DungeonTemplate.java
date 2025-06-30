@@ -14,7 +14,7 @@ import java.util.*;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DungeonTemplate {
-    List<SimpleStructure> structures;
+    List<SimpleStructure> structures = new ArrayList<>();
     private int id;
     private int spawn;
     private int merchantPoint;
@@ -34,7 +34,7 @@ public class DungeonTemplate {
         template.setEntities(new HashMap<>());
         for (int key : entities.keySet()) {
             for (RPGEntity ent : entities.get(key)) {
-                RPGEntity entity = RPGEntityType.valueOf(ent.getId()).getEntity();
+                RPGEntity entity = RPGEntityType.getType(ent).getEntity();
 
                 entity.setPoint(ent.getPoint());
                 template.addEntity(key, entity);
@@ -60,6 +60,7 @@ public class DungeonTemplate {
     public SimpleStructure getStructure() {
         return this.getStructure(0);
     }
+
     public SimpleStructure getStructure(int index) {
         return structures.get(index);
     }
@@ -67,12 +68,10 @@ public class DungeonTemplate {
     public void setStructures(List<SimpleStructure> structures) {
         this.structures = structures;
     }
+
     public void setStructure(int index, SimpleStructure structure) {
-        int size = structures.size();
-        if (size < index) {
-            for (int i = size; i < index; i++) {
-                this.structures.set(i, null);
-            }
+        for (int i = structures.size(); i <= index; i++) {
+            this.structures.add(null);
         }
         this.structures.set(index, structure);
     }

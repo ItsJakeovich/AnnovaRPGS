@@ -139,4 +139,28 @@ public class TeamCode {
             member.getPerson().send(getInstance(), "team-kick-successfully", "{name}", name);
         }
     }
+
+    @CommandArg(name = "gathering", aliases = {"сбор", "пферукштп", "c,jh"}, description = "Gather players in one place")
+    public void gathering(Player player) {
+        RPGPerson pers = getRPGPerson(player);
+        Person person = pers.getPerson();
+        Team team = pers.getTeam();
+
+        if (pers.getDungeon() == null) {
+            person.send(getInstance(), "team-gathering-absent");
+            return;
+        }
+        if (team == null) {
+            person.send(getInstance(), "team-absent");
+            return;
+        }
+
+        for (RPGPerson membr : team.getMembers()) {
+            if (membr.equals(pers)) continue;
+            Person member = membr.getPerson();
+            member.getConfirm().setConfirmType("team-gathering").addData(new SimpleObject("dungeon", pers.getDungeon()));
+            member.send(getInstance(), "team-gathering-request", "{name}", person.getName());
+        }
+        person.send(getInstance(), "team-gathering-successfully");
+    }
 }

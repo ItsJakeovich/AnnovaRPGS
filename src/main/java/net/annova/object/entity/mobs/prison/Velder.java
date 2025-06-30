@@ -77,7 +77,7 @@ public class Velder extends RPGEntity implements EntityActivity {
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        Creature creature = (Creature) entity;
+                        Creature creature = (Creature) entity.getBukkitEntity();
                         LivingEntity target = creature.getTarget();
                         if (target == null) return true;
                         Location from = creature.getEyeLocation(), to = target.getEyeLocation();

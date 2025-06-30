@@ -41,7 +41,7 @@ public enum RPGEntityType {
     KENJI(D_PRISON, Kenji.class),
     HARRY(D_PRISON, Harry.class),
     JACK(D_PRISON, Jack.class),
-    COUNTERBANDIT(D_PRISON, Counterbandit.class),
+    KB(D_PRISON, Counterbandit.class),
     LEADER(D_PRISON, Leader.class),
     ZERO(D_PRISON, Zero.class),
     MAJOR(D_PRISON, Major.class),
@@ -67,8 +67,8 @@ public enum RPGEntityType {
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class, 0.1, 15),
-    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03),
-    DARK_ELF(S0_FOREST, DarkElf.class, 0.02),
+    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03, true),
+    DARK_ELF(S0_FOREST, DarkElf.class, 0.01, true),
     // Sector - Meteorite
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     SHARDS(S0_METEORITE, Shards.class),
