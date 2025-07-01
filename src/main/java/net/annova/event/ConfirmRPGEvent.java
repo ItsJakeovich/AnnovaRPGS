@@ -11,11 +11,9 @@ import net.annova.object.person.Team;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.util.BukkitObjects.addItems;
 
 public class ConfirmRPGEvent implements Listener {
     @EventHandler
@@ -62,10 +60,12 @@ public class ConfirmRPGEvent implements Listener {
                 Dungeon dungeon = new Dungeon(new Prison(), person.getLocation().clone());
 
                 RPGPerson pers = getRPGPerson(person.getUid());
-                dungeon.addPlayers(pers.getTeam().getMembers());
+                dungeon.addPlayer(pers);
+
                 pers.setReady(false);
                 Team team = pers.getTeam();
                 if (team != null) {
+                    dungeon.addPlayers(team.getMembers());
                     for (RPGPerson membr : team.getMembers()) {
                         if (membr.equals(pers)) continue;
                         Person member = membr.getPerson();

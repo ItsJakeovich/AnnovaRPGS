@@ -19,6 +19,8 @@ import static net.annova.main.GlobalRPG.*;
 public class Prison implements DungeonBase {
     private final DungeonTemplate template;
     private Dungeon dungeon;
+    private int maxDistanceSquared;
+    private Location dungeonCenter;
     public Location bossLoc = null;
 
     public Prison() {
@@ -34,28 +36,34 @@ public class Prison implements DungeonBase {
     public void start(Dungeon dungeon) {
         this.dungeon = dungeon;
 
-        Location location = dungeon.getLocation();
         SimpleStructure structure = template.getStructure();
+        int x = structure.getMaxX() >> 1, y = structure.getMaxY() >> 1, z = structure.getMaxZ() >> 1;
+        this.maxDistanceSquared = (int) Math.pow(Math.max(Math.max(x, z), y) * 1.25, 2);
+        this.dungeonCenter = dungeon.getLocation().clone().add(x, y, z);
+
+        Location location = dungeon.getLocation();
+        this.bossLoc = location.clone().add(template.getStructure().getLocationWithPoint(getDungeonWorld(), template.getEntities().get(101).getFirst().getPoint()));
+
         template.getAnimation("gate", 8).start(location, structure);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (dungeon.isClose()) this.cancel();
-                if (!Prison.this.mechanic()) return;
+                else {
+                    if (!Prison.this.mechanic()) return;
 
-                template.getAnimation("boss_gate", 0).start(location, structure);
-                this.cancel();
+                    template.getAnimation("boss_gate", 0).start(location, structure);
+                    this.cancel();
+                }
             }
         }.runTaskTimer(getInstance(), 0L, 600L);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (dungeon.isClose()) this.cancel();
-                Prison.this.trigger();
+                else Prison.this.trigger();
             }
         }.runTaskTimer(getInstance(), 0L, 100L);
-
-        bossLoc = location.clone().add(template.getStructure().getLocationWithPoint(getDungeonWorld(), template.getEntities().get(101).getFirst().getPoint()));
     }
 
     public int key = 0;
@@ -77,42 +85,26 @@ public class Prison implements DungeonBase {
 
     public void trigger() {
         boolean end = true;
+        boolean spawnBoss = true;
         for (RPGPerson person : this.dungeon.getPlayers()) {
             Player player = person.getPerson().getPlayer();
             if (player == null) continue;
-            if (player.getWorld().equals(getDungeonWorld())) {
-                end = false;
-                break;
-            }
-        } if (end) {
-            this.dungeon.endDungeon(true);
-            return;
-        }
+            Location location = player.getLocation();
+            if (bossLoc == null || player.getGameMode().equals(GameMode.SPECTATOR) || location.distanceSquared(bossLoc) > 100) spawnBoss = false;
 
-        for (RPGPerson person : this.dungeon.getPlayers()) {
-            Player player = person.getPerson().getPlayer();
-            if (player == null) continue;
             SimpleStructure structure = template.getStructure();
 
-            int x = structure.getMaxX() >> 1, y = structure.getMaxY() >> 1, z = structure.getMaxZ() >> 1;
-            int distance = (int) (Math.max(Math.max(x, z), y) * 1.25);
-            if (player.getLocation().distanceSquared(dungeon.getLocation().clone().add(x, y, z)) > distance*distance) {
+            if (location.distanceSquared(dungeonCenter) > maxDistanceSquared) {
                 dungeon.teleportPerson(person);
             }
+        } /*if (end) {
+            this.dungeon.endDungeon(true);
+            return;
+        }*/ if (bossLoc != null && spawnBoss) {
+            template.getEntities().get(101).forEach(ent -> dungeon.spawnEntity(ent, bossLoc));
+            template.getAnimation("boss_gate", 1).start(dungeon.getLocation(), template.getStructure());
+            bossLoc = null;
         }
-
-        if (bossLoc == null) return;
-
-        for (RPGPerson person : dungeon.getPlayers()) {
-            Player player = person.getPerson().getPlayer();
-            if (player == null) continue;
-            if (player.getGameMode().equals(GameMode.SPECTATOR)) return;
-            if (player.getLocation().distanceSquared(bossLoc) > 100) return;
-        }
-
-        template.getEntities().get(101).forEach(ent -> dungeon.spawnEntity(ent, bossLoc));
-        template.getAnimation("boss_gate", 1).start(dungeon.getLocation(), template.getStructure());
-        bossLoc = null;
     }
 
     @Override

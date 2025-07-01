@@ -14,9 +14,6 @@ public class PersonUpdateTimer extends AnnovaTask {
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
-            person.updateSet(player);
-            person.updateArmor(player);
-            person.regen();
             person.updateSectorLocation();
 
             StatusManager manager = person.getStatusManager();
@@ -27,6 +24,9 @@ public class PersonUpdateTimer extends AnnovaTask {
                 player.playSound(player, Sound.ENTITY_WANDERING_TRADER_YES, 1, 1);
             }
             person.getEquipment().update();
+
+            person.updateHealth();
+            person.regen();
 
 //            long millis = System.currentTimeMillis();
 //            for (String modifier : person.getSpeedModifiers().keySet()) {

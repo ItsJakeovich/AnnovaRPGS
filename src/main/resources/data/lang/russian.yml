@@ -25,7 +25,8 @@ avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 \n{pc}● {mc}Локация{sc}: {location}
 \n{pc}● {mc}Модификаторы{pc}:
 \n{pc} ◆ {mc}Урон{sc}: {damage}{sc}, {damage-multiplier}
-\n{pc} ◆ {mc}Защита{sc}: {defence-multiplier}
+\n{pc} ◆ {mc}Получаемый урон{sc}: {defence-multiplier}
+\n{pc} ◆ {mc}Урон от падения{sc}: {fall-multiplier}
 \n{pc} ◆ {mc}Здоровье{sc}: {health}
 \n{pc} ◆ {mc}Восстановление{sc}: {regen}
 \n{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
@@ -105,8 +106,12 @@ bar-health: "{pc}❖ {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
 ### Items
 ## Attributes
-tool-damage: "{pc}◆ {mc}Сила атаки{sc}: {ac}"
-tool-speed:  "{pc}◆ {mc}Скорость атаки{sc}: {ac}"
+tool-damage: "{pc}⚔ {mc}Сила атаки{sc}: "
+tool-speed:  "{pc}⚡ {mc}Скорость атаки{sc}: {ac}"
+
+armor-defence:   "{pc}⛊ {mc}Защита{sc}: "
+armor-toughness: "{pc}⛉ {mc}Твердость{sc}: "
+armor-speed:     "{pc}🌀 {mc}Скорость{sc}: "
 
 ## containers
 PRISON_CONTAINER: "Пыльный контейнер"

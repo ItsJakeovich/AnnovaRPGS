@@ -2,15 +2,14 @@ package net.annova.object.person;
 
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.object.item.base.ArmorSet;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.WorldSector;
-import net.annova.object.item.base.*;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaGlobal;
 import net.annova.main.AnnovaSQL;
 import net.annova.object.Person;
-import net.annova.object.item.base.RPGSet;
 import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
@@ -53,13 +52,11 @@ public class RPGPerson {
     private Dungeon dungeon;
     private int dungeonPoints = 0;
     private Team team;
-    private RPGSet set;
-    private final RPGItem[] armor = new RPGItem[4];
+    private ArmorSet armorSet;
     private boolean ready = false;
     private final Equipment equipment = new Equipment(this);
     private final StatusManager statusManager = new StatusManager(this);
     private final List<ItemStack> pendingItems = new ArrayList<>();
-    private final Map<String, Long> speedModifiers = new HashMap<>();
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
     private boolean showBar = true;
@@ -68,10 +65,8 @@ public class RPGPerson {
 
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
 
-    private float health = 20;
-    private float maxHealth = 20;
-    private float regeneration = 0f;
-    private float additionalHealth = 0;
+    private double health = 20;
+    private double maxHealth = 20;
 
     public int minutesInDarkForest = 0;
     public int catchedTreasures = 0;
@@ -159,16 +154,17 @@ public class RPGPerson {
         Player player = this.getPlayer();
         player.playHurtAnimation(1.0f);
         player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
-        this.knockback(damager);
+        this.knockback(damager, damage);
 
         this.setHealth(this.health - damage);
     }
-    public void knockback(Entity damager) {
+    public void knockback(Entity damager, float damage) {
         if (damager == null) return;
 
         Player player = this.getPlayer();
         ServerPlayer server = ((CraftPlayer) player).getHandle();
         double force = 0.6 * (1.0 - server.getAttributeValue(KNOCKBACK_RESISTANCE));
+        if (damage < 1) force*= damage;
 
         net.minecraft.world.entity.Entity nms = ((CraftEntity) damager).getHandle();
         double dirX, dirZ;
@@ -209,7 +205,7 @@ public class RPGPerson {
     public void regen() {
         Player player = this.getPlayer();
 
-        float regeneration = this.regeneration;
+        float regeneration = 0;
         float food = player.getFoodLevel();
         if (food == 0) {
             regeneration -= 3;
@@ -225,7 +221,7 @@ public class RPGPerson {
     public void regen(float regen) {
         this.setHealth(this.health + regen);
     }
-    public void setHealth(float health) {
+    public void setHealth(double health) {
         if (health <= 0) {
             this.death();
             health = maxHealth;
@@ -235,15 +231,12 @@ public class RPGPerson {
         this.updateStatusBar();
     }
     public void updateHealth() {
-        float newMaxHealth = 20;
         Player player = person.getPlayer();
         if (player == null) return;
 
-        double valueHealth = this.getFinalValue(ValueType.HEALTH);
-        newMaxHealth += (float) (additionalHealth + valueHealth);
-
-        this.setHealth(newMaxHealth * health / maxHealth);
-        this.maxHealth = newMaxHealth;
+        this.maxHealth = 20 + this.getFinalValue(ValueType.HEALTH);
+        if (this.maxHealth < health) this.health = maxHealth;
+        this.updateStatusBar();
     }
     public void updateStatusBar() {
         if (!this.showBar) return;
@@ -301,73 +294,16 @@ public class RPGPerson {
     }
 
     @Nullable
-    public RPGSet getSet() {
-        return set;
+    public ArmorSet getArmorSet() {
+        return armorSet;
     }
-    public void setSet(net.annova.object.item.base.Set base) {
-        RPGSet set = null;
-        if (base == null) {
-            if (this.set == null) return;
-            additionalHealth = 0;
-            regeneration = 0f;
-        } else {
-            set = base.getSet();
-            if (this.set == set) return;
-
-            additionalHealth = set.health();
-            regeneration = set.regeneration();
-        }
-
-        this.updateHealth();
-
-        this.set = set;
-    }
-    public void updateSet(Player player) {
-//        this.setSet(Set.getSet(player));
-    }
-    public void updateArmor(Player player) {
-//        Player player = this.getPerson().getPlayer();
-//        ItemStack[] armorContent = player.getEquipment().getArmorContents();
-//        for (int i = 0; i < 4; i++) {
-//            RPGItem piece = (RPGItem) getArmor(armorContent[i], i);
-//            if (this.armor[i] == piece) continue;
-//
-//            this.armor[i] = piece;
-//
-//            if (!(piece instanceof RPGArmorActivity activity)) continue;
-//            if (activity.repeating() == 0) continue;
-//
-//            int slot = i;
-//            new BukkitRunnable() {
-//                private final Player pl = RPGPerson.this.getPerson().getPlayer();
-//
-//                @Override
-//                public void run() {
-//                    if (armor[slot] != piece) this.cancel();
-//                    if (!pl.isOnline()) return;
-//
-//                    activity.activity(pl);
-//                }
-//            }.runTaskTimer(getInstance(), 0, activity.repeating());
-//        }
-    }
-
-    public RPGItem[] getRPGArmor() {
-        return armor;
+    public ArmorSet updateArmorSet() {
+        return this.armorSet = ArmorSet.getArmorSet(this.getPlayer());
     }
 
     public void updateSpeed(float speed) {
-        float plus = 0;
-        if (speed != 0) {
-            Material type = person.getPlayer().getLocation().add(0, -1, 0).getBlock().getType();
-            for (String modifier : speedModifiers.keySet()) {
-                String[] attribute = modifier.split(":");
-                if (attribute.length > 2) if (type != Material.valueOf(attribute[2])) continue;
-                plus += Float.parseFloat(attribute[1]);
-            }
-            plus += set == null ? 0 : set.speed();
-        }
-        this.person.setAdditionalSpeed(plus);
+//        float plus = 0;
+//        this.person.setAdditionalSpeed(plus);
 
         this.person.setSpeed(speed);
     }
@@ -389,18 +325,15 @@ public class RPGPerson {
         return this.equipment.getFinalValue(type) + this.statusManager.getFinalValue(type);
     }
     public String getStringFinalValue(ValueType type) {
-        String string;
-        double value = (double) (int) (this.getFinalValue(type) * 100) / 100;
-        if (value == 0)     return "{sc}" + value;
-        else if (value > 0) return "{tc}+" + value;
-        else                return "{fc}" + value;
+        return colorizeNumber((double) (int) (this.getFinalValue(type) * 100) / 100);
     }
     public String getStringFinalPercent(ValueType type) {
-        String string;
-        double value = this.getFinalValue(type) * 100;
-        if (value == 0)     return "{sc}" + value + "%";
-        else if (value > 0) return "{tc}+" + value + "%";
-        else                return "{fc}" + value + "%";
+        return colorizeNumber(this.getFinalValue(type)*100) + '%';
+    }
+    public static String colorizeNumber(double number) {
+        if (number == 0)     return "{sc}" + number;
+        else if (number > 0) return "{tc}+" + number;
+        else                 return "{fc}" + number;
     }
     private AttributeInstance blockInteraction, entityInteraction, movementSpeed, sneakingSpeed;
     private static final ResourceLocation blockRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "block_range");
@@ -440,30 +373,11 @@ public class RPGPerson {
         this.pendingItems.clear();
     }
 
-    public Map<String, Long> getSpeedModifiers() {
-        return speedModifiers;
-    }
-    public long getSpeedModifier(String modifier) {
-        return speedModifiers.get(modifier);
-    }
-    public void addSpeedModifier(String modifier) {
-        speedModifiers.put(modifier, System.currentTimeMillis());
-    }
-    public void removeSpeedModifier(String modifier) {
-        speedModifiers.remove(modifier);
-    }
-
-    public float getHealth() {
+    public double getHealth() {
         return health;
     }
-    public float getMaxHealth() {
+    public double getMaxHealth() {
         return maxHealth;
-    }
-    public float getRegeneration() {
-        return regeneration;
-    }
-    public float getAdditionalHealth() {
-        return additionalHealth;
     }
 
     @Nullable

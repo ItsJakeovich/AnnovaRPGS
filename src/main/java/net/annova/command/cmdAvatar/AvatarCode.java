@@ -38,6 +38,7 @@ public class AvatarCode {
                 .replaceFirst("{damage}", person.getStringFinalValue(ValueType.DAMAGE))
                 .replaceFirst("{damage-multiplier}", person.getStringFinalPercent(ValueType.DAMAGE_MULTIPLIER))
                 .replaceFirst("{defence-multiplier}", person.getStringFinalPercent(ValueType.DEFENCE_MULTIPLIER))
+                .replaceFirst("{fall-multiplier}", person.getStringFinalPercent(ValueType.FALL_MULTIPLIER))
                 .replaceFirst("{health}", person.getStringFinalValue(ValueType.HEALTH))
                 .replaceFirst("{regen}", person.getStringFinalValue(ValueType.REGENERATION))
                 .replaceFirst("{block}", person.getStringFinalValue(ValueType.BLOCK_RANGE))

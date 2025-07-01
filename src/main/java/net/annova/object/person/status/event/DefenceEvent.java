@@ -5,6 +5,7 @@ import net.annova.object.person.RPGPerson;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.ValueType.*;
@@ -14,13 +15,12 @@ public class DefenceEvent implements Listener {
     public void status(MobDamageCE event) {
         if (event.getEntity() instanceof Player player) {
             RPGPerson person = getRPGPerson(player);
-            double value = person.getFinalValue(DEFENCE);
-            if (value != 0) {
-                event.decreaseDamage(value);
-            }
-            value = person.getFinalValue(DEFENCE_MULTIPLIER);
-            if (value != 0) {
-                event.decreaseDamage(event.getBaseDamage() * value);
+            // снижает получаемый урон относительно уровня защиты.
+            event.decreaseDamage(person.getFinalValue(DEFENCE) + event.getBaseDamage() * person.getFinalValue(DEFENCE_MULTIPLIER));
+
+            if (event.getEvent().getCause() == EntityDamageEvent.DamageCause.FALL) {
+                // FALL_MULTIPLIER - модификатор получения урона от падения
+                event.increaseDamage(event.getBaseDamage() * person.getFinalValue(FALL_MULTIPLIER));
             }
         }
     }

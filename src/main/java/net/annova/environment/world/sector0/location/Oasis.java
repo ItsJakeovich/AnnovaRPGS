@@ -162,30 +162,31 @@ public class Oasis extends SectorLocation implements Listener {
         getRPGPerson(player).completeAdvancement(WATER);
     }
 
-    public static final Map<ItemType, Double> OASIS_FISHS = new HashMap<>() {{
-        this.put(ANGEL_FISH, 0.007);
-        this.put(ANGLER_FISH_SPAWN_EGG, 0.005);
-        this.put(AZURE_FISH, 0.01);
-        this.put(BARK_BEETLE_FISH, 0.04);
-        this.put(BLOB_FISH_BLUE, 0.01);
-        this.put(BLOB_FISH_GRAY, 0.01);
-        this.put(BLOB_FISH_YELLOW, 0.01);
-        this.put(CRAB_CLAW, 0.01);
-        this.put(ELK_FISH, 0.025);
-        this.put(FIRE_FISH, 0.037);
-        this.put(FURY_CAVIAR, 0.012);
-        this.put(KOI_FISH, 0.02);
-        this.put(NALIM_FISH, 0.0184);
-        this.put(OASIS_FISH, 0.005);
-        this.put(PEARL, 0.008);
-        this.put(ROYAL_PUFFERFISH, 0.004);
-        this.put(SEASMITH, 0.04);
-        this.put(SILVER_PUMP, 0.01);
-        this.put(VOLCANIC_STREAMS_MALMA, 0.03);
-        this.put(WHALE_FISH, 0.0121);
+    public static final Map<ItemType, Double> OASIS_FISHS = new HashMap<>();
+    static {
+        OASIS_FISHS.put(ANGEL_FISH, 0.007);
+        OASIS_FISHS.put(ANGLER_FISH_SPAWN_EGG, 0.005);
+        OASIS_FISHS.put(AZURE_FISH, 0.01);
+        OASIS_FISHS.put(BARK_BEETLE_FISH, 0.04);
+        OASIS_FISHS.put(BLOB_FISH_BLUE, 0.01);
+        OASIS_FISHS.put(BLOB_FISH_GRAY, 0.01);
+        OASIS_FISHS.put(BLOB_FISH_YELLOW, 0.01);
+        OASIS_FISHS.put(CRAB_CLAW, 0.01);
+        OASIS_FISHS.put(ELK_FISH, 0.025);
+        OASIS_FISHS.put(FIRE_FISH, 0.037);
+        OASIS_FISHS.put(FURY_CAVIAR, 0.012);
+        OASIS_FISHS.put(KOI_FISH, 0.02);
+        OASIS_FISHS.put(NALIM_FISH, 0.0184);
+        OASIS_FISHS.put(OASIS_FISH, 0.005);
+        OASIS_FISHS.put(PEARL, 0.008);
+        OASIS_FISHS.put(ROYAL_PUFFERFISH, 0.004);
+        OASIS_FISHS.put(SEASMITH, 0.04);
+        OASIS_FISHS.put(SILVER_PUMP, 0.01);
+        OASIS_FISHS.put(VOLCANIC_STREAMS_MALMA, 0.03);
+        OASIS_FISHS.put(WHALE_FISH, 0.0121);
 
-        this.put(TIDE_BLADE, 0.008);
-    }};
+        OASIS_FISHS.put(TIDE_BLADE, 0.008);
+    }
     public static final List<ItemType> FISHS = List.copyOf(OASIS_FISHS.keySet());
     @EventHandler
     public void fishing(PlayerFishEvent event) {

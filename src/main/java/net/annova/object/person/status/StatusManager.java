@@ -15,19 +15,18 @@ import static net.annova.main.AnnovaRPG.getInstance;
 public class StatusManager {
     private final RPGPerson person;
 
-    public StatusManager(RPGPerson person) {
-        this.person = person;
-    }
-
     private final Map<StatusType, Status> statuses = new EnumMap<>(StatusType.class);
-    private final Map<ValueType, Double> finalValue = new EnumMap<>(ValueType.class) {{
-        for (ValueType type : ValueType.values()) {
-            this.put(type, 0.0);
-        }
-    }};
+    private final Map<ValueType, Double> finalValue = new EnumMap<>(ValueType.class);
 
     public RPGPerson getPerson() {
         return person;
+    }
+
+    public StatusManager(RPGPerson person) {
+        this.person = person;
+        for (ValueType type : ValueType.values()) {
+            finalValue.put(type, 0.0);
+        }
     }
 
     @Nullable

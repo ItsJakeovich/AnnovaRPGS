@@ -40,4 +40,19 @@ public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorA
     public long repeating() {
         return 400;
     }
+
+    @Override
+    public float armor() {
+        return 6;
+    }
+
+    @Override
+    public float toughness() {
+        return 0;
+    }
+
+    @Override
+    public float speed() {
+        return 0;
+    }
 }

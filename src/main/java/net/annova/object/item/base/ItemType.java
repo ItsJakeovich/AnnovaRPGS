@@ -3,7 +3,12 @@ package net.annova.object.item.base;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.ItemEquipment;
+import net.annova.object.item.base.attribute.RPGArmor;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.annova.object.item.equipment.meteorite.ChitinBoots;
+import net.annova.object.item.equipment.meteorite.ChitinChestplate;
+import net.annova.object.item.equipment.meteorite.ChitinHelmet;
+import net.annova.object.item.equipment.meteorite.ChitinLeggings;
 import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
 import net.annova.object.item.sector0.meteorite.MeteoriteFragment;
@@ -42,15 +47,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.Set;
 
-import static net.annova.config.AnnovaConfig.colorString;
-import static net.annova.config.AnnovaConfig.getLangFile;
+import static net.annova.config.AnnovaConfig.*;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemCategory.CRYSTALL;
 import static net.annova.object.item.base.RPGItem.getItemId;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.*;
+import static net.annova.object.person.RPGPerson.colorizeNumber;
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.util.BukkitObjects.random;
 import static net.annova.util.MessageObjects.color;
 
 public enum ItemType {
@@ -118,6 +124,11 @@ public enum ItemType {
     ENTS_PATRON_AMULET(new EntsPatronAmulet()),
     ROOTS_LASH(new RootsLash()),
     // S0 - METEORITE
+    CHITIN_HELMET(new ChitinHelmet()),
+    CHITIN_CHESTPLATE(new ChitinChestplate()),
+    CHITIN_LEGGINGS(new ChitinLeggings()),
+    CHITIN_BOOTS(new ChitinBoots()),
+
     METEORITE_FRAGMENT(new MeteoriteFragment()),
     // S0 - Mines
     MAGIC_SCRAP(new MagicScrap()),
@@ -336,8 +347,8 @@ public enum ItemType {
         }
 
         if (this.item instanceof RPGTool weapon && !this.getItem().type().equals(Material.BOW)) {
-            String damage = langFile.getString("tool-damage", "unknown") + weapon.damage() + "⚔";
-            String speed = langFile.getString("tool-speed", "unknown") + weapon.attackSpeed() + "⚡";
+            String damage = langFile.getString("tool-damage", "unknown") + colorizeNumber(weapon.damage());
+            String speed = langFile.getString("tool-speed", "unknown") + weapon.attackSpeed();
             if (person != null) {
                 damage = person.colorString(damage);
                 speed = person.colorString(speed);
@@ -351,22 +362,60 @@ public enum ItemType {
             meta.removeAttributeModifier(Attribute.ATTACK_DAMAGE);
             meta.removeAttributeModifier(Attribute.ATTACK_SPEED);
 
-            AttributeModifier damageModifier = new AttributeModifier(
-                    NK_ATTACK_DAMAGE,
+            meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                    getNamespacedKey("attack_damage-" + this.id),
                     weapon.damage()-1,
                     AttributeModifier.Operation.ADD_NUMBER,
                     EquipmentSlotGroup.MAINHAND
-            );
-
-            AttributeModifier attackSpeedModifier = new AttributeModifier(
-                    NK_ATTACK_SPEED,
+            ));
+            meta.addAttributeModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                    getNamespacedKey("attack_speed-" + this.id),
                     weapon.attackSpeed()-4,
                     AttributeModifier.Operation.ADD_NUMBER,
                     EquipmentSlotGroup.MAINHAND
-            );
+            ));
+        }
 
-            meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, damageModifier);
-            meta.addAttributeModifier(Attribute.ATTACK_SPEED, attackSpeedModifier);
+        if (this.item instanceof RPGArmor armor) {
+            String armorLang = langFile.getString("armor-defence", "unknown") + colorizeNumber((double) (int) (armor.armor() * 4 * 100) / 100) + '%';
+            String toughness = langFile.getString("armor-toughness", "unknown") + colorizeNumber(armor.toughness());
+            String speed = langFile.getString("armor-speed", "unknown") + colorizeNumber(armor.speed()*100) + '%';
+            if (person != null) {
+                armorLang = person.colorString(armorLang);
+                toughness = person.colorString(toughness);
+                speed = person.colorString(speed);
+            } else {
+                armorLang = colorString(armorLang);
+                toughness = colorString(toughness);
+                speed = colorString(speed);
+            }
+
+            newLore.add(armorLang);
+            newLore.add(toughness);
+            newLore.add(speed);
+
+            meta.removeAttributeModifier(Attribute.ARMOR);
+            meta.removeAttributeModifier(Attribute.ARMOR_TOUGHNESS);
+            meta.removeAttributeModifier(Attribute.MOVEMENT_SPEED);
+
+            meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(
+                    getNamespacedKey("armor-" + this.id),
+                    armor.armor(),
+                    AttributeModifier.Operation.ADD_NUMBER,
+                    EquipmentSlotGroup.ARMOR
+            ));
+            meta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                    getNamespacedKey("toughness-" + this.id),
+                    armor.toughness(),
+                    AttributeModifier.Operation.ADD_NUMBER,
+                    EquipmentSlotGroup.ARMOR
+            ));
+            meta.addAttributeModifier(Attribute.MOVEMENT_SPEED, new AttributeModifier(
+                    getNamespacedKey("movement_speed-" + this.id),
+                    armor.speed(),
+                    AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+                    EquipmentSlotGroup.ARMOR
+            ));
         }
 
         if (this.item instanceof ItemConfiguration configuration) {

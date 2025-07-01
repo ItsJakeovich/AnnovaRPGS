@@ -1,6 +1,7 @@
 package net.annova.object.person.equipment;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.annova.object.item.base.ArmorSet;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
@@ -30,14 +31,13 @@ import static net.annova.util.BukkitObjects.addItems;
 public class Equipment {
     private final RPGPerson person;
     private final ItemStack[] equipment = new ItemStack[24];
-    private final Map<ValueType, Double> finalValue = new EnumMap<>(ValueType.class) {{
-        for (ValueType type : ValueType.values()) {
-            this.put(type, 0.0);
-        }
-    }};
+    private final Map<ValueType, Double> finalValue = new EnumMap<>(ValueType.class);
 
     public Equipment(RPGPerson person) {
         this.person = person;
+        for (ValueType type : ValueType.values()) {
+            finalValue.put(type, 0.0);
+        }
     }
 
     /**
@@ -116,10 +116,16 @@ public class Equipment {
                 default -> 1.0;
             };
             for (ValueType type : values.keySet()) {
-                double value = values.get(type);
                 finalValue.merge(type, values.get(type) * coefficient, Double::sum);
             }
             idList.add(id);
+        }
+        ArmorSet set = this.person.updateArmorSet();
+        if (set != null) {
+            Map<ValueType, Double> values = set.getValues();
+            for (ValueType type : values.keySet()) {
+                finalValue.merge(type, values.get(type), Double::sum);
+            }
         }
         this.person.updateAttributes();
     }

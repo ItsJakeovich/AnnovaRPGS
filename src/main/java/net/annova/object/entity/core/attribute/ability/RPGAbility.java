@@ -1,7 +1,6 @@
 package net.annova.object.entity.core.attribute.ability;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RPGAbility {

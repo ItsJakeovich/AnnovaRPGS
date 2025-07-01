@@ -27,4 +27,19 @@ public class PrisonBootsItem extends RPGItem implements RPGArmor {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
+
+    @Override
+    public float armor() {
+        return 2;
+    }
+
+    @Override
+    public float toughness() {
+        return 0;
+    }
+
+    @Override
+    public float speed() {
+        return 0;
+    }
 }

@@ -6,6 +6,7 @@ public enum ValueType {
     ORATOR_DAMAGE_BUFF,
     DEFENCE,
     DEFENCE_MULTIPLIER,
+    FALL_MULTIPLIER, // Модификатор получения урона от падения
     HEALTH,
     REGENERATION,
     SPEED,

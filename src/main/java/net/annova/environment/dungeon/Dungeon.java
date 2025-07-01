@@ -68,8 +68,11 @@ public class Dungeon {
         return location;
     }
 
-    public void addPlayers(Set<RPGPerson> players) {
-        this.players.addAll(players);
+    public void addPlayers(Set<RPGPerson> persons) {
+        this.players.addAll(persons);
+    }
+    public void addPlayer(RPGPerson person) {
+        this.players.add(person);
     }
     public Set<RPGPerson> getPlayers() {
         return players;

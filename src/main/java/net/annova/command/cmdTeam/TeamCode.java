@@ -7,6 +7,9 @@ import net.annova.object.SimpleObject;
 import net.annova.object.person.Team;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
@@ -65,10 +68,12 @@ public class TeamCode {
             return;
         }
 
+        Set<RPGPerson> toRemove = new HashSet<>();
         for (RPGPerson member : team.getMembers()) {
             member.setTeam(null);
-            team.removeMember(member);
+            toRemove.add(member);
         }
+        team.removeMembers(toRemove);
         person.send(getInstance(), "team-disband-successfully", "{team}", team.getName());
     }
 
@@ -140,7 +145,7 @@ public class TeamCode {
         }
     }
 
-    @CommandArg(name = "gathering", aliases = {"сбор", "пферукштп", "c,jh"}, description = "Gather players in one place")
+    @CommandArg(name = "gathering", aliases = {"сбор", "пферукштп", "c,jh"}, description = "Gathering players in one place")
     public void gathering(Player player) {
         RPGPerson pers = getRPGPerson(player);
         Person person = pers.getPerson();

@@ -31,4 +31,7 @@ public class Team {
     public void removeMember(RPGPerson person) {
         this.members.remove(person);
     }
+    public void removeMembers(Set<RPGPerson> persons) {
+        this.members.removeAll(persons);
+    }
 }

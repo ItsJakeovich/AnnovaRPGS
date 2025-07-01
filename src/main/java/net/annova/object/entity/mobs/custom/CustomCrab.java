@@ -2,7 +2,6 @@ package net.annova.object.entity.mobs.custom;
 
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -22,14 +21,10 @@ import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import org.bukkit.craftbukkit.v1_21_R4.event.CraftEventFactory;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.event.entity.EntityKnockbackEvent;
-import org.bukkit.event.player.PlayerBucketFillEvent;
 
 import java.util.Optional;
 import java.util.Set;

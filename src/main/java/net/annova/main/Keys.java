@@ -8,9 +8,6 @@ public class Keys {
     public static final NamespacedKey NK_ID = getNamespacedKey("id");
     public static final NamespacedKey NK_KEY = getNamespacedKey("key");
     public static final NamespacedKey NK_BIOME = getNamespacedKey("biome");
-    public static final NamespacedKey NK_ATTACK_DAMAGE = getNamespacedKey("attack_damage");
-    public static final NamespacedKey NK_ATTACK_SPEED = getNamespacedKey("attack_speed");
-    public static final NamespacedKey NK_MOVEMENT_SPEED = getNamespacedKey("movement_speed");
     public static final NamespacedKey NK_JUMP_POWER = getNamespacedKey("jump_power");
     public static final NamespacedKey NK_MILLIS = getNamespacedKey("millis");
     public static final NamespacedKey NK_EXPIRE = getNamespacedKey("expire");
