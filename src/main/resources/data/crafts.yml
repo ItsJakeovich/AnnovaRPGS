@@ -38,7 +38,6 @@
 #
 #
 #
-
 materials:
   - id: "tide_grasp_ring"
     amount: 1
@@ -81,14 +80,70 @@ materials:
     ingredients:
       - id: 'ent_root'
         letter: 'q'
-      - id: 'string'
+      - id: 'STRING'
         letter: 'w'
-      - id: 'emerald'
+      - id: 'EMERALD'
         letter: 'e'
     recipe:
       - 'qqq'
       - 'qwq'
       - 'qeq'
+
+  - id: "chitin_helmet"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'IRON_INGOT'
+        letter: 'q'
+      - id: 'spider_chitin'
+        letter: 'w'
+    recipe:
+      - 'qwq'
+      - 'w w'
+      - '   '
+
+  - id: "chitin_chestplate"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'IRON_INGOT'
+        letter: 'q'
+      - id: 'spider_chitin'
+        letter: 'w'
+    recipe:
+      - 'q q'
+      - 'wqw'
+      - 'qwq'
+
+  - id: "chitin_leggings"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'IRON_INGOT'
+        letter: 'q'
+      - id: 'spider_chitin'
+        letter: 'w'
+    recipe:
+      - 'qwq'
+      - 'w w'
+      - 'q q'
+
+  - id: "chitin_boots"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'IRON_INGOT'
+        letter: 'q'
+      - id: 'spider_chitin'
+        letter: 'w'
+    recipe:
+      - 'w w'
+      - 'w w'
+      - 'q q'
 
 #  - id: "roots_lash"
 #    amount: 1

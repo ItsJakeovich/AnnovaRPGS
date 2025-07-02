@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.config.RPGConfig.getAllCrafts;
+import static net.annova.main.AnnovaRPG.loadInfo;
 import static net.annova.main.Keys.getNamespacedKey;
 import static net.annova.util.MessageObjects.color;
-import static net.annova.util.MessageObjects.sendLog;
 
 public class ConfigCrafts {
     public static Inventory materialInventories(int number) {
@@ -49,6 +50,7 @@ public class ConfigCrafts {
     List<SubCraft> subCrafts = new ArrayList<>();
 
     public static void loadConfig(FileConfiguration conf, Map<String, ConfigCrafts> crafts) throws AnnovaException {
+        crafts.clear();
         for (Map<?, ?> b : conf.getMapList("materials")) {
             ConfigCrafts craft = new ConfigCrafts();
             if (!((boolean) b.get("valid"))) continue;
@@ -101,13 +103,12 @@ public class ConfigCrafts {
                     craft.subCrafts.add(new SubCraft(craft_type, amount, ingredients, recipe));
                 }
             }
-
             crafts.put(craft.id, craft);
         }
 
         loadCrafts();
 
-        sendLog("Material", crafts.size());
+        loadInfo.add("{pc}| {mc}Крафты {sc}: {ac}" + crafts.size());
     }
 
     private static ItemStack getItemStack(String id, int amount) {

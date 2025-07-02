@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.config.AnnovaConfig.putLangFile;
+import static net.annova.main.AnnovaRPG.loadInfo;
 
 public class RPGConfig implements ConfigBase {
     private FileConfiguration craftConfig;
@@ -29,6 +30,7 @@ public class RPGConfig implements ConfigBase {
 
         Map<String, FileConfiguration> lang = new HashMap<>();
         lang.put("ru", this.loadAnnovaConfig(getInstance(), "lang/russian"));
+        loadInfo.add("{pc}| {mc}Языки  {sc}: {ac}" + lang.size());
 
         putLangFile(getInstance(), lang);
     }

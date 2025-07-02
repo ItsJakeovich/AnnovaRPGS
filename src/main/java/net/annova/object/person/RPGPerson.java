@@ -1,5 +1,7 @@
 package net.annova.object.person;
 
+import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
+import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.item.base.ArmorSet;
@@ -29,8 +31,6 @@ import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityKnockbackByEntityEvent;
-import org.bukkit.event.entity.EntityKnockbackEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -41,6 +41,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.Set;
 
+import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
 import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
@@ -163,7 +164,7 @@ public class RPGPerson {
 
         Player player = this.getPlayer();
         ServerPlayer server = ((CraftPlayer) player).getHandle();
-        double force = 0.6 * (1.0 - server.getAttributeValue(KNOCKBACK_RESISTANCE));
+        float force = (float) (0.6 * (1.0 - server.getAttributeValue(KNOCKBACK_RESISTANCE)));
         if (damage < 1) force*= damage;
 
         net.minecraft.world.entity.Entity nms = ((CraftEntity) damager).getHandle();
@@ -185,19 +186,22 @@ public class RPGPerson {
             dirX = (Math.random() - Math.random()) * 0.01;
         }
         Vec3 knockback = (new Vec3(dirX, 0.0, dirZ)).normalize().scale(force);
-        EntityKnockbackEvent event = new EntityKnockbackByEntityEvent(player, damager,
-                EntityKnockbackEvent.KnockbackCause.ENTITY_ATTACK, force, new Vector(-knockback.x, -knockback.y, -knockback.z),
+        EntityKnockbackByEntityEvent event = new EntityKnockbackByEntityEvent(player, damager,
+                ENTITY_ATTACK, force,
                 new Vector(
                         vec3d.x / 2.0 - knockback.x,
                         server.onGround ? Math.min(0.4, vec3d.y / 2.0 + force) : vec3d.y,
                         vec3d.z / 2.0 - knockback.z
                 )
         );
-
-        Bukkit.getPluginManager().callEvent(event);
+        event.callEvent();
         if (event.isCancelled()) return;
 
-        Vector vector = event.getFinalKnockback();
+        EntityKnockbackEvent finalEvent = new EntityKnockbackEvent(player, ENTITY_ATTACK, event.getKnockback());
+        finalEvent.callEvent();
+        if (finalEvent.isCancelled()) return;
+
+        Vector vector = finalEvent.getKnockback();
         server.setDeltaMovement(new Vec3(vector.getX(), vector.getY(), vector.getZ()));
         server.hurtMarked = true;
     }
@@ -405,7 +409,7 @@ public class RPGPerson {
 
         // Movement event
         if (sectorLocation == null) return;
-        sectorLocation.movement(player);
+        sectorLocation.movement(this, player);
     }
 
     public boolean isTeleportAccess() {

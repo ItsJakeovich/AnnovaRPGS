@@ -6,7 +6,11 @@ import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +26,9 @@ import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
+import static net.annova.main.GlobalRPG.getSoundFromString;
+import static net.annova.object.entity.core.RPGEntityType.*;
+import static net.annova.object.item.base.ArmorSet.CHITIN;
 import static net.annova.util.BukkitObjects.random;
 
 public class DarkForest extends SectorLocation implements Listener {
@@ -47,14 +53,23 @@ public class DarkForest extends SectorLocation implements Listener {
     };
     private final PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 300, 1);
 
+    private int i = 60; // 60 minutes
     @Override
     public void activity() {
-
+        if (i != 0) {
+            i--;
+            return;
+        } i = 60;
+        for (Player player : world0.getPlayers()) {
+            RPGPerson person = getRPGPerson(player);
+            if (person.getSectorLocation() instanceof DarkForest) {
+                player.playSound(getSoundFromString(нету), 1, 1);
+            }
+        }
     }
 
     @Override
-    public void movement(Player player) {
-        RPGPerson person = getRPGPerson(player);
+    public void movement(RPGPerson person, Player player) {
         if (player.getGameMode().equals(GameMode.SURVIVAL)) {
             player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 0.1, 0), 100, 15, 0, 15, 0);
             if (!person.getStatusManager().hasStatus(StatusType.ABSORB_NIGHT_BUFF)) player.addPotionEffect(darkness);
@@ -70,16 +85,18 @@ public class DarkForest extends SectorLocation implements Listener {
         getPerson(player).send(getInstance(), MSGKeys[random.nextInt(MSGKeys.length)]);
     }
 
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_FOREST, OLDER_ENT, DARK_ELF);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
-        return getEntitiesByCategory(LocationCategory.S0_FOREST);
+        return toSpawn;
     }
 
+    private static final Location[] points = new Location[] {
+        new org.bukkit.Location(world0, -280, 69, -351)
+    };
     @Override
     public org.bukkit.Location[] points() {
-        return new org.bukkit.Location[] {
-                new org.bukkit.Location(world0, -280, 69, -351)
-        };
+        return points;
     }
 
     @Override

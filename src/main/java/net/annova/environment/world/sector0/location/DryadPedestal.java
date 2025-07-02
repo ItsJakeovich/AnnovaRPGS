@@ -1,21 +1,26 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
+import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.thread.event.HourTickEvent;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.*;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
+import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.util.BukkitObjects.random;
 
-public class DryadPedestal extends SectorLocation {
+public class DryadPedestal extends SectorLocation implements Listener {
     private final String[] messageKeys = {
             "s0-dryad-msg-0",
             "s0-dryad-msg-1",
@@ -33,27 +38,27 @@ public class DryadPedestal extends SectorLocation {
     }
 
     @Override
-    public void movement(Player player) {
+    public void movement(RPGPerson person, Player player) {
         long millis = System.currentTimeMillis();
         UUID id = player.getUniqueId();
         if (messageCooldown.containsKey(id) && millis < messageCooldown.get(id)) return;
         messageCooldown.put(id, millis + 1800_000); // 30 min
 
-
-        Person person = getPerson(player);
-        person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+        person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
     }
 
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD, FANG, WEREWOLF);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
-        return getEntitiesByCategory(LocationCategory.S0_DRYAD);
+        return toSpawn;
     }
 
+    private static final Location[] points = new org.bukkit.Location[] {
+            new org.bukkit.Location(world0, -466, 71, 242)
+    };
     @Override
     public org.bukkit.Location[] points() {
-        return new org.bukkit.Location[] {
-                new org.bukkit.Location(world0, -466, 71, 242)
-        };
+        return points;
     }
 
     @Override

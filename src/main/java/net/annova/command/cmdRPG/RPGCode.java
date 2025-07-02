@@ -96,4 +96,14 @@ public class RPGCode {
         ItemType type = ItemType.valueOf(args[1]);
         addItems(player, type.create(1));
     }
+
+    @CommandArg(name = "status")
+    public void status(Player player, String[] args) {
+        if (args.length == 1) {
+            player.sendMessage("Usage: /rpg status {status-name}");
+            return;
+        }
+        StatusType type = StatusType.valueOf(args[1]);
+        getRPGPerson(player).getStatusManager().addStatus(type);
+    }
 }

@@ -5,6 +5,7 @@ import net.annova.object.LocationCategory;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.EnumSet;
@@ -14,6 +15,7 @@ import java.util.Map;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.entity.core.RPGEntityType.GOLEM_BOSS;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
 
@@ -38,27 +40,28 @@ public class Mines extends SectorLocation {
     }
 
     @Override
-    public void movement(Player player) {
+    public void movement(RPGPerson person, Player player) {
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        RPGPerson person = getRPGPerson(player);
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
 
         person.completeAdvancement(RPGAdvancement.MINES);
     }
 
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_MINES, GOLEM_BOSS);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
-        return getEntitiesByCategory(LocationCategory.S0_MINES);
+        return toSpawn;
     }
 
+    private static final Location[] points = new Location[] {
+            new org.bukkit.Location(world0, -1111, 64, 357)
+    };
     @Override
     public org.bukkit.Location[] points() {
-        return new org.bukkit.Location[] {
-                new org.bukkit.Location(world0, -1111, 64, 357)
-        };
+        return points;
     }
 
     @Override

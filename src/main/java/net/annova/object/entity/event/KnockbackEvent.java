@@ -1,19 +1,20 @@
 package net.annova.object.entity.event;
 
+import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityKnockbackEvent;
-import org.bukkit.util.Vector;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.GlobalRPG.getEntity;
 import static net.annova.util.BukkitObjects.chance;
 
 public class KnockbackEvent implements Listener {
     @EventHandler
     public void onDamage(EntityKnockbackEvent event) {
+        sendInfo("entityknockbackevent");
         RPGEntity entity = getEntity(event.getEntity());
         if (entity == null) return;
 
@@ -26,8 +27,7 @@ public class KnockbackEvent implements Listener {
                         event.setCancelled(true);
                         return;
                     }
-                    Vector vector = event.getFinalKnockback();
-                    event.setFinalKnockback(vector.multiply(1-resistance));
+                    event.setKnockback(event.getKnockback().multiply(1-resistance));
                 }
             }
         }

@@ -348,7 +348,7 @@ public enum ItemType {
 
         if (this.item instanceof RPGTool weapon && !this.getItem().type().equals(Material.BOW)) {
             String damage = langFile.getString("tool-damage", "unknown") + colorizeNumber(weapon.damage());
-            String speed = langFile.getString("tool-speed", "unknown") + weapon.attackSpeed();
+            String speed = langFile.getString("tool-speed", "unknown") + colorizeNumber((weapon.attackSpeed()/1.6) - 1) + '%';
             if (person != null) {
                 damage = person.colorString(damage);
                 speed = person.colorString(speed);

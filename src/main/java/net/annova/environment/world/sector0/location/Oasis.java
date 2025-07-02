@@ -55,29 +55,30 @@ public class Oasis extends SectorLocation implements Listener {
     }
 
     @Override
-    public void movement(Player player) {
+    public void movement(RPGPerson person, Player player) {
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        RPGPerson person = getRPGPerson(player);
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
 
         person.completeAdvancement(OASIS); // нашел оазис
     }
 
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_OASIS);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
-        return getEntitiesByCategory(LocationCategory.S0_OASIS);
+        return toSpawn;
     }
 
+    private static final Location[] points = new org.bukkit.Location[]{
+            new org.bukkit.Location(world0, -1092, 76, 451),
+            new org.bukkit.Location(world0, -971, 76, 451),
+            new org.bukkit.Location(world0, -933, 76, 451),
+    };
     @Override
     public org.bukkit.Location[] points() {
-        return new org.bukkit.Location[]{
-                new org.bukkit.Location(world0, -1092, 76, 451),
-                new org.bukkit.Location(world0, -971, 76, 451),
-                new org.bukkit.Location(world0, -933, 76, 451),
-        };
+        return points;
     }
 
     @Override

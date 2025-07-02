@@ -41,6 +41,11 @@ public class GlobalRPG {
     private static final Map<String, QuestBase> quests = new HashMap<>();
 
     @Nullable
+    public static RPGPerson getRPGPerson(Entity entity) {
+        if (entity instanceof Player player) return getRPGPerson(player);
+        return null;
+    }
+    @Nullable
     public static RPGPerson getRPGPerson(Player player) {
         if (player == null) return null;
         RPGPerson person = personsUid.get(player.getUniqueId());

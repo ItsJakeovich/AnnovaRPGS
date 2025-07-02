@@ -2,7 +2,7 @@ package net.annova.environment.world;
 
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
-import net.annova.object.person.advancement.RPGAdvancement;
+import net.annova.object.person.RPGPerson;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -11,14 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.EnumSet;
-import java.util.Set;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.util.BukkitObjects.random;
 
 public abstract class SectorLocation {
-    public abstract void activity();
-    public abstract void movement(Player player);
+    public abstract void activity(); // MinuteTickEvent
+    public abstract void movement(RPGPerson person, Player player);
 
     public abstract EnumSet<RPGEntityType> entitiesToSpawn();
     public abstract Location[] points();

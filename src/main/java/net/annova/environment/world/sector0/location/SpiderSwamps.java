@@ -2,8 +2,9 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
-import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.person.RPGPerson;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.EnumSet;
@@ -11,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
-import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.object.entity.core.RPGEntityType.MELANOX;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
 
@@ -35,25 +36,27 @@ public class SpiderSwamps extends SectorLocation {
     }
 
     @Override
-    public void movement(Player player) {
+    public void movement(RPGPerson person, Player player) {
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
         messageCooldown.put(player, millis + 1800_000); // 30 min
 
-        Person person = getPerson(player);
-        person.send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+        person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
+        if (player.getEquipment().getHelmet() == null) person.damage(2.0f);
     }
 
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_SWAMPS, MELANOX);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
-        return getEntitiesByCategory(LocationCategory.S0_SWAMPS);
+        return toSpawn;
     }
 
+    private static final Location[] points = new org.bukkit.Location[] {
+            new org.bukkit.Location(world0, -759, 63, 163)
+    };
     @Override
     public org.bukkit.Location[] points() {
-        return new org.bukkit.Location[] {
-                new org.bukkit.Location(world0, -759, 63, 163)
-        };
+        return points;
     }
 
     @Override

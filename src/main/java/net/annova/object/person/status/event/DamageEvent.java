@@ -15,6 +15,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ArmorSet.CHITIN;
+import static net.annova.object.person.status.StatusType.PARALYSIS;
 import static net.annova.object.person.status.StatusType.ROOTS_LASH_BUFF;
 import static net.annova.util.BukkitObjects.chance;
 
@@ -40,6 +42,10 @@ public class DamageEvent implements Listener {
             }
             if (manager.hasStatus(ROOTS_LASH_BUFF)) {
                 if (chance(0.02)) EntRoots.addPhysicDebuff(target);
+            }
+
+            if (CHITIN == person.getArmorSet() && chance(0.05)) {
+                manager.addStatus(PARALYSIS);
             }
         }
     }

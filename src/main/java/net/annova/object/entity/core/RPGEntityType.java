@@ -65,6 +65,8 @@ public enum RPGEntityType {
     // Sector 0 - Dryad Pedestal
     DARK_WOLF(S0_DRYAD, DarkWolf.class),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
+    FANG(S0_DRYAD, ),
+    WEREWOLF(S0_DRYAD, ),
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class, 0.1, 15),
     OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03, true),
@@ -163,18 +165,17 @@ public enum RPGEntityType {
         return boss;
     }
 
-    public RPGEntity tryNaturalSpawn(Location location) {
-        if (!chance(chance)) return null;
+    public void tryNaturalSpawn(Location location) {
+        if (!chance(chance)) return;
         if (this.maxAmount != 0 && this.maxAmount >= getAmountByTypeEntity(this)) {
             /* for test */ sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
-            return null;
+            return;
         }
 
-        Location spawn = getChorusLocation(location, 30);
-        if (spawn.distanceSquared(location) < 64) return null;
-        if (spawn.getBlock().getLightFromBlocks() > 7) return null;
+        Location spawn = getChorusLocation(location, 20);
+        if (spawn.distanceSquared(location) < 64) return;
+        if (spawn.getBlock().getLightFromBlocks() > 7) return;
         RPGEntity entity = this.getEntity();
         entity.create(spawn);
-        return entity;
     }
 }

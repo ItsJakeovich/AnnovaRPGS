@@ -279,7 +279,6 @@ public enum StatusType {
         for (StatusType type : StatusType.values()) {
             if (type.whileHas == null) continue;
             forActivation.add(type);
-            sendInfo("For activation: " + type.name());
         }
     }
 
