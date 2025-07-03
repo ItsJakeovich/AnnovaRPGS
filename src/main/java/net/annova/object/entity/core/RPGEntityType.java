@@ -8,7 +8,9 @@ import net.annova.object.entity.mobs.Snake;
 import net.annova.object.entity.mobs.nether.*;
 import net.annova.object.entity.mobs.prison.*;
 import net.annova.object.entity.mobs.sector0.dryad.DarkWolf;
+import net.annova.object.entity.mobs.sector0.dryad.Fang;
 import net.annova.object.entity.mobs.sector0.dryad.ForestWolf;
+import net.annova.object.entity.mobs.sector0.dryad.Werewolf;
 import net.annova.object.entity.mobs.sector0.forest.DarkElf;
 import net.annova.object.entity.mobs.sector0.forest.OlderEnt;
 import net.annova.object.entity.mobs.sector0.meteorite.MeteoriteGolem;
@@ -65,8 +67,8 @@ public enum RPGEntityType {
     // Sector 0 - Dryad Pedestal
     DARK_WOLF(S0_DRYAD, DarkWolf.class),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
-    FANG(S0_DRYAD, ),
-    WEREWOLF(S0_DRYAD, ),
+    //FANG(S0_DRYAD, Fang.class),
+    //WEREWOLF(S0_DRYAD, Werewolf.class),
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class, 0.1, 15),
     OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03, true),

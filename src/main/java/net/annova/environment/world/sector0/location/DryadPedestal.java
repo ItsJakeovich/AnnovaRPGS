@@ -47,7 +47,7 @@ public class DryadPedestal extends SectorLocation implements Listener {
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD, FANG, WEREWOLF);
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD/*, FANG, WEREWOLF*/);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;

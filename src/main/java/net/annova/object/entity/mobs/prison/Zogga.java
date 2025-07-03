@@ -36,7 +36,7 @@ public class Zogga extends RPGEntity {
 
     @Override
     public int health() {
-        return 80;
+        return 120;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Zogga extends RPGEntity {
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of(
-                SCHIVARE.get().setValue(ValueType.CHANCE, 0.5),
+                SCHIVARE.get().setValue(ValueType.CHANCE, 0.3),
                 LEVELLER.get().setValue(ValueType.CHANCE, 0.5).setValue(ValueType.DURATION, 100)
         );
     }

@@ -48,7 +48,7 @@ public class Zero extends RPGEntity implements EntityActivity {
 
     @Override
     public float speed() {
-        return 0.24f;
+        return 0.312f;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Zero extends RPGEntity implements EntityActivity {
     public Set<RPGAbility> abilities() {
         return Set.of(
                 KNOCKBACK_RESISTANCE.get().setValue(ValueType.MAIN, 1.00),
-                VAMPIRISM.get().setValue(ValueType.MAIN, 1.00),
+                VAMPIRISM.get().setValue(ValueType.MAIN, 0.5),
                 VITIATION.get().setValue(ValueType.DURATION, 100)
         );
     }

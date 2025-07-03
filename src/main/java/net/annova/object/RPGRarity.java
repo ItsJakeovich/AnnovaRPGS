@@ -26,12 +26,12 @@ public enum RPGRarity {
     RPGRarity(TextColor color) {
         this.color = color;
 
-        TextComponent text = Component.text("").color(TextColor.color(0x22f9f6)).toBuilder();
-        text.compact();
-        text.colo
-        Player player = null;
-        player.sendMessage(text);
-        text.replaceText();
+//        TextComponent text = Component.text("").color(TextColor.color(0x22f9f6)).toBuilder();
+//        text.compact();
+//        text.colo
+//        Player player = null;
+//        player.sendMessage(text);
+//        text.replaceText();
     }
 
     public TextColor getColor() {

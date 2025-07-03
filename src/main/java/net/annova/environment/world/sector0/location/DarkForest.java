@@ -8,9 +8,6 @@ import net.annova.object.person.status.StatusType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,9 +23,7 @@ import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.main.GlobalRPG.getSoundFromString;
 import static net.annova.object.entity.core.RPGEntityType.*;
-import static net.annova.object.item.base.ArmorSet.CHITIN;
 import static net.annova.util.BukkitObjects.random;
 
 public class DarkForest extends SectorLocation implements Listener {
@@ -63,7 +58,7 @@ public class DarkForest extends SectorLocation implements Listener {
         for (Player player : world0.getPlayers()) {
             RPGPerson person = getRPGPerson(player);
             if (person.getSectorLocation() instanceof DarkForest) {
-                player.playSound(getSoundFromString(нету), 1, 1);
+                player.playSound(player, "location.postament.songdriada.songdriada", 1, 1);
             }
         }
     }

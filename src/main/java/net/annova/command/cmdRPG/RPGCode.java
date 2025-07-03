@@ -8,7 +8,11 @@ import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -99,6 +103,10 @@ public class RPGCode {
 
     @CommandArg(name = "status")
     public void status(Player player, String[] args) {
+        ServerPlayer server = ((CraftPlayer) player).getHandle();
+
+//        server.sendSystemMessage(main);
+
         if (args.length == 1) {
             player.sendMessage("Usage: /rpg status {status-name}");
             return;

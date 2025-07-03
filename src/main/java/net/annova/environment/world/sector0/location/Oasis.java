@@ -5,6 +5,7 @@ import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.item.base.ItemType;
+import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
@@ -29,9 +30,8 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.object.item.base.ItemType.*;
-import static net.annova.util.BukkitObjects.chance;
-import static net.annova.util.BukkitObjects.random;
 import static net.annova.object.person.advancement.RPGAdvancement.*;
+import static net.annova.util.BukkitObjects.*;
 
 public class Oasis extends SectorLocation implements Listener {
     //public static final org.bukkit.Location theOasis = new org.bukkit.Location(world0, -1023, 72, 412);;
@@ -126,7 +126,6 @@ public class Oasis extends SectorLocation implements Listener {
                     world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 12, 0.4, 0.4, 0.4, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F), true);
                     point.add(0, 0.5, 0);
                     bubble.teleport(point);
-                    i++;
                     return;
                 }
                 for (Entity entity : bubble.getNearbyEntities(1, 1, 1)) {
@@ -145,6 +144,7 @@ public class Oasis extends SectorLocation implements Listener {
                 }
 
                 world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 1.6, 1.6, 1.6, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F), true);
+                i++;
             }
         }.runTaskTimer(getInstance(), 0, 10L);
         return point;
@@ -158,7 +158,7 @@ public class Oasis extends SectorLocation implements Listener {
         PlayerInventory inventory = player.getInventory();
         if (!inventory.getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) return;
 
-        inventory.setItemInMainHand(UNKNOWN_SOURCE_WATER.create(player));
+        RPGItem.subtractItem(player); addItems(player, UNKNOWN_SOURCE_WATER.create(player));
         player.playSound(player, Sound.ITEM_BOTTLE_FILL, 1, 1);
         getRPGPerson(player).completeAdvancement(WATER);
     }
