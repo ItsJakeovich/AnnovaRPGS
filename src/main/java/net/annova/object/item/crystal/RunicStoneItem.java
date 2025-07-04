@@ -2,6 +2,7 @@ package net.annova.object.item.crystal;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class RunicStoneItem extends RPGItem implements Listener {
 
     @Override
-    public Material type() {
+    public Item type() {
         return Material.AMETHYST_SHARD;
     }
 

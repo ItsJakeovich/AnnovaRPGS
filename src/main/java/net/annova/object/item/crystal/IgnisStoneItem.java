@@ -7,6 +7,7 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -26,7 +27,7 @@ import static net.annova.object.person.status.StatusType.IGNIS;
 
 public class IgnisStoneItem extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.AMETHYST_SHARD;
     }
 

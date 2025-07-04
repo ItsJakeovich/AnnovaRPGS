@@ -85,12 +85,12 @@ public class DeathEvent implements Listener {
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     Person pr = getPerson(pl);
                     if (team == null) {
-                        pr.send(pr.getString(getInstance(), "dungeon-killed-major-person",
-                                "{person}", person.getPerson().getName()));
+                        pr.send(getInstance(), "dungeon-killed-major-person",
+                                "{person}", person.getPerson().getName());
                     } else {
-                        pr.send(pr.getString(getInstance(), "dungeon-killed-major-team")
-                                .replace("{team}", team.getName())
-                                .replace("{leader}", team.getLeader().getPerson().getName())
+                        pr.send(pr.getAISString(getInstance(), "dungeon-killed-major-team")
+                                .replaceTag("{team}", team.getName())
+                                .replaceTag("{leader}", team.getLeader().getPerson().getName())
                         );
                     }
                 }

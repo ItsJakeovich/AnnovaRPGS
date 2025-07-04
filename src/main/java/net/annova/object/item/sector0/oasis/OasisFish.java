@@ -3,15 +3,13 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.event.custom.DropItemFoundBlockCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.*;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,7 @@ import static net.annova.util.BukkitObjects.random;
 
 public class OasisFish extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.SALMON;
     }
 

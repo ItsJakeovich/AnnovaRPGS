@@ -3,13 +3,14 @@ package net.annova.object.item.equipment.meteorite;
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGArmor;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 
 import java.util.List;
 
 public class ChitinChestplate extends RPGItem implements RPGArmor {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.IRON_CHESTPLATE;
     }
 

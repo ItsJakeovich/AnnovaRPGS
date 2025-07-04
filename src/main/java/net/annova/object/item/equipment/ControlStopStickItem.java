@@ -4,6 +4,7 @@ import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,7 @@ import static net.annova.object.person.status.StatusType.STOPPED;
 
 public class ControlStopStickItem extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.STICK;
     }
 

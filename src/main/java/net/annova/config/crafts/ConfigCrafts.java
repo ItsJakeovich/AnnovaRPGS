@@ -11,23 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.config.RPGConfig.getAllCrafts;
 import static net.annova.main.AnnovaRPG.loadInfo;
 import static net.annova.main.Keys.getNamespacedKey;
-import static net.annova.util.MessageObjects.color;
 
 public class ConfigCrafts {
     public static Inventory materialInventories(int number) {
         List<Inventory> inventories = new ArrayList<>();
         int count = 0;
         int invCount = 0;
-        inventories.add(Bukkit.createInventory(null, 54, color("&l&bAboba 1")));
+        inventories.add(Bukkit.createInventory(null, 54, "§l§bAboba 1"));
         List<ConfigCrafts> confM = new ArrayList<>(getAllCrafts());
         for (ConfigCrafts mat : confM) {
             if (count > 53) {
                 invCount++;
-                inventories.add(Bukkit.createInventory(null, 54, color("&l&bAboba " + invCount + 1)));
+                inventories.add(Bukkit.createInventory(null, 54, "§l§bAboba " + invCount + 1));
                 count = 0;
             }
             Inventory inv = inventories.get(invCount);

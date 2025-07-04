@@ -31,7 +31,7 @@ import static net.annova.object.item.base.ItemType.UNKNOWN_SOURCE_WATER;
 
 public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Listener {
     @Override
-    public Material type() {
+    public net.minecraft.world.item.Item type() {
         return Material.POTION;
     }
 

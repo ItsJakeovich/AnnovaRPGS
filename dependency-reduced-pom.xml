@@ -90,9 +90,9 @@
     <dependency>
       <groupId>net.annova</groupId>
       <artifactId>AnnovaAPI</artifactId>
-      <version>0.0.8</version>
+      <version>0.0.9</version>
       <scope>system</scope>
-      <systemPath>/home/itsjakeovich/IdeaProjects/AnnovaRegionApi/target/AnnovaAPI-0.0.8.jar</systemPath>
+      <systemPath>/home/itsjakeovich/IdeaProjects/AnnovaRegionApi/target/AnnovaAPI-0.0.9.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

@@ -2,6 +2,7 @@ package net.annova.object.item.sector0.oasis;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +16,7 @@ import static net.annova.object.item.base.ItemType.AZURE_FISH;
 
 public class AzureFish extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.SALMON;
     }
 

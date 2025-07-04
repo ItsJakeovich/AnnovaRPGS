@@ -3,6 +3,7 @@ package net.annova.object.item.container;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,7 +26,7 @@ import static net.annova.util.BukkitObjects.*;
 
 public class PrisonContainerItem extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.NAUTILUS_SHELL;
     }
 

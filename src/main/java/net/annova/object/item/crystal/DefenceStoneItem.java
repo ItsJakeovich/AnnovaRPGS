@@ -2,6 +2,7 @@ package net.annova.object.item.crystal;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -13,7 +14,7 @@ import static net.annova.util.BukkitObjects.addItems;
 
 public class DefenceStoneItem extends RPGItem {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.AMETHYST_SHARD;
     }
 

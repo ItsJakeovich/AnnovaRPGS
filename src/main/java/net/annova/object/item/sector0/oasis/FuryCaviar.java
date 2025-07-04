@@ -3,6 +3,7 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.RPGRarity;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.item.base.RPGItem;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ import static net.annova.object.person.status.StatusType.CAVIAR_DAMAGE_BUFF;
 
 public class FuryCaviar extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.SALMON;
     }
 

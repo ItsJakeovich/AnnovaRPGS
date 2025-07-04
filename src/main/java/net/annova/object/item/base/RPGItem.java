@@ -1,6 +1,7 @@
 package net.annova.object.item.base;
 
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ import java.util.List;
 import static net.annova.main.Keys.*;
 
 public abstract class RPGItem {
-    public abstract Material type();
+    public abstract Item type();
     public abstract List<Float> modelData();
     public abstract boolean unstackable();
     public abstract RPGRarity rarity();

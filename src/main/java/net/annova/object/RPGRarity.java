@@ -10,20 +10,20 @@ import org.bukkit.entity.Player;
 import java.awt.*;
 
 public enum RPGRarity {
-    EVENT(NamedTextColor.BLUE),
+    EVENT(5592575), // blue
 
-    COMMON(NamedTextColor.GRAY),
-    UNCOMMON(NamedTextColor.GREEN),
-    RARE(NamedTextColor.AQUA),
-    ELITE(NamedTextColor.LIGHT_PURPLE),
-    EPIC(NamedTextColor.DARK_PURPLE),
-    LEGEND(NamedTextColor.GOLD),
-    MYTHIC(NamedTextColor.RED),
-    IMPOSSIBLE(NamedTextColor.DARK_RED) //
+    COMMON(11184810), // gray
+    UNCOMMON(5635925), // green
+    RARE(5636095), // aqua
+    ELITE(16733695), // light purple
+    EPIC(11141290), // dark purple
+    LEGEND(16755200), // gold
+    MYTHIC(16733525), // red
+    IMPOSSIBLE(11141120) // dark red
     ;
 
-    private final TextColor color;
-    RPGRarity(TextColor color) {
+    private final int color;
+    RPGRarity(int color) {
         this.color = color;
 
 //        TextComponent text = Component.text("").color(TextColor.color(0x22f9f6)).toBuilder();
@@ -34,7 +34,7 @@ public enum RPGRarity {
 //        text.replaceText();
     }
 
-    public TextColor getColor() {
+    public int getColor() {
         return color;
     }
 }

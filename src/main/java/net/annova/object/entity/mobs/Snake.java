@@ -62,7 +62,7 @@ public class Snake extends RPGEntity implements CustomType {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-            createItem(Material.RABBIT_HIDE, "&fЗмеиная кожа", 1, random.nextInt(2), 0.2)
+            createItem(Material.RABBIT_HIDE, "§fЗмеиная кожа", 1, random.nextInt(2), 0.2)
         );
     }
 

@@ -2,6 +2,7 @@ package net.annova.object.person.quest;
 
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
+import net.annova.util.AISString;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,8 +60,8 @@ public class Condition {
         return amount;
     }
 
-    public String getDesctiption(Person person) {
-        return person.getString(getInstance(), type.toString()).replace("{obj}", type.resolve(objective));
+    public AISString getDesctiption(Person person) {
+        return person.getAISString(getInstance(), type.toString()).replaceTag("{obj}", type.resolve(objective));
     }
 
     /** Information can be split by '-'

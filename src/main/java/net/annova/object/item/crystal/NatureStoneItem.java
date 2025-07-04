@@ -2,6 +2,7 @@ package net.annova.object.item.crystal;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class NatureStoneItem extends RPGItem {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.AMETHYST_SHARD;
     }
 

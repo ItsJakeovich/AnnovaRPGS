@@ -27,12 +27,19 @@ import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
+import net.annova.util.AISString;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.item.component.ItemLore;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.components.CraftCustomModelDataComponent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -56,8 +63,6 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.*;
 import static net.annova.object.person.RPGPerson.colorizeNumber;
 import static net.annova.util.BukkitObjects.chance;
-import static net.annova.util.BukkitObjects.random;
-import static net.annova.util.MessageObjects.color;
 
 public enum ItemType {
     // Containers
@@ -316,27 +321,23 @@ public enum ItemType {
     public ItemStack create(Person person, int amount, double chance) {
         if (amount < 1 || (chance != 1 && !chance(chance))) return new ItemStack(Material.AIR);
 
-        ItemStack item = new ItemStack(this.item.type(), amount);
-        ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
+        net.minecraft.world.item.ItemStack nms = new net.minecraft.world.item.ItemStack(this.item.type(), amount);
 
-        FileConfiguration langFile = getLangFile(getInstance(), person == null ? "ru" : person.getLanguage());
+        nms.set(DataComponents.CUSTOM_NAME, Component.literal("123"));
 
-        String name = langFile.getString(this.name(), "unknown-name");
-        meta.setDisplayName(color(this.item.rarity().getColor() + name));
-        CustomModelData model = new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of());
-        meta.setCustomModelDataComponent(new CraftCustomModelDataComponent(model));
+        Map<String, AISString> local = getLangMap(getInstance(), person == null ? "ru" : person.getLanguage());
+
+        nms.set(DataComponents.CUSTOM_NAME, local.getOrDefault(this.name(), local.get("unknown-name"))
+                .getDefined(person).withColor(this.item.rarity().getColor())
+        );
+        nms.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of()));
+        nms.set(DataComponents.LORE, new ItemLore(List.of()));
 
         List<String> newLore = new ArrayList<>();
-        String lore = langFile.getString(this.name() + "-lore", null);
+        AISString lore = local.get(this.name() + "-lore");
         if (lore != null) {
-            if (person != null) lore = person.colorString(lore);
-            else                lore = colorString(lore);
-
-            String[] loreString = lore.split("\n");
-            for (String str : loreString) {
-                newLore.add(color(str));
-            }
+            String[] loreString = lore.getDefined(person).split("\n");
+            newLore.addAll(Arrays.asList(loreString));
             newLore.add("");
         }
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
@@ -347,15 +348,12 @@ public enum ItemType {
         }
 
         if (this.item instanceof RPGTool weapon && !this.getItem().type().equals(Material.BOW)) {
-            String damage = langFile.getString("tool-damage", "unknown") + colorizeNumber(weapon.damage());
-            String speed = langFile.getString("tool-speed", "unknown") + colorizeNumber((weapon.attackSpeed()/1.6) - 1) + '%';
-            if (person != null) {
-                damage = person.colorString(damage);
-                speed = person.colorString(speed);
-            } else {
-                damage = colorString(damage);
-                speed = colorString(speed);
-            }
+            String damage = local.getOrDefault("tool-damage", local.get("unknown"))
+                    .getDefined(person)
+                    + colorizeNumber(weapon.damage());
+            String speed = local.getOrDefault("tool-speed", local.get("unknown"))
+                    .getDefined(person)
+                    + colorizeNumber((weapon.attackSpeed()/1.6) - 1) + '%';
             newLore.add(damage);
             newLore.add(speed);
 
@@ -377,18 +375,15 @@ public enum ItemType {
         }
 
         if (this.item instanceof RPGArmor armor) {
-            String armorLang = langFile.getString("armor-defence", "unknown") + colorizeNumber((double) (int) (armor.armor() * 4 * 100) / 100) + '%';
-            String toughness = langFile.getString("armor-toughness", "unknown") + colorizeNumber(armor.toughness());
-            String speed = langFile.getString("armor-speed", "unknown") + colorizeNumber(armor.speed()*100) + '%';
-            if (person != null) {
-                armorLang = person.colorString(armorLang);
-                toughness = person.colorString(toughness);
-                speed = person.colorString(speed);
-            } else {
-                armorLang = colorString(armorLang);
-                toughness = colorString(toughness);
-                speed = colorString(speed);
-            }
+            String armorLang = local.getOrDefault("armor-defence", local.get("unknown"))
+                    .getDefined(person)
+                    + colorizeNumber((double) (int) (armor.armor() * 4 * 100) / 100) + '%';
+            String toughness = local.getOrDefault("armor-toughness", local.get("unknown"))
+                    .getDefined(person)
+                    + colorizeNumber(armor.toughness());
+            String speed = local.getOrDefault("armor-speed", local.get("unknown"))
+                    .getDefined(person)
+                    + colorizeNumber(armor.speed()*100) + '%';
 
             newLore.add(armorLang);
             newLore.add(toughness);

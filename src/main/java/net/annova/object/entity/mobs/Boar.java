@@ -65,7 +65,7 @@ public class Boar extends RPGEntity implements EntityActivity {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                createItem(Material.PORKCHOP, "&fКабанятина", 1, random.nextInt(5), 1.0)
+                createItem(Material.PORKCHOP, "§fКабанятина", 1, random.nextInt(5), 1.0)
         );
     }
 

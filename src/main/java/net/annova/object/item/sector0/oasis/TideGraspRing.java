@@ -6,18 +6,16 @@ import net.annova.object.RPGRarity;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.annova.object.item.base.ItemType.TIDE_GRASP_RING;
-
 public class TideGraspRing extends RPGItem implements ItemEquipment {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.NAUTILUS_SHELL;
     }
 

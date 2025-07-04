@@ -2,13 +2,14 @@ package net.annova.object.item.sector0.forest;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 
 import java.util.List;
 
 public class EntRoot extends RPGItem {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.NAUTILUS_SHELL;
     }
 

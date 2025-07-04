@@ -119,7 +119,7 @@ public abstract class RPGEntity {
             try {
                 ent = (LivingEntity) type.clazz().getDeclaredConstructor(EntityType.class, Level.class).newInstance(this.type(), level);
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                sendInfo("&e| No such method while creating entity: " + this.getClass().getName());
+                sendInfo("§e| No such method while creating entity: " + this.getClass().getName());
             }
         } else ent = (LivingEntity) this.type().create(level, EntitySpawnReason.EVENT);
         ent.setPos(location.getBlockX()+0.5, location.getBlockY(), location.getBlockZ()+0.5);

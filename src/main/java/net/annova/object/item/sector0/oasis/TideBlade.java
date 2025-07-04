@@ -5,6 +5,7 @@ import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ import static net.annova.main.GlobalRPG.getEntity;
 
 public class TideBlade extends RPGItem implements RPGTool, Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.IRON_SWORD;
     }
 

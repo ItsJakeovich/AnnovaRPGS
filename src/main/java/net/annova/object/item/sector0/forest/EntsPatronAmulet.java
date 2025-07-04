@@ -6,6 +6,7 @@ import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class EntsPatronAmulet extends RPGItem implements ItemEquipment, Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.NAUTILUS_SHELL;
     }
 

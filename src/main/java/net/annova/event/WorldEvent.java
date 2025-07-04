@@ -16,7 +16,7 @@ import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.*;
 
 public class WorldEvent implements Listener {
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void join(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (!containsRPGPerson(player)) addRPGPerson(getPerson(player));
@@ -28,7 +28,7 @@ public class WorldEvent implements Listener {
         for (RPGAdvancement rpg : RPGAdvancement.values()) {
             Advancement advancement = rpg.resolve();
             if (advancement == null) {
-                sendInfo("&e| Missing advancement: " + rpg.getKey().getKey());
+                sendInfo("§e| Missing advancement: " + rpg.getKey().getKey());
                 continue;
             }
             if (player.getAdvancementProgress(advancement).isDone()) {

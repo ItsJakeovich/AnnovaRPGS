@@ -3,6 +3,7 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.item.base.RPGItem;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ import static net.annova.object.item.base.ItemType.ANGLER_FISH_SPAWN_EGG;
 
 public class AnglerfishSpawnEgg extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.SALMON_SPAWN_EGG;
     }
 

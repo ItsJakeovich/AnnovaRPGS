@@ -30,20 +30,20 @@ public class AvatarCode {
     @CommandArg(name = "info", aliases = {"information", "инфо", "информация", "штащ", "byaj"})
     public void information(Player player) {
         RPGPerson person = getRPGPerson(player);
-        Person apiPerson = person.getPerson();
-        AISString message = apiPerson.getAISString(getInstance(), "avatar-information")
-                .replaceFirst("{name}", player.getName())
-                .replaceFirst("{location}", person.getStringSectorLocation())
+        Person api = person.getPerson();
+        AISString message = api.getAISString(getInstance(), "avatar-information")
+                .replaceTag("{name}", player.getName())
+                .replaceTag("{location}", person.getStringSectorLocation())
                 // Modifiers
-                .replaceFirst("{damage}", person.getStringFinalValue(ValueType.DAMAGE))
-                .replaceFirst("{damage-multiplier}", person.getStringFinalPercent(ValueType.DAMAGE_MULTIPLIER))
-                .replaceFirst("{defence-multiplier}", person.getStringFinalPercent(ValueType.DEFENCE_MULTIPLIER))
-                .replaceFirst("{fall-multiplier}", person.getStringFinalPercent(ValueType.FALL_MULTIPLIER))
-                .replaceFirst("{health}", person.getStringFinalValue(ValueType.HEALTH))
-                .replaceFirst("{regen}", person.getStringFinalValue(ValueType.REGENERATION))
-                .replaceFirst("{block}", person.getStringFinalValue(ValueType.BLOCK_RANGE))
-                .replaceFirst("{entity}", person.getStringFinalValue(ValueType.ENTITY_RANGE))
+                .replaceTag("{damage}", person.getStringFinalValue(ValueType.DAMAGE))
+                .replaceTag("{damage-multiplier}", person.getStringFinalPercent(ValueType.DAMAGE_MULTIPLIER))
+                .replaceTag("{defence-multiplier}", person.getStringFinalPercent(ValueType.DEFENCE_MULTIPLIER))
+                .replaceTag("{fall-multiplier}", person.getStringFinalPercent(ValueType.FALL_MULTIPLIER))
+                .replaceTag("{health}", person.getStringFinalValue(ValueType.HEALTH))
+                .replaceTag("{regen}", person.getStringFinalValue(ValueType.REGENERATION))
+                .replaceTag("{block}", person.getStringFinalValue(ValueType.BLOCK_RANGE))
+                .replaceTag("{entity}", person.getStringFinalValue(ValueType.ENTITY_RANGE))
         ;
-        apiPerson.send(apiPerson.colorString(message.string));
+        api.send(message.getDefined(api));
     }
 }

@@ -2,6 +2,7 @@ package net.annova.command.cmdMap;
 
 import net.annova.command.register.DefaultArg;
 import net.annova.object.Person;
+import net.annova.util.AISString;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -18,6 +19,6 @@ public class MapCode {
             Location loc = player.getLocation();
             if (args[0].startsWith("h")) coords = "?worldname=" + loc.getWorld().getName() + "&mapname=flat&zoom=2&x=" + loc.getBlockX() + "&y=" + loc.getBlockY() + "&z=" + loc.getBlockZ();
         }
-        person.sendURL(getInstance(), "map-url", "http://185.230.64.61:8123/" + coords);
+        person.sendURL(getInstance(), new AISString("map-url"), "http://185.230.64.61:8123/" + coords);
     }
 }

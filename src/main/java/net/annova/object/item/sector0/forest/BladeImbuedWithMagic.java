@@ -7,6 +7,7 @@ import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.magic.physic.EntRoots;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
@@ -21,7 +22,7 @@ import static net.annova.util.BukkitObjects.random;
 
 public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.IRON_SWORD;
     }
 

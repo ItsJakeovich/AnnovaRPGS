@@ -3,11 +3,11 @@ package net.annova.object.item.token;
 import net.annova.event.custom.MouseClickCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -16,7 +16,7 @@ import static net.annova.object.item.base.ItemType.SATURATION_TOKEN;
 
 public class SaturationTokenItem extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.NAUTILUS_SHELL;
     }
 

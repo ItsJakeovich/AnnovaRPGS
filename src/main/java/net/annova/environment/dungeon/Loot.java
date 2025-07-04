@@ -22,7 +22,6 @@ import java.util.List;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
-import static net.annova.util.MessageObjects.color;
 
 public class Loot {
     private final int rarity;
@@ -72,10 +71,10 @@ public class Loot {
                             createItem(Material.SHULKER_SHELL, random.nextInt(4) + 1, 0.4),
                             createItem(Material.NETHERITE_INGOT, 1, 0.2),
 
-                            createPotion("&eЗелье адреналина", 1, 0.01, new PotionEffect(PotionEffectType.STRENGTH, 600, 0), new PotionEffect(PotionEffectType.REGENERATION, 200, 1)),
-                            createPotion("&7Зелье защиты", 1, 0.01, new PotionEffect(PotionEffectType.WEAKNESS, 6000, 4), new PotionEffect(PotionEffectType.RESISTANCE, 6000, 4)),
-                            createPotion("&aЗелье счастья", 1, 0.01, new PotionEffect(PotionEffectType.LUCK, 36000, 2)),
-                            createPotion("&bЗелье небесной силы", 1, 0.01, new PotionEffect(PotionEffectType.SLOW_FALLING, 1200, 0), new PotionEffect(PotionEffectType.STRENGTH, 300, 2)),
+                            createPotion("§eЗелье адреналина", 1, 0.01, new PotionEffect(PotionEffectType.STRENGTH, 600, 0), new PotionEffect(PotionEffectType.REGENERATION, 200, 1)),
+                            createPotion("§7Зелье защиты", 1, 0.01, new PotionEffect(PotionEffectType.WEAKNESS, 6000, 4), new PotionEffect(PotionEffectType.RESISTANCE, 6000, 4)),
+                            createPotion("§aЗелье счастья", 1, 0.01, new PotionEffect(PotionEffectType.LUCK, 36000, 2)),
+                            createPotion("§bЗелье небесной силы", 1, 0.01, new PotionEffect(PotionEffectType.SLOW_FALLING, 1200, 0), new PotionEffect(PotionEffectType.STRENGTH, 300, 2)),
 
                             createItem(Material.HEAVY_CORE, 0.003),
                             createItem(Material.TOTEM_OF_UNDYING, 0.0018),
@@ -182,7 +181,7 @@ public class Loot {
         ItemStack potion = new ItemStack(Material.POTION, amount); // Основной тип - обычное зелье
         PotionMeta meta = (PotionMeta) potion.getItemMeta();
 
-        if (name != null) meta.setDisplayName(color(name));
+        if (name != null) meta.setDisplayName(name);
         for (PotionEffect effect : effects) {
             meta.addCustomEffect(effect, true);
         }

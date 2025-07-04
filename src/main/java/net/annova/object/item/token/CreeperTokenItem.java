@@ -2,6 +2,7 @@ package net.annova.object.item.token;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ import static net.annova.object.item.base.ItemType.CREEPER_TOKEN;
 
 public class CreeperTokenItem extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.NAUTILUS_SHELL;
     }
 

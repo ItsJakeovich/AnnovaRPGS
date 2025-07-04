@@ -8,6 +8,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.Team;
 import net.annova.object.person.status.StatusManager;
+import net.annova.util.AISString;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.Bukkit;
@@ -182,12 +183,12 @@ public class Dungeon {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Person pl = getPerson(player);
             if (team == null) {
-                pl.sendAndBar(pl.getString(getInstance(), "dungeon-complete-person",
+                pl.sendAndBar(pl.getAISString(getInstance(), "dungeon-complete-person",
                         "{person}", person.getPerson().getName()));
             } else {
-                pl.sendAndBar(pl.getString(getInstance(), "dungeon-complete-team")
-                        .replace("{team}", team.getName())
-                        .replace("{leader}", team.getLeader().getPerson().getName())
+                pl.sendAndBar(pl.getAISString(getInstance(), "dungeon-complete-team")
+                        .replaceTag("{team}", team.getName())
+                        .replaceTag("{leader}", team.getLeader().getPerson().getName())
                 );
             }
         }
@@ -229,14 +230,14 @@ public class Dungeon {
     public void send(String url, String from, String to) {
         for (RPGPerson pers : this.players) {
             Person person = pers.getPerson();
-            String message = person.getString(getInstance(), url);
-            person.sendAndBar(message.replace(from, to));
+            AISString message = person.getAISString(getInstance(), url);
+            person.sendAndBar(message.replaceTag(from, to));
         }
     }
     public void send(String url) {
         for (RPGPerson pers : this.players) {
             Person person = pers.getPerson();
-            person.sendAndBar(person.getString(getInstance(), url));
+            person.sendAndBar(person.getAISString(getInstance(), url));
         }
     }
 

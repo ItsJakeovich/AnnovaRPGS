@@ -16,6 +16,7 @@ import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.ValueType;
+import net.annova.util.AISString;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -128,9 +129,9 @@ public class RPGPerson {
         int newPoints = (int) (points * (1 + ((dungeon.getPlayers().size()-1)*0.3)));
         this.dungeonPoints = Math.min(dungeonPoints + newPoints, 10000);
 
-        this.person.sendBar(person.getString(getInstance(), "dungeon-points")
-                .replace("{plus}", String.valueOf(newPoints))
-                .replace("{points}", String.valueOf(dungeonPoints))
+        this.person.sendBar(person.getAISString(getInstance(), "dungeon-points")
+                .replaceTag("{plus}", String.valueOf(newPoints))
+                .replaceTag("{points}", String.valueOf(dungeonPoints))
         );
         Player player = this.getPerson().getPlayer();
         player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 1);
@@ -244,12 +245,12 @@ public class RPGPerson {
     }
     public void updateStatusBar() {
         if (!this.showBar) return;
-        String message = this.person.getString(getInstance(), "bar-health")
-                .replace("{h}", String.valueOf((int) this.health))
-                .replace("{m}", String.valueOf((int) this.maxHealth));
+        AISString message = this.person.getAISString(getInstance(), "bar-health")
+                .replaceTag("{h}", String.valueOf((int) this.health))
+                .replaceTag("{m}", String.valueOf((int) this.maxHealth));
         Player player = this.person.getPlayer();
         player.setHealth(this.person.getMaxHealth(player) * health/maxHealth);
-        this.person.sendBar(player, message);
+        this.person.sendBar(message);
     }
 
     public void death() {
@@ -390,7 +391,7 @@ public class RPGPerson {
     }
     public String getStringSectorLocation() {
         return sectorLocation == null
-                ? this.person.getString(getInstance(), "sector-loc-empty")
+                ? this.person.getAISString(getInstance(), "sector-loc-empty").getDefined().getString()
                 : "{mc}" + sectorLocation.getClass().getSimpleName().toLowerCase()
                 ;
     }

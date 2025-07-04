@@ -2,6 +2,7 @@ package net.annova.object.item.sector0.oasis;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.item.Item;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -22,7 +23,7 @@ import static net.annova.util.BukkitObjects.glowItem;
 
 public class BlobFishGray extends RPGItem implements Listener {
     @Override
-    public Material type() {
+    public Item type() {
         return Material.SALMON;
     }
 
