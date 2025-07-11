@@ -7,11 +7,12 @@ import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.magic.projectile.HarryBall;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class Harry extends RPGEntity implements EntityActivity {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                createItem(Material.COOKED_BEEF, random.nextInt(4), 0.11),
+                createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
                 PRISON_TOKEN.create(player, random.nextInt(2), 0.11)
         );
     }

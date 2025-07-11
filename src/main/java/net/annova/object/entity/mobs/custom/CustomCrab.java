@@ -32,16 +32,6 @@ import java.util.Set;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class CustomCrab extends CaveSpider {
-//    public static final EntityType<Crab> CRAB;
-//
-//    static {
-//        CRAB = (EntityType<Crab>) register("crab", EntityType.Builder.of(Crab::new, MobCategory.MONSTER)
-//                .sized(0.7F, 0.5F)
-//                .eyeHeight(0.45F)
-//                .clientTrackingRange(8)
-//        );
-//    }
-
     public CustomCrab(EntityType<? extends CaveSpider> entitytypes, Level world) {
         super(entitytypes, world);
         this.setInvisible(true);

@@ -4,6 +4,7 @@ import net.annova.event.custom.PlayerDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +16,7 @@ import static net.annova.object.item.base.ItemType.DRAGON_STONE;
 public class DragonStoneItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.AMETHYST_SHARD;
+        return Items.AMETHYST_SHARD;
     }
 
     @Override

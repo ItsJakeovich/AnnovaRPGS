@@ -11,17 +11,14 @@ import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomOlderEnt;
 import net.annova.object.magic.physic.EntRoots;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,6 @@ import java.util.Set;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.object.entity.core.RPGEntityType.ENT;
 import static net.annova.object.item.base.ItemType.*;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class OlderEnt extends RPGEntity implements CustomType, EntityAction, EntityActivity {
@@ -79,8 +75,8 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
         return List.of(
                 ENT_ROOT.create(player, random.nextInt(7)+2),
                 BLADE_IMBUED_WITH_MAGIC.create(player, 0.074),
-                new ItemStack(Material.OAK_LOG, random.nextInt(33)+16),
-                new ItemStack(Material.STICK, random.nextInt(225)+20),
+                new ItemStack(Items.OAK_LOG, random.nextInt(33)+16),
+                new ItemStack(Items.STICK, random.nextInt(225)+20),
                 ENT_CORE.create(player, 0.1)
         );
     }

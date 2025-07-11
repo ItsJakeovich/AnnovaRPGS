@@ -1,6 +1,6 @@
 package net.annova.object.entity.core.attribute;
 
-import org.bukkit.inventory.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface EntityEquipment {
     /*

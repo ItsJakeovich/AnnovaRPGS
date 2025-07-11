@@ -22,13 +22,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -167,13 +167,12 @@ public abstract class RPGEntity {
         }
 
         if (this instanceof EntityEquipment equipment) {
-            org.bukkit.inventory.EntityEquipment equip = ((org.bukkit.entity.LivingEntity) ent.getBukkitEntity()).getEquipment();
-            equip.setItemInMainHand(equipment.equipment()[0]);
-            equip.setItemInOffHand(equipment.equipment()[1]);
-            equip.setHelmet(equipment.equipment()[2]);
-            equip.setChestplate(equipment.equipment()[3]);
-            equip.setLeggings(equipment.equipment()[4]);
-            equip.setBoots(equipment.equipment()[5]);
+            ent.setItemSlot(EquipmentSlot.MAINHAND, equipment.equipment()[0]);
+            ent.setItemSlot(EquipmentSlot.OFFHAND, equipment.equipment()[1]);
+            ent.setItemSlot(EquipmentSlot.HEAD, equipment.equipment()[2]);
+            ent.setItemSlot(EquipmentSlot.CHEST, equipment.equipment()[3]);
+            ent.setItemSlot(EquipmentSlot.LEGS, equipment.equipment()[4]);
+            ent.setItemSlot(EquipmentSlot.FEET, equipment.equipment()[5]);
         }
 
         return ent;

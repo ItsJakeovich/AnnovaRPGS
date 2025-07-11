@@ -4,6 +4,7 @@ import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,7 @@ import static net.annova.object.person.status.StatusType.REPAIR_COOLDOWN;
 public class RepairStoneItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.AMETHYST_SHARD;
+        return Items.AMETHYST_SHARD;
     }
 
     @Override

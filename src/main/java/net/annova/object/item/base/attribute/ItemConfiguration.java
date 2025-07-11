@@ -1,7 +1,7 @@
 package net.annova.object.item.base.attribute;
 
-import org.bukkit.inventory.meta.ItemMeta;
+import net.minecraft.world.item.ItemStack;
 
 public interface ItemConfiguration {
-    void initConfiguration(ItemMeta itemMeta);
+    void initConfiguration(ItemStack item);
 }

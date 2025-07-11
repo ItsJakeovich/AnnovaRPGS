@@ -5,12 +5,13 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityEquipment;
 import net.annova.object.entity.core.attribute.ability.ValueType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
@@ -69,12 +70,12 @@ public class Duelist extends RPGEntity implements EntityEquipment, Listener {
     @Override
     public ItemStack[] equipment() {
         return new ItemStack[] {
-            createItem(Material.IRON_SWORD, ChatColor.GRAY + "Стальная зубочистка"),
-            createItem(Material.IRON_SWORD, ChatColor.GRAY + "Стальная зубочистка"),
-            createItem(Material.CHAINMAIL_HELMET),
-            createItem(Material.CHAINMAIL_CHESTPLATE),
-            createItem(Material.CHAINMAIL_LEGGINGS),
-            createItem(Material.CHAINMAIL_BOOTS)
+            createItem(Items.IRON_SWORD, Component.literal("Стальная зубочистка").withColor(Color.GRAY.asRGB())),
+            createItem(Items.IRON_SWORD, Component.literal("Стальная зубочистка").withColor(Color.GRAY.asRGB())),
+            createItem(Items.CHAINMAIL_HELMET),
+            createItem(Items.CHAINMAIL_CHESTPLATE),
+            createItem(Items.CHAINMAIL_LEGGINGS),
+            createItem(Items.CHAINMAIL_BOOTS)
         };
     }
 

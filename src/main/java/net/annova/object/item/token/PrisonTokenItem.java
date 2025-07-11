@@ -3,6 +3,7 @@ package net.annova.object.item.token;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class PrisonTokenItem extends RPGItem {
     @Override
     public Item type() {
-        return Material.NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override

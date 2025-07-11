@@ -1,5 +1,6 @@
 package net.annova.object.item.base;
 
+import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 import net.annova.object.item.DungeonKeyItem;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.ItemEquipment;
@@ -32,23 +33,20 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomModelData;
-import net.minecraft.world.item.component.ItemLore;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.components.CraftCustomModelDataComponent;
+import net.minecraft.world.item.component.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -199,7 +197,7 @@ public enum ItemType {
         return BY_NAME.get(itemName);
     }
     @Nullable
-    public static ItemType getItemType(ItemStack item) {
+    public static ItemType getItemType(org.bukkit.inventory.ItemStack item) {
         return BY_NAME.get(getItemId(item));
     }
     public static Set<ItemType> getItemsByCategory(ItemCategory category) {
@@ -225,18 +223,18 @@ public enum ItemType {
         else return this.hasItem(player);
     }
     public boolean hasItem(Player player) {
-        for (ItemStack item : player.getInventory().getContents()) {
+        for (org.bukkit.inventory.ItemStack item : player.getInventory().getContents()) {
             if (this.id.equals(getItemId(item))) return true;
         }
         return false;
     }
     public boolean hasEquipment(Player player) {
-        for (ItemStack item : getRPGPerson(player).getEquipment().getAllEquipment()) {
+        for (org.bukkit.inventory.ItemStack item : getRPGPerson(player).getEquipment().getAllEquipment()) {
             if (this.id.equals(getItemId(item))) return true;
         }
         return false;
     }
-    public boolean equals(ItemStack item) {
+    public boolean equals(org.bukkit.inventory.ItemStack item) {
         return this.id.equals(getItemId(item));
     }
 
@@ -246,7 +244,7 @@ public enum ItemType {
     public boolean removeItem(LivingEntity entity) {
         if (entity instanceof Player player) {
             PlayerInventory inv = player.getInventory();
-            for (ItemStack item : inv.getContents()) {
+            for (org.bukkit.inventory.ItemStack item : inv.getContents()) {
                 if (!this.id.equals(getItemId(item))) continue;
                 inv.removeItem(item);
                 return true;
@@ -265,7 +263,7 @@ public enum ItemType {
     /**
      * @return true if item similar and decreased.
      */
-    public boolean use(Player player, ItemStack item) {
+    public boolean use(Player player, org.bukkit.inventory.ItemStack item) {
         if (!this.id.equals(getItemId(item))) return false;
         RPGItem.subtractItem(player, item);
         return true;
@@ -275,8 +273,8 @@ public enum ItemType {
     }
 
     @Nullable
-    public ItemStack getFromInventory(Player player) {
-        for (ItemStack item : player.getInventory().getContents()) {
+    public org.bukkit.inventory.ItemStack getFromInventory(Player player) {
+        for (org.bukkit.inventory.ItemStack item : player.getInventory().getContents()) {
             if (this.id.equals(getItemId(item))) return item;
         }
         return null;
@@ -319,112 +317,140 @@ public enum ItemType {
         return this.create(person.getPerson(), amount, chance);
     }
     public ItemStack create(Person person, int amount, double chance) {
-        if (amount < 1 || (chance != 1 && !chance(chance))) return new ItemStack(Material.AIR);
+        if (amount < 1 || (chance != 1 && !chance(chance))) return ItemStack.EMPTY;
 
-        net.minecraft.world.item.ItemStack nms = new net.minecraft.world.item.ItemStack(this.item.type(), amount);
-
-        nms.set(DataComponents.CUSTOM_NAME, Component.literal("123"));
+        ItemStack nms = new ItemStack(this.item.type(), amount);
 
         Map<String, AISString> local = getLangMap(getInstance(), person == null ? "ru" : person.getLanguage());
 
-        nms.set(DataComponents.CUSTOM_NAME, local.getOrDefault(this.name(), local.get("unknown-name"))
-                .getDefined(person).withColor(this.item.rarity().getColor())
+        nms.set(DataComponents.CUSTOM_NAME, local.getOrDefault(this.name(), local.get("unknown-name")).clone()
+                .getDefined(person, this.item.rarity().getColor())
         );
         nms.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of()));
         nms.set(DataComponents.LORE, new ItemLore(List.of()));
 
-        List<String> newLore = new ArrayList<>();
+        List<Component> newLore = new ArrayList<>();
         AISString lore = local.get(this.name() + "-lore");
-        if (lore != null) {
-            String[] loreString = lore.getDefined(person).split("\n");
-            newLore.addAll(Arrays.asList(loreString));
-            newLore.add("");
-        }
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        pdc.set(NK_ID, PersistentDataType.STRING, this.id);
+        if (lore != null) newLore.addAll(lore.getDefinedSplitted(person));
 
-        if (this.item.unstackable()) {
-            pdc.set(NamespacedKey.fromString(UUID.randomUUID().toString(), getInstance()), PersistentDataType.INTEGER, 0);
-        }
+        CompoundTag tag = new CompoundTag();
+        tag.putString(NK_ID.toString(), this.id);
 
-        if (this.item instanceof RPGTool weapon && !this.getItem().type().equals(Material.BOW)) {
-            String damage = local.getOrDefault("tool-damage", local.get("unknown"))
-                    .getDefined(person)
-                    + colorizeNumber(weapon.damage());
-            String speed = local.getOrDefault("tool-speed", local.get("unknown"))
-                    .getDefined(person)
-                    + colorizeNumber((weapon.attackSpeed()/1.6) - 1) + '%';
+        nms.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+
+        if (this.item.unstackable()) nms.set(DataComponents.MAX_STACK_SIZE, 1);
+
+        ItemAttributeModifiers attribute = nms.get(DataComponents.ATTRIBUTE_MODIFIERS);
+        List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(attribute.modifiers());
+        if (this.item instanceof RPGTool weapon && this.getItem().type() != Items.BOW) {
+            newLore.add(Component.empty());
+
+            MutableComponent damage = local.getOrDefault("tool-damage", local.get("unknown")).clone()
+                    .append(colorizeNumber(weapon.damage()))
+                    .getDefined(person);
+            MutableComponent speed = local.getOrDefault("tool-speed", local.get("unknown")).clone()
+                    .append(colorizeNumber((double) Math.round((weapon.attackSpeed() / 1.6 - 1) * 10000) / 100))
+                    .append("%")
+                    .getDefined(person);
             newLore.add(damage);
             newLore.add(speed);
 
-            meta.removeAttributeModifier(Attribute.ATTACK_DAMAGE);
-            meta.removeAttributeModifier(Attribute.ATTACK_SPEED);
+            List<ItemAttributeModifiers.Entry> toRemove = new ArrayList<>();
+            for (ItemAttributeModifiers.Entry entry : modifiers) {
+                if (entry.attribute() == Attributes.ATTACK_DAMAGE || entry.attribute() == Attributes.ATTACK_SPEED) {
+                    toRemove.add(entry);
+                }
+            }
+            modifiers.removeAll(toRemove);
 
-            meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                    getNamespacedKey("attack_damage-" + this.id),
-                    weapon.damage()-1,
-                    AttributeModifier.Operation.ADD_NUMBER,
+            modifiers.add(new ItemAttributeModifiers.Entry(
+                    Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(
+                            RESOURCE_ATTACK_DAMAGE,
+                            weapon.damage()-1,
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
                     EquipmentSlotGroup.MAINHAND
             ));
-            meta.addAttributeModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                    getNamespacedKey("attack_speed-" + this.id),
-                    weapon.attackSpeed()-4,
-                    AttributeModifier.Operation.ADD_NUMBER,
+            modifiers.add(new ItemAttributeModifiers.Entry(
+                    Attributes.ATTACK_SPEED,
+                    new AttributeModifier(
+                            RESOURCE_ATTACK_SPEED,
+                            weapon.attackSpeed()-4,
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
                     EquipmentSlotGroup.MAINHAND
             ));
         }
 
         if (this.item instanceof RPGArmor armor) {
-            String armorLang = local.getOrDefault("armor-defence", local.get("unknown"))
-                    .getDefined(person)
-                    + colorizeNumber((double) (int) (armor.armor() * 4 * 100) / 100) + '%';
-            String toughness = local.getOrDefault("armor-toughness", local.get("unknown"))
-                    .getDefined(person)
-                    + colorizeNumber(armor.toughness());
-            String speed = local.getOrDefault("armor-speed", local.get("unknown"))
-                    .getDefined(person)
-                    + colorizeNumber(armor.speed()*100) + '%';
+            newLore.add(Component.empty());
 
+            MutableComponent armorLang = local.getOrDefault("armor-defence", local.get("unknown")).clone()
+                    .append(colorizeNumber((double) Math.round(armor.armor() * 4 * 100) / 100))
+                    .append("%")
+                    .getDefined(person);
+            MutableComponent toughness = local.getOrDefault("armor-toughness", local.get("unknown")).clone()
+                    .append(colorizeNumber(armor.toughness()))
+                    .getDefined(person);
+            MutableComponent speed = local.getOrDefault("armor-speed", local.get("unknown")).clone()
+                    .append(colorizeNumber(armor.speed()*100))
+                    .append("%")
+                    .getDefined(person);
             newLore.add(armorLang);
             newLore.add(toughness);
             newLore.add(speed);
 
-            meta.removeAttributeModifier(Attribute.ARMOR);
-            meta.removeAttributeModifier(Attribute.ARMOR_TOUGHNESS);
-            meta.removeAttributeModifier(Attribute.MOVEMENT_SPEED);
+            List<ItemAttributeModifiers.Entry> toRemove = new ArrayList<>();
+            for (ItemAttributeModifiers.Entry entry : modifiers) {
+                if (entry.attribute() == Attributes.ARMOR
+                        || entry.attribute() == Attributes.ARMOR_TOUGHNESS
+                        || entry.attribute() == Attributes.MOVEMENT_SPEED) {
+                    toRemove.add(entry);
+                }
+            }
+            modifiers.removeAll(toRemove);
 
-            meta.addAttributeModifier(Attribute.ARMOR, new AttributeModifier(
-                    getNamespacedKey("armor-" + this.id),
-                    armor.armor(),
-                    AttributeModifier.Operation.ADD_NUMBER,
+            modifiers.add(new ItemAttributeModifiers.Entry(
+                    Attributes.ARMOR,
+                    new AttributeModifier(
+                            RESOURCE_ARMOR,
+                            armor.armor(),
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
                     EquipmentSlotGroup.ARMOR
             ));
-            meta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                    getNamespacedKey("toughness-" + this.id),
-                    armor.toughness(),
-                    AttributeModifier.Operation.ADD_NUMBER,
+            modifiers.add(new ItemAttributeModifiers.Entry(
+                    Attributes.ARMOR_TOUGHNESS,
+                    new AttributeModifier(
+                            RESOURCE_TOUGHNESS,
+                            armor.toughness(),
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
                     EquipmentSlotGroup.ARMOR
             ));
-            meta.addAttributeModifier(Attribute.MOVEMENT_SPEED, new AttributeModifier(
-                    getNamespacedKey("movement_speed-" + this.id),
-                    armor.speed(),
-                    AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+            modifiers.add(new ItemAttributeModifiers.Entry(
+                    Attributes.ARMOR,
+                    new AttributeModifier(
+                            RESOURCE_MOVEMENT,
+                            armor.speed(),
+                            AttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                    ),
                     EquipmentSlotGroup.ARMOR
             ));
         }
+
+        SequencedSet<DataComponentType<?>> toHide = new ReferenceLinkedOpenHashSet<>();
+        toHide.add(DataComponents.ATTRIBUTE_MODIFIERS);
+        nms.set(DataComponents.TOOLTIP_DISPLAY, new TooltipDisplay(false, toHide));
+
+        nms.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifiers));
+        nms.set(DataComponents.LORE, new ItemLore(newLore, newLore));
 
         if (this.item instanceof ItemConfiguration configuration) {
-            configuration.initConfiguration(meta);
+            configuration.initConfiguration(nms);
         }
 
-        if (!newLore.isEmpty()) {
-            int lastIndex = newLore.size()-1;
-            if (newLore.get(lastIndex).isEmpty()) {
-                newLore.remove(lastIndex);
-            }
-        }
-        meta.setLore(newLore);
-        item.setItemMeta(meta);
-        return item;
+        return nms;
     }
 }

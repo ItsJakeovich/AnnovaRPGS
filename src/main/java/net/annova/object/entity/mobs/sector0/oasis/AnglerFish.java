@@ -53,7 +53,7 @@ public class AnglerFish extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<net.minecraft.world.item.ItemStack> loot(Player player) {
         return List.of();
     }
 

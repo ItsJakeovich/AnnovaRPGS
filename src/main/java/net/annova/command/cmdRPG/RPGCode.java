@@ -8,11 +8,17 @@ import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.Blocks;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -24,6 +30,19 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
+    @CommandArg(name = "test")
+    public void test(Player player) {
+        ServerLevel level = ((CraftWorld) player.getWorld()).getHandle();
+        Location location = player.getLocation();
+        for (int y = -5; y <= 5; y++) {
+            for (int z = -5; z <= 5; z++) {
+                for (int x = -5; x <= 5; x++) {
+                    level.setBlock(new BlockPos(x, y, z), Blocks.END_PORTAL.defaultBlockState(), 1);
+                }
+            }
+        }
+    }
+
     private static final List<Inventory> itemsInterface = new ArrayList<>();
     static {
         int i = 0;
@@ -33,7 +52,7 @@ public class RPGCode {
                 inventory = Bukkit.createInventory(null, 54, "Items - page: " + 1 + i/54);
                 itemsInterface.add(inventory);
             }
-            inventory.addItem(itemType.create(1));
+            inventory.addItem(CraftItemStack.asBukkitCopy(itemType.create(1)));
             i++;
         }
     }
@@ -98,7 +117,7 @@ public class RPGCode {
             return;
         }
         ItemType type = ItemType.valueOf(args[1]);
-        addItems(player, type.create(1));
+        addItems(player, CraftItemStack.asBukkitCopy(type.create(1)));
     }
 
     @CommandArg(name = "status")

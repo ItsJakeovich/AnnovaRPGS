@@ -14,7 +14,6 @@ import static net.annova.util.BukkitObjects.chance;
 public class KnockbackEvent implements Listener {
     @EventHandler
     public void onDamage(EntityKnockbackEvent event) {
-        sendInfo("entityknockbackevent");
         RPGEntity entity = getEntity(event.getEntity());
         if (entity == null) return;
 

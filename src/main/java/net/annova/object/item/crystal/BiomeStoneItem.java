@@ -6,6 +6,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ import static org.bukkit.block.Biome.*;
 public class BiomeStoneItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.AMETHYST_SHARD;
+        return Items.AMETHYST_SHARD;
     }
 
     @Override

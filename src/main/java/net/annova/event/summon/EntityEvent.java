@@ -82,6 +82,7 @@ public class EntityEvent implements Listener {
     }
 
     public static List<ArmorStand> indicators = new ArrayList<>();
+
     private void spawnIndicator(Location entityLocation, double damage) {
         if (damage < 1) return;
         Location loc = entityLocation.clone().add(0, 1.5, 0);
@@ -92,7 +93,7 @@ public class EntityEvent implements Listener {
             stand.setGravity(false);
             stand.setSmall(true);
             stand.setCustomNameVisible(true);
-            stand.setCustomName(ChatColor.BOLD + "" + ChatColor.RED + (double) ((int) (damage * 100)) / 100);
+            stand.setCustomName(ChatColor.BOLD + "" + ChatColor.RED + (double) Math.round(damage * 100) / 100);
         });
         indicators.add(armorStand);
         Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {

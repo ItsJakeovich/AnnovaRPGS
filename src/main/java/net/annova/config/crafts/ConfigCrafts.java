@@ -5,6 +5,7 @@ import net.annova.object.item.base.ItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.inventory.*;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class ConfigCrafts {
         try {
             return new ItemStack(Material.valueOf(id), amount);
         } catch (IllegalArgumentException e) {
-            return ItemType.getItemType(id).create(amount);
+            return CraftItemStack.asBukkitCopy(ItemType.getItemType(id).create(amount));
         }
     }
 

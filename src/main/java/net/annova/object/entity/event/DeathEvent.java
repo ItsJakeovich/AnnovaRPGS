@@ -11,6 +11,7 @@ import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +24,6 @@ import java.util.List;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.object.entity.core.RPGEntityType.getType;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DeathEvent implements Listener {
@@ -35,7 +35,9 @@ public class DeathEvent implements Listener {
         // Loot event
         List<ItemStack> drop = event.getDrops();
         event.getDrops().clear();
-        drop.addAll(entity.loot(ent.getKiller()));
+        for (net.minecraft.world.item.ItemStack item : entity.loot(ent.getKiller())) {
+            drop.add(CraftItemStack.asBukkitCopy(item));
+        }
 
         if (entity instanceof EntityAction action) {
             action.onDeath();

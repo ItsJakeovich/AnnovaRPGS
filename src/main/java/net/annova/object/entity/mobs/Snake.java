@@ -6,10 +6,11 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.annova.object.entity.mobs.custom.CustomSnake;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.Material;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
@@ -62,7 +63,7 @@ public class Snake extends RPGEntity implements CustomType {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-            createItem(Material.RABBIT_HIDE, "§fЗмеиная кожа", 1, random.nextInt(2), 0.2)
+            createItem(Items.RABBIT_HIDE, Component.literal("Змеиная кожа"), 1, random.nextInt(2), 0.2)
         );
     }
 

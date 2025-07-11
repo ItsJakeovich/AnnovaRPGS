@@ -4,6 +4,7 @@ import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,7 +20,7 @@ import static net.annova.object.item.base.ItemType.BALANCE_STONE;
 public class BalanceStoneItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.AMETHYST_SHARD;
+        return Items.AMETHYST_SHARD;
     }
 
     @Override

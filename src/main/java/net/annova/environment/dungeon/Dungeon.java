@@ -15,9 +15,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 
@@ -83,9 +83,9 @@ public class Dungeon {
         return close;
     }
 
-    public boolean startIfTrue() {
+    public void startIfTrue() {
         for (RPGPerson person : players) {
-            if (!person.isReady()) return false;
+            if (!person.isReady()) return;
         }
 
         /*new BukkitRunnable() {
@@ -114,7 +114,6 @@ public class Dungeon {
         Dungeon.this.players.forEach(player -> player.setReady(false));
         Dungeon.this.teleportAll();
         Dungeon.this.base.start(Dungeon.this);
-        return true;
     }
     public void endDungeon() {
         this.endDungeon(false);
@@ -150,7 +149,7 @@ public class Dungeon {
             Player player = person.getPerson().getPlayer();
 
             int points = person.getDungeonPoints();
-            ItemStack cont = points > 5 ? container.create(player, 1 + points/1000) : new ItemStack(Material.AIR);
+            ItemStack cont = points > 5 ? CraftItemStack.asBukkitCopy(container.create(player, 1 + points/1000)) : new ItemStack(Material.AIR);
 
             if (player == null) {
                 person.addPendingItem(cont);

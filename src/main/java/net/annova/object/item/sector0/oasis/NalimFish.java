@@ -4,6 +4,7 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,7 @@ import static net.annova.object.item.base.ItemType.NALIM_FISH;
 public class NalimFish extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.SALMON;
+        return Items.SALMON;
     }
 
     @Override

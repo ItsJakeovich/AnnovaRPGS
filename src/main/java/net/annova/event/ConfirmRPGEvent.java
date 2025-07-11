@@ -52,7 +52,7 @@ public class ConfirmRPGEvent implements Listener {
             case "dungeon" -> {
                 Player player = person.getPlayer();
                 ItemType itemType = ItemType.DUNGEON_KEY;
-                if (!player.getInventory().removeItem(itemType.create(player)).isEmpty()) {
+                if (!itemType.use(player, itemType.getFromInventory(player))) {
                     person.send(getInstance(), "dungeon-missing-key");
                     break;
                 }

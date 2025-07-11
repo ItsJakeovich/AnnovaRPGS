@@ -4,6 +4,7 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.annova.util.BukkitObjects;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -24,7 +25,7 @@ public class EarthStoneItem extends RPGItem implements Listener {
 
     @Override
     public Item type() {
-        return Material.AMETHYST_SHARD;
+        return Items.AMETHYST_SHARD;
     }
 
     @Override

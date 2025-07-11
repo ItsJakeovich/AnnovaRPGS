@@ -10,8 +10,8 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.magic.projectile.WebBall;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 

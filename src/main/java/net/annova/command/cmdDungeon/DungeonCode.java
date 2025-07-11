@@ -8,6 +8,7 @@ import net.annova.object.magic.projectile.IceBall;
 import net.annova.object.Person;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import static net.annova.object.entity.core.RPGEntityType.*;
@@ -21,7 +22,7 @@ import static net.annova.main.AnnovaRPG.getInstance;
 public class DungeonCode {
     @CommandArg(name = "key")
     public void key(Player player) {
-        addItems(player, DUNGEON_KEY.create(player));
+        addItems(player, CraftItemStack.asBukkitCopy(DUNGEON_KEY.create(player)));
     }
 
     @CommandArg(name = "list")

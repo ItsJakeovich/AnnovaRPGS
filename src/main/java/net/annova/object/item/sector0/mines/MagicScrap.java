@@ -3,6 +3,7 @@ package net.annova.object.item.sector0.mines;
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static org.bukkit.Material.NAUTILUS_SHELL;
 public class MagicScrap extends RPGItem {
     @Override
     public Item type() {
-        return NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override

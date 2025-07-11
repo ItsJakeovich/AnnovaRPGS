@@ -3,8 +3,12 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.CustomData;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -15,12 +19,10 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 
 import java.util.List;
 
@@ -32,7 +34,7 @@ import static net.annova.object.item.base.ItemType.UNKNOWN_SOURCE_WATER;
 public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Listener {
     @Override
     public net.minecraft.world.item.Item type() {
-        return Material.POTION;
+        return Items.POTION;
     }
 
     @Override
@@ -51,10 +53,12 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Li
     }
 
     @Override
-    public void initConfiguration(ItemMeta itemMeta) {
-        ((PotionMeta) itemMeta).setBasePotionType(PotionType.WATER);
-        itemMeta.getPersistentDataContainer().set(NK_EXPIRE, PersistentDataType.LONG, System.currentTimeMillis() + 3600_000);
-        itemMeta.getPersistentDataContainer().set(NK_SOURCE_WATER, PersistentDataType.BOOLEAN, false);
+    public void initConfiguration(net.minecraft.world.item.ItemStack item) {
+        CustomData data = item.get(DataComponents.CUSTOM_DATA);
+        item.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
+        CompoundTag tag = data.getUnsafe();
+        tag.putLong(NK_EXPIRE.toString(), System.currentTimeMillis() + 3600_000);
+        tag.putBoolean(NK_SOURCE_WATER.toString(), false);
     }
 
     private static final PotionEffect defRegeneration = new PotionEffect(PotionEffectType.REGENERATION, 100, 2);

@@ -22,10 +22,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
@@ -93,7 +94,7 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     @Override
     public ItemStack[] equipment() {
         return new ItemStack[] {
-                new ItemStack(Material.BOW),
+                new ItemStack(Items.BOW),
                 null,
                 null,
                 null,

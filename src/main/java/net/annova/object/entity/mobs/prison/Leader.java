@@ -9,10 +9,11 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.status.StatusType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -64,7 +65,7 @@ public class Leader extends RPGEntity implements EntityActivity {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                createItem(Material.COOKED_BEEF, random.nextInt(4), 0.11),
+                createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
                 PRISON_TOKEN.create(player, random.nextInt(2), 0.11)
         );
     }

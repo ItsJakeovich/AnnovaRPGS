@@ -5,6 +5,7 @@ import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -57,9 +58,9 @@ public class Dodger extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<net.minecraft.world.item.ItemStack> loot(Player player) {
         return List.of(
-                ((LivingEntity) entity.getBukkitEntity()).getEquipment().getItemInMainHand()
+                entity.getItemInHand(InteractionHand.MAIN_HAND)
         );
     }
 

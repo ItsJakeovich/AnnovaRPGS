@@ -5,6 +5,7 @@ import net.annova.object.item.base.attribute.RPGArmorActivity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -15,7 +16,7 @@ import java.util.List;
 public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorActivity {
     @Override
     public Item type() {
-        return Material.CHAINMAIL_CHESTPLATE;
+        return Items.CHAINMAIL_CHESTPLATE;
     }
 
     @Override

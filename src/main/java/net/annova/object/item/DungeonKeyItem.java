@@ -3,14 +3,14 @@ package net.annova.object.item;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
-import org.bukkit.Material;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 
 public class DungeonKeyItem extends RPGItem {
     @Override
     public Item type() {
-        return Material.NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override

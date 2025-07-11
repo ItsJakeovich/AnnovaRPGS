@@ -3,6 +3,7 @@ package net.annova.object.item.mineral;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class ForiumIngotItem extends RPGItem {
     @Override
     public Item type() {
-        return Material.IRON_INGOT;
+        return Items.IRON_INGOT;
     }
 
     @Override

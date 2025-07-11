@@ -1,10 +1,15 @@
 package net.annova.main;
 
+import net.minecraft.resources.ResourceLocation;
 import org.bukkit.NamespacedKey;
 
-import static net.annova.main.AnnovaRPG.getInstance;
-
 public class Keys {
+    public static final ResourceLocation RESOURCE_ATTACK_DAMAGE = ResourceLocation.fromNamespaceAndPath("annovas", "attack_damage");
+    public static final ResourceLocation RESOURCE_ATTACK_SPEED = ResourceLocation.fromNamespaceAndPath("annovas", "attack_speed");
+    public static final ResourceLocation RESOURCE_ARMOR = ResourceLocation.fromNamespaceAndPath("annovas", "armor");
+    public static final ResourceLocation RESOURCE_TOUGHNESS = ResourceLocation.fromNamespaceAndPath("annovas", "toughness");
+    public static final ResourceLocation RESOURCE_MOVEMENT = ResourceLocation.fromNamespaceAndPath("annovas", "movement");
+
     public static final NamespacedKey NK_ID = getNamespacedKey("id");
     public static final NamespacedKey NK_KEY = getNamespacedKey("key");
     public static final NamespacedKey NK_BIOME = getNamespacedKey("biome");

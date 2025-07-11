@@ -7,6 +7,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -23,7 +24,7 @@ import static net.annova.environment.world.GlobalWorld.isNight;
 public class CreatingNightAmulet extends RPGItem implements ItemEquipment {
     @Override
     public Item type() {
-        return Material.NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override

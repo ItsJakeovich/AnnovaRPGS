@@ -4,6 +4,7 @@ import net.annova.event.custom.DropItemFoundBlockCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,7 @@ import static net.annova.util.BukkitObjects.random;
 public class OasisFish extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.SALMON;
+        return Items.SALMON;
     }
 
     @Override

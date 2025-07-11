@@ -5,11 +5,20 @@ import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.SimpleStructure;
 import net.annova.object.animation.Animation;
 import net.annova.object.generator.VoidGenerator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 
 import java.util.*;
+import java.util.logging.Level;
 
 import static net.annova.util.BukkitObjects.chance;
 
@@ -151,18 +160,22 @@ public class DungeonTemplate {
         }
     }
     public void updateLootChests(SimpleStructure structure, Location location) {
+        CraftWorld world = (CraftWorld) location.getWorld();
+        ServerLevel level = world.getHandle();
         for (int point : this.loot.keySet()) {
             if (!chance(0.5)) continue;
             Loot loot = this.loot.get(point);
 
-            World world = location.getWorld();
             Location spawn = location.clone().add(structure.getLocationWithPoint(world, point));
+            BlockPos pos = new BlockPos(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
 
-            Block block = spawn.getBlock();
-            block.setBlockData(Material.CHEST.createBlockData());
+            level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 3);
 
-            Chest chest = ((Chest) block.getState());
-            chest.getInventory().setContents(loot.getLoot().getContents());
+            ChestBlockEntity block = (ChestBlockEntity) level.getBlockEntity(pos);
+            List<ItemStack> items = block.getContents();
+            items.clear();
+            items.addAll(loot.getLoot().getContents());
+            block.setChanged();
         }
     }
 

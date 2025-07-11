@@ -3,6 +3,7 @@ package net.annova.object.item.token;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ import static net.annova.main.AnnovaRPG.getInstance;
 public class FlyTokenItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override

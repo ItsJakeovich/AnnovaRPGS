@@ -4,6 +4,7 @@ import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -25,7 +26,7 @@ import static net.annova.util.BukkitObjects.random;
 public class DarkElfBow extends RPGItem implements RPGTool, Listener {
     @Override
     public Item type() {
-        return Material.BOW;
+        return Items.BOW;
     }
 
     @Override

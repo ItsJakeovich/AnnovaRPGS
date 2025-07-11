@@ -10,6 +10,7 @@ import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.HourTickEvent;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -123,7 +124,7 @@ public class Oasis extends SectorLocation implements Listener {
                     return;
                 }
                 if (i < 20) {
-                    world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 12, 0.4, 0.4, 0.4, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F), true);
+                    world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 12, 0.4, 0.4, 0.4, 0, new Particle.DustTransition(Color.AQUA, Color.BLUE, 4.0F), true);
                     point.add(0, 0.5, 0);
                     bubble.teleport(point);
                     return;
@@ -143,7 +144,7 @@ public class Oasis extends SectorLocation implements Listener {
                     }
                 }
 
-                world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 16, 1.6, 1.6, 1.6, 0, new Particle.DustTransition(Color.BLUE, Color.AQUA, 4.0F), true);
+                world0.spawnParticle(Particle.DUST_COLOR_TRANSITION, point, 24, 2.6, 2.6, 2.6, 0, new Particle.DustTransition(Color.AQUA, Color.BLUE, 4.0F), true);
                 i++;
             }
         }.runTaskTimer(getInstance(), 0, 10L);
@@ -204,7 +205,7 @@ public class Oasis extends SectorLocation implements Listener {
                 }
             }
             Item item = (Item) event.getCaught();
-            item.setItemStack(finalFish.create(person, 1));
+            item.setItemStack(CraftItemStack.asBukkitCopy(finalFish.create(person, 1)));
 
             person.completeAdvancement(GOOD_BITE);
             if (finalFish.equals(OASIS_FISH)) person.completeAdvancement(THATS_LUCK);

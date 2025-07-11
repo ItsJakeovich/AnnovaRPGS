@@ -3,6 +3,7 @@ package net.annova.object.item.crystal;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -21,7 +22,7 @@ import static net.annova.object.item.base.ItemType.AIR_STONE;
 public class AirStoneItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.AMETHYST_SHARD;
+        return Items.AMETHYST_SHARD;
     }
 
     @Override

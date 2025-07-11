@@ -4,6 +4,7 @@ import net.annova.object.item.base.attribute.RPGArmor;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class PrisonLeggingsItem extends RPGItem implements RPGArmor {
     @Override
     public Item type() {
-        return Material.CHAINMAIL_LEGGINGS;
+        return Items.CHAINMAIL_LEGGINGS;
     }
 
     @Override

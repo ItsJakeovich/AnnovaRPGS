@@ -4,9 +4,10 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +28,7 @@ import static net.annova.util.BukkitObjects.*;
 public class PrisonContainerItem extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override
@@ -64,12 +65,12 @@ public class PrisonContainerItem extends RPGItem implements Listener {
         ItemStack[] items = new ItemStack[45];
 
         for (int i = 0; i < 45; i++) {
-            ItemStack[] list = getItems(getPerson(player));
-            ItemStack cont = new ItemStack(Material.AIR);
-            while (cont.getType() == Material.AIR) {
+            net.minecraft.world.item.ItemStack[] list = getItems(getPerson(player));
+            net.minecraft.world.item.ItemStack cont = net.minecraft.world.item.ItemStack.EMPTY;
+            while (cont.getItem() == Items.AIR) {
                 cont = list[random.nextInt(list.length)];
             }
-            items[i] = cont;
+            items[i] = CraftItemStack.asBukkitCopy(cont);
         }
 
         // 0 1 2 3 4 5 6 7 8
@@ -80,7 +81,7 @@ public class PrisonContainerItem extends RPGItem implements Listener {
         // 45
         new BukkitRunnable() {
             private int last = 0;
-            private final ItemStack glass = getNewItem(Material.GREEN_STAINED_GLASS_PANE);
+            private final ItemStack glass = CraftItemStack.asBukkitCopy(getNewItem(Items.GREEN_STAINED_GLASS_PANE));
             @Override
             public void run() {
                 if (!player.isValid() || !player.isOnline()) this.cancel();
@@ -115,13 +116,13 @@ public class PrisonContainerItem extends RPGItem implements Listener {
         }.runTaskTimer(getInstance(), 0L, 2L);
     }
 
-    public static ItemStack[] getItems(Person person) {
-        return new ItemStack[] {
-                new ItemStack(Material.PAPER, 64),
-                new ItemStack(Material.DIAMOND, 24),
-                new ItemStack(Material.EMERALD, 16),
-                new ItemStack(Material.IRON_INGOT, 64),
-                new ItemStack(Material.GOLD_INGOT, 48),
+    public static net.minecraft.world.item.ItemStack[] getItems(Person person) {
+        return new net.minecraft.world.item.ItemStack[] {
+                new net.minecraft.world.item.ItemStack(Items.PAPER, 64),
+                new net.minecraft.world.item.ItemStack(Items.DIAMOND, 24),
+                new net.minecraft.world.item.ItemStack(Items.EMERALD, 16),
+                new net.minecraft.world.item.ItemStack(Items.IRON_INGOT, 64),
+                new net.minecraft.world.item.ItemStack(Items.GOLD_INGOT, 48),
                 PRISON_TOKEN.create(person, 4, 0.6),
 
                 PRISON_HELMET.create(person, 0.2),

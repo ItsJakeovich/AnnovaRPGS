@@ -7,6 +7,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class RootsLash extends RPGItem implements ItemEquipment {
     @Override
     public Item type() {
-        return Material.NAUTILUS_SHELL;
+        return Items.NAUTILUS_SHELL;
     }
 
     @Override

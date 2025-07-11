@@ -3,6 +3,7 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,7 @@ import static net.annova.object.item.base.ItemType.KOI_FISH;
 public class KoiFish extends RPGItem implements Listener {
     @Override
     public Item type() {
-        return Material.SALMON;
+        return Items.SALMON;
     }
 
     @Override

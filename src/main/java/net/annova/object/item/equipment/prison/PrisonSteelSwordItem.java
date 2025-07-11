@@ -5,6 +5,7 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +19,7 @@ import static net.annova.object.item.base.ItemType.PRISON_STEEL_SWORD;
 public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
     @Override
     public Item type() {
-        return Material.IRON_SWORD;
+        return Items.IRON_SWORD;
     }
 
     @Override

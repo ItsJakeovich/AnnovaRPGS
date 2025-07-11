@@ -6,16 +6,18 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -65,7 +67,7 @@ public class Boar extends RPGEntity implements EntityActivity {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                createItem(Material.PORKCHOP, "§fКабанятина", 1, random.nextInt(5), 1.0)
+                createItem(Items.PORKCHOP, Component.literal("Кабанятина"), 1, random.nextInt(5), 1.0)
         );
     }
 

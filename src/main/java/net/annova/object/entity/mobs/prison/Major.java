@@ -9,11 +9,12 @@ import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
@@ -62,7 +63,7 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
     @Override
     public List<ItemStack> loot(Player player) {
         return List.of(
-                createItem(Material.COOKED_BEEF, random.nextInt(4), 0.11),
+                createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
                 PRISON_TOKEN.create(player, random.nextInt(18)+3)
         );
     }
