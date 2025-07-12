@@ -30,8 +30,8 @@ public class PrisonSwordItem extends RPGItem implements RPGTool, Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

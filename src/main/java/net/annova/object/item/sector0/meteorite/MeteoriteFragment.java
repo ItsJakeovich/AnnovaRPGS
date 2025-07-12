@@ -4,7 +4,6 @@ import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 
 import java.util.List;
 
@@ -20,8 +19,8 @@ public class MeteoriteFragment extends RPGItem {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 8;
     }
 
     @Override

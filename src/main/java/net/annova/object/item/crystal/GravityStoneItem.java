@@ -4,7 +4,6 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -28,8 +27,8 @@ public class GravityStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

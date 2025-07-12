@@ -8,7 +8,6 @@ import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.event.Listener;
 
 import java.util.List;
@@ -26,8 +25,8 @@ public class EntsPatronAmulet extends RPGItem implements ItemEquipment, Listener
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

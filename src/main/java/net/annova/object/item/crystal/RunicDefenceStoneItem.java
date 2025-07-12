@@ -9,7 +9,6 @@ import net.annova.object.person.status.StatusManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
@@ -39,8 +38,8 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

@@ -6,7 +6,6 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +30,8 @@ public class ControlStopStickItem extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

@@ -5,7 +5,6 @@ import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,8 +27,8 @@ public class SilverPump extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 16;
     }
 
     @Override

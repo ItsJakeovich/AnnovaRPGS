@@ -2,7 +2,6 @@ package net.annova.object.item.base;
 
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,7 @@ import static net.annova.main.Keys.*;
 public abstract class RPGItem {
     public abstract Item type();
     public abstract List<Float> modelData();
-    public abstract boolean unstackable();
+    public abstract int stackSize();
     public abstract RPGRarity rarity();
 
     public static void subtractItem(Player player) {

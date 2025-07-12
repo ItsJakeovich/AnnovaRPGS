@@ -4,7 +4,6 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -31,8 +30,8 @@ public class AirStoneItem extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

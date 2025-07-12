@@ -39,7 +39,7 @@ public class RPGConfig implements ConfigBase {
     public void loadConfigObjects() {
         try {
             ConfigCrafts.loadConfig(craftConfig, crafts);
-        } catch (AnnovaException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

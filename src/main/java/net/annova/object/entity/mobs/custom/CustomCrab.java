@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.RPGItem.subtractItem;
 
 public class CustomCrab extends CaveSpider {
     public CustomCrab(EntityType<? extends CaveSpider> entitytypes, Level world) {
@@ -47,7 +48,7 @@ public class CustomCrab extends CaveSpider {
         ItemStack itemstack = entityhuman.getItemInHand(enumhand);
         if (FISH_ITEMS.contains(itemstack.getItem())) {
             RPGPerson person = getRPGPerson(entityhuman.getUUID());
-            entityhuman.setItemInHand(enumhand, ItemStack.EMPTY);
+            subtractItem(person.getPlayer());
             person.completeAdvancement(RPGAdvancement.CRAB_IS_HAPPY);
             return InteractionResult.SUCCESS;
         }

@@ -8,7 +8,6 @@ import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 
 import java.util.List;
 import java.util.Map;
@@ -25,8 +24,8 @@ public class RootsLash extends RPGItem implements ItemEquipment {
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

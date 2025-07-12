@@ -4,7 +4,6 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -34,8 +33,8 @@ public class BlobFishBlue extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 16;
     }
 
     @Override
@@ -49,12 +48,13 @@ public class BlobFishBlue extends RPGItem implements Listener {
         if (BLOB_FISH_BLUE.equals(item)) {
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
+            Player player = event.getPlayer();
             if (meta.getPersistentDataContainer().has(NK_BLOB_FISH)) {
                 pdc.set(NK_BLOB_FISH, PersistentDataType.BOOLEAN, false);
                 item.setItemMeta(meta);
                 event.setCancelled(true);
+                player.damage(2);
             } else {
-                Player player = event.getPlayer();
                 boolean value = pdc.get(NK_BLOB_FISH, PersistentDataType.BOOLEAN);
                 if (value) {
                     World world = player.getWorld();
@@ -65,6 +65,7 @@ public class BlobFishBlue extends RPGItem implements Listener {
                         world.setThunderDuration(0);
                         world.setWeatherDuration(0);
                         world.setClearWeatherDuration(18000);
+                        player.damage(8);
                     }
                 } else {
                     pdc.set(NK_BLOB_FISH, PersistentDataType.BOOLEAN, true);
@@ -72,6 +73,7 @@ public class BlobFishBlue extends RPGItem implements Listener {
                     player.playSound(player, Sound.ENTITY_VILLAGER_YES, 1, 1);
                     glowItem(item);
                     event.setCancelled(true);
+                    player.damage(4);
                 }
             }
         }

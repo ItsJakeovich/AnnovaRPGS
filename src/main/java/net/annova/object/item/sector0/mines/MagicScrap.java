@@ -7,8 +7,6 @@ import net.minecraft.world.item.Items;
 
 import java.util.List;
 
-import static org.bukkit.Material.NAUTILUS_SHELL;
-
 public class MagicScrap extends RPGItem {
     @Override
     public Item type() {
@@ -21,8 +19,8 @@ public class MagicScrap extends RPGItem {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 64;
     }
 
     @Override

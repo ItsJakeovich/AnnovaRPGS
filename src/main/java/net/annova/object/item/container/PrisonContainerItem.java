@@ -37,8 +37,8 @@ public class PrisonContainerItem extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 4;
     }
 
     @Override

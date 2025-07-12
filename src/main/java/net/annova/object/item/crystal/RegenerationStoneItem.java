@@ -4,7 +4,6 @@ import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 
 import java.util.List;
 
@@ -22,8 +21,8 @@ public class RegenerationStoneItem extends RPGItem {
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

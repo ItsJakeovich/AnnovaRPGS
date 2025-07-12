@@ -5,7 +5,6 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGArmor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 
 import java.util.List;
 
@@ -21,8 +20,8 @@ public class ChitinLeggings extends RPGItem implements RPGArmor {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

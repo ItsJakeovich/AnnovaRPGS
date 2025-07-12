@@ -22,7 +22,7 @@ public class QuestManager {
 
             }
         } catch (SQLException e) {
-            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
         }
     }
 

@@ -31,8 +31,8 @@ public class FlyTokenItem extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 99;
     }
 
     @Override

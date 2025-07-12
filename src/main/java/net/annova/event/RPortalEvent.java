@@ -23,6 +23,7 @@ public class RPortalEvent implements Listener {
     private void portal(PortalCreateEvent event) {
         event.setCancelled(true);
         List<BlockState> blocks = event.getBlocks();
+        if (blocks.isEmpty()) return;
         for (BlockState state : blocks) {
             if (state.getType().equals(Material.FIRE)) state.setType(Material.AIR);
         }

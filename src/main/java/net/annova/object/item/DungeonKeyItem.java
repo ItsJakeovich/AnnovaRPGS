@@ -19,8 +19,8 @@ public class DungeonKeyItem extends RPGItem {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

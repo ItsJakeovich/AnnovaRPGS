@@ -75,7 +75,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
         return List.of(
                 ENT_ROOT.create(player, random.nextInt(7)+2),
                 BLADE_IMBUED_WITH_MAGIC.create(player, 0.074),
-                new ItemStack(Items.OAK_LOG, random.nextInt(33)+16),
+                new ItemStack(Items.OAK_LOG, random.nextInt(25)+16),
                 new ItemStack(Items.STICK, random.nextInt(225)+20),
                 ENT_CORE.create(player, 0.1)
         );

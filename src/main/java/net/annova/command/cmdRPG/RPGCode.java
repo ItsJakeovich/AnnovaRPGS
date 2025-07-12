@@ -37,7 +37,7 @@ public class RPGCode {
         for (int y = -5; y <= 5; y++) {
             for (int z = -5; z <= 5; z++) {
                 for (int x = -5; x <= 5; x++) {
-                    level.setBlock(new BlockPos(x, y, z), Blocks.END_PORTAL.defaultBlockState(), 1);
+                    level.setBlock(new BlockPos(x, y, z), Blocks.NETHER_PORTAL.defaultBlockState(), 1);
                 }
             }
         }

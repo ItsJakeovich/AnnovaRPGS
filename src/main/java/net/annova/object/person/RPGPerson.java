@@ -61,7 +61,6 @@ public class RPGPerson {
     private final List<ItemStack> pendingItems = new ArrayList<>();
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
-    private boolean showBar = true;
 
     private SectorLocation sectorLocation;
 
@@ -244,7 +243,7 @@ public class RPGPerson {
         this.updateStatusBar();
     }
     public void updateStatusBar() {
-        if (!this.showBar) return;
+        if (person.isHideUI()) return;
         AISString message = this.person.getAISString(getInstance(), "bar-health")
                 .replaceTag("{h}", String.valueOf((int) this.health))
                 .replaceTag("{m}", String.valueOf((int) this.maxHealth));
@@ -307,9 +306,6 @@ public class RPGPerson {
     }
 
     public void updateSpeed(float speed) {
-//        float plus = 0;
-//        this.person.setAdditionalSpeed(plus);
-
         this.person.setSpeed(speed);
     }
 
@@ -423,13 +419,6 @@ public class RPGPerson {
     public void teleport(Location location) {
         this.teleportAccess = true;
         this.getPlayer().teleport(location);
-    }
-
-    public boolean isShowBar() {
-        return showBar;
-    }
-    public void setShowBar(boolean showBar) {
-        this.showBar = showBar;
     }
 
     public Set<RPGAdvancement> getAdvancements() {

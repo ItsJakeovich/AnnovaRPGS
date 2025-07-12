@@ -44,17 +44,17 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
 
     @Override
     public int health() {
-        return 250;
+        return 35;
     }
 
     @Override
     public double damage() {
-        return 12;
+        return 3;
     }
 
     @Override
     public float speed() {
-        return 0.36f;
+        return 0.375f;
     }
 
     @Override
@@ -64,7 +64,9 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
 
     @Override
     public List<ItemStack> loot(Player player) {
-        return List.of(CRAB_CLAW.create(player, random.nextInt(3), 0.125));
+        return List.of(
+                CRAB_CLAW.create(player, random.nextInt(2)+1, 0.33)
+        );
     }
 
     @Override
@@ -85,5 +87,5 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
         }
     }
 
-    //дать покушать бедному крабу, еще он вроде бы не должен быть агрессивным
+    // Кормежка и нейтральность написаны в CustomCrab.java
 }

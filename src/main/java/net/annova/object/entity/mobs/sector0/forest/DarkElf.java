@@ -95,11 +95,11 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     public ItemStack[] equipment() {
         return new ItemStack[] {
                 new ItemStack(Items.BOW),
-                null,
-                null,
-                null,
-                null,
-                null
+                ItemStack.EMPTY,
+                ItemStack.EMPTY,
+                ItemStack.EMPTY,
+                ItemStack.EMPTY,
+                ItemStack.EMPTY,
         };
     }
 

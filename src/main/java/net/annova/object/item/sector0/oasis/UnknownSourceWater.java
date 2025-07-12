@@ -43,8 +43,8 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Li
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

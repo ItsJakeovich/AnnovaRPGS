@@ -5,7 +5,6 @@ import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.item.base.RPGItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,8 +27,8 @@ public class AnglerfishSpawnEgg extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class CustomEnt extends Zombie {
                     EntRoots.addPhysicDebuff(living);
                 }
                 living.addEffect(new MobEffectInstance(
-                        CraftPotionEffectType.bukkitToMinecraftHolder(PotionEffectType.SLOWNESS), 60, 1, true, false),
+                        SLOWNESS, 60, 0, true, false),
                         EntityPotionEffectEvent.Cause.PLUGIN
                 );
             }

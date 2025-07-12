@@ -338,8 +338,6 @@ public enum ItemType {
 
         nms.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
 
-        if (this.item.unstackable()) nms.set(DataComponents.MAX_STACK_SIZE, 1);
-
         ItemAttributeModifiers attribute = nms.get(DataComponents.ATTRIBUTE_MODIFIERS);
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(attribute.modifiers());
         if (this.item instanceof RPGTool weapon && this.getItem().type() != Items.BOW) {

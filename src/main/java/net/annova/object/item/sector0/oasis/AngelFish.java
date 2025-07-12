@@ -26,8 +26,8 @@ public class AngelFish extends RPGItem implements Listener {
     }
 
     @Override
-    public boolean unstackable() {
-        return false;
+    public int stackSize() {
+        return 16;
     }
 
     @Override

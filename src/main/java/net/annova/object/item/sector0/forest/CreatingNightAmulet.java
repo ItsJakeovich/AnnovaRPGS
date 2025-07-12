@@ -8,7 +8,6 @@ import net.annova.object.person.equipment.EquipType;
 import net.annova.object.person.status.ValueType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -33,8 +32,8 @@ public class CreatingNightAmulet extends RPGItem implements ItemEquipment {
     }
 
     @Override
-    public boolean unstackable() {
-        return true;
+    public int stackSize() {
+        return 1;
     }
 
     @Override
