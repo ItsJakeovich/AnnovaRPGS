@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -9,7 +10,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +52,7 @@ public class Lex extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of();
     }
 

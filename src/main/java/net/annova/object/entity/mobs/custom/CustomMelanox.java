@@ -15,28 +15,33 @@ public class CustomMelanox extends Spider {
         super(entitytypes, world);
     }
 
+    private final SoundEvent ambient = getSoundFromString("custom.melanox.idle");
+    private final SoundEvent step = getSoundFromString("custom.melanox.walk");
+    private final SoundEvent hurt = getSoundFromString("custom.melanox.damage");
+    private final SoundEvent death = getSoundFromString("custom.melanox.death");
+    private final SoundEvent attack = getSoundFromString("custom.melanox.attack");
     @Override
     protected SoundEvent getAmbientSound() {
-        return getSoundFromString("custom.melanox.idle");
+        return ambient;
     }
 
     @Override
     protected void playStepSound(BlockPos blockposition, BlockState iblockdata) {
-        this.playSound(getSoundFromString("custom.melanox.walk"), 0.15F, 1.0F);
+        this.playSound(step, 0.15F, 1.0F);
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource var0) {
-        return getSoundFromString("custom.melanox.damage");
+        return hurt;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return getSoundFromString("custom.melanox.death");
+        return death;
     }
 
     @Override
     protected void playAttackSound() {
-        this.playSound(getSoundFromString("custom.melanox.attack"), 1.0f, 1.0f);
+        this.playSound(attack, 1.0f, 1.0f);
     }
 }

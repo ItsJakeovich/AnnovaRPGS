@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -15,7 +16,6 @@ import org.bukkit.Particle;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -61,7 +61,7 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(SPIDER_CHITIN.create(player, 0.01));
     }
 

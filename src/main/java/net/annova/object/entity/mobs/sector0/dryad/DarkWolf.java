@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.dryad;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -9,7 +10,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class DarkWolf extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
                 WOLF_SKIN.create(player, random.nextInt(4)+1, 0.1)
         );

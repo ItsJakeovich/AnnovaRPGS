@@ -3,6 +3,7 @@ package net.annova.object.entity.core;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -11,6 +12,7 @@ import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
+import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -60,7 +62,7 @@ public abstract class RPGEntity {
     public abstract double damage();
     public abstract float speed();
     public abstract boolean small();
-    public abstract List<ItemStack> loot(Player player);
+    public abstract List<ItemStack> loot(Person person);
 
     public abstract Set<RPGAbility> abilities();
 

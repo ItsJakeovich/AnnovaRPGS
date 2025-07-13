@@ -12,7 +12,10 @@ import net.annova.object.item.equipment.meteorite.ChitinHelmet;
 import net.annova.object.item.equipment.meteorite.ChitinLeggings;
 import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
+import net.annova.object.item.sector0.meteorite.FireCrystal;
+import net.annova.object.item.sector0.meteorite.MagmaFragment;
 import net.annova.object.item.sector0.meteorite.MeteoriteFragment;
+import net.annova.object.item.sector0.meteorite.MeteoriteGolemCore;
 import net.annova.object.item.sector0.mines.MagicScrap;
 import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
@@ -132,7 +135,10 @@ public enum ItemType {
     CHITIN_LEGGINGS(new ChitinLeggings()),
     CHITIN_BOOTS(new ChitinBoots()),
 
+    FIRE_CRYSTAL(new FireCrystal()),
+    MAGMA_FRAGMENT(new MagmaFragment()),
     METEORITE_FRAGMENT(new MeteoriteFragment()),
+    METEORITE_GOLEM_CORE(new MeteoriteGolemCore()),
     // S0 - Mines
     MAGIC_SCRAP(new MagicScrap()),
     // S0 - OASIS

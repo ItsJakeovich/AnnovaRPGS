@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.oasis;
 
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
                 CRAB_CLAW.create(player, random.nextInt(2)+1, 0.33)
         );

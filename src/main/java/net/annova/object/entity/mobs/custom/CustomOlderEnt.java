@@ -27,6 +27,8 @@ import org.bukkit.potion.PotionEffectType;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.main.GlobalRPG.getSoundFromString;
 import static net.annova.object.item.base.ItemType.ENT_CORE;
+import static net.minecraft.world.damagesource.DamageTypes.IN_FIRE;
+import static net.minecraft.world.damagesource.DamageTypes.ON_FIRE;
 
 public class CustomOlderEnt extends IronGolem {
     public CustomOlderEnt(EntityType<? extends IronGolem> entitytypes, Level world) {
@@ -70,7 +72,8 @@ public class CustomOlderEnt extends IronGolem {
 
     @Override
     public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
-        if (damagesource.is(DamageTypes.ON_FIRE)) f*=3;
+        if (damagesource.is(ON_FIRE)
+                || damagesource.is(IN_FIRE)) f*=3;
         return super.hurtServer(worldserver, damagesource, f);
     }
 

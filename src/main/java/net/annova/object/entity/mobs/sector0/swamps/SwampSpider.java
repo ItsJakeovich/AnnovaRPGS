@@ -1,21 +1,16 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.entity.core.RPGEntityType.SWAMP_SPIDER;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
-import static net.annova.util.BukkitObjects.chance;
 
 public class SwampSpider extends RPGEntity {
     @Override
@@ -54,7 +49,7 @@ public class SwampSpider extends RPGEntity {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(SPIDER_CHITIN.create(player, 0.15));
     }
 

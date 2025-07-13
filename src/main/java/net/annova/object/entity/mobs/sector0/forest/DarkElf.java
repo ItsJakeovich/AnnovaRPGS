@@ -2,6 +2,7 @@ package net.annova.object.entity.mobs.sector0.forest;
 
 import net.annova.event.custom.MobDamageCE;
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
@@ -25,8 +26,6 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Material;
-import org.bukkit.entity.*;
 
 import java.util.List;
 import java.util.Set;
@@ -77,7 +76,7 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
                 DARKNESS_CONCENTRATION.create(player, 1),
                 DARK_ELF_BOW.create(player, 0.091),
@@ -131,8 +130,8 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
                             cooldown = 60;
                             return true;
                         }
+                        cooldown--;
                         if (cooldown > 0) {  // значения: 0 -1 -2 -3 * запускают по 5 стрел
-                            cooldown--;
                             return true;
                         }
                         AbstractArrow arrow = EntityType.ARROW.create(entity.level(), EntitySpawnReason.MOB_SUMMONED);

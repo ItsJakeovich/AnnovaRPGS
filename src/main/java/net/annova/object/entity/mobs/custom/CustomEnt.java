@@ -5,7 +5,6 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -13,13 +12,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.bukkit.craftbukkit.v1_21_R4.potion.CraftPotionEffectType;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.ENT_CORE;
+import static net.minecraft.world.damagesource.DamageTypes.IN_FIRE;
+import static net.minecraft.world.damagesource.DamageTypes.ON_FIRE;
 import static net.minecraft.world.effect.MobEffects.SLOWNESS;
 
 public class CustomEnt extends Zombie {
@@ -55,7 +54,8 @@ public class CustomEnt extends Zombie {
 
     @Override
     public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
-        if (damagesource.is(DamageTypes.ON_FIRE)) f*=3;
+        if (damagesource.is(ON_FIRE)
+                || damagesource.is(IN_FIRE)) f*=3;
         return super.hurtServer(worldserver, damagesource, f);
     }
 }

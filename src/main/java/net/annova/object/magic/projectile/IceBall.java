@@ -34,7 +34,7 @@ public class IceBall extends ParticleProjectile {
 
     @Override
     public double speed() {
-        return 30;
+        return 18;
     }
 
     @Override

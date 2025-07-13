@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs;
 
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
@@ -10,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
@@ -61,7 +61,7 @@ public class Snake extends RPGEntity implements CustomType {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
             createItem(Items.RABBIT_HIDE, Component.literal("Змеиная кожа"), 1, random.nextInt(2), 0.2)
         );

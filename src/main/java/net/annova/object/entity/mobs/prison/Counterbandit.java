@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.prison;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -8,7 +9,6 @@ import net.annova.object.entity.core.RPGEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -60,7 +60,7 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
                 createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
                 PRISON_TOKEN.create(player, random.nextInt(2), 0.11)

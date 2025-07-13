@@ -2,6 +2,7 @@ package net.annova.object.entity.mobs.prison;
 
 import net.annova.main.GlobalRPG;
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -63,7 +63,7 @@ public class Leader extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
                 createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
                 PRISON_TOKEN.create(player, random.nextInt(2), 0.11)

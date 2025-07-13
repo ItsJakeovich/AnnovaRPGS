@@ -44,28 +44,33 @@ public class CustomDarkElf extends Bogged {
         return false;
     }
 
+    private final SoundEvent ambient = getSoundFromString("custom.darkelf.idle");
+    private final SoundEvent step = getSoundFromString("custom.darkelf.walk");
+    private final SoundEvent hurt = getSoundFromString("custom.darkelf.damage");
+    private final SoundEvent death = getSoundFromString("custom.darkelf.death");
+    private final SoundEvent attack = getSoundFromString("custom.darkelf.attack");
     @Override
     protected SoundEvent getAmbientSound() {
-        return getSoundFromString("custom.darkelf.idle");
+        return ambient;
     }
 
     @Override
     protected SoundEvent getStepSound() {
-        return getSoundFromString("custom.darkelf.walk");
+        return step;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource var0) {
-        return getSoundFromString("custom.darkelf.damage");
+        return hurt;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return getSoundFromString("custom.darkelf.death");
+        return death;
     }
 
     @Override
     protected void playAttackSound() {
-        this.playSound(getSoundFromString("custom.darkelf.attack"), 1.0f, 1.0f);
+        this.playSound(attack, 1.0f, 1.0f);
     }
 }

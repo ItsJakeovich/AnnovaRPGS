@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -11,7 +12,6 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class Berserk extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of();
     }
 

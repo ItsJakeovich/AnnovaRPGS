@@ -35,7 +35,7 @@ public class DeathEvent implements Listener {
         // Loot event
         List<ItemStack> drop = event.getDrops();
         event.getDrops().clear();
-        for (net.minecraft.world.item.ItemStack item : entity.loot(ent.getKiller())) {
+        for (net.minecraft.world.item.ItemStack item : entity.loot(getPerson(ent.getKiller()))) {
             drop.add(CraftItemStack.asBukkitCopy(item));
         }
 

@@ -1,11 +1,11 @@
 package net.annova.object.entity.mobs.sector0.dryad;
 
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class Werewolf extends RPGEntity {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of();
     }
 

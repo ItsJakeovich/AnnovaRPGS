@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.nether;
 
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.bukkit.Color;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class Duelist extends RPGEntity implements EntityEquipment, Listener {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of();
     }
 

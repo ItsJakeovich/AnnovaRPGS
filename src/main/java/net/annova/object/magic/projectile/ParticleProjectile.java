@@ -35,7 +35,7 @@ public abstract class ParticleProjectile {
     private final double gravity = 0.025 * 9.81 / 20;
     public void tick(Location startLocation) {
         new BukkitRunnable() {
-            private int ticks = 400; // 20s
+            private int ticks = 200; // 10s
             private final Location location = startLocation.clone();
             private final World world = location.getWorld();
             private double speed = ParticleProjectile.this.speed() / 20;
@@ -66,7 +66,7 @@ public abstract class ParticleProjectile {
                     return;
                 }
 
-                this.speed = Math.max(speed - airResistance * speed*speed, 0) / 20;
+                this.speed = Math.max(speed - airResistance * speed*speed, 0);
                 if (ParticleProjectile.this.isGravity()) this.vertical -= gravity;
                 else {
                     if (ticks == 0) {

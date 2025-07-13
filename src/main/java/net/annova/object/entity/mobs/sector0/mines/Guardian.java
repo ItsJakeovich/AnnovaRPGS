@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
@@ -59,7 +59,7 @@ public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(MAGIC_SCRAP.create(player, 0.01));
     }
 

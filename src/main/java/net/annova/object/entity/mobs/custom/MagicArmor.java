@@ -50,7 +50,7 @@ public class MagicArmor extends Zombie {
     @Override
     protected void addBehaviourGoals() {
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0F));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(MagicArmor.class));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(Zombie.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
     }

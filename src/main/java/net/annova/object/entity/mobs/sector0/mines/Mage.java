@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
@@ -56,7 +56,7 @@ public class Mage extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(MAGIC_SCRAP.create(0.01));
     }
 

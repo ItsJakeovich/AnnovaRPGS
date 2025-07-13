@@ -5,18 +5,13 @@ import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.Oasis;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.item.base.ItemType;
+import net.annova.object.magic.projectile.*;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.block.Blocks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -26,21 +21,36 @@ import java.util.*;
 
 import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
-    @CommandArg(name = "test")
-    public void test(Player player) {
-        ServerLevel level = ((CraftWorld) player.getWorld()).getHandle();
-        Location location = player.getLocation();
-        for (int y = -5; y <= 5; y++) {
-            for (int z = -5; z <= 5; z++) {
-                for (int x = -5; x <= 5; x++) {
-                    level.setBlock(new BlockPos(x, y, z), Blocks.NETHER_PORTAL.defaultBlockState(), 1);
-                }
-            }
+    @CommandArg(name = "ball")
+    public void test(Player player, String[] args) {
+        Location spawn = player.getEyeLocation().add(0, -0.5, 0);
+        spawn.add(spawn.getDirection().multiply(2.5));
+        switch (Integer.parseInt(args[1])) {
+            case 0 -> new FireBall().create(spawn);
+            case 1 -> new HarryBall(player).create(spawn);
+            case 2 -> new IceBall().create(spawn);
+            case 3 -> new MelanoxRay().create(spawn);
+            case 4 -> new MeteoriteBall().create(spawn);
+            case 5 -> new WebBall().create(spawn);
         }
+    }
+
+    @CommandArg(name = "heal")
+    public void heal(Player player, String[] args) {
+        RPGPerson person = getRPGPerson(player);
+        RPGPerson target = args.length == 1 ? person : getRPGPerson(args[1]);
+        if (target == null) {
+            person.getPerson().send(getInstance(), "player-not-found", "{name}", args[1]);
+            return;
+        }
+
+        target.setHealth(target.getMaxHealth());
+        person.getPerson().send(getInstance(), "rpg-heal-success", "{target}", target.getPerson().getName());
     }
 
     private static final List<Inventory> itemsInterface = new ArrayList<>();

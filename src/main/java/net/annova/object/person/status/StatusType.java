@@ -2,8 +2,6 @@ package net.annova.object.person.status;
 
 import net.annova.environment.world.sector0.location.DarkForest;
 import net.annova.object.item.base.ItemType;
-import net.annova.object.item.base.RPGItem;
-import net.annova.object.item.sector0.forest.AbsorbsNightRing;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -19,7 +17,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
@@ -230,55 +227,78 @@ public enum StatusType {
         public long repeating() {
             return 1200;
         }
-    })
+    }),
+
+    MAGMA_FRAGMENT_BURNING(new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            player.setFireTicks(100);
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 100;
+        }
+    }, MAGMA_FRAGMENT),
     ;
 
     private final long duration;
     private final long cooldown;
     private final ItemType whileHas;
+    private final ItemType whileInHand;
     private final Map<ValueType, Double> values = new EnumMap<>(ValueType.class);
     private final StatusActivity activity;
 
     StatusType() {
-        this(0, 0, null, new HashMap<>(), null);
+        this(0, 0, null, null, new HashMap<>(), null);
     }
     StatusType(long duration) {
-        this(duration, 0, null, new HashMap<>(), null);
+        this(duration, (StatusActivity) null);
     }
     StatusType(ItemType whileHas) {
-        this(0, 0, whileHas, new HashMap<>(), null);
+        this(whileHas, (StatusActivity) null);
     }
     StatusType(Map<ValueType, Double> values) {
-        this(0, 0, null, values, null);
+        this(0, 0, null, null, values, null);
     }
     StatusType(StatusActivity activity) {
-        this(0, 0, null, new HashMap<>(), activity);
+        this(0, 0, null, null, new HashMap<>(), activity);
+    }
+    StatusType(StatusActivity activity, ItemType whileInHand) {
+        this(0, 0, null, whileInHand, new HashMap<>(), activity);
     }
     StatusType(long duration, StatusActivity activity) {
-        this(duration, 0, null, new HashMap<>(), activity);
+        this(duration, 0, null, null, new HashMap<>(), activity);
     }
     StatusType(ItemType whileHas, StatusActivity activity) {
-        this(0, 0, whileHas, new HashMap<>(), activity);
+        this(0, 0, whileHas, null, new HashMap<>(), activity);
     }
     StatusType(long duration, Map<ValueType, Double> values) {
-        this(duration, 0, null, values, null);
+        this(duration, 0, null, null, values, null);
     }
     StatusType(ItemType whileHas, Map<ValueType, Double> values) {
-        this(0, 0, whileHas, values, null);
+        this(0, 0, whileHas, null, values, null);
     }
-    StatusType(long duration, long cooldown, ItemType whileHas, Map<ValueType, Double> values, StatusActivity activity) {
+    StatusType(long duration, long cooldown, ItemType whileHas, ItemType whileInHand, Map<ValueType, Double> values, StatusActivity activity) {
         this.duration = duration;
         this.cooldown = cooldown;
         this.whileHas = whileHas;
+        this.whileInHand = whileInHand;
         this.values.putAll(values);
         this.activity = activity;
     }
 
     private static final EnumSet<StatusType> forActivation = EnumSet.noneOf(StatusType.class);
+    private static final EnumSet<StatusType> forActivationInHand = EnumSet.noneOf(StatusType.class);
     static {
         for (StatusType type : StatusType.values()) {
-            if (type.whileHas == null) continue;
-            forActivation.add(type);
+            if (type.whileHas != null) {
+                forActivation.add(type);
+            }
+            if (type.whileInHand != null) {
+                forActivationInHand.add(type);
+            }
         }
     }
 
@@ -295,6 +315,13 @@ public enum StatusType {
     }
     public static EnumSet<StatusType> getForActivation() {
         return forActivation;
+    }
+
+    public ItemType getActivationInHandItem() {
+        return whileInHand;
+    }
+    public static EnumSet<StatusType> getForActivationInHand() {
+        return forActivationInHand;
     }
 
     public Map<ValueType, Double> getBaseValues() {

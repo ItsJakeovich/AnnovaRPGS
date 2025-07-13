@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
@@ -51,7 +52,7 @@ public class Meretrix extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of();
     }
 

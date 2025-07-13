@@ -58,12 +58,18 @@ invsee-args: "{pc}❖ {mc}Введите ник игрока{sc}. Дописав
 #rpg-altar-exist: "{fc}❖ {mc}Алтарь уже установлен{sc}. {}{pc}|  {sc}|● Для пересоздания пропишите команду /confirm"
 #rpg-altar-recreate: "{tc}❖ {mc}Алтарь пересоздан{sc}."
 rpg-menu: "{pc}≡ {mc}Управление плагином{mc}:"
-rpg-items:         "{pc} ● {mc}/rpg items {sc}{page} - {mc}открывает меню с предметами"
-rpg-shaking:       "{pc} ● {mc}/rpg shaking {sc} - {mc}тряска экрана (заменить)"
-rpg-border:        "{pc} ● {mc}/rpg border {sc}{id} - {mc}показывает границы локаций"
-rpg-oasis-bubble:  "{pc} ● {mc}/rpg oasis-bubble - {mc}вызывает пузырь в локации оазиса"
-rpg-summon:        "{pc} ● {mc}/rpg summon {sc}{name} - {mc}спавнит серверную сущность"
-rpg-item:          "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серверный предмет"
+rpg-items:        "{pc} ● {mc}/rpg items {sc}{page} - {mc}открывает меню с предметами{sc}."
+rpg-ball:         "{pc} ● {mc}/rpg ball {sc}{page} - {mc}вызывает магический шар {sc}(0-5){sc}."
+rpg-heal:         "{pc} ● {mc}/rpg heal {sc}{target} - {mc}лечит выбранного игрока{sc}."
+rpg-shaking:      "{pc} ● {mc}/rpg shaking {sc} - {mc}тряска экрана (заменить){sc}."
+rpg-border:       "{pc} ● {mc}/rpg border {sc}{id} - {mc}показывает границы локаций{sc}."
+rpg-oasis-bubble: "{pc} ● {mc}/rpg oasis-bubble - {mc}вызывает пузырь в локации оазиса{sc}."
+rpg-summon:       "{pc} ● {mc}/rpg summon {sc}{name} - {mc}спавнит серверную сущность{sc}."
+rpg-item:         "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серверный предмет{sc}."
+rpg-status:       "{pc} ● {mc}/rpg status {sc}{STATUS} - {mc}вызывает кастомный эффект{sc}."
+
+rpg-heal-success: "{pc}❖ {mc}Игрок {ac}{target} {mc}вылечен{sc}!"
+
 # team
 team-menu     : "{pc}≡ {mc}Управление командой{mc}:"
 team-create   : "{pc} ● {mc}/team create {sc}{name} - {mc}создать команду"
@@ -240,7 +246,16 @@ ENTS_PATRON_AMULET-lore: "{pc}| {mc}Говорят{sc}, {mc}этот амуле�
 ROOTS_LASH: "Корнеплети"
 ROOTS_LASH-lore: "{pc}| {mc}Эти перчатки{sc}, {mc}сплетённые из живых корней энта и оживлённые его сердцем{sc}, {}{pc}| {mc}обрели зачатки собственной воли{sc}. {}{pc}| {mc}Они тянутся к предметам{sc}, {mc}будто хотят помочь владельцу{sc}."
 ## S0 - METEORITE
-METEORITE_FRAGMENT: "Осколок метеорита"
+FIRE_CRYSTAL: "Огненный кристалл"
+FIRE_CRYSTAL-lore: "{pc}| {mc}Тускло светящийся и едва теплый{sc}, 
+{}{pc}| {mc}этот кристалл сохранил след воспламенения{sc}, 
+{}{pc}| {mc}отпечаток красткого момента что произошел при появлении {ac}Нечта{sc}."
+MAGMA_FRAGMENT: "Осколок раскалённой магмы"
+MAGMA_FRAGMENT-lore: "{pc}| {mc}Этот осколок выглядит словно застывшая капля солнца{sc},
+{}{pc}| {mc}что пульсирует своим внутренним жаром{sc}.
+{}{pc}| {mc}Он не утратил гнев породивший его{sc}..."
+METEORITE_FRAGMENT: "Раскалённый камень"
+METEORITE_FRAGMENT-lore: "{pc}| {mc}Выпал из {sc}«{mc}Околышей{sc}» — {mc}огненных существ{sc}. {}{pc}| {mc}Но сам осколок холоден и безопасен на ощупь{sc}."
 ## S0 - MINES
 MAGIC_SCRAP: "Волшебный лом"
 MAGIC_SCRAP-lore: "{pc}| {mc}Пластичный и легко-мнущийся материал{sc}."

@@ -3,6 +3,7 @@ package net.annova.object.entity.mobs.sector0.forest;
 import net.annova.event.custom.MobDamageCE;
 import net.annova.main.GlobalRPG;
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
@@ -18,7 +19,8 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +73,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
+    public List<ItemStack> loot(Person person) {
         return List.of(
                 ENT_ROOT.create(player, random.nextInt(7)+2),
                 BLADE_IMBUED_WITH_MAGIC.create(player, 0.074),
@@ -143,7 +145,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        if (((Mob) entity).getTarget() != null) {
+                        if (((net.minecraft.world.entity.Mob) entity).getTarget() != null) {
                             Location location = OlderEnt.this.getLocation();
                             for (int i = random.nextInt(3) + 1; i != 0; i--) {
                                 ENTS.add(ENT.getEntity().create(getChorusLocation(location, 8)));

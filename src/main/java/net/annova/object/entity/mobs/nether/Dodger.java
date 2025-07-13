@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.nether;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
@@ -58,7 +59,7 @@ public class Dodger extends RPGEntity implements EntityAction {
     }
 
     @Override
-    public List<net.minecraft.world.item.ItemStack> loot(Player player) {
+    public List<net.minecraft.world.item.ItemStack> loot(Person person) {
         return List.of(
                 entity.getItemInHand(InteractionHand.MAIN_HAND)
         );

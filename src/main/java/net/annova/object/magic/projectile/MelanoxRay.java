@@ -31,7 +31,7 @@ public class MelanoxRay extends ParticleProjectile {
     public Packet<?>[] particles(Location location) {
         return new Packet[] {
                 new ClientboundLevelParticlesPacket(
-                        new DustParticleOptions(0x90EE90, 0.5f),
+                        new DustParticleOptions(0x90EE90, 1f),
                         true,
                         true,
                         location.getX(), location.getY(), location.getZ(),

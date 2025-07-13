@@ -8,12 +8,12 @@ import org.bukkit.Location;
 public class FireBall extends ParticleProjectile {
     @Override
     public void onHit(Location location) {
-        location.getWorld().createExplosion(location, 5);
+        location.createExplosion(5);
     }
 
     @Override
     public double speed() {
-        return 40;
+        return 25;
     }
 
     @Override

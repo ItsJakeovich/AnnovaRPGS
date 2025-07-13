@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.oasis;
 
 import net.annova.object.CustomRunnable;
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
@@ -8,7 +9,6 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class AnglerFish extends RPGEntity implements EntityActivity {
     }
 
     @Override
-    public List<net.minecraft.world.item.ItemStack> loot(Player player) {
+    public List<net.minecraft.world.item.ItemStack> loot(Person person) {
         return List.of();
     }
 

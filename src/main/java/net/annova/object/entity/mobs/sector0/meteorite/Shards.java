@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.meteorite;
 
+import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
@@ -7,7 +8,6 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomShards;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class Shards extends RPGEntity implements CustomType {
 
     @Override
     public EntityType<?> type() {
-        return EntityType.WITHER_SKELETON;
+        return EntityType.BLAZE;
     }
 
     @Override
@@ -37,17 +37,17 @@ public class Shards extends RPGEntity implements CustomType {
 
     @Override
     public int health() {
-        return 60;
+        return 100;
     }
 
     @Override
     public double damage() {
-        return 6;
+        return 3;
     }
 
     @Override
     public float speed() {
-        return 0.345f;
+        return 0.315f;
     }
 
     @Override
@@ -56,8 +56,8 @@ public class Shards extends RPGEntity implements CustomType {
     }
 
     @Override
-    public List<ItemStack> loot(Player player) {
-        return List.of(METEORITE_FRAGMENT.create(player, 1, 0.01));
+    public List<ItemStack> loot(Person person) {
+        return List.of(METEORITE_FRAGMENT.create(player, 1, 0.04));
     }
 
     @Override

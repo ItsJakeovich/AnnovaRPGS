@@ -6,6 +6,7 @@ import net.annova.object.person.status.StatusType;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
@@ -22,6 +23,15 @@ public class PersonUpdateTimer extends AnnovaTask {
                 if (!type.getActivationItem().has(player)) continue; // если у игрока нет предмета
                 manager.addStatus(type);
                 player.playSound(player, Sound.ENTITY_WANDERING_TRADER_YES, 1, 1);
+            }
+            ItemStack item = player.getInventory().getItemInMainHand();
+            if (!item.getType().isAir()) {
+                for (StatusType type : StatusType.getForActivationInHand()) {
+                    if (manager.hasStatus(type)) continue;
+                    if (type.getActivationInHandItem().equals(item)) {
+                        manager.addStatus(type);
+                    }
+                }
             }
             person.getEquipment().update();
 

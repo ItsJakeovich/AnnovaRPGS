@@ -1,5 +1,6 @@
 package net.annova.object.person.status;
 
+import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -64,7 +65,8 @@ public class StatusManager {
                 @Override
                 public void run() {
                     if (!player.isOnline()) return;
-                    if (type.getActivationItem().has(player) && activity.activity(person, player, object)) return;
+                    ItemType activationItem = type.getActivationItem();
+                    if ((activationItem == null || activationItem.has(player)) && activity.activity(person, player, object)) return;
 
                     this.cancel();
                     StatusManager.this.removeStatus(type);
