@@ -61,7 +61,7 @@ public class Harry extends RPGEntity implements EntityActivity {
     public List<ItemStack> loot(Person person) {
         return List.of(
                 createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
-                PRISON_TOKEN.create(player, random.nextInt(2), 0.11)
+                PRISON_TOKEN.create(person, random.nextInt(2), 0.11)
         );
     }
 

@@ -3,9 +3,14 @@ package net.annova.object.person.status;
 import net.annova.environment.world.sector0.location.DarkForest;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.object.item.base.ArmorSet.CHITIN;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
@@ -49,15 +55,21 @@ public enum StatusType {
     SHAKING(new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            Location location = player.getLocation();
-
-            player.setRotation(location.getYaw() + random.nextInt(9)-4, location.getPitch() + random.nextInt(5)-2);
+            ServerPlayer serverPlayer = person.getPerson().getServerPlayer();
+            int angle = switch (random.nextInt(4)) {
+                case 0 -> 0;
+                case 1 -> 90;
+                case 2 -> 180;
+                case 3 -> 270;
+                default -> throw new IllegalStateException("Unexpected value");
+            };
+            serverPlayer.connection.send(new ClientboundHurtAnimationPacket(serverPlayer.getId(),angle));
             return true;
         }
 
         @Override
         public long repeating() {
-            return 2;
+            return 4;
         }
     }),
 
@@ -205,6 +217,7 @@ public enum StatusType {
     }),
 
     ENT_PATRON_BUFF(ENTS_PATRON_AMULET),
+    PACK_LEADER_BUFF(PACK_LEADER_AMULET),
     ROOTS_LASH_BUFF(ROOTS_LASH),
 
     ABSORB_NIGHT_BUFF(ABSORBS_NIGHT_RING, new StatusActivity() {
@@ -228,19 +241,68 @@ public enum StatusType {
             return 1200;
         }
     }),
-
-    MAGMA_FRAGMENT_BURNING(new StatusActivity() {
+    BLEEDING(3_000, new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            player.setFireTicks(100);
+            person.damage(0.5f);
             return true;
         }
 
         @Override
         public long repeating() {
-            return 100;
+            return 25;
+        }
+    }),
+    MAGMA_FRAGMENT_BURNING(new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            player.setFireTicks(50);
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 40;
         }
     }, MAGMA_FRAGMENT),
+    METEORITE_CORE_BURNING(new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            if (person.getArmorSet() != CHITIN) player.setFireTicks(30);
+            Location location = player.getLocation();
+            Block block = location.getBlock();
+            if (block.getType() == Material.WATER && ((Levelled) block.getBlockData()).getLevel() == 0) {
+                block.setType(Material.OBSIDIAN);
+                location.getWorld().playSound(location, Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
+            }
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 20;
+        }
+    }, MAGMA_FRAGMENT),
+
+    PHANTOM_FEAR(new StatusActivity() {
+        private static final MobEffectInstance DARKNESS = new MobEffectInstance(MobEffects.DARKNESS, 80, 0);
+        private static final MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 80, 0);
+        private static final MobEffectInstance GLOWING = new MobEffectInstance(MobEffects.GLOWING, 80, 0);
+
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            ServerPlayer server = person.getPerson().getServerPlayer();
+            server.addEffect(DARKNESS);
+            server.addEffect(SLOWNESS);
+            server.addEffect(GLOWING);
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 40;
+        }
+    })
     ;
 
     private final long duration;

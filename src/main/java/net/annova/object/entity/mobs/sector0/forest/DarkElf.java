@@ -78,10 +78,10 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     @Override
     public List<ItemStack> loot(Person person) {
         return List.of(
-                DARKNESS_CONCENTRATION.create(player, 1),
-                DARK_ELF_BOW.create(player, 0.091),
-                ABSORBS_NIGHT_RING.create(player, 0.087),
-                DARKNESS_FRAGMENT.create(player, 0.125)
+                DARKNESS_CONCENTRATION.create(person, 1),
+                DARK_ELF_BOW.create(person, 0.091),
+                ABSORBS_NIGHT_RING.create(person, 0.087),
+                DARKNESS_FRAGMENT.create(person, 0.125)
         );
     }
 

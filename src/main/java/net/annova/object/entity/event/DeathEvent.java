@@ -30,7 +30,7 @@ public class DeathEvent implements Listener {
     @EventHandler
     public void death(EntityDeathEvent event) {
         LivingEntity ent = event.getEntity();
-        RPGEntity entity = getEntity(ent);
+        RPGEntity entity = getRPGEntity(ent);
         if (entity == null) return;
         // Loot event
         List<ItemStack> drop = event.getDrops();

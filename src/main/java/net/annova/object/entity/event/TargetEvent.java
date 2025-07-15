@@ -3,8 +3,6 @@ package net.annova.object.entity.event;
 import net.annova.main.GlobalRPG;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
-import net.annova.object.entity.core.attribute.ability.RPGAbility;
-import net.annova.object.entity.core.attribute.ability.ValueType;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -15,7 +13,6 @@ import org.bukkit.event.entity.EntityTargetEvent;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ArmorSet.CHITIN;
-import static net.annova.util.BukkitObjects.chance;
 
 public class TargetEvent implements Listener {
     @EventHandler
@@ -28,7 +25,7 @@ public class TargetEvent implements Listener {
                     && CHITIN.equals(person.getArmorSet())) event.setCancelled(true);
         }
 
-        RPGEntity rpg = GlobalRPG.getEntity(entity);
+        RPGEntity rpg = GlobalRPG.getRPGEntity(entity);
         if (rpg == null) return;
         if (rpg instanceof EntityAction action) {
             if (action.onTarget(event.getTarget())) return;

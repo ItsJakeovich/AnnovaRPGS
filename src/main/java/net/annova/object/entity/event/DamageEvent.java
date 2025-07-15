@@ -12,14 +12,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
-import static net.annova.main.GlobalRPG.getEntity;
+import static net.annova.main.GlobalRPG.getRPGEntity;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DamageEvent implements Listener {
     @EventHandler
     public void onDamage(MobDamageCE event) {
         LivingEntity entity = event.getEntity();
-        RPGEntity rpg = getEntity(entity);
+        RPGEntity rpg = getRPGEntity(entity);
         if (rpg == null) return;
 
         for (RPGAbility ability : rpg.abilities()) {

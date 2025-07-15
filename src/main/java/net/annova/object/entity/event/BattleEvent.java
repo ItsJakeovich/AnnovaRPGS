@@ -14,7 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 
-import static net.annova.main.GlobalRPG.getEntity;
+import static net.annova.main.GlobalRPG.getRPGEntity;
 import static net.annova.object.entity.core.RPGEntity.addPotionEffect;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
@@ -24,7 +24,7 @@ public class BattleEvent implements Listener {
     public void onArrow(LivingEntityDamageByEntityCE event) {
         if (event.getDamager() instanceof Arrow arrow
                 && arrow.getShooter() instanceof LivingEntity living) {
-            RPGEntity entity = getEntity(living);
+            RPGEntity entity = getRPGEntity(living);
             if (entity == null) return;
             event.setDamage(entity.damage());
         }
@@ -34,7 +34,7 @@ public class BattleEvent implements Listener {
         LivingEntity entity = event.getEntity();
         LivingEntity damager = event.getDamager();
         if (entity == damager) return;
-        RPGEntity rpg = getEntity(entity);
+        RPGEntity rpg = getRPGEntity(entity);
         if (rpg != null) { // при получении урона
             if (rpg instanceof EntityAction action) {
                 action.onDamage(event, damager);
@@ -57,7 +57,7 @@ public class BattleEvent implements Listener {
                 }
             }
         }
-        rpg = getEntity(damager);
+        rpg = getRPGEntity(damager);
         if (rpg != null) { // при нанесении урона
             if (rpg instanceof EntityAction action) {
                 if (!action.onAttack(entity)) {

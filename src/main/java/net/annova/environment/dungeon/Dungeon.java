@@ -149,7 +149,7 @@ public class Dungeon {
             Player player = person.getPerson().getPlayer();
 
             int points = person.getDungeonPoints();
-            ItemStack cont = points > 5 ? CraftItemStack.asBukkitCopy(container.create(player, 1 + points/1000)) : new ItemStack(Material.AIR);
+            ItemStack cont = points > 5 ? CraftItemStack.asBukkitCopy(container.create(person, 1 + points/1000)) : new ItemStack(Material.AIR);
 
             if (player == null) {
                 person.addPendingItem(cont);

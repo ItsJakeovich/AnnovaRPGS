@@ -59,7 +59,7 @@ public class Ent extends RPGEntity implements CustomType {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(ENT_ROOT.create(player, random.nextInt(2)+1, 0.055));
+        return List.of(ENT_ROOT.create(person, random.nextInt(2)+1, 0.055));
     }
 
     @Override

@@ -7,6 +7,8 @@ import net.annova.event.custom.PlayerDamageCE;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -76,18 +78,18 @@ public class EntityEvent implements Listener {
             if (player.getNoDamageTicks() != 0) return;
 
             event.setDamage(ev.getDamage());
-            getRPGPerson(player).damageWithCooldown(event.getDamageSource().getDirectEntity(), (float) finalDamage);
+            getRPGPerson(player).damageWithCooldown(((CraftEntity) event.getDamageSource().getDirectEntity()).getHandle(), (float) finalDamage);
         }
-        this.spawnIndicator(event.getEntity().getLocation().add(0, 1.5, 0), finalDamage);
+        Player player;
+        this.spawnIndicator(((CraftLivingEntity) event.getEntity()).getEyeLocation().add(0, 1.5, 0), finalDamage);
     }
 
     public static List<ArmorStand> indicators = new ArrayList<>();
 
-    private void spawnIndicator(Location entityLocation, double damage) {
+    private void spawnIndicator(Location location, double damage) {
         if (damage < 1) return;
-        Location loc = entityLocation.clone().add(0, 1.5, 0);
-        loc.add(random.nextFloat(2) - 1, random.nextFloat(2) - 1, random.nextFloat(2) - 1);
-        ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class, stand -> {
+        location.add(random.nextFloat(2) - 1, random.nextFloat(2) - 1, random.nextFloat(2) - 1);
+        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class, stand -> {
             stand.setMarker(true);
             stand.setVisible(false);
             stand.setGravity(false);

@@ -2,9 +2,11 @@ package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
@@ -19,7 +21,12 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 
-public class Miner extends RPGEntity implements EntitySpawn {
+public class Miner extends RPGEntity implements CustomType, EntitySpawn {
+    @Override
+    public Class<?> clazz() {
+        return MinesMagicArmorNeutral.class;
+    }
+
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;
@@ -37,17 +44,17 @@ public class Miner extends RPGEntity implements EntitySpawn {
 
     @Override
     public int health() {
-        return 150;
+        return 45;
     }
 
     @Override
     public double damage() {
-        return 8;
+        return 3;
     }
 
     @Override
     public float speed() {
-        return 0.25f;
+        return 0.3f;
     }
 
     @Override
@@ -57,7 +64,7 @@ public class Miner extends RPGEntity implements EntitySpawn {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(MAGIC_SCRAP.create(0.01));
+        return List.of(MAGIC_SCRAP.create(0.03));
     }
 
     @Override

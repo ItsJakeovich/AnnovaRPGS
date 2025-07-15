@@ -4,8 +4,10 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.entity.Entity;
@@ -16,10 +18,15 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 
-public class OreCollector extends RPGEntity implements EntityAction {
+public class OreCollector extends RPGEntity implements CustomType, EntityAction {
+    @Override
+    public Class<?> clazz() {
+        return MinesMagicArmorNeutral.class;
+    }
+
     @Override
     public EntityType<?> type() {
-        return null;
+        return EntityType.ZOMBIE;
     }
 
     @Override
@@ -34,17 +41,17 @@ public class OreCollector extends RPGEntity implements EntityAction {
 
     @Override
     public int health() {
-        return 0;
+        return 55;
     }
 
     @Override
     public double damage() {
-        return 0;
+        return 3;
     }
 
     @Override
     public float speed() {
-        return 0;
+        return 0.375f;
     }
 
     @Override
@@ -54,7 +61,7 @@ public class OreCollector extends RPGEntity implements EntityAction {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(MAGIC_SCRAP.create(player, 0.01));
+        return List.of(MAGIC_SCRAP.create(person, 0.046));
     }
 
     @Override
@@ -64,6 +71,7 @@ public class OreCollector extends RPGEntity implements EntityAction {
 
     @Override
     public boolean onTarget(Entity target) {
+        new Guardian().createWithTarget(target.getLocation(), (LivingEntity) target, 1);
         return true;
     }
 

@@ -1,6 +1,7 @@
 package net.annova.object.entity.event;
 
 import io.papermc.paper.event.entity.EntityKnockbackEvent;
+import net.annova.main.GlobalRPG;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.ability.ValueType;
@@ -8,13 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
-import static net.annova.main.GlobalRPG.getEntity;
+import static net.annova.main.GlobalRPG.getRPGEntity;
 import static net.annova.util.BukkitObjects.chance;
 
 public class KnockbackEvent implements Listener {
     @EventHandler
     public void onDamage(EntityKnockbackEvent event) {
-        RPGEntity entity = getEntity(event.getEntity());
+        RPGEntity entity = GlobalRPG.getRPGEntity(event.getEntity());
         if (entity == null) return;
 
         for (RPGAbility ability : entity.abilities()) {

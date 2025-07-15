@@ -9,6 +9,7 @@ import net.annova.object.magic.projectile.*;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,10 +28,14 @@ import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
     @CommandArg(name = "ball")
-    public void test(Player player, String[] args) {
+    public void ball(Player player, String[] args) {
         Location spawn = player.getEyeLocation().add(0, -0.5, 0);
         spawn.add(spawn.getDirection().multiply(2.5));
         switch (Integer.parseInt(args[1])) {
+            case -1 -> {
+                ServerPlayer server = ((CraftPlayer) player).getHandle();
+                server.connection.send(new ClientboundHurtAnimationPacket(server.getId(), Float.parseFloat(args[2])));
+            }
             case 0 -> new FireBall().create(spawn);
             case 1 -> new HarryBall(player).create(spawn);
             case 2 -> new IceBall().create(spawn);

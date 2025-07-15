@@ -66,7 +66,7 @@ public class Leader extends RPGEntity implements EntityActivity {
     public List<ItemStack> loot(Person person) {
         return List.of(
                 createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
-                PRISON_TOKEN.create(player, random.nextInt(2), 0.11)
+                PRISON_TOKEN.create(person, random.nextInt(2), 0.11)
         );
     }
 
@@ -108,7 +108,7 @@ public class Leader extends RPGEntity implements EntityActivity {
 
                                 healEntity(1, targ);
 
-                                RPGEntity rpgTarget = GlobalRPG.getEntity(targ);
+                                RPGEntity rpgTarget = GlobalRPG.getRPGEntity(targ);
                                 if (rpgTarget == null) return true;
                                 rpgTarget.addStatus(StatusType.LEADER_DAMAGE_BUFF);
                             }

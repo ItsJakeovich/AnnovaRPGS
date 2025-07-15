@@ -12,7 +12,6 @@ import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
-import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -26,11 +25,13 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
-import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -41,6 +42,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
+import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addEntity;
@@ -49,7 +51,7 @@ import static net.annova.main.Keys.NK_ID;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 
 public abstract class RPGEntity {
-    public LivingEntity entity;
+    public Mob entity;
     public Dungeon dungeon;
     public int point;
     private SectorLocation sectorLocation;
@@ -104,15 +106,38 @@ public abstract class RPGEntity {
     }
 
     public LivingEntity create(LivingEntity entity) {
-        return this.create(CraftLocation.toBukkit(entity.position(), entity.level().getWorld()));
+        return this.create(getChorusLocation(
+                CraftLocation.toBukkit(entity.position(), entity.level().getWorld())
+                , 1
+        ));
     }
-    public LivingEntity create(Location location) {
+    public Mob create(Location location) {
         return this.create(null, location, false, 0, 1, 1);
     }
-    public LivingEntity create(Location location, boolean additional) {
+    public Mob create(Location location, int chorus) {
+        return this.create(null, getChorusLocation(location, chorus), false, 0, 1, 1);
+    }
+    public void createWithTarget(RPGEntity entity, LivingEntity target) {
+        this.createWithTarget(entity.getLocation(), target, 2);
+    }
+    public void createWithTarget(Location location, org.bukkit.entity.LivingEntity target, int chorus) {
+        this.createWithTarget(location, target, chorus, 0);
+    }
+    public void createWithTarget(Location location, org.bukkit.entity.LivingEntity target, int chorus, long discardedAfter) {
+        this.createWithTarget(location, ((CraftLivingEntity) target).getHandle(), chorus, discardedAfter);
+    }
+    public void createWithTarget(Location location, LivingEntity target, int chorus) {
+        this.createWithTarget(location, target, chorus, 0);
+    }
+    public void createWithTarget(Location location, LivingEntity target, int chorus, long discardedAfter) {
+        Mob living = this.create(location, chorus);
+        living.setTarget(target);
+        if (discardedAfter != 0) Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
+    }
+    public Mob create(Location location, boolean additional) {
         return this.create(null, location, additional, 0, 1, 1);
     }
-    public LivingEntity create(Dungeon dungeon, Location location, boolean additional, float addDamage, float multHealth, float multSpeed) {
+    public Mob create(Dungeon dungeon, Location location, boolean additional, float addDamage, float multHealth, float multSpeed) {
         this.dungeon = dungeon;
 
         ServerLevel level = ((CraftWorld) location.getWorld()).getHandle();
@@ -150,7 +175,7 @@ public abstract class RPGEntity {
 
         ent.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.STRING, RPGEntityType.getType(this).name());
 
-        this.entity = ent;
+        this.entity = (Mob) ent;
         level.tryAddFreshEntityWithPassengers(ent);
         addEntity(this);
 
@@ -177,17 +202,17 @@ public abstract class RPGEntity {
             ent.setItemSlot(EquipmentSlot.FEET, equipment.equipment()[5]);
         }
 
-        return ent;
+        return (Mob) ent;
     }
 
     public String getId() {
         return entity.getBukkitEntity().getPersistentDataContainer().get(NK_ID, PersistentDataType.STRING);
     }
 
-    public LivingEntity getEntity() {
+    public Mob getEntity() {
         return entity;
     }
-    public void setEntity(LivingEntity entity) {
+    public void setEntity(Mob entity) {
         this.entity = entity;
     }
 

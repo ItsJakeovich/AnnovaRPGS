@@ -25,6 +25,6 @@ public class MagicScrap extends RPGItem {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.UNCOMMON;
+        return RPGRarity.COMMON;
     }
 }

@@ -14,7 +14,6 @@ import java.util.Map;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.GOLEM_BOSS;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;

@@ -91,8 +91,8 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                 new CustomRunnable() {
                     private int massivePullCooldown = 60;
                     private boolean explosive = false;
-                    private int explosionCooldown = 2;
-                    private int ballCooldown = 3;
+                    private int explosionCooldown = 4;
+                    private int ballCooldown = 30;
                     private int pullCooldown = 90;
                     private boolean pullReturn = false;
 
@@ -112,7 +112,7 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                         if (explosionCooldown <= 0) {
                             level.explode0(entity, level.damageSources().explosion(entity, entity)
                                     , null, pos.x, pos.y, pos.z, 2, true, Level.ExplosionInteraction.NONE, ParticleTypes.FLAME, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);
-                            this.explosionCooldown = 2;
+                            this.explosionCooldown = 4;
                             this.explosive = false;
                         }
 
@@ -124,18 +124,18 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                                 }
                             }
                             this.explosive = true;
-                            this.massivePullCooldown = 6;
+                            this.massivePullCooldown = 60;
                         }
                         if (ballCooldown <= 0) {
                             Location location = MeteoriteGolem.this.getLocation().add(0, 2, 0);
                             for (int i = 0; i < 8; i++) {
                                 new MeteoriteBall().create(location.clone(), location.clone().add(random.nextDouble(4) - 2, -1, random.nextDouble(4) - 2));
                             }
-                            this.ballCooldown = 3;
+                            this.ballCooldown = 30;
                         }
                         if (pullCooldown <= 0) {
                             target.push(pos.subtract(target.position()).normalize().scale(4.0));
-                            this.pullCooldown = 9;
+                            this.pullCooldown = 90;
                             this.pullReturn = true;
                         } else if (this.pullReturn) {
                             Vec3 direction = target.position().subtract(pos).normalize().scale(3);

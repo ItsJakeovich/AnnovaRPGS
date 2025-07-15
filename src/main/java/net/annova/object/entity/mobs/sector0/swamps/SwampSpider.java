@@ -50,7 +50,7 @@ public class SwampSpider extends RPGEntity {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(player, 0.15));
+        return List.of(SPIDER_CHITIN.create(person, 0.15));
     }
 
     @Override

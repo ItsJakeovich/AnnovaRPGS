@@ -74,7 +74,7 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(player, random.nextInt(9)+12)); // от 12 до 20
+        return List.of(SPIDER_CHITIN.create(person, random.nextInt(9)+12)); // от 12 до 20
     }
 
     @Override

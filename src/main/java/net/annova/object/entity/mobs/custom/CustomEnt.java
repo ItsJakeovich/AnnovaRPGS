@@ -58,4 +58,9 @@ public class CustomEnt extends Zombie {
                 || damagesource.is(IN_FIRE)) f*=3;
         return super.hurtServer(worldserver, damagesource, f);
     }
+
+    @Override
+    protected boolean isSunBurnTick() {
+        return false;
+    }
 }

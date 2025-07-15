@@ -225,6 +225,9 @@ RANGE_TOKEN-lore: " {}{pc}| {pc}❖ {mc}Взаимодействие с блок
 SATURATION_TOKEN: "Жетон насыщения"
 SATURATION_TOKEN-lore: " {}{pc}| {pc}❖ {mc}При использовании{sc}: {mc}эффект Насыщения на {ac}60 {mc}минут{sc}."
 ## S0 - DRYAD
+DARK_WOLF_FANG: "Клык тёмного волка"
+PACK_LEADER_AMULET: "Амулет вожака стаи"
+PACK_LEADER_AMULET-lore: "{fc}Описание отсутствует"
 WOLF_SKIN: "Волчья шкура"
 ## S0 - FOREST
 ABSORBS_NIGHT_RING: "Перстень поглощающий ночь"
@@ -255,10 +258,20 @@ MAGMA_FRAGMENT-lore: "{pc}| {mc}Этот осколок выглядит сло�
 {}{pc}| {mc}что пульсирует своим внутренним жаром{sc}.
 {}{pc}| {mc}Он не утратил гнев породивший его{sc}..."
 METEORITE_FRAGMENT: "Раскалённый камень"
-METEORITE_FRAGMENT-lore: "{pc}| {mc}Выпал из {sc}«{mc}Околышей{sc}» — {mc}огненных существ{sc}. {}{pc}| {mc}Но сам осколок холоден и безопасен на ощупь{sc}."
+METEORITE_FRAGMENT-lore: "{pc}| {mc}Выпал из {sc}«{mc}Околышей{sc}» — {mc}огненных существ{sc}. 
+{}{pc}| {mc}Но сам осколок холоден и безопасен на ощупь{sc}."
+METEORITE_GOLEM_CORE: "Ядро метеоритного голема"
+METEORITE_GOLEM_CORE-lore: "{pc}| {mc}Осколок чуждой материи{sc}, {mc}что все еще 
+{}{pc}| {mc}излучает жар даже после смерти носителя{sc}. 
+{}{pc}| {mc}Хранит в себе отголоски падения и воли{sc}, 
+{}{pc}| {mc}застрявшей между {ac}измерениями{sc}."
 ## S0 - MINES
 MAGIC_SCRAP: "Волшебный лом"
-MAGIC_SCRAP-lore: "{pc}| {mc}Пластичный и легко-мнущийся материал{sc}."
+MAGIC_SCRAP-lore: "{pc}| {mc}Древний пластичный и легко-мнущийся материал{sc}."
+PURPLE_CRYSTAL_FRAGMENT: "Осколок фиолетового кристалла"
+PURPLE_CRYSTAL_FRAGMENT-lore: "{pc}| {mc}Кристалл что находился в голове хранителя шахты{sc}. 
+{}{pc}| {mc}Хрупкий{sc}, {mc}глубокого фиолетового цвета{sc}, 
+{}{pc}| {mc}достать его было непростой задачей{sc}."
 ## S0 - OASIS
 TIDE_BLADE: "Меч прилива"
 TIDE_BLADE-lore: "{pc}| {mc}Клинок{sc}, {mc}который был давно затерян в неизвестных вам водах{sc}..."

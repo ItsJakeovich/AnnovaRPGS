@@ -3,8 +3,10 @@ package net.annova.thread;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,6 +16,7 @@ public class PersonUpdateTimer extends AnnovaTask {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
+            ServerPlayer server = ((CraftPlayer) player).getHandle();
             RPGPerson person = getRPGPerson(player);
             person.updateSectorLocation();
 
@@ -22,7 +25,7 @@ public class PersonUpdateTimer extends AnnovaTask {
                 if (manager.hasStatus(type)) continue;
                 if (!type.getActivationItem().has(player)) continue; // если у игрока нет предмета
                 manager.addStatus(type);
-                player.playSound(player, Sound.ENTITY_WANDERING_TRADER_YES, 1, 1);
+                server.playSound(SoundEvents.WANDERING_TRADER_YES, 1, 1);
             }
             ItemStack item = player.getInventory().getItemInMainHand();
             if (!item.getType().isAir()) {
@@ -37,12 +40,6 @@ public class PersonUpdateTimer extends AnnovaTask {
 
             person.updateHealth();
             person.regen();
-
-//            long millis = System.currentTimeMillis();
-//            for (String modifier : person.getSpeedModifiers().keySet()) {
-//                if (millis-person.getSpeedModifier(modifier) < 11000) continue;
-//                person.removeSpeedModifier(modifier);
-//            }
         }
     }
 }

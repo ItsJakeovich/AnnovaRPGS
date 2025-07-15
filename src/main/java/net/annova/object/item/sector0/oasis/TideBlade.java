@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import java.util.List;
 
 import static net.annova.object.item.base.ItemType.TIDE_BLADE;
-import static net.annova.main.GlobalRPG.getEntity;
+import static net.annova.main.GlobalRPG.getRPGEntity;
 
 public class TideBlade extends RPGItem implements RPGTool, Listener {
     @Override
@@ -43,7 +43,7 @@ public class TideBlade extends RPGItem implements RPGTool, Listener {
         if (!TIDE_BLADE.equals(damager.getEquipment().getItemInMainHand())) return;
 
         LivingEntity entity = event.getEntity();
-        if (getEntity(entity) instanceof Crab) {
+        if (getRPGEntity(entity) instanceof Crab) {
             event.setDamage(event.getDamage() + 3);
         }
 

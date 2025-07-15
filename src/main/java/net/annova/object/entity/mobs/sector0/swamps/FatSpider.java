@@ -62,7 +62,7 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(player, 0.01));
+        return List.of(SPIDER_CHITIN.create(person, 0.01));
     }
 
     @Override

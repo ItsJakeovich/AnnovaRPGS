@@ -7,6 +7,8 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.EnumMap;
 import java.util.Map;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
+
 public class Status {
     private final StatusType type;
     private BukkitTask runnable = null;
@@ -16,7 +18,9 @@ public class Status {
     public Status(StatusType type, long durationOffset) {
         this.type = type;
         this.values.putAll(type.getBaseValues());
-        this.expires = System.currentTimeMillis()+type.getDuration()+durationOffset;
+        long duration = type.getDuration()+durationOffset;
+        if (duration == 0) expires = 0;
+        else this.expires = System.currentTimeMillis() + duration;
     }
 
     public StatusType getType() {
@@ -42,7 +46,7 @@ public class Status {
     }
 
     public boolean toRemove(Player player) {
-        boolean byTime = type.getDuration() != 0 && System.currentTimeMillis() >= expires;
+        boolean byTime = this.expires != 0 && System.currentTimeMillis() >= expires;
 
         ItemType itemType = this.type.getActivationItem();
         boolean byItem = itemType != null && !itemType.has(player);

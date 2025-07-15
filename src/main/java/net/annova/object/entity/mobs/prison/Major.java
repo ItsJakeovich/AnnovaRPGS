@@ -64,7 +64,7 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
     public List<ItemStack> loot(Person person) {
         return List.of(
                 createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
-                PRISON_TOKEN.create(player, random.nextInt(18)+3)
+                PRISON_TOKEN.create(person, random.nextInt(18)+3)
         );
     }
 

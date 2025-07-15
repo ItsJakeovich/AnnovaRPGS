@@ -65,7 +65,7 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
     @Override
     public List<ItemStack> loot(Person person) {
         return List.of(
-                CRAB_CLAW.create(player, random.nextInt(2)+1, 0.33)
+                CRAB_CLAW.create(person, random.nextInt(2)+1, 0.33)
         );
     }
 

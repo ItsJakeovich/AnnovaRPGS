@@ -75,11 +75,11 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     @Override
     public List<ItemStack> loot(Person person) {
         return List.of(
-                ENT_ROOT.create(player, random.nextInt(7)+2),
-                BLADE_IMBUED_WITH_MAGIC.create(player, 0.074),
+                ENT_ROOT.create(person, random.nextInt(7)+2),
+                BLADE_IMBUED_WITH_MAGIC.create(person, 0.074),
                 new ItemStack(Items.OAK_LOG, random.nextInt(25)+16),
                 new ItemStack(Items.STICK, random.nextInt(225)+20),
-                ENT_CORE.create(player, 0.1)
+                ENT_CORE.create(person, 0.1)
         );
     }
 
@@ -103,7 +103,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
         LivingEntity nonRPG =event.getEntity();
-        RPGEntity rpg = GlobalRPG.getEntity(nonRPG);
+        RPGEntity rpg = GlobalRPG.getRPGEntity(nonRPG);
         if (rpg instanceof OlderEnt ent) {
             ent.ENTS.removeIf(entCheck -> !entCheck.isAlive());
             if (!ent.ENTS.isEmpty()) event.decreaseDamage(event.getBaseDamage() * 0.15);

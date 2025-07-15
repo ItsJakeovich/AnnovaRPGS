@@ -62,7 +62,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(player, random.nextInt(3)+2, 0.45));
+        return List.of(SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45));
     }
 
     @Override

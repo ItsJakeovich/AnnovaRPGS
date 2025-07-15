@@ -10,6 +10,8 @@ import net.annova.object.item.equipment.meteorite.ChitinBoots;
 import net.annova.object.item.equipment.meteorite.ChitinChestplate;
 import net.annova.object.item.equipment.meteorite.ChitinHelmet;
 import net.annova.object.item.equipment.meteorite.ChitinLeggings;
+import net.annova.object.item.sector0.dryad.DarkWolfFang;
+import net.annova.object.item.sector0.dryad.PackLeaderAmulet;
 import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
 import net.annova.object.item.sector0.meteorite.FireCrystal;
@@ -23,6 +25,7 @@ import net.annova.object.item.container.PrisonContainerItem;
 import net.annova.object.item.crystal.*;
 import net.annova.object.item.equipment.ControlMovementStickItem;
 import net.annova.object.item.equipment.ControlStopStickItem;
+import net.annova.object.item.sector0.mines.PurpleCrystalFragment;
 import net.annova.object.item.sector0.oasis.TideBlade;
 import net.annova.object.item.sector0.oasis.TideGraspRing;
 import net.annova.object.item.equipment.prison.*;
@@ -117,6 +120,8 @@ public enum ItemType {
     RANGE_TOKEN(new RangeTokenItem()),
     SATURATION_TOKEN(new SaturationTokenItem()),
     // S0 - Dryad Pedestal
+    DARK_WOLF_FANG(new DarkWolfFang()),
+    PACK_LEADER_AMULET(new PackLeaderAmulet()),
     WOLF_SKIN(new WolfSkin()),
     // S0 - FOREST
     ABSORBS_NIGHT_RING(new AbsorbsNightRing()),
@@ -141,6 +146,7 @@ public enum ItemType {
     METEORITE_GOLEM_CORE(new MeteoriteGolemCore()),
     // S0 - Mines
     MAGIC_SCRAP(new MagicScrap()),
+    PURPLE_CRYSTAL_FRAGMENT(new PurpleCrystalFragment()),
     // S0 - OASIS
     TIDE_BLADE(new TideBlade()),
     TIDE_GRASP_RING(new TideGraspRing()),

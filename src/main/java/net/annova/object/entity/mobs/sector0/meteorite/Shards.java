@@ -57,7 +57,7 @@ public class Shards extends RPGEntity implements CustomType {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(METEORITE_FRAGMENT.create(player, 1, 0.04));
+        return List.of(METEORITE_FRAGMENT.create(person, 1, 0.04));
     }
 
     @Override

@@ -30,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
+import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.GlobalRPG.getAmountByTypeEntity;
 import static net.annova.object.LocationCategory.*;
@@ -65,10 +66,10 @@ public enum RPGEntityType {
     SOLDIER(NETHER, Soldier.class),
 
     // Sector 0 - Dryad Pedestal
-    DARK_WOLF(S0_DRYAD, DarkWolf.class),
+    DARK_WOLF(S0_DRYAD, DarkWolf.class, (Location location) -> isNight(location.getWorld())),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
-    //FANG(S0_DRYAD, Fang.class),
-    //WEREWOLF(S0_DRYAD, Werewolf.class),
+    FANG(S0_DRYAD, Fang.class),
+    WEREWOLF(S0_DRYAD, Werewolf.class),
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class, 0.1, 15),
     OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03, true),
@@ -77,12 +78,13 @@ public enum RPGEntityType {
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     SHARDS(S0_METEORITE, Shards.class),
     // Sector 0 - Mines
-    GOLEM(S0_MINES, Golem.class),
-    GOLEM_BOSS(S0_MINES, GolemBoss.class),
-    GUARDIAN(S0_MINES, Guardian.class),
-    MAGE(S0_MINES, Mage.class),
-    MINER(S0_MINES, Miner.class),
-    ORE_COLLECTOR(S0_MINES, OreCollector.class),
+    CARRIER(S0_MINES, Carrier.class, 0.25),
+    GOLEM_BOSS(S0_MINES, GolemBoss.class, 0.04, true),
+    GUARDIAN(S0_MINES, Guardian.class, 0.25),
+    MINER(S0_MINES, Miner.class, 0.25),
+    ORE_COLLECTOR(S0_MINES, OreCollector.class, 0.25),
+    PHANTOM(S0_MINES, Phantom.class),
+    PHANTOM_MINION(S0_MINES, PhantomMinion.class),
     // Sector 0 - Oasis
     ANGLER_FISH(S0_OASIS, AnglerFish.class),
     CRAB(S0_OASIS, Crab.class),
@@ -99,6 +101,7 @@ public enum RPGEntityType {
     private final double chance;
     private final int maxAmount;
     private final boolean boss;
+    private final SpawnCondition condition;
 
     private static final Map<LocationCategory, EnumSet<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
     private static final Map<Class<? extends RPGEntity>, RPGEntityType> TYPE_BY_CLASS = new HashMap<>();
@@ -118,16 +121,23 @@ public enum RPGEntityType {
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz) {
         this(category, clazz, 1.0);
+    }RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition) {
+        this(category, clazz, 1.0, 0, condition);
     }
+
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
-        this(category, clazz, chance, 0);
+        this(category, clazz, chance, 0, (Location location) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount) {
+        this(category, clazz, chance, maxAmount, (Location location) -> true);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount, SpawnCondition condition) {
         this.category = category;
         this.clazz = clazz;
         this.chance = chance;
         this.maxAmount = maxAmount;
         this.boss = false;
+        this.condition = condition;
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, boolean boss) {
         this.category = category;
@@ -135,6 +145,11 @@ public enum RPGEntityType {
         this.chance = chance;
         this.maxAmount = 1;
         this.boss = true;
+        this.condition = (Location location) -> true;
+    }
+
+    public interface SpawnCondition {
+        boolean canSpawn(Location location);
     }
 
     public RPGEntity getEntity() {
@@ -157,7 +172,7 @@ public enum RPGEntityType {
     }
 
     public boolean equals(LivingEntity entity) {
-        return this.equals(GlobalRPG.getEntity(entity));
+        return this.equals(GlobalRPG.getRPGEntity(entity));
     }
     public boolean equals(RPGEntity entity) {
         return this.equals(entity.getRPGType());
@@ -165,6 +180,10 @@ public enum RPGEntityType {
 
     public boolean isBoss() {
         return boss;
+    }
+
+    public SpawnCondition getCondition() {
+        return condition;
     }
 
     public void tryNaturalSpawn(Location location) {

@@ -4,9 +4,11 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.MinesMagicArmor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -22,7 +24,12 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 
-public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
+public class Guardian extends RPGEntity implements CustomType, EntitySpawn, EntityAction {
+    @Override
+    public Class<?> clazz() {
+        return MinesMagicArmor.class;
+    }
+
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;
@@ -40,17 +47,17 @@ public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
 
     @Override
     public int health() {
-        return 200;
+        return 75;
     }
 
     @Override
     public double damage() {
-        return 9;
+        return 5;
     }
 
     @Override
     public float speed() {
-        return 0.3f;
+        return 0.285f;
     }
 
     @Override
@@ -60,7 +67,7 @@ public class Guardian extends RPGEntity implements EntitySpawn, EntityAction {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(MAGIC_SCRAP.create(player, 0.01));
+        return List.of(MAGIC_SCRAP.create(person, 0.037));
     }
 
     @Override

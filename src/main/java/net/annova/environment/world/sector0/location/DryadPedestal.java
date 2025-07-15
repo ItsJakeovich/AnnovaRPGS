@@ -7,6 +7,7 @@ import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.thread.event.HourTickEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,9 @@ import java.util.*;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.*;
+import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class DryadPedestal extends SectorLocation implements Listener {
@@ -64,5 +67,15 @@ public class DryadPedestal extends SectorLocation implements Listener {
     @Override
     public int squaredRadius() {
         return 15625;
+    }
+
+
+    @EventHandler
+    public void tick(HourTickEvent event) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (this == getRPGPerson(player).getSectorLocation() && chance(0.1)) {
+                player.playSound(player, "location.postament.songdriada.songdriada", 1, 1);
+            }
+        }
     }
 }

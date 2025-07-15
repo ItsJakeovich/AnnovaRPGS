@@ -15,10 +15,14 @@ import net.annova.object.Person;
 import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
+import net.annova.object.person.status.StatusType;
 import net.annova.object.person.status.ValueType;
 import net.annova.util.AISString;
+import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -30,11 +34,11 @@ import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.sql.ResultSet;
@@ -148,13 +152,24 @@ public class RPGPerson {
         player.setNoDamageTicks(10);
         this.damage(damager, damage);
     }
+    public void damage(double damage) {
+        this.damage(null, (float) damage);
+    }
     public void damage(float damage) {
         this.damage(null, damage);
     }
+
     public void damage(Entity damager, float damage) {
+        ServerPlayer server = this.getPerson().getServerPlayer();
+
+        ServerGamePacketListenerImpl connection = server.connection;
+        /*connection.send(new ClientboundSoundEntityPacket(HURT_HOLDER, SoundSource.HOSTILE,
+                server, 1, 1, random.nextLong())
+        );*/
         Player player = this.getPlayer();
-        player.playHurtAnimation(1.0f);
         player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
+        connection.send(new ClientboundHurtAnimationPacket(server.getId(), 90.0F));
+
         this.knockback(damager, damage);
 
         this.setHealth(this.health - damage);
@@ -167,14 +182,13 @@ public class RPGPerson {
         float force = (float) (0.6 * (1.0 - server.getAttributeValue(KNOCKBACK_RESISTANCE)));
         if (damage < 1) force*= damage;
 
-        net.minecraft.world.entity.Entity nms = ((CraftEntity) damager).getHandle();
         double dirX, dirZ;
-        if (nms instanceof Projectile projectile) {
+        if (damager instanceof Projectile projectile) {
             DoubleDoubleImmutablePair pair = projectile.calculateHorizontalHurtKnockbackDirection(server, null);
             dirX = -pair.leftDouble();
             dirZ = -pair.rightDouble();
         } else {
-            Vec3 vec3 = nms.position();
+            Vec3 vec3 = damager.position();
             Vec3 playerPos = server.position();
             dirX = vec3.x - playerPos.x;
             dirZ = vec3.z - playerPos.z;
@@ -186,7 +200,7 @@ public class RPGPerson {
             dirX = (Math.random() - Math.random()) * 0.01;
         }
         Vec3 knockback = (new Vec3(dirX, 0.0, dirZ)).normalize().scale(force);
-        EntityKnockbackByEntityEvent event = new EntityKnockbackByEntityEvent(player, damager,
+        EntityKnockbackByEntityEvent event = new EntityKnockbackByEntityEvent(player, damager.getBukkitEntity(),
                 ENTITY_ATTACK, force,
                 new Vector(
                         vec3d.x / 2.0 - knockback.x,
@@ -297,7 +311,7 @@ public class RPGPerson {
         this.team = team;
     }
 
-    @Nullable
+    @NotNull
     public ArmorSet getArmorSet() {
         return armorSet;
     }
@@ -306,7 +320,9 @@ public class RPGPerson {
     }
 
     public void updateSpeed(float speed) {
-        this.person.setSpeed(speed);
+        float multiplier = 1;
+        if (statusManager.hasStatus(StatusType.PHANTOM_FEAR)) multiplier += 0.05f;
+        this.person.setSpeed(speed * multiplier);
     }
 
     public boolean isReady() {
@@ -322,6 +338,13 @@ public class RPGPerson {
     public StatusManager getStatusManager() {
         return statusManager;
     }
+    public void addStatus(StatusType type) {
+        this.statusManager.addStatus(type);
+    }
+    public void addStatus(StatusType type, int durationOffset) {
+        this.statusManager.addStatus(type, durationOffset);
+    }
+
     public double getFinalValue(ValueType type) {
         return this.equipment.getFinalValue(type) + this.statusManager.getFinalValue(type);
     }

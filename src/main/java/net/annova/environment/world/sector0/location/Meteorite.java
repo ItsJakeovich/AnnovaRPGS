@@ -80,7 +80,7 @@ public class Meteorite extends SectorLocation {
                     fireTicks = (int) (200 * koefficient);
                 }
                 player.setFireTicks(fireTicks);
-                player.damage(damage);
+                person.damage(damage);
             }
         }
 

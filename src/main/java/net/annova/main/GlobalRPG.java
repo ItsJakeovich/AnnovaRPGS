@@ -49,8 +49,9 @@ public class GlobalRPG {
     public static RPGPerson getRPGPerson(Player player) {
         if (player == null) return null;
         RPGPerson person = personsUid.get(player.getUniqueId());
-        if (person == null) return npc.get(player.getPersistentDataContainer().get(NK_KEY, PersistentDataType.STRING)).getPerson();
-        return personsUid.get(player.getUniqueId());
+        return person == null
+                ? npc.get(player.getPersistentDataContainer().get(NK_KEY, PersistentDataType.STRING)).getPerson()
+                : person;
     }
     @Nullable
     public static RPGPerson getRPGPerson(String name) {
@@ -96,11 +97,11 @@ public class GlobalRPG {
     }
 
     @Nullable
-    public static RPGEntity getEntity(Entity entity) {
+    public static RPGEntity getRPGEntity(Entity entity) {
         return entities.get(entity);
     }
     @Nullable
-    public static RPGEntity getEntity(LivingEntity entity) {
+    public static RPGEntity getRPGEntity(LivingEntity entity) {
         return entities.get(entity);
     }
     public static void addEntity(RPGEntity entity) {

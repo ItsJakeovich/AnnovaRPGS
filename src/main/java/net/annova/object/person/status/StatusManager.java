@@ -57,9 +57,12 @@ public class StatusManager {
 
         if (type.getCooldown() != 0) cooldowns.put(type, millis+type.getCooldown());
 
-        this.statuses.put(type, status);
+        Status old = this.statuses.put(type, status);
+
         StatusActivity activity = type.getActivity();
         if (activity != null) {
+            if (old != null) old.getRunnable().cancel();
+
             Player player = person.getPlayer();
             status.setRunnable(new BukkitRunnable() {
                 @Override

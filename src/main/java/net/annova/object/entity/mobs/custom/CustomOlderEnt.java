@@ -30,21 +30,11 @@ import static net.annova.object.item.base.ItemType.ENT_CORE;
 import static net.minecraft.world.damagesource.DamageTypes.IN_FIRE;
 import static net.minecraft.world.damagesource.DamageTypes.ON_FIRE;
 
-public class CustomOlderEnt extends IronGolem {
+public class CustomOlderEnt extends CustomIronGolem {
     public CustomOlderEnt(EntityType<? extends IronGolem> entitytypes, Level world) {
         super(entitytypes, world);
 
         this.getAttribute(Attributes.SCALE).setBaseValue(3.0);
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, (double)1.0F, true));
-        this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9, 32.0F));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     @Override
