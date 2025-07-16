@@ -16,7 +16,6 @@ import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.util.BukkitObjects.random;
 
 public abstract class SectorLocation {
-    public abstract void activity(); // MinuteTickEvent
     public abstract void movement(RPGPerson person, Player player);
 
     public abstract EnumSet<RPGEntityType> entitiesToSpawn();
@@ -47,10 +46,11 @@ public abstract class SectorLocation {
 
             Location check = location.clone().add(new Vector(offsetX, offsetY, offsetZ));
 
+            Block block = check.getBlock();
             // Проверяем, что целевая позиция безопасна для телепортации
-            if (!check.getBlock().getLocation().clone().add(0, -1, 0).getBlock().getType().isSolid()
-                    || check.getBlock().getLocation().clone().add(0, 1, 0).getBlock().getType().isSolid()
-                    || check.getBlock().getType().isSolid()) continue;
+            if (!block.getLocation().clone().add(0, -1, 0).getBlock().getType().isSolid()
+                    || block.getLocation().clone().add(0, 1, 0).getBlock().getType().isSolid()
+                    || block.getType().isSolid()) continue;
 
             return check;
         }

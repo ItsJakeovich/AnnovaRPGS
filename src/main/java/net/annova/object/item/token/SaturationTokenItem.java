@@ -39,7 +39,7 @@ public class SaturationTokenItem extends RPGItem implements Listener {
     private void use(MouseClickCE event) {
         if (event.getClickType().equals(MouseClickCE.ClickType.LEFT_CLICK)) return;
         Player player = event.getPlayer();
-        if (!SATURATION_TOKEN.use(player)) return;
+        if (!SATURATION_TOKEN.use(player, event.getItemId())) return;
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 72000, 0));
     }

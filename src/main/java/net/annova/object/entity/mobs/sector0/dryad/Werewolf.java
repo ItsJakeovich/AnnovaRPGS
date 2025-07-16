@@ -13,7 +13,7 @@ import java.util.Set;
 public class Werewolf extends RPGEntity {
     @Override
     public EntityType<?> type() {
-        return null;
+        return EntityType.ZOMBIE;
     }
 
     @Override

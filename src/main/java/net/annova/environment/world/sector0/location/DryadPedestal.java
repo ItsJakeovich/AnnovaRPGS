@@ -1,6 +1,8 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.event.UpdateTask;
+import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.object.LocationCategory;
@@ -23,7 +25,26 @@ import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
-public class DryadPedestal extends SectorLocation implements Listener {
+public class DryadPedestal extends SectorLocation {
+    public DryadPedestal() {
+        WorldUpdateTimer.addTask(new UpdateTask() {
+            @Override
+            public void update() {
+                for (Player player : world0.getPlayers()) {
+                    RPGPerson person = getRPGPerson(player);
+                    if (person.getSectorLocation() instanceof DarkForest) {
+                        player.playSound(player, "location.postament.songdriada.songdriada", 1, 1);
+                    }
+                }
+            }
+
+            @Override
+            public int period() {
+                return 60;
+            }
+        });
+    }
+
     private final String[] messageKeys = {
             "s0-dryad-msg-0",
             "s0-dryad-msg-1",
@@ -34,11 +55,6 @@ public class DryadPedestal extends SectorLocation implements Listener {
             "s0-dryad-msg-6",
     };
     private final Map<UUID, Long> messageCooldown = new HashMap<>();
-
-    @Override
-    public void activity() {
-
-    }
 
     @Override
     public void movement(RPGPerson person, Player player) {
@@ -67,15 +83,5 @@ public class DryadPedestal extends SectorLocation implements Listener {
     @Override
     public int squaredRadius() {
         return 15625;
-    }
-
-
-    @EventHandler
-    public void tick(HourTickEvent event) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (this == getRPGPerson(player).getSectorLocation() && chance(0.1)) {
-                player.playSound(player, "location.postament.songdriada.songdriada", 1, 1);
-            }
-        }
     }
 }

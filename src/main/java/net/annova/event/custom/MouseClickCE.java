@@ -1,5 +1,6 @@
 package net.annova.event.custom;
 
+import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -20,12 +21,14 @@ public class MouseClickCE extends Event {
     private final PlayerInteractEvent event;
     private final RPGPerson person;
     private final ClickType clickType;
+    private final String itemId;
 
     public MouseClickCE(Player player, PlayerInteractEvent event, ClickType clickType) {
         this.player = player;
         this.event = event;
         this.person = getRPGPerson(player);
         this.clickType = clickType;
+        this.itemId = RPGItem.getItemId(event.getItem());
     }
 
     public Player getPlayer() {
@@ -42,6 +45,9 @@ public class MouseClickCE extends Event {
 
     public ClickType getClickType() {
         return clickType;
+    }
+    public String getItemId() {
+        return itemId;
     }
 
     @Override

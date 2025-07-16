@@ -19,10 +19,7 @@ import net.annova.object.entity.mobs.sector0.mines.*;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.object.entity.mobs.sector0.forest.Ent;
-import net.annova.object.entity.mobs.sector0.swamps.FatSpider;
-import net.annova.object.entity.mobs.sector0.swamps.Melanox;
-import net.annova.object.entity.mobs.sector0.swamps.SwampSpider;
-import net.annova.object.entity.mobs.sector0.swamps.WhipSpider;
+import net.annova.object.entity.mobs.sector0.swamps.*;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
@@ -90,9 +87,10 @@ public enum RPGEntityType {
     CRAB(S0_OASIS, Crab.class),
     // Sector 0 - Swamps
     FAT_SPIDER(S0_SWAMPS, FatSpider.class),
+    MELANOX(S0_SWAMPS, Melanox.class),
+    MOTHER_SPIDER(S0_SWAMPS, MotherSpider.class),
     SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class),
-    WHIP_SPIDER(S0_SWAMPS, WhipSpider.class),
-    MELANOX(S0_SWAMPS, Melanox.class)
+    WHIP_SPIDER(S0_SWAMPS, WhipSpider.class)
     ;
 
     final LocationCategory category;
@@ -186,15 +184,18 @@ public enum RPGEntityType {
         return condition;
     }
 
+    public int getMaxAmount() {
+        return maxAmount;
+    }
+
     public void tryNaturalSpawn(Location location) {
         if (!chance(chance)) return;
-        if (this.maxAmount != 0 && this.maxAmount >= getAmountByTypeEntity(this)) {
-            /* for test */ sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
-            return;
-        }
+        sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
+
+        if (this.maxAmount != 0 && this.maxAmount <= getAmountByTypeEntity(this)) return;
 
         Location spawn = getChorusLocation(location, 20);
-        if (spawn.distanceSquared(location) < 64) return;
+        if (spawn == location) return;
         if (spawn.getBlock().getLightFromBlocks() > 7) return;
         RPGEntity entity = this.getEntity();
         entity.create(spawn);

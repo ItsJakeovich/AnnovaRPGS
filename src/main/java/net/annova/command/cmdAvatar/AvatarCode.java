@@ -26,13 +26,13 @@ public class AvatarCode {
                 // Modifiers
                 .replaceTag("{damage}", person.getStringFinalValue(ValueType.DAMAGE))
                 .replaceTag("{damage-multiplier}", person.getStringFinalPercent(ValueType.DAMAGE_MULTIPLIER))
-                .replaceTag("{defence-multiplier}", person.getStringFinalPercent(ValueType.DEFENCE_MULTIPLIER))
-                .replaceTag("{fall-multiplier}", person.getStringFinalPercent(ValueType.FALL_MULTIPLIER))
+                .replaceTag("{defence-multiplier}", person.getStringFinalPercent(ValueType.DEFENCE_MULTIPLIER, true))
+                .replaceTag("{fall-multiplier}", person.getStringFinalPercent(ValueType.FALL_MULTIPLIER, true))
                 .replaceTag("{health}", person.getStringFinalValue(ValueType.HEALTH))
                 .replaceTag("{regen}", person.getStringFinalValue(ValueType.REGENERATION))
                 .replaceTag("{block}", person.getStringFinalValue(ValueType.BLOCK_RANGE))
                 .replaceTag("{entity}", person.getStringFinalValue(ValueType.ENTITY_RANGE))
         ;
-        api.send(message.getDefined(api));
+        api.send(message.getDefinedSplitted(api));
     }
 }

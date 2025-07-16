@@ -1,6 +1,8 @@
 package net.annova.object.item.base;
 
 import net.annova.object.RPGRarity;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.world.item.Item;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static net.annova.main.Keys.*;
+import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
 
 public abstract class RPGItem {
     public abstract Item type();
@@ -36,6 +39,6 @@ public abstract class RPGItem {
     public static String getItemId(ItemStack item) {
         if (item == null || !item.hasItemMeta()) return null;
 
-        return item.getItemMeta().getPersistentDataContainer().get(NK_ID, PersistentDataType.STRING);
+        return ((StringTag) asNMSCopy(item).get(DataComponents.CUSTOM_DATA).getUnsafe().get("annovas:id")).value();
     }
 }

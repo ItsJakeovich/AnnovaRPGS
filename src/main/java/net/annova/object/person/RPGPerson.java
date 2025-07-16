@@ -30,7 +30,6 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
@@ -349,15 +348,22 @@ public class RPGPerson {
         return this.equipment.getFinalValue(type) + this.statusManager.getFinalValue(type);
     }
     public String getStringFinalValue(ValueType type) {
-        return colorizeNumber((double) (int) (this.getFinalValue(type) * 100) / 100);
+        return colorizeNumber((double) (int) (this.getFinalValue(type) * 100) / 100, false);
     }
     public String getStringFinalPercent(ValueType type) {
-        return colorizeNumber(this.getFinalValue(type)*100) + '%';
+        return this.getStringFinalPercent(type, false);
+    }
+    public String getStringFinalPercent(ValueType type, boolean invert) {
+        return colorizeNumber(this.getFinalValue(type)*100, invert) + '%';
     }
     public static String colorizeNumber(double number) {
+        return colorizeNumber(number, false);
+    }
+    public static String colorizeNumber(double number, boolean invert) {
+        if (invert) number = -number;
         if (number == 0)     return "{sc}" + number;
-        else if (number > 0) return "{tc}+" + number;
-        else                 return "{fc}" + number;
+        else if (number > 0) return (invert ? "{fc}+" : "{tc}+") + number;
+        else                 return (invert ? "{tc}" : "{fc}") + number;
     }
     private AttributeInstance blockInteraction, entityInteraction, movementSpeed, sneakingSpeed;
     private static final ResourceLocation blockRangeLocation = ResourceLocation.fromNamespaceAndPath("annovas", "block_range");

@@ -1,6 +1,8 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.event.UpdateTask;
+import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
@@ -26,7 +28,7 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.util.BukkitObjects.random;
 
-public class DarkForest extends SectorLocation implements Listener {
+public class DarkForest extends SectorLocation {
     private final Map<Player, Long> forestMSGCooldown = new HashMap<>();
     private final String[] MSGKeys = {
             "s0-forest-msg-0",
@@ -47,21 +49,6 @@ public class DarkForest extends SectorLocation implements Listener {
             "location.forest.ambient.ambient3"
     };
     private final PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 300, 1);
-
-    private int i = 60; // 60 minutes
-    @Override
-    public void activity() {
-        if (i != 0) {
-            i--;
-            return;
-        } i = 60;
-        for (Player player : world0.getPlayers()) {
-            RPGPerson person = getRPGPerson(player);
-            if (person.getSectorLocation() instanceof DarkForest) {
-                player.playSound(player, "location.postament.songdriada.songdriada", 1, 1);
-            }
-        }
-    }
 
     @Override
     public void movement(RPGPerson person, Player player) {
@@ -97,11 +84,5 @@ public class DarkForest extends SectorLocation implements Listener {
     @Override
     public int squaredRadius() {
         return 17781;
-    }
-
-    @EventHandler
-    public void fire(BlockIgniteEvent event) {
-        if (this.isOutside(event.getBlock().getLocation())) return;
-        event.setCancelled(true);
     }
 }

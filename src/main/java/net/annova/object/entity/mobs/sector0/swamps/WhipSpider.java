@@ -87,7 +87,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
         if (entity.getHealth() < entity.getMaxHealth()*0.5 && chance(0.3)) {
             double reflection = event.getBaseDamage() * 0.9;
             event.decreaseDamage(reflection);
-            damager.damage(reflection);
+            if (reflection > 1) damager.damage(reflection);
 
             if (damager instanceof Player player) {
                 getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);

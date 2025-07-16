@@ -31,11 +31,6 @@ public class SpiderSwamps extends SectorLocation {
     private final Map<Player, Long> messageCooldown = new HashMap<>();
 
     @Override
-    public void activity() {
-
-    }
-
-    @Override
     public void movement(RPGPerson person, Player player) {
         long millis = System.currentTimeMillis();
         if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;

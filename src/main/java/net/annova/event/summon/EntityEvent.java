@@ -78,7 +78,10 @@ public class EntityEvent implements Listener {
             if (player.getNoDamageTicks() != 0) return;
 
             event.setDamage(ev.getDamage());
-            getRPGPerson(player).damageWithCooldown(((CraftEntity) event.getDamageSource().getDirectEntity()).getHandle(), (float) finalDamage);
+            Entity bukkit = event.getDamageSource().getCausingEntity();
+            getRPGPerson(player).damageWithCooldown(bukkit == null ? null : ((CraftEntity) bukkit).getHandle(),
+                    (float) finalDamage
+            );
         }
         Player player;
         this.spawnIndicator(((CraftLivingEntity) event.getEntity()).getEyeLocation().add(0, 1.5, 0), finalDamage);

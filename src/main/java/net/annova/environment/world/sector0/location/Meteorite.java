@@ -1,6 +1,8 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.event.UpdateTask;
+import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
@@ -12,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -26,6 +29,32 @@ import static net.annova.object.item.base.ArmorSet.CHITIN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Meteorite extends SectorLocation {
+    public Meteorite() {
+        WorldUpdateTimer.addTask(new UpdateTask() {
+            @Override
+            public void update() {
+                Location location = Meteorite.points[0];
+                World world = location.getWorld();
+                world.spawnParticle(Particle.FLAME, location, 400, 28, 20, 28);
+                for (Entity entity : world.getNearbyEntities(location, 32, 24, 32)) {
+                    if (entity instanceof Player) {
+                        RPGPerson person = getRPGPerson(entity);
+                        SHARDS.tryNaturalSpawn(entity.getLocation());
+
+                        if (CHITIN == person.getArmorSet()) continue;
+                    }
+                    entity.setFireTicks(250);
+                    if (entity instanceof LivingEntity living) living.damage(4.0);
+                }
+            }
+
+            @Override
+            public int period() {
+                return 20;
+            }
+        });
+    }
+
     private final String[] messageKeys = {
             "s0-meteorite-msg-0",
             "s0-meteorite-msg-1",
@@ -38,28 +67,6 @@ public class Meteorite extends SectorLocation {
             "s0-meteorite-msg-8",
     };
     private final Map<Player, Long> messageCooldown = new HashMap<>();
-
-    private int i = 20; // 20 минут
-    @Override
-    public void activity() {
-        if (i != 0) {
-            i--;
-            return;
-        } i = 20;
-        Location location = this.points()[0];
-        World world = location.getWorld();
-        world.spawnParticle(Particle.FLAME, location, 400, 28, 20, 28);
-        for (Entity entity : world.getNearbyEntities(location, 32, 24, 32)) {
-            if (entity instanceof Player) {
-                RPGPerson person = getRPGPerson(entity);
-                SHARDS.tryNaturalSpawn(entity.getLocation());
-
-                if (CHITIN == person.getArmorSet()) continue;
-            }
-            entity.setFireTicks(250);
-            if (entity instanceof LivingEntity living) living.damage(4.0);
-        }
-    }
 
     @Override
     public void movement(RPGPerson person, Player player) {

@@ -45,8 +45,8 @@ import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.addEntity;
-import static net.annova.main.GlobalRPG.removeEntity;
+import static net.annova.main.GlobalRPG.*;
+import static net.annova.main.GlobalRPG.getAmountByTypeEntity;
 import static net.annova.main.Keys.NK_ID;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 
@@ -57,13 +57,21 @@ public abstract class RPGEntity {
     private SectorLocation sectorLocation;
     private final RPGEntityType rpgType;
     private final Map<StatusType, EntityStatus> statuses = new EnumMap<>(StatusType.class);
+
     public abstract EntityType<?> type();
+
     public abstract String name();
+
     public abstract RPGRarity rarity();
+
     public abstract int health();
+
     public abstract double damage();
+
     public abstract float speed();
+
     public abstract boolean small();
+
     public abstract List<ItemStack> loot(Person person);
 
     public abstract Set<RPGAbility> abilities();
@@ -73,6 +81,7 @@ public abstract class RPGEntity {
     }
 
     public static final String TABLE = "ENTITY";
+
     public static void init() {
         getSQL().initTable(TABLE,
                 "CLASS VARCHAR(128)",
@@ -83,9 +92,11 @@ public abstract class RPGEntity {
         );
         //ResultSet rs = getSQL().(TABLE);
     }
+
     private static EntityType<?> register(ResourceKey<EntityType<?>> resourcekey, EntityType.Builder<?> entitytypes_builder) {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, resourcekey, entitytypes_builder.noSave().build(resourcekey));
     }
+
     public static EntityType<?> register(String key, EntityType.Builder<?> builder) {
         return register(ResourceKey.create(Registries.ENTITY_TYPE, fromNamespaceAndPath("annovas", key)), builder);
     }
@@ -94,9 +105,11 @@ public abstract class RPGEntity {
     public EntityStatus getStatus(StatusType type) {
         return statuses.get(type);
     }
+
     public void addStatus(StatusType type) {
         this.statuses.put(type, new EntityStatus(type));
     }
+
     public void removeStatus(StatusType type) {
         this.statuses.remove(type);
     }
@@ -111,29 +124,38 @@ public abstract class RPGEntity {
                 , 1
         ));
     }
+
     public Mob create(Location location) {
         return this.create(null, location, false, 0, 1, 1);
     }
+
     public Mob create(Location location, int chorus) {
         return this.create(null, getChorusLocation(location, chorus), false, 0, 1, 1);
     }
+
     public void createWithTarget(RPGEntity entity, LivingEntity target) {
         this.createWithTarget(entity.getLocation(), target, 2);
     }
+
     public void createWithTarget(Location location, org.bukkit.entity.LivingEntity target, int chorus) {
         this.createWithTarget(location, target, chorus, 0);
     }
+
     public void createWithTarget(Location location, org.bukkit.entity.LivingEntity target, int chorus, long discardedAfter) {
         this.createWithTarget(location, ((CraftLivingEntity) target).getHandle(), chorus, discardedAfter);
     }
+
     public void createWithTarget(Location location, LivingEntity target, int chorus) {
         this.createWithTarget(location, target, chorus, 0);
     }
+
     public void createWithTarget(Location location, LivingEntity target, int chorus, long discardedAfter) {
         Mob living = this.create(location, chorus);
         living.setTarget(target);
-        if (discardedAfter != 0) Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
+        if (discardedAfter != 0)
+            Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
     }
+
     public Mob create(Location location, boolean additional) {
         return this.create(null, location, additional, 0, 1, 1);
     }

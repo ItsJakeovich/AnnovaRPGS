@@ -232,7 +232,7 @@ public enum ItemType {
     public boolean has(Player player) {
         if (player == null) return false;
         if (this.getItem() instanceof ItemEquipment) return this.hasEquipment(player);
-        else return this.hasItem(player);
+        else                                         return this.hasItem(player);
     }
     public boolean hasItem(Player player) {
         for (org.bukkit.inventory.ItemStack item : player.getInventory().getContents()) {
@@ -276,12 +276,18 @@ public enum ItemType {
      * @return true if item similar and decreased.
      */
     public boolean use(Player player, org.bukkit.inventory.ItemStack item) {
-        if (!this.id.equals(getItemId(item))) return false;
+        return this.use(player, getItemId(item), item);
+    }
+    public boolean use(Player player, String itemId, org.bukkit.inventory.ItemStack item) {
+        if (!this.id.equals(itemId)) return false;
         RPGItem.subtractItem(player, item);
         return true;
     }
     public boolean use(Player player) {
         return this.use(player, player.getInventory().getItemInMainHand());
+    }
+    public boolean use(Player player, String itemId) {
+        return this.use(player, itemId, player.getInventory().getItemInMainHand());
     }
 
     @Nullable

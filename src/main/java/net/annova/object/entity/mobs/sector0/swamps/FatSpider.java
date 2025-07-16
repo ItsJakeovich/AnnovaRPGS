@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.main.AnnovaAPI.random;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 
 public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
@@ -62,7 +63,7 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(person, 0.01));
+        return List.of(SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45));
     }
 
     @Override

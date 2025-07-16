@@ -43,7 +43,7 @@ public class LightStoneItem extends RPGItem implements Listener {
     private void mechanic(MouseClickCE event) {
         if (event.getClickType().equals(MouseClickCE.ClickType.LEFT_CLICK)) return;
         Player player = event.getPlayer();
-        if (!LIGHT_STONE.use(player)) return;
+        if (!LIGHT_STONE.use(player, event.getItemId())) return;
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 1200, 0));
 

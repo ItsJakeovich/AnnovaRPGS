@@ -9,6 +9,14 @@ import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
 
 public class SuruWahare implements WorldSector {
     public static final World world0 = loadWorldAndGet("world"); // позже надо sector 0
+    /**
+     * 0 - Dark Forest
+     * 1 - Dryad Pedestal
+     * 2 - Meteorite
+     * 3 - Mines
+     * 4 - Oasis
+     * 5 - Spider Swamps
+     */
     public static final SectorLocation[] zones = new SectorLocation[]{
             new DarkForest(),
             new DryadPedestal(),

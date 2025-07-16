@@ -10,12 +10,16 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.item.ItemEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.*;
@@ -24,6 +28,7 @@ import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
@@ -33,8 +38,10 @@ public class RPGCode {
         spawn.add(spawn.getDirection().multiply(2.5));
         switch (Integer.parseInt(args[1])) {
             case -1 -> {
-                ServerPlayer server = ((CraftPlayer) player).getHandle();
-                server.connection.send(new ClientboundHurtAnimationPacket(server.getId(), Float.parseFloat(args[2])));
+                ServerLevel level = ((CraftWorld) world0).getHandle();
+                Location location = player.getLocation();
+                ItemEntity entity = new ItemEntity(level, location.x(), location.y(), location.z(), MAGIC_SCRAP.create(1));
+                level.addFreshEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
             }
             case 0 -> new FireBall().create(spawn);
             case 1 -> new HarryBall(player).create(spawn);

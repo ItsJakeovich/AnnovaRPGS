@@ -19,16 +19,16 @@ avatar-equipment: "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает �
 avatar-info:      "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
 
 avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
-{}{pc}| {pc}● {mc}Имя{sc}: {mc}{name}
-{}{pc}| {pc}● {mc}Локация{sc}: {location}
-{}{pc}| {pc}● {mc}Модификаторы{pc}:
-{}{pc}| {pc} ◆ {mc}Урон{sc}: {damage}{sc}, {damage-multiplier}
-{}{pc}| {pc} ◆ {mc}Получаемый урон{sc}: {defence-multiplier}
-{}{pc}| {pc} ◆ {mc}Урон от падения{sc}: {fall-multiplier}
-{}{pc}| {pc} ◆ {mc}Здоровье{sc}: {health}
-{}{pc}| {pc} ◆ {mc}Восстановление{sc}: {regen}
-{}{pc}| {pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
-{}{pc}| {pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
+{}{pc}● {mc}Имя{sc}: {mc}{name}
+{}{pc}● {mc}Локация{sc}: {location}
+{}{pc}● {mc}Модификаторы{pc}:
+{}{pc} ◆ {mc}Урон{sc}: {damage}{sc}, {damage-multiplier}
+{}{pc} ◆ {mc}Получаемый урон{sc}: {defence-multiplier}
+{}{pc} ◆ {mc}Урон от падения{sc}: {fall-multiplier}
+{}{pc} ◆ {mc}Здоровье{sc}: {health}
+{}{pc} ◆ {mc}Восстановление{sc}: {regen}
+{}{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
+{}{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
 # calculator
 calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
 #calc-creative: "{pc}❖ {mc}Творческий режим{sc}."
@@ -181,13 +181,13 @@ VITAL_STONE: "Кристалл молодости"
 VITAL_STONE-lore: " {}{pc}| {pc}❖ {mc}Урон{sc}: {tc}+1.5% {mc}за каждое имеющиеся &c🖤{sc}."
 ## Equipment
 CHITIN_BOOTS: "Хитиновые ботинки"
-CHITIN_BOOTS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они уверенно {}{pc}| держат на болотной топи{sc}, {mc}словно ты сам вырос в паутине{sc}."
+CHITIN_BOOTS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они уверенно {}{pc}| {mc}держат на болотной топи{sc}, {mc}словно ты сам вырос в паутине{sc}."
 CHITIN_CHESTPLATE: "Хитиновый нагрудник"
 CHITIN_CHESTPLATE-lore: "{pc}| {mc}Созданный из паучьего хитина{sc}, {mc}он принимает удары на себя так{sc}, {}{pc}| {mc}как будто у него есть собственная воля{sc}."
 CHITIN_HELMET: "Хитиновый шлем"
 CHITIN_HELMET-lore: "{pc}| {mc}Созданный из паучьего хитина{sc}, {mc}он защищает от жара и будто стирает страх перед огнём{sc}."
 CHITIN_LEGGINGS: "Хитиновые поножи"
-CHITIN_LEGGINGS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они укрепляют ноги {}{pc}| и гасят удары{sc}, {mc}будто впитывая силу земли{sc}."
+CHITIN_LEGGINGS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они укрепляют ноги {}{pc}| {mc}и гасят удары{sc}, {mc}будто впитывая силу земли{sc}."
 
 PRISON_BOOTS: "Ботинки охранника"
 PRISON_BOOTS-lore: "{pc}| {mc}Были снят с охранника во время переклички{sc}."

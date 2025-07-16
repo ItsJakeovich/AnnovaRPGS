@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 
 import java.util.*;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.object.item.base.RPGItem.getItemId;

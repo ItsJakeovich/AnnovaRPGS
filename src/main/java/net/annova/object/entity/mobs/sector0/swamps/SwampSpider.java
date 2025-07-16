@@ -40,7 +40,7 @@ public class SwampSpider extends RPGEntity {
 
     @Override
     public float speed() {
-        return 0.3525f;
+        return 0.405f;
     }
 
     @Override
