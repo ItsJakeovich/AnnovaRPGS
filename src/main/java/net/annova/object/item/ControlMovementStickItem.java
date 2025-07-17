@@ -1,4 +1,4 @@
-package net.annova.object.item.equipment;
+package net.annova.object.item;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;

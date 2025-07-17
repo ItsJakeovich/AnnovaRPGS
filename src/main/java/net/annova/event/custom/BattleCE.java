@@ -1,6 +1,7 @@
 package net.annova.event.custom;
 
-import org.bukkit.entity.LivingEntity;
+
+import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class BattleCE extends LivingEntityDamageByEntityCE {

@@ -7,13 +7,14 @@ import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.Location;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class Miner extends RPGEntity implements CustomType, EntitySpawn {
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
         GoalSelector selector = ((Mob) entity).targetSelector;
         List<WrappedGoal> toRemove = new ArrayList<>();
         for (WrappedGoal goal : selector.getAvailableGoals()) {

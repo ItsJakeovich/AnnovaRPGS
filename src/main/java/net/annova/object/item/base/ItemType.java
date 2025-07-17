@@ -1,15 +1,15 @@
 package net.annova.object.item.base;
 
 import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
-import net.annova.object.item.DungeonKeyItem;
+import net.annova.object.item.*;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.attribute.RPGArmor;
 import net.annova.object.item.base.attribute.RPGTool;
-import net.annova.object.item.equipment.meteorite.ChitinBoots;
-import net.annova.object.item.equipment.meteorite.ChitinChestplate;
-import net.annova.object.item.equipment.meteorite.ChitinHelmet;
-import net.annova.object.item.equipment.meteorite.ChitinLeggings;
+import net.annova.object.item.sector0.meteorite.ChitinBoots;
+import net.annova.object.item.sector0.meteorite.ChitinChestplate;
+import net.annova.object.item.sector0.meteorite.ChitinHelmet;
+import net.annova.object.item.sector0.meteorite.ChitinLeggings;
 import net.annova.object.item.sector0.dryad.DarkWolfFang;
 import net.annova.object.item.sector0.dryad.PackLeaderAmulet;
 import net.annova.object.item.sector0.forest.*;
@@ -23,12 +23,11 @@ import net.annova.object.item.mineral.ForiumFragmentItem;
 import net.annova.object.item.mineral.ForiumIngotItem;
 import net.annova.object.item.container.PrisonContainerItem;
 import net.annova.object.item.crystal.*;
-import net.annova.object.item.equipment.ControlMovementStickItem;
-import net.annova.object.item.equipment.ControlStopStickItem;
+import net.annova.object.item.ControlMovementStickItem;
+import net.annova.object.item.ControlStopStickItem;
 import net.annova.object.item.sector0.mines.PurpleCrystalFragment;
 import net.annova.object.item.sector0.oasis.TideBlade;
 import net.annova.object.item.sector0.oasis.TideGraspRing;
-import net.annova.object.item.equipment.prison.*;
 import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
@@ -67,6 +66,7 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.*;
 import static net.annova.object.person.RPGPerson.colorizeNumber;
 import static net.annova.util.BukkitObjects.chance;
+import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
 
 public enum ItemType {
     // Containers
@@ -210,6 +210,10 @@ public enum ItemType {
     }
     @Nullable
     public static ItemType getItemType(org.bukkit.inventory.ItemStack item) {
+        return getItemType(asNMSCopy(item));
+    }
+    @Nullable
+    public static ItemType getItemType(ItemStack item) {
         return BY_NAME.get(getItemId(item));
     }
     public static Set<ItemType> getItemsByCategory(ItemCategory category) {
@@ -345,7 +349,6 @@ public enum ItemType {
                 .getDefined(person, this.item.rarity().getColor())
         );
         nms.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of()));
-        nms.set(DataComponents.LORE, new ItemLore(List.of()));
 
         List<Component> newLore = new ArrayList<>();
         AISString lore = local.get(this.name() + "-lore");
@@ -469,4 +472,6 @@ public enum ItemType {
 
         return nms;
     }
+
+    public
 }

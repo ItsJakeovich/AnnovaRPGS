@@ -3,6 +3,9 @@ package net.annova.environment.world;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -38,23 +41,24 @@ public abstract class SectorLocation {
         this.boss = boss;
     }
 
-    public static Location getChorusLocation(Location location, int radius) {
+    public static Vec3 getChorusLocation(ServerLevel level, Vec3 position, int radius) {
         for (int i = 0; i < radius*radius; i++) {
             double offsetX = (random.nextDouble() - 0.5) * 2 * radius;
             double offsetY = (random.nextDouble() - 0.5) * radius;
             double offsetZ = (random.nextDouble() - 0.5) * 2 * radius;
 
-            Location check = location.clone().add(new Vector(offsetX, offsetY, offsetZ));
+            Vec3 targetPos = position.add(offsetX, offsetY, offsetZ);
+            BlockPos blockPos = BlockPos.containing(targetPos);
 
-            Block block = check.getBlock();
-            // Проверяем, что целевая позиция безопасна для телепортации
-            if (!block.getLocation().clone().add(0, -1, 0).getBlock().getType().isSolid()
-                    || block.getLocation().clone().add(0, 1, 0).getBlock().getType().isSolid()
-                    || block.getType().isSolid()) continue;
+            BlockPos above = blockPos.above();
 
-            return check;
+            if (!level.getBlockState(blockPos.below()).isSolidRender()) continue;
+            if (level.getBlockState(blockPos).isSolidRender()) continue;
+            if (level.getBlockState(blockPos.above()).isSolidRender()) continue;
+
+            return Vec3.atBottomCenterOf(blockPos);
         }
-        return location;
+        return position; // fallback
     }
 
     public void showTerritory(World world) {

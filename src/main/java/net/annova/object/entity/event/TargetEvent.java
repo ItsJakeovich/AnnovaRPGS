@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.item.base.ArmorSet.CHITIN;
+import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 
 public class TargetEvent implements Listener {
     @EventHandler

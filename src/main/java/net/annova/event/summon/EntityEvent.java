@@ -4,12 +4,20 @@ import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.LivingEntityDamageByEntityCE;
 import net.annova.event.custom.MobDamageCE;
 import net.annova.event.custom.PlayerDamageCE;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
-import org.bukkit.entity.*;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftMob;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -31,18 +39,18 @@ public class EntityEvent implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            PlayerDamageCE ev = new PlayerDamageCE(player, event);
+        if (event.getEntity() instanceof org.bukkit.entity.Player player) {
+            PlayerDamageCE ev = new PlayerDamageCE(((CraftPlayer) player).getHandle(), event);
             this.baseFunction(event, ev);
         } else if (event.getEntity() instanceof Mob entity) {
-            MobDamageCE ev = new MobDamageCE(entity, event);
+            MobDamageCE ev = new MobDamageCE(((CraftMob) entity).getHandle(), event);
             this.baseFunction(event, ev);
         }
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void damageByEntitySummoner(EntityDamageByEntityEvent event) {
-        Entity eventEntity = event.getEntity();
-        Entity eventDamager = event.getDamager();
+        Entity eventEntity = ((CraftEntity) event.getEntity()).getHandle();
+        Entity eventDamager = ((CraftEntity) event.getDamager()).getHandle();
 
         if (eventEntity instanceof LivingEntity entity && eventDamager instanceof LivingEntity damager) {
             BattleCE ev = new BattleCE(entity, damager, event);
@@ -73,37 +81,40 @@ public class EntityEvent implements Listener {
         event.setDamage(ev.getDamage()); // Это и для моба, и для игрока.
         double finalDamage = event.getFinalDamage();
 
+        LivingEntity entity = ev.getEntity();
         if (ev.getEntity() instanceof Player player) { // для игрока
             event.setCancelled(true);
-            if (player.getNoDamageTicks() != 0) return;
+            if (player.invulnerableTime != 0) return;
 
-            event.setDamage(ev.getDamage());
-            Entity bukkit = event.getDamageSource().getCausingEntity();
-            getRPGPerson(player).damageWithCooldown(bukkit == null ? null : ((CraftEntity) bukkit).getHandle(),
+            org.bukkit.entity.Entity bukkit = event.getDamageSource().getCausingEntity();
+            Entity nms = bukkit == null ? null : ((CraftEntity) bukkit).getHandle();
+            getRPGPerson(player).damageWithCooldown(nms,
                     (float) finalDamage
             );
         }
-        Player player;
-        this.spawnIndicator(((CraftLivingEntity) event.getEntity()).getEyeLocation().add(0, 1.5, 0), finalDamage);
+        this.spawnIndicator(entity.level(), entity.position().add(0, entity.getEyeHeight(), 0), finalDamage);
     }
 
     public static List<ArmorStand> indicators = new ArrayList<>();
 
-    private void spawnIndicator(Location location, double damage) {
+    private void spawnIndicator(Level level, Vec3 position, double damage) {
         if (damage < 1) return;
-        location.add(random.nextFloat(2) - 1, random.nextFloat(2) - 1, random.nextFloat(2) - 1);
-        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class, stand -> {
-            stand.setMarker(true);
-            stand.setVisible(false);
-            stand.setGravity(false);
-            stand.setSmall(true);
-            stand.setCustomNameVisible(true);
-            stand.setCustomName(ChatColor.BOLD + "" + ChatColor.RED + (double) Math.round(damage * 100) / 100);
-        });
-        indicators.add(armorStand);
+        position.add(random.nextFloat(2)-1, random.nextFloat(2)-1, random.nextFloat(2)-1);
+        ArmorStand stand = new ArmorStand(EntityType.ARMOR_STAND, level);
+        stand.setPos(position);
+        stand.setMarker(true);
+        stand.setInvisible(true);
+        stand.setNoGravity(true);
+        stand.setSmall(true);
+        stand.setCustomNameVisible(true);
+        stand.setCustomName(Component.literal(String.valueOf((double) Math.round(damage*100) / 100))
+                .withStyle(Style.EMPTY.withColor(16733525).withBold(true))
+        );
+
+        indicators.add(stand);
         Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {
-            armorStand.remove();
-            indicators.add(armorStand);
+            stand.remove(Entity.RemovalReason.DISCARDED);
+            indicators.remove(stand);
         }, 25L);
     }
 }

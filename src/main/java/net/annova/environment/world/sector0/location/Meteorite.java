@@ -4,7 +4,6 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.event.UpdateTask;
 import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
-import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.GameMode;
@@ -14,7 +13,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -25,7 +23,7 @@ import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.*;
-import static net.annova.object.item.base.ArmorSet.CHITIN;
+import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 import static net.annova.util.BukkitObjects.random;
 
 public class Meteorite extends SectorLocation {

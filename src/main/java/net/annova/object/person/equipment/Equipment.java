@@ -1,7 +1,6 @@
 package net.annova.object.person.equipment;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.annova.object.item.base.ArmorSet;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;

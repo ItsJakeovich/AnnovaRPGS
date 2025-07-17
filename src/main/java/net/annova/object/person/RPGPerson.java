@@ -4,7 +4,7 @@ import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
 import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.object.item.base.ArmorSet;
+import net.annova.object.person.equipment.ArmorSet;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.WorldSector;

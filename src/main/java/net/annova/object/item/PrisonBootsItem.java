@@ -1,22 +1,22 @@
-package net.annova.object.item.equipment.meteorite;
+package net.annova.object.item;
 
-import net.annova.object.RPGRarity;
-import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGArmor;
+import net.annova.object.item.base.RPGItem;
+import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 import java.util.List;
 
-public class ChitinChestplate extends RPGItem implements RPGArmor {
+public class PrisonBootsItem extends RPGItem implements RPGArmor {
     @Override
     public Item type() {
-        return Items.IRON_CHESTPLATE;
+        return Items.CHAINMAIL_BOOTS;
     }
 
     @Override
     public List<Float> modelData() {
-        return List.of(462f);
+        return List.of(3f);
     }
 
     @Override
@@ -31,16 +31,16 @@ public class ChitinChestplate extends RPGItem implements RPGArmor {
 
     @Override
     public float armor() {
-        return 3.3f;
+        return 2;
     }
 
     @Override
     public float toughness() {
-        return 1.5f;
+        return 0;
     }
 
     @Override
     public float speed() {
-        return -0.02f;
+        return 0;
     }
 }

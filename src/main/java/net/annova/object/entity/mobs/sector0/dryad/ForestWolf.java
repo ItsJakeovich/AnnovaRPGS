@@ -1,22 +1,16 @@
 package net.annova.object.entity.mobs.sector0.dryad;
 
-import net.annova.event.custom.MobDamageCE;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.CustomType;
-import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomForestWolf;
-import net.annova.object.person.RPGPerson;
-import net.annova.object.person.status.StatusType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.Set;
@@ -24,7 +18,6 @@ import java.util.Set;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.FOREST_WOLF;
 import static net.annova.object.item.base.ItemType.WOLF_SKIN;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class ForestWolf extends RPGEntity implements CustomType, EntitySpawn {
@@ -81,7 +74,7 @@ public class ForestWolf extends RPGEntity implements CustomType, EntitySpawn {
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
         // от 0 до 3 собратьев
         for (int i = random.nextInt(4); i != 0; i--) {
             FOREST_WOLF.getEntity().create(location, true);

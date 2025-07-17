@@ -10,12 +10,13 @@ import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.MinesMagicArmor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.Location;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -103,7 +104,7 @@ public class Guardian extends RPGEntity implements CustomType, EntitySpawn, Enti
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
 
     }
 }

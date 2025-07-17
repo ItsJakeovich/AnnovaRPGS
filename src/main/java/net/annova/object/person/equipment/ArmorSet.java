@@ -1,5 +1,6 @@
-package net.annova.object.item.base;
+package net.annova.object.person.equipment;
 
+import net.annova.object.item.base.ItemType;
 import net.annova.object.person.status.ValueType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

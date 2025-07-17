@@ -1,17 +1,21 @@
-package net.annova.object.item.equipment.prison;
+package net.annova.object.item;
 
 import net.annova.object.item.base.attribute.RPGArmor;
+import net.annova.object.item.base.attribute.RPGArmorActivity;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-public class PrisonBootsItem extends RPGItem implements RPGArmor {
+public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorActivity {
     @Override
     public Item type() {
-        return Items.CHAINMAIL_BOOTS;
+        return Items.CHAINMAIL_CHESTPLATE;
     }
 
     @Override
@@ -30,8 +34,17 @@ public class PrisonBootsItem extends RPGItem implements RPGArmor {
     }
 
     @Override
+    public void activity(Player player) {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 600, 0));
+    }
+    @Override
+    public long repeating() {
+        return 400;
+    }
+
+    @Override
     public float armor() {
-        return 2;
+        return 6;
     }
 
     @Override

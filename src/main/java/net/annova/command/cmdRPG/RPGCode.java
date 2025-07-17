@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
@@ -37,6 +38,7 @@ public class RPGCode {
         Location spawn = player.getEyeLocation().add(0, -0.5, 0);
         spawn.add(spawn.getDirection().multiply(2.5));
         switch (Integer.parseInt(args[1])) {
+            case -2 -> player.getAttribute(Attribute.SCALE).setBaseValue(Double.parseDouble(args[2]));
             case -1 -> {
                 ServerLevel level = ((CraftWorld) world0).getHandle();
                 Location location = player.getLocation();

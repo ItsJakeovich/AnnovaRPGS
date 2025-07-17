@@ -7,11 +7,12 @@ import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomCrab;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.Location;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
         List<WrappedGoal> toRemove = new ArrayList<>();
         GoalSelector selector = ((Mob) entity).goalSelector;
         for (WrappedGoal goal : selector.getAvailableGoals()) {

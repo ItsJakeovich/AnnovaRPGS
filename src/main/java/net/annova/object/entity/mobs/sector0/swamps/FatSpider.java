@@ -7,11 +7,12 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Entity;
@@ -100,7 +101,7 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
         entity.getAttribute(Attributes.SCALE).setBaseValue(1.2);
     }
 }

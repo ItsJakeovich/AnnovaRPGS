@@ -9,10 +9,11 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.ValueType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.bukkit.Location;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -76,7 +77,7 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
         for (int i = 6; i > 0; i--) {
             RPGEntityType.SECURITY.getEntity().create(location);
         }

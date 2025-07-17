@@ -15,7 +15,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -23,16 +22,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static net.annova.main.Keys.NK_KEY;
 import static net.annova.util.BukkitObjects.getWorld;
 
 public class GlobalRPG {
     private static final Map<String, RPGPerson> persons = new HashMap<>();
     private static final Map<UUID, RPGPerson> personsUid = new HashMap<>();
 
-    private static final Map<String, RPGNPC> npc = new HashMap<>();
+    private static final Map<UUID, RPGNPC> npc = new HashMap<>();
 
-    private static final Map<Entity, RPGEntity> entities = new HashMap<>();
+    private static final Map<UUID, RPGEntity> entities = new HashMap<>();
 
     private static final World dungeonWorld = getWorld("dungeon_world");
     private static final Map<Integer, DungeonTemplate> dTemplates = new HashMap<>();
@@ -46,11 +44,10 @@ public class GlobalRPG {
         return null;
     }
     @Nullable
-    public static RPGPerson getRPGPerson(Player player) {
-        if (player == null) return null;
-        RPGPerson person = personsUid.get(player.getUniqueId());
+    public static RPGPerson getRPGPerson(net.minecraft.world.entity.player.Player player) {
+        RPGPerson person = personsUid.get(player.getUUID());
         return person == null
-                ? npc.get(player.getPersistentDataContainer().get(NK_KEY, PersistentDataType.STRING)).getPerson()
+                ? npc.get(player.getUUID()).getPerson()
                 : person;
     }
     @Nullable
@@ -86,32 +83,32 @@ public class GlobalRPG {
         return persons.containsKey(name.toLowerCase());
     }
 
-    public static void addNPC(String key, RPGNPC npc) {
+    public static void addNPC(UUID key, RPGNPC npc) {
         GlobalRPG.npc.put(key, npc);
     }
-    public static RPGNPC getNPC(Player player) {
-        return getNPC(player.getPersistentDataContainer().get(NK_KEY, PersistentDataType.STRING));
+    public static RPGNPC getNPC(net.minecraft.world.entity.player.Player player) {
+        return getNPC(player.getUUID());
     }
-    public static RPGNPC getNPC(String key) {
+    public static RPGNPC getNPC(UUID key) {
         return npc.get(key);
     }
 
     @Nullable
     public static RPGEntity getRPGEntity(Entity entity) {
-        return entities.get(entity);
+        return entities.get(entity.getUniqueId());
     }
     @Nullable
     public static RPGEntity getRPGEntity(LivingEntity entity) {
-        return entities.get(entity);
+        return entities.get(entity.getUniqueId());
     }
     public static void addEntity(RPGEntity entity) {
-        entities.put(entity.getEntity().getBukkitEntity(), entity);
+        entities.put(entity.getEntity().getUUID(), entity);
     }
     public static void removeEntity(Entity entity) {
-        entities.remove(entity);
+        entities.remove(entity.getUniqueId());
     }
     public static boolean containEntity(Entity entity) {
-        return entities.containsKey(entity);
+        return entities.containsKey(entity.getUniqueId());
     }
     public static int getAmountByTypeEntity(RPGEntityType type) {
         int amount = 0;

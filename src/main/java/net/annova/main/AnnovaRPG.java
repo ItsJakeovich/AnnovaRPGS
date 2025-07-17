@@ -10,9 +10,9 @@ import net.annova.environment.structure.StructureBase;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -84,7 +84,7 @@ public final class AnnovaRPG extends JavaPlugin {
             entity.entity.remove(Entity.RemovalReason.DISCARDED);
         }
         for (ArmorStand indicator : indicators) {
-            indicator.remove();
+            indicator.remove(Entity.RemovalReason.DISCARDED);
         }
         for (Dungeon dungeon : getDungeons()) {
             dungeon.endDungeon(true);

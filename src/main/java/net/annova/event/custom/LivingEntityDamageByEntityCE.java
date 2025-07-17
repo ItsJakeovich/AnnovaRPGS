@@ -1,7 +1,8 @@
 package net.annova.event.custom;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class LivingEntityDamageByEntityCE extends MobDamageCE {
@@ -10,7 +11,7 @@ public class LivingEntityDamageByEntityCE extends MobDamageCE {
 
     public LivingEntityDamageByEntityCE(LivingEntity entity, EntityDamageByEntityEvent event) {
         super(entity, event);
-        this.damager = event.getDamager();
+        this.damager = ((CraftEntity) event.getDamager()).getHandle();
     }
 
     public Entity getDamager() {

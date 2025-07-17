@@ -1,6 +1,6 @@
 package net.annova.event.custom;
 
-import org.bukkit.entity.Player;
+import net.minecraft.world.entity.player.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class PlayerDamageCE extends MobDamageCE {

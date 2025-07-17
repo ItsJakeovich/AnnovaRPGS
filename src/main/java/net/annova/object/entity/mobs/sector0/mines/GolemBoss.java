@@ -13,6 +13,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -95,7 +95,7 @@ public class GolemBoss extends RPGEntity implements CustomType, EntitySpawn, Ent
     }
 
     @Override
-    public void onSpawn(Location location) {
+    public void onSpawn(ServerLevel level, Vec3 position) {
         for (Entity nearby : location.getNearbyEntities(20, 12, 20)) {
             if (nearby instanceof Player player) {
                 getRPGPerson(player).addStatus(StatusType.SHAKING, +6_000);

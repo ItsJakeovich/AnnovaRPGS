@@ -1,4 +1,4 @@
-package net.annova.object.item.equipment.prison;
+package net.annova.object.item;
 
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;

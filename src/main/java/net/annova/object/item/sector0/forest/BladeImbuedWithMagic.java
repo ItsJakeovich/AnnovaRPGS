@@ -6,11 +6,11 @@ import net.annova.object.item.base.attribute.ItemAction;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.magic.physic.EntRoots;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -59,17 +59,15 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
             }
         } else { // дружественный энт
             if (chance(0.05)) {
-                net.minecraft.world.entity.LivingEntity ent = ENT.getEntity().create(entity.getLocation());
-                Mob mobEnt = (Mob) ent;
-                net.minecraft.world.entity.LivingEntity craftTarget = ((CraftLivingEntity) target).getHandle();
-                mobEnt.setTarget(craftTarget);
+                ENT.getEntity().crea
+                Mob ent = ENT.getEntity().createWithTarget(entity.getLocation(), target, 1);
                 new BukkitRunnable() {
                     int lifeTime = 10; // 1 = 0.5s | 10 = 5s
 
                     @Override
                     public void run() {
                         if (ent.isAlive() && ent.valid && lifeTime != 0) {
-                            if (mobEnt.getTarget() != craftTarget) {
+                            if (ent.getTarget() != target) {
                                 ent.remove(Entity.RemovalReason.DISCARDED);
                                 this.cancel();
                             }

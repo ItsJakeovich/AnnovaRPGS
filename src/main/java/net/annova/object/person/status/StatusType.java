@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.object.item.base.ArmorSet.CHITIN;
+import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_RESISTANCE;
 import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOWNESS;
