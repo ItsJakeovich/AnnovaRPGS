@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,7 @@ import org.bukkit.event.Listener;
 import static net.annova.object.item.base.ItemModulit.MELANOX_POISON;
 import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.util.NMSObjects.getArmorContents;
 import static net.minecraft.world.effect.MobEffects.POISON;
 
 public class ItemBattleEvent implements Listener {
@@ -24,7 +26,7 @@ public class ItemBattleEvent implements Listener {
     public void battleDamager(BattleCE event) {
         LivingEntity damager = event.getDamager();
         LivingEntity entity = event.getEntity();
-        ItemStack item = damager.getItemInHand(InteractionHand.MAIN_HAND);;
+        ItemStack item = damager.getItemInHand(InteractionHand.MAIN_HAND);
         ItemType itemType = getItemType(item);
         if (itemType != null && itemType.getItem() instanceof ItemAction action) {
             action.onAttack(damager, entity);
@@ -35,14 +37,11 @@ public class ItemBattleEvent implements Listener {
         CompoundTag tag = data.getUnsafe();
         if (MELANOX_POISON.hasModulit(tag)) {
             double chance = 1.0;
-            for (org.bukkit.inventory.ItemStack armor : living.getEquipment().getArmorContents()) {
-                if (armor == null || armor.getType().isAir()) continue;
+            for (ItemStack armor : getArmorContents(entity)) {
+                if (armor.getItem() == Items.AIR) continue;
                 chance-=0.2; // -20% за каждый предмет б
             }
-            if (chance(chance)) {
-                entity.addEffect()
-                entity.addPotionEffect(POISON_4);
-            }
+            if (chance(chance)) entity.addEffect(POISON_4);
         }
     }
 }

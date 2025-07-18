@@ -10,6 +10,8 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -71,7 +73,7 @@ public class OreCollector extends RPGEntity implements CustomType, EntityAction 
 
     @Override
     public boolean onTarget(Entity target) {
-        new Guardian().createWithTarget(target.getLocation(), (LivingEntity) target, 1);
+        new Guardian().createWithTarget(OreCollector.this, ((CraftLivingEntity) target).getHandle(), 1);
         return true;
     }
 

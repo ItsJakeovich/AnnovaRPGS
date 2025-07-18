@@ -1,6 +1,7 @@
 package net.annova.environment.world;
 
 import net.annova.environment.world.sector0.SuruWahare;
+import net.minecraft.world.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -23,6 +24,11 @@ public class GlobalWorld {
 
     public static boolean isNight(World world) {
         long time = world.getTime();
+        return time >= 12000;
+    }
+    public static boolean isNight(Level level) {
+        long time = level.getDayTime() % 24000L;
+        if (time < 0L) time += 24000L;
         return time >= 12000;
     }
 }

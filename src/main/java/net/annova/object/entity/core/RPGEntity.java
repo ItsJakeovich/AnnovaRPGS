@@ -27,11 +27,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -113,33 +110,35 @@ public abstract class RPGEntity {
         this.statuses.remove(type);
     }
 
-    public Location getLocation() {
-        return CraftLocation.toBukkit(entity.position(), entity.level().getWorld());
-    }
-
     public void createWithTarget(RPGEntity entity, LivingEntity target) {
-        this.createWithTarget(entity.getLocation(), target, 2);
+        this.createWithTarget((ServerLevel) entity.entity.level(), entity.entity.position(), target, 2);
     }
-
-    public Mob createWithTarget(Location location, org.bukkit.entity.LivingEntity target, int chorus) {
-        return this.createWithTarget(location, target, chorus, 0);
+    public void createWithTarget(RPGEntity entity, LivingEntity target, int chorus) {
+        this.createWithTarget((ServerLevel) entity.entity.level(), entity.entity.position(), target, chorus);
     }
-
-    public Mob createWithTarget(Location location, org.bukkit.entity.LivingEntity target, int chorus, long discardedAfter) {
-        return this.createWithTarget(location, ((CraftLivingEntity) target).getHandle(), chorus, discardedAfter);
+    public Mob createWithTarget(LivingEntity entity, LivingEntity target, int chorus) {
+        return this.createWithTarget((ServerLevel) entity.level(), entity.position(), target, chorus);
     }
-
-    public Mob createWithTarget(Location location, LivingEntity target, int chorus) {
-        return this.createWithTarget(location, target, chorus, 0);
+    public Mob createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus) {
+        return this.createWithTarget(level, position, target, chorus, 0);
     }
-
-    public Mob createWithTarget(Location location, LivingEntity target, int chorus, long discardedAfter) {
-        Mob living = this.create(location, chorus);
+    public Mob createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus, long discardedAfter) {
+        return this.createWithTarget(level, position, ((CraftLivingEntity) target).getHandle(), chorus, discardedAfter);
+    }
+    public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus) {
+        return this.createWithTarget(level, position, target, chorus, 0);
+    }
+    public Mob createWithTarget(LivingEntity entity, LivingEntity target, int chorus, long discardedAfter) {
+        return this.createWithTarget((ServerLevel) entity.level(), entity.position(), target, chorus, discardedAfter);
+    }
+    public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
+        Mob living = this.create(level, position, chorus);
         living.setTarget(target);
         if (discardedAfter != 0)
             Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
         return living;
     }
+
 
     public LivingEntity create(LivingEntity entity) {
         ServerLevel level = (ServerLevel) entity.level(); // если что попробуй .getMinecraftWorld()

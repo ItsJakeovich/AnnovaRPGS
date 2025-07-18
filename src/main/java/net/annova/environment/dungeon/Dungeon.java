@@ -9,8 +9,10 @@ import net.annova.object.SimpleStructure;
 import net.annova.object.person.Team;
 import net.annova.object.person.status.StatusManager;
 import net.annova.util.AISString;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -240,8 +242,8 @@ public class Dungeon {
         }
     }
 
-    public void spawnEntity(RPGEntity entity, Location location) {
+    public void spawnEntity(RPGEntity entity, ServerLevel level, Vec3 position) {
         float value = players.size()-1;
-        this.entity.add(entity.create(this, location, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
+        this.entity.add(entity.create(this, level, position, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
     }
 }

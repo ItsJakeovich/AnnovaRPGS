@@ -472,6 +472,4 @@ public enum ItemType {
 
         return nms;
     }
-
-    public
 }

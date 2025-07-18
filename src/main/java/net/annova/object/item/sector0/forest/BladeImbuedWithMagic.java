@@ -59,8 +59,7 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
             }
         } else { // дружественный энт
             if (chance(0.05)) {
-                ENT.getEntity().crea
-                Mob ent = ENT.getEntity().createWithTarget(entity.getLocation(), target, 1);
+                Mob ent = ENT.getEntity().createWithTarget(entity, target, 1);
                 new BukkitRunnable() {
                     int lifeTime = 10; // 1 = 0.5s | 10 = 5s
 

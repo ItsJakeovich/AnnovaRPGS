@@ -130,7 +130,7 @@ public class GolemBoss extends RPGEntity implements CustomType, EntitySpawn, Ent
                         }
                         if (summonCooldown == 0) {
                             for (int i = 0; i < summoned; i++) {
-                                new Guardian().createWithTarget(GolemBoss.this.getLocation(), target, 1);
+                                new Guardian().createWithTarget(GolemBoss.this, target, 1);
                             }
                             this.summonCooldown = 6;
                         }

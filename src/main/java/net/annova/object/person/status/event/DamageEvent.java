@@ -8,13 +8,12 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.annova.object.person.status.ValueType;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 
 import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -22,6 +21,7 @@ import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 import static net.annova.object.person.status.StatusType.PARALYSIS;
 import static net.annova.object.person.status.StatusType.ROOTS_LASH_BUFF;
 import static net.annova.util.BukkitObjects.chance;
+import static net.annova.util.NMSObjects.getArmorContents;
 
 public class DamageEvent implements Listener {
     @EventHandler
@@ -30,7 +30,7 @@ public class DamageEvent implements Listener {
             RPGPerson person = getRPGPerson(player);
             double value = person.getFinalValue(ValueType.DAMAGE);
             if (value != 0) {
-                event.increaseDamage(value * ((CraftPlayer) player).getHandle().getAttackStrengthScale(0.0F));
+                event.increaseDamage(value * player.getAttackStrengthScale(0.0F));
             }
             value = person.getFinalValue(ValueType.DAMAGE_MULTIPLIER);
             if (value != 0) {
@@ -44,15 +44,15 @@ public class DamageEvent implements Listener {
             }
             if (manager.hasStatus(StatusType.PACK_LEADER_BUFF)) {
                 double modifier = 0;
-                for (ItemStack item : target.getEquipment().getArmorContents()) {
-                    if (item.getType() != Material.AIR) continue;
+                for (ItemStack item : getArmorContents(target)) {
+                    if (item.getItem() == Items.AIR) continue;
                     modifier+=0.25;
                 }
                 event.increaseDamage(event.getBaseDamage()*modifier);
-                if (isNight(player.getWorld()) && chance(0.18)) {
-                    new DarkWolf().createWithTarget(player.getLocation(), target, 1, 140);
+                if (isNight(player.level()) && chance(0.18)) {
+                    new DarkWolf().createWithTarget(player, target, 1, 140);
                 } else if (chance(0.17)) {
-                    new ForestWolf().createWithTarget(player.getLocation(), target, 1, 100);
+                    new ForestWolf().createWithTarget(player, target, 1, 100);
                 }
             }
             if (manager.hasStatus(StatusType.PHANTOM_FEAR)) {
