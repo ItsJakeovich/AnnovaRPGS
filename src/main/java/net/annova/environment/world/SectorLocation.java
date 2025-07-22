@@ -41,7 +41,7 @@ public abstract class SectorLocation {
         this.boss = boss;
     }
 
-    public static Vec3 getChorusLocation(ServerLevel level, Vec3 position, int radius) {
+    public static Vec3 getChorusLocation(Vec3 position, ServerLevel level, int radius) {
         for (int i = 0; i < radius*radius; i++) {
             double offsetX = (random.nextDouble() - 0.5) * 2 * radius;
             double offsetY = (random.nextDouble() - 0.5) * radius;

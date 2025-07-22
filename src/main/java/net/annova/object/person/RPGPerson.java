@@ -1,6 +1,7 @@
 package net.annova.object.person;
 
 import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
+import com.google.common.base.Preconditions;
 import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.dungeon.Dungeon;
@@ -20,6 +21,7 @@ import net.annova.object.person.status.ValueType;
 import net.annova.util.AISString;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
@@ -27,13 +29,17 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -448,6 +454,17 @@ public class RPGPerson {
     public void teleport(Location location) {
         this.teleportAccess = true;
         this.getPlayer().teleport(location);
+    }
+    public void teleport(Vec3 position, ServerLevel level) {
+        ServerPlayer player = this.getPerson().getServerPlayer();
+        player.stopRiding();
+        if (player.level() != level) {
+            Preconditions.checkState(!player.generation, "Cannot teleport entity to an other world during world generation");
+            player.teleport(new TeleportTransition(level, position, Vec3.ZERO, 0, 0, Set.of(), TeleportTransition.DO_NOTHING, PlayerTeleportEvent.TeleportCause.PLUGIN));
+        } else {
+            player.absSnapTo(position.x, position.y, position.z, 0, 0);
+            player.setYHeadRot(0);
+        }
     }
 
     public Set<RPGAdvancement> getAdvancements() {

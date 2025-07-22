@@ -20,6 +20,10 @@ import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.object.entity.mobs.sector0.forest.Ent;
 import net.annova.object.entity.mobs.sector0.swamps.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
@@ -188,16 +192,16 @@ public enum RPGEntityType {
         return maxAmount;
     }
 
-    public void tryNaturalSpawn(Location location) {
+    public void tryNaturalSpawn(Vec3 position, ServerLevel level) {
         if (!chance(chance)) return;
         sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
 
         if (this.maxAmount != 0 && this.maxAmount <= getAmountByTypeEntity(this)) return;
 
-        Location spawn = getChorusLocation(location, 20);
-        if (spawn == location) return;
-        if (spawn.getBlock().getLightFromBlocks() > 7) return;
+        Vec3 spawn = getChorusLocation(position, level, 20);
+        if (spawn == position) return;
+        if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return;
         RPGEntity entity = this.getEntity();
-        entity.create(spawn);
+        entity.create(spawn, level);
     }
 }

@@ -1,10 +1,12 @@
 package net.annova.environment.world;
 
 import net.annova.environment.world.sector0.SuruWahare;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +19,9 @@ public class GlobalWorld {
         worldSectors.put(world0, new SuruWahare());
     }
 
-    public static World loadWorldAndGet(String worldName) {
+    public static ServerLevel loadWorldAndGet(String worldName) {
         World world = Bukkit.getWorld(worldName);
-        return world == null ? Bukkit.createWorld(new WorldCreator(worldName)) : world;
+        return ((CraftWorld) (world == null ? Bukkit.createWorld(new WorldCreator(worldName)) : world)).getHandle();
     }
 
     public static boolean isNight(World world) {

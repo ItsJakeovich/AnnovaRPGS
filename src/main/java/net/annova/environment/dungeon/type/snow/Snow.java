@@ -26,7 +26,7 @@ public class Snow implements DungeonBase {
     public void start(Dungeon dungeon) {
         this.dungeon = dungeon;
 
-        Location location = dungeon.getLocation();
+        Location location = dungeon.getPosition();
         SimpleStructure structure = template.getStructure(0);
     }
 

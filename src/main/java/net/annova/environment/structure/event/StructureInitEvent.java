@@ -6,6 +6,7 @@ import net.annova.object.SimpleBlock;
 import net.annova.object.SimpleConstruction;
 import net.annova.object.SimpleStructure;
 import net.annova.environment.structure.Structure;
+import net.minecraft.network.chat.Component;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -26,12 +27,12 @@ public class StructureInitEvent implements Listener {
             SimpleBlock block = sBlocks.get(point);
             if (block.getFrontSign() == null && block.getBackSign() == null) continue;
 
-            List<String> lines = new ArrayList<>(List.of(block.frontSign));
-            lines.addAll(List.of(block.backSign));
+            List<Component> lines = new ArrayList<>(List.of(block.getFrontSign()));
+            lines.addAll(List.of(block.getBackSign()));
 
             List<String[]> definedLines = new ArrayList<>();
-            for (String line : lines) {
-                definedLines.add(line.split("-"));
+            for (Component line : lines) {
+                definedLines.add(line.toString().split("-"));
             }
 
             for (String[] line : definedLines) {
@@ -42,7 +43,7 @@ public class StructureInitEvent implements Listener {
         }
 
         String name = information[1];
-        SimpleConstruction construction = new SimpleConstruction(name, structure, Person.CardinalDirection.NORTH, null);
+        SimpleConstruction construction = new SimpleConstruction(name, structure, Person.CardinalDirection.NORTH, null, null);
         construction.setCompleted(true);
         Structure mapStructure = new Structure(construction, basePoint);
         mapStructure.setBase(switch (name.toLowerCase()) {

@@ -6,6 +6,10 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
 import net.annova.object.animation.Animation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -20,8 +24,8 @@ public class Prison implements DungeonBase {
     private final DungeonTemplate template;
     private Dungeon dungeon;
     private int maxDistanceSquared;
-    private Location dungeonCenter;
-    public Location bossLoc = null;
+    private Vec3 dungeonCenter;
+    public Vec3 bossLoc = null;
 
     public Prison() {
         template = getDTemplate(0).clone();
@@ -39,12 +43,13 @@ public class Prison implements DungeonBase {
         SimpleStructure structure = template.getStructure();
         int x = structure.getMaxX() >> 1, y = structure.getMaxY() >> 1, z = structure.getMaxZ() >> 1;
         this.maxDistanceSquared = (int) Math.pow(Math.max(Math.max(x, z), y) * 1.25, 2);
-        this.dungeonCenter = dungeon.getLocation().clone().add(x, y, z);
+        this.dungeonCenter = dungeon.getPosition().add(x, y, z);
 
-        Location location = dungeon.getLocation();
-        this.bossLoc = location.clone().add(template.getStructure().getLocationWithPoint(getDungeonWorld(), template.getEntities().get(101).getFirst().getPoint()));
+        Vec3 position = dungeon.getPosition();
+        this.bossLoc = position.add(template.getStructure().getPositionWithPoint(template.getEntities().get(101).getFirst().getPoint()));
 
-        template.getAnimation("gate", 8).start(location, structure);
+        ServerLevel level = dungeon.getLevel();
+        template.getAnimation("gate", 8).start(level, position, structure);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -52,7 +57,7 @@ public class Prison implements DungeonBase {
                 else {
                     if (!Prison.this.mechanic()) return;
 
-                    template.getAnimation("boss_gate", 0).start(location, structure);
+                    template.getAnimation("boss_gate", 0).start(level, position, structure);
                     this.cancel();
                 }
             }
@@ -72,12 +77,13 @@ public class Prison implements DungeonBase {
      */
     public boolean mechanic() {
         Animation animation = template.getAnimation("gate", key);
-        Location location = dungeon.getLocation();
-        animation.start(location, template.getStructure());
+        Vec3 position = dungeon.getPosition();
+        ServerLevel level = dungeon.getLevel();
+        animation.start(level, position, template.getStructure());
 
         for (RPGEntity type : template.getEntities().get(key)) {
             int point = type.getPoint();
-            dungeon.spawnEntity(type, location.clone().add(template.getStructure().getLocationWithPoint(location.getWorld(), point)));
+            dungeon.spawnEntity(type, position.add(template.getStructure().getPositionWithPoint(point)));
         }
         // -1 because its starts from 0, -1 because 8 is a welcome-gate.
         return key++ == template.getAnimations().get("gate").size()-2;
@@ -87,22 +93,21 @@ public class Prison implements DungeonBase {
         boolean end = true;
         boolean spawnBoss = true;
         for (RPGPerson person : this.dungeon.getPlayers()) {
-            Player player = person.getPerson().getPlayer();
+            ServerPlayer player = person.getPerson().getServerPlayer();
             if (player == null) continue;
-            Location location = player.getLocation();
-            if (bossLoc == null || player.getGameMode().equals(GameMode.SPECTATOR) || location.distanceSquared(bossLoc) > 100) spawnBoss = false;
+            Vec3 position = player.position();
+            if (bossLoc == null || player.gameMode() == GameType.SPECTATOR || position.distanceToSqr(bossLoc) > 100)
+                spawnBoss = false;
 
             SimpleStructure structure = template.getStructure();
 
-            if (location.distanceSquared(dungeonCenter) > maxDistanceSquared) {
+            if (position.distanceToSqr(dungeonCenter) > maxDistanceSquared) {
                 dungeon.teleportPerson(person);
             }
-        } /*if (end) {
-            this.dungeon.endDungeon(true);
-            return;
-        }*/ if (bossLoc != null && spawnBoss) {
+        }
+        if (bossLoc != null && spawnBoss) {
             template.getEntities().get(101).forEach(ent -> dungeon.spawnEntity(ent, bossLoc));
-            template.getAnimation("boss_gate", 1).start(dungeon.getLocation(), template.getStructure());
+            template.getAnimation("boss_gate", 1).start(dungeon.getLevel(), dungeon.getPosition(), template.getStructure());
             bossLoc = null;
         }
     }

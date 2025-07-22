@@ -39,7 +39,8 @@ public class Dungeon {
     private int key;
     private final DungeonBase base;
     private final Location summon;
-    private Location location;
+    private Vec3 position;
+    private ServerLevel level;
     private final Set<RPGPerson> players = new HashSet<>();
     private final Set<LivingEntity> entity = new HashSet<>();
     private boolean close = false;
@@ -67,8 +68,12 @@ public class Dungeon {
         return summon;
     }
 
-    public Location getLocation() {
-        return location;
+    public Vec3 getPosition() {
+        return position;
+    }
+
+    public ServerLevel getLevel() {
+        return level;
     }
 
     public void addPlayers(Set<RPGPerson> persons) {
@@ -168,11 +173,9 @@ public class Dungeon {
         }
 
         int i = 0;
-        int y = (int) this.location.getY();
+        int y = (int) this.position.y;
         for (SimpleStructure structure : base.getTemplate().structures) {
-            Location loc = this.location.clone();
-            loc.setY(y+80*i);
-            removeImportedBuild(structure, loc);
+            removeImportedBuild(structure, new Vec3(this.position.x, y+80*i, this.position.z), level);
             i++;
         }
         removeDungeon(this.key);
@@ -200,20 +203,23 @@ public class Dungeon {
 
         DungeonTemplate dungeonTemplate = base.getTemplate();
         if (getDungeons().isEmpty()) {
-            location = new Location(world, 0, 0, 0);
+            position = new Vec3(0, 0, 0);
         } else {
             int key = 0;
             for (Dungeon dungeon : getDungeons()) {
                 if (dungeon.getKey() > key) key = dungeon.getKey();
             }
-            location = getDungeon(key).getLocation().clone()
-                    .add(dungeonTemplate.getStructure().getMaxX()+25, 0, 0);
+            position = getDungeon(key).getPosition().add(
+                    dungeonTemplate.getStructure().getMaxX()+25,
+                    0,
+                    0
+            );
         }
 
         SimpleStructure structure = dungeonTemplate.getStructure();
-        importBuild(structure, Person.CardinalDirection.NORTH, location);
-        dungeonTemplate.updateLootChests(structure, location);
-        dungeonTemplate.updateAnimations(structure, location);
+        importBuild(structure, Person.CardinalDirection.NORTH, position, level);
+        dungeonTemplate.updateLootChests(structure, position, level);
+        dungeonTemplate.updateAnimations(structure, position, level);
 
         this.key = getDungeons().size();
         addDungeon(key, this);
@@ -221,8 +227,9 @@ public class Dungeon {
 
     public void teleportPerson(RPGPerson person) {
         DungeonTemplate dungeonTemplate = this.base.getTemplate();
-        person.teleport(this.location.clone().add(
-                dungeonTemplate.getStructure().getLocationWithPoint(getDungeonWorld(), dungeonTemplate.getSpawn())));
+        person.teleport(this.position.add(
+                dungeonTemplate.getStructure().getPositionWithPoint(dungeonTemplate.getSpawn())
+        ), level);
     }
     public void teleportAll() {
         this.players.forEach(this::teleportPerson);
@@ -242,8 +249,8 @@ public class Dungeon {
         }
     }
 
-    public void spawnEntity(RPGEntity entity, ServerLevel level, Vec3 position) {
+    public void spawnEntity(RPGEntity entity, Vec3 position) {
         float value = players.size()-1;
-        this.entity.add(entity.create(this, level, position, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
+        this.entity.add(entity.create(this, position, this.level, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
     }
 }

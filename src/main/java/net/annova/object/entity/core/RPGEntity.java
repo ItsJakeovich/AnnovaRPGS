@@ -132,7 +132,7 @@ public abstract class RPGEntity {
         return this.createWithTarget((ServerLevel) entity.level(), entity.position(), target, chorus, discardedAfter);
     }
     public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
-        Mob living = this.create(level, position, chorus);
+        Mob living = this.create(position, level, chorus);
         living.setTarget(target);
         if (discardedAfter != 0)
             Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
@@ -142,19 +142,19 @@ public abstract class RPGEntity {
 
     public LivingEntity create(LivingEntity entity) {
         ServerLevel level = (ServerLevel) entity.level(); // если что попробуй .getMinecraftWorld()
-        return this.create(level, getChorusLocation(level, entity.position(), 1));
+        return this.create(getChorusLocation(entity.position(), level, 1), level);
     }
-    public Mob create(ServerLevel level, Vec3 position) {
-        return this.create(null, level, position, false, 0, 1, 1);
+    public Mob create(Vec3 position, ServerLevel level) {
+        return this.create(null, position, level, false, 0, 1, 1);
     }
 
-    public Mob create(ServerLevel level, Vec3 position, int chorus) {
-        return this.create(null, level, getChorusLocation(level, position, chorus), false, 0, 1, 1);
+    public Mob create(Vec3 position, ServerLevel level, int chorus) {
+        return this.create(null, getChorusLocation(position, level, chorus), level, false, 0, 1, 1);
     }
-    public Mob create(ServerLevel level, Vec3 position, boolean additional) {
-        return this.create(null, level, position, additional, 0, 1, 1);
+    public Mob create(Vec3 position, ServerLevel level, boolean additional) {
+        return this.create(null, position, level, additional, 0, 1, 1);
     }
-    public Mob create(Dungeon dungeon, ServerLevel level, Vec3 position, boolean additional, float addDamage, float multHealth, float multSpeed) {
+    public Mob create(Dungeon dungeon, Vec3 position, ServerLevel level, boolean additional, float addDamage, float multHealth, float multSpeed) {
         this.dungeon = dungeon;
 
         LivingEntity ent = null;

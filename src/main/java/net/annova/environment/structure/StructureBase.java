@@ -2,8 +2,10 @@ package net.annova.environment.structure;
 
 import net.annova.object.Person;
 import net.annova.object.SimpleConstruction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.sql.ResultSet;
@@ -43,7 +45,9 @@ public abstract class StructureBase {
         start = rs.getInt("START") == 1;
 
         String[] loc = rs.getString("LOCATION").split(",");
-        structure.getConstruction().setBuildPoint(new Location(Bukkit.getWorld(loc[0]), Double.parseDouble(loc[1]), Double.parseDouble(loc[2]), Double.parseDouble(loc[3])));
+        SimpleConstruction construction = structure.getConstruction();
+        construction.setLevel(((CraftWorld) Bukkit.getWorld(loc[0])).getHandle());
+        construction.setBuildPoint(new Vec3(Double.parseDouble(loc[1]), Double.parseDouble(loc[2]), Double.parseDouble(loc[3])));
 
         this.onInit(rs);
 
@@ -55,10 +59,11 @@ public abstract class StructureBase {
     public void save() {
         if (structure == null) return;
         SimpleConstruction construction = structure.getConstruction();
-        Location build = construction.getBuildPoint();
+        ServerLevel level = construction.getLevel();
+        Vec3 build = construction.getBuildPoint();
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", construction.getKey());
-        save.put("LOCATION", build.getWorld().getName() + "," + build.getBlockX() + "," + build.getBlockY() + "," + build.getBlockZ());
+        save.put("LOCATION", level.getLevel().L.getLevelName() + "," + build.x + "," + build.y + "," + build.z);
         save.put("START", this.isStart());
 
         this.onSave(save);
@@ -77,12 +82,13 @@ public abstract class StructureBase {
         );
     }
 
-    public void create(Structure structure, Location location) {
+    public void create(Structure structure, Vec3 position, ServerLevel level) {
         if (runnable != null) runnable.cancel();
         this.structure = structure;
         SimpleConstruction construction = structure.getConstruction();
-        construction.setBuildPoint(location);
-        importBuild(structure.getConstruction().getStructure(), Person.CardinalDirection.NORTH, location);
+        construction.setLevel(level);
+        construction.setBuildPoint(position);
+        importBuild(structure.getConstruction().getStructure(), Person.CardinalDirection.NORTH, position, level);
 
         this.onInit();
 

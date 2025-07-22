@@ -70,11 +70,11 @@ public class DeathEvent implements Listener {
                 getDungeonWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, entity.getLocation(), 3);
                 if (chance(0.125)) {
                     DungeonTemplate dungeonTemplate = dungeon.getBase().getTemplate();
-                    dungeonTemplate.getAnimation("boss_gate", 1).start(dungeon.getLocation(), dungeonTemplate.getStructure());
-                    dungeonTemplate.getAnimation("mb_gate", 0).start(dungeon.getLocation(), dungeonTemplate.getStructure());
+                    dungeonTemplate.getAnimation("boss_gate", 1).start(dungeon.getPosition(), dungeonTemplate.getStructure());
+                    dungeonTemplate.getAnimation("mb_gate", 0).start(dungeon.getPosition(), dungeonTemplate.getStructure());
 
                     List<RPGEntity> entities = dungeonTemplate.getEntities().get(102);
-                    entities.forEach(major -> dungeon.spawnEntity(major, dungeon.getLocation().clone()
+                    entities.forEach(major -> dungeon.spawnEntity(major, dungeon.getPosition().clone()
                             .add(dungeonTemplate.getStructure().getLocationWithPoint(getDungeonWorld(), entities.getFirst().getPoint()))));
 
                     dungeon.send("dungeon-prison-major");

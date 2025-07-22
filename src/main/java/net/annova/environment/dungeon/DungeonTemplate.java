@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -152,22 +153,19 @@ public class DungeonTemplate {
         this.merchantPoint = merchantPoint;
     }
 
-    public void updateAnimations(SimpleStructure structure, Location createLocation) {
+    public void updateAnimations(SimpleStructure structure, Vec3 createLocation, ServerLevel level) {
         for (Map<Integer, Animation> animations : this.getAnimations().values()) {
             for (Animation animation : animations.values()) {
-                animation.update(createLocation, structure);
+                animation.update(level, createLocation, structure);
             }
         }
     }
-    public void updateLootChests(SimpleStructure structure, Location location) {
-        CraftWorld world = (CraftWorld) location.getWorld();
-        ServerLevel level = world.getHandle();
+    public void updateLootChests(SimpleStructure structure, Vec3 position, ServerLevel level) {
         for (int point : this.loot.keySet()) {
             if (!chance(0.5)) continue;
             Loot loot = this.loot.get(point);
 
-            Location spawn = location.clone().add(structure.getLocationWithPoint(world, point));
-            BlockPos pos = new BlockPos(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
+            BlockPos pos = BlockPos.containing(position.add(structure.getPositionWithPoint(point))); // (spawn)
 
             level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 3);
 

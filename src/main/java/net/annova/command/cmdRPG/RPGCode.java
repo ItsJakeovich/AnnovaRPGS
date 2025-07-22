@@ -131,7 +131,8 @@ public class RPGCode {
             return;
         }
         RPGEntityType type = RPGEntityType.valueOf(args[1]);
-        type.getEntity().create(player.getLocation());
+        ServerPlayer serverPlayer = ((CraftPlayer) player).getHandle();
+        type.getEntity().create(serverPlayer.position(), (ServerLevel) serverPlayer.level());
     }
 
     @CommandArg(name = "item", aliases = {"предмет", "шеуь", "ghtlvtn"})

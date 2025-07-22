@@ -25,7 +25,7 @@ public class DungeonCode {
         Person person = getPerson(player);
         person.send(getInstance(), "dungeon-list-list");
         for (Dungeon dungeon : getDungeons()) {
-            Location loc = dungeon.getLocation();
+            Location loc = dungeon.getPosition();
             person.send("{pc}● " + dungeon.getKey() + " | " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         }
     }
