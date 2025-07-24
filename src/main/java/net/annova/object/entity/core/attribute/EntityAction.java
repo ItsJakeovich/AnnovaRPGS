@@ -1,8 +1,8 @@
 package net.annova.object.entity.core.attribute;
 
 import net.annova.event.custom.MobDamageCE;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 public interface EntityAction {
     boolean onTarget(Entity target);

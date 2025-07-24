@@ -6,20 +6,14 @@ import net.annova.object.SimpleStructure;
 import net.annova.object.animation.Animation;
 import net.annova.object.generator.VoidGenerator;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 
 import java.util.*;
-import java.util.logging.Level;
 
 import static net.annova.util.BukkitObjects.chance;
 
@@ -153,19 +147,19 @@ public class DungeonTemplate {
         this.merchantPoint = merchantPoint;
     }
 
-    public void updateAnimations(SimpleStructure structure, Vec3 createLocation, ServerLevel level) {
+    public void updateAnimations(SimpleStructure structure, Vec3i createLocation, ServerLevel level) {
         for (Map<Integer, Animation> animations : this.getAnimations().values()) {
             for (Animation animation : animations.values()) {
                 animation.update(level, createLocation, structure);
             }
         }
     }
-    public void updateLootChests(SimpleStructure structure, Vec3 position, ServerLevel level) {
+    public void updateLootChests(SimpleStructure structure, Vec3i position, ServerLevel level) {
         for (int point : this.loot.keySet()) {
             if (!chance(0.5)) continue;
             Loot loot = this.loot.get(point);
 
-            BlockPos pos = BlockPos.containing(position.add(structure.getPositionWithPoint(point))); // (spawn)
+            BlockPos pos = new BlockPos(position.offset(structure.getPositionWithPoint(point))); // (spawn)
 
             level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 3);
 

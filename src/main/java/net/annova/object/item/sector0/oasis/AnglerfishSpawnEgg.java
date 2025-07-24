@@ -3,9 +3,11 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.item.base.RPGItem;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_21_R4.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,9 +43,9 @@ public class AnglerfishSpawnEgg extends RPGItem implements Listener {
         if (!ANGLER_FISH_SPAWN_EGG.equals(event.getItem())) return;
 
         Player player = event.getPlayer();
-        Block block = event.getClickedBlock();
+        CraftBlock block = (CraftBlock) event.getClickedBlock();
         if (block == null) return;
-        new AnglerFish().create(block.getRelative(event.getBlockFace()).getLocation());
+        new AnglerFish().create(block.getPosition().getBottomCenter(), (ServerLevel) block.getHandle());
 
         event.setCancelled(true);
         player.swingMainHand();

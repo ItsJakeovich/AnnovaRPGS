@@ -14,14 +14,12 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomMelanox;
 import net.annova.object.magic.projectile.MelanoxRay;
 import net.annova.object.magic.projectile.WebBall;
-import net.kyori.adventure.text.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -34,8 +32,6 @@ import static net.annova.object.item.base.ItemModulit.MELANOX_POISON;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
-import static net.minecraft.core.component.DataComponents.CUSTOM_DATA;
-import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
 
 public class Melanox extends RPGEntity implements CustomType, EntityActivity, EntityAction {
     @Override

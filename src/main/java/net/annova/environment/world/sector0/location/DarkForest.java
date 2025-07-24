@@ -1,35 +1,33 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
-import net.annova.environment.world.event.UpdateTask;
-import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
+import net.annova.object.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Particle;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.craftbukkit.v1_21_R4.CraftParticle;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-import static net.annova.environment.world.sector0.SuruWahare.world0;
-import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.main.Keys.*;
 import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.util.BukkitObjects.random;
+import static net.minecraft.world.effect.MobEffects.DARKNESS;
 
 public class DarkForest extends SectorLocation {
-    private final Map<Player, Long> forestMSGCooldown = new HashMap<>();
+    private final Map<UUID, Long> forestMSGCooldown = new HashMap<>();
     private final String[] MSGKeys = {
             "s0-forest-msg-0",
             "s0-forest-msg-1",
@@ -42,29 +40,35 @@ public class DarkForest extends SectorLocation {
             "s0-forest-msg-8",
             "s0-forest-msg-9",
     };
-    private final Map<Player, Long> soundCooldown = new HashMap<>();
-    private final String[] soundKeys = {
-            "location.forest.ambient.ambient1",
-            "location.forest.ambient.ambient2",
-            "location.forest.ambient.ambient3"
+    private final Map<UUID, Long> soundCooldown = new HashMap<>();
+    private final SoundEvent[] soundKeys = {
+            FOREST_AMBIENT_1,
+            FOREST_AMBIENT_2,
+            FOREST_AMBIENT_3
     };
-    private final PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 300, 1);
+    private final MobEffectInstance darkness = new MobEffectInstance(DARKNESS, 300, 1);
 
     @Override
-    public void movement(RPGPerson person, Player player) {
-        if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-            player.spawnParticle(Particle.DRAGON_BREATH, player.getLocation().add(0, 0.1, 0), 100, 15, 0, 15, 0);
-            if (!person.getStatusManager().hasStatus(StatusType.ABSORB_NIGHT_BUFF)) player.addPotionEffect(darkness);
+    public void movement(RPGPerson person, ServerPlayer player) {
+        if (player.gameMode().equals(GameType.SURVIVAL)) {
+            Vec3 position = player.position();
+            player.connection.send(new ClientboundLevelParticlesPacket(CraftParticle.createParticleParam(
+                    Particle.DRAGON_BREATH, null), false, false,
+                    position.x, position.y+0.1, position.z,
+                    15, 0, 15, 0, 100)
+            );
+            if (!person.getStatusManager().hasStatus(StatusType.ABSORB_NIGHT_BUFF)) player.addEffect(darkness);
         }
 
+        UUID uuid = player.getUUID();
         long millis = System.currentTimeMillis();
-        if (!soundCooldown.containsKey(player) || millis > soundCooldown.get(player)) {
-            soundCooldown.put(player, millis + 300_000);
-            player.playSound(player, soundKeys[random.nextInt(soundKeys.length)], 1, 1);
+        if (!soundCooldown.containsKey(uuid) || millis > soundCooldown.get(uuid)) {
+            soundCooldown.put(uuid, millis + 300_000);
+            player.playSound(soundKeys[random.nextInt(soundKeys.length)], 1, 1);
         }
-        if (forestMSGCooldown.containsKey(player) &&  millis < forestMSGCooldown.get(player)) return;
-        forestMSGCooldown.put(player, millis + 1800_000); // 30 min
-        getPerson(player).send(getInstance(), MSGKeys[random.nextInt(MSGKeys.length)]);
+        if (forestMSGCooldown.containsKey(uuid) &&  millis < forestMSGCooldown.get(uuid)) return;
+        forestMSGCooldown.put(uuid, millis + 1800_000); // 30 min
+        person.getPerson().send(getInstance(), MSGKeys[random.nextInt(MSGKeys.length)]);
     }
 
     private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_FOREST, OLDER_ENT, DARK_ELF);
@@ -73,16 +77,11 @@ public class DarkForest extends SectorLocation {
         return toSpawn;
     }
 
-    private static final Location[] points = new Location[] {
-        new org.bukkit.Location(world0, -280, 69, -351)
+    private static final Vec3iSelection[] borders = new Vec3iSelection[] {
+        new Vec3iSelection(-442, 0, -190, -128, 256, -511)
     };
     @Override
-    public org.bukkit.Location[] points() {
-        return points;
-    }
-
-    @Override
-    public int squaredRadius() {
-        return 17781;
+    public Vec3iSelection[] borders() {
+        return borders;
     }
 }

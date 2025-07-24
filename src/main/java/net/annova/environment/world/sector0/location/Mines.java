@@ -4,20 +4,22 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.event.UpdateTask;
 import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
+import net.annova.object.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.minecraft.core.particles.DustColorTransitionOptions;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -74,13 +76,14 @@ public class Mines extends SectorLocation {
             "s0-mines-msg-8",
             "s0-mines-msg-9",
     };
-    private final Map<Player, Long> messageCooldown = new HashMap<>();
+    private final Map<UUID, Long> messageCooldown = new HashMap<>();
 
     @Override
-    public void movement(RPGPerson person, Player player) {
+    public void movement(RPGPerson person, ServerPlayer player) {
         long millis = System.currentTimeMillis();
-        if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
-        messageCooldown.put(player, millis + 1800_000); // 30 min
+        UUID uuid = player.getUUID();
+        if (messageCooldown.containsKey(uuid) &&  millis < messageCooldown.get(uuid)) return;
+        messageCooldown.put(uuid, millis + 1800_000); // 30 min
 
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
 
@@ -93,16 +96,12 @@ public class Mines extends SectorLocation {
         return toSpawn;
     }
 
-    private static final Location[] points = new Location[] { // Это нужно переписать под квадратную проверку (x1, x2 - между ними)
-            new org.bukkit.Location(world0, -1111, 64, 357)
+    private static final Vec3iSelection[] borders = new Vec3iSelection[] {
+            new Vec3iSelection(-850, -45, 430, -1053, 3, 225),
+            new Vec3iSelection(-1054, -30, 345, -1120, 62, 370),
     };
     @Override
-    public org.bukkit.Location[] points() {
-        return points;
-    }
-
-    @Override
-    public int squaredRadius() {
-        return 64;
+    public Vec3iSelection[] borders() {
+        return borders;
     }
 }

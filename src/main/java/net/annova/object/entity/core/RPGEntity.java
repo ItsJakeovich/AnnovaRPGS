@@ -18,11 +18,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -285,5 +287,17 @@ public abstract class RPGEntity {
     public static void healEntity(double regen, org.bukkit.entity.LivingEntity entity) {
         double maxHealth = entity.getAttribute(Attribute.MAX_HEALTH).getValue();
         entity.setHealth(Math.min(entity.getHealth()+regen, maxHealth));
+    }
+    public static void hurtEntity(double damage, LivingEntity entity, LivingEntity damager) {
+        hurtEntity((float) damage, entity, damager);
+    }
+    public static void hurtEntity(float damage, LivingEntity entity, LivingEntity damager) {
+        DamageSource reason = damager.damageSources().generic();
+        if (damager instanceof Player player) {
+            reason = damager.damageSources().playerAttack(player);
+        } else if (damager instanceof org.bukkit.entity.LivingEntity) {
+            reason = damager.damageSources().mobAttack(damager);
+        }
+        entity.hurtServer((ServerLevel) damager.level(), reason, damage);
     }
 }

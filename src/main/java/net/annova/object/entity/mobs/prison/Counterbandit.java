@@ -91,7 +91,7 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
 
     @Override
     public void onDeath() {
-        for (Player player : this.entity.level().getWorld().getPlayers()) {
+        for (net.minecraft.world.entity.player.Player player : this.entity.level().players()) {
             getRPGPerson(player).getStatusManager().removeStatus(CB_DAMAGE_DEBUFF);
         }
     }

@@ -3,14 +3,13 @@ package net.annova.object.item.crystal;
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class BalanceStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
-    public static final Set<EntityType> UNDEAD = EnumSet.of(
+    public static final Set<EntityType<?>> UNDEAD = Set.of(
             EntityType.ZOMBIE,
 //            EntityType.ZOMBIE_VILLAGER,
             EntityType.DROWNED,
@@ -53,8 +52,8 @@ public class BalanceStoneItem extends RPGItem implements Listener {
     private void mechanic(BattleCE event) {
         if (!BALANCE_STONE.has(event.getDamager())) return;
 
-        Entity entity = event.getEntity();
-        if (UNDEAD.contains(event.getEntity().getType()))
+        LivingEntity entity = event.getEntity();
+        if (UNDEAD.contains(entity.getType()))
              event.increaseDamage(event.getBaseDamage());
         else event.decreaseDamage(event.getBaseDamage()/2);
     }

@@ -3,6 +3,8 @@ package net.annova.command.cmdDungeon;
 import net.annova.command.register.CommandArg;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.Person;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -25,8 +27,8 @@ public class DungeonCode {
         Person person = getPerson(player);
         person.send(getInstance(), "dungeon-list-list");
         for (Dungeon dungeon : getDungeons()) {
-            Location loc = dungeon.getPosition();
-            person.send("{pc}● " + dungeon.getKey() + " | " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
+            Vec3i loc = dungeon.getPosition();
+            person.send("{pc}● " + dungeon.getKey() + " | " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ());
         }
     }
     @CommandArg(name = "delete")

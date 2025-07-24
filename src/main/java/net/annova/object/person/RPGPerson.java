@@ -19,6 +19,8 @@ import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.annova.object.person.status.ValueType;
 import net.annova.util.AISString;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -33,9 +35,7 @@ import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
-import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
@@ -116,6 +116,9 @@ public class RPGPerson {
     }
     public Player getPlayer() {
         return this.person.getPlayer();
+    }
+    public ServerPlayer getServerPlayer() {
+        return this.person.getServerPlayer();
     }
 
     @Nullable
@@ -429,12 +432,12 @@ public class RPGPerson {
     public void updateSectorLocation() {
         this.sectorLocation = null;
 
-        Player player = this.getPlayer();
-        WorldSector sector = worldSectors.get(player.getWorld());
+        ServerPlayer player = this.getServerPlayer();
+        WorldSector sector = worldSectors.get(player.serverLevel());
         if (sector == null) return;
-        Location playerLocation = player.getLocation();
+        BlockPos blockPos = player.blockPosition();
         for (SectorLocation sectorLocation : sector.zones()) {
-            if (sectorLocation.isOutside(playerLocation)) continue;
+            if (sectorLocation.isOutside(blockPos)) continue;
             this.sectorLocation = sectorLocation;
             break;
         }
@@ -454,6 +457,9 @@ public class RPGPerson {
     public void teleport(Location location) {
         this.teleportAccess = true;
         this.getPlayer().teleport(location);
+    }
+    public void teleport(Vec3i position, ServerLevel level) {
+        this.teleport(Vec3.atCenterOf(position), level);
     }
     public void teleport(Vec3 position, ServerLevel level) {
         ServerPlayer player = this.getPerson().getServerPlayer();

@@ -3,7 +3,8 @@ package net.annova.object.magic.projectile;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import org.bukkit.Location;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -28,11 +29,11 @@ public class HarryBall extends ParticleProjectile {
     }
 
     @Override
-    public void onHit(Location location) {
-        for (Entity ent : location.getWorld().getNearbyEntities(location, 2, 2, 2, entity -> entity instanceof LivingEntity)) {
+    public void onHit(Vec3 position, ServerLevel level) {
+        for (Entity ent : position.getWorld().getNearbyEntities(position, 2, 2, 2, entity -> entity instanceof LivingEntity)) {
             LivingEntity entity = (LivingEntity) ent;
             switch (effect.getRandom()) {
-                case TELEPORT -> entity.teleport(getChorusLocation(location, 16));
+                case TELEPORT -> entity.teleport(getChorusLocation(position, 16));
                 case DAMAGE -> {
                     entity.damage(10);
                     entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0));
@@ -70,11 +71,11 @@ public class HarryBall extends ParticleProjectile {
     }
 
     @Override
-    public Packet<?>[] particles(Location location) {
+    public Packet<?>[] particles(Vec3 position) {
         return new Packet[] {
-            new ClientboundLevelParticlesPacket(ParticleTypes.FLAME, true, true, location.getX(), location.getY(), location.getZ(), 0.25f, 0.25f, 0.25f, 0, 2),
-            new ClientboundLevelParticlesPacket(ParticleTypes.ENCHANTED_HIT, true, false, location.getX(), location.getY(), location.getZ(), 0.1f, 0.1f, 0.1f, 0, 4),
-            new ClientboundLevelParticlesPacket(ParticleTypes.CHERRY_LEAVES, true, true, location.getX(), location.getY(), location.getZ(), 0.1f, 0.1f, 0.1f, 0, 8)
+            new ClientboundLevelParticlesPacket(ParticleTypes.FLAME, true, true, position.x, position.y, position.z, 0.25f, 0.25f, 0.25f, 0, 2),
+            new ClientboundLevelParticlesPacket(ParticleTypes.ENCHANTED_HIT, true, false, position.x, position.y, position.z, 0.1f, 0.1f, 0.1f, 0, 4),
+            new ClientboundLevelParticlesPacket(ParticleTypes.CHERRY_LEAVES, true, true, position.x, position.y, position.z, 0.1f, 0.1f, 0.1f, 0, 8)
         };
     }
 

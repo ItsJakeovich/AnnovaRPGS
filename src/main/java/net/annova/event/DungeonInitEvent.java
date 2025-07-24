@@ -7,6 +7,8 @@ import net.annova.event.custom.StructureCreateCE;
 import net.annova.object.*;
 import net.annova.object.animation.Animation;
 import net.annova.object.animation.Frame;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
@@ -24,7 +26,7 @@ public class DungeonInitEvent implements Listener {
         if (!structure.getName().split("-")[0].equals("dungeon")) return;
         DungeonTemplate dungeonTemplate = new DungeonTemplate();
         List<SimpleBlock> sBlocks = structure.getBlocks(Person.CardinalDirection.NORTH);
-        Map<Integer, BlockData> blocks = new HashMap<>();
+        Map<Integer, BlockState> blocks = new HashMap<>();
         Map<Integer, List<String[]>> summons = new HashMap<>();
 
         int locIndex = 0;
@@ -32,12 +34,12 @@ public class DungeonInitEvent implements Listener {
             SimpleBlock block = sBlocks.get(point);
             if (block.getFrontSign() == null && block.getBackSign() == null) continue;
 
-            List<String> lines = new ArrayList<>(List.of(block.frontSign));
-            lines.addAll(List.of(block.backSign));
-
             List<String[]> definedLines = new ArrayList<>();
-            for (String line : lines) {
-                definedLines.add(line.split("-"));
+            for (Component line : block.getFrontSign()) {
+                definedLines.add(line.toString().split("-"));
+            }
+            for (Component line : block.getBackSign()) {
+                definedLines.add(line.toString().split("-"));
             }
             Material material = Material.AIR;
             int id = 0;
@@ -51,7 +53,7 @@ public class DungeonInitEvent implements Listener {
                         dungeonTemplate.setId(Integer.parseInt(line[2]));
                     }
                     case "/loc" -> locIndex = Integer.parseInt(line[1]);
-                    case "/b" -> blocks.put(point, getMaterial(line[1]).createBlockData());
+                    case "/b" -> blocks.put(point, getMaterial(line[1]));
                     case "/a" -> {
                         type = line[1];
                         id = Integer.parseInt(line[2]);

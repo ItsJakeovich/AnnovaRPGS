@@ -6,6 +6,7 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.event.custom.PlayerDamageCE;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -92,12 +93,12 @@ public class EntityEvent implements Listener {
                     (float) finalDamage
             );
         }
-        this.spawnIndicator(entity.level(), entity.position().add(0, entity.getEyeHeight(), 0), finalDamage);
+        this.spawnIndicator((ServerLevel) entity.level(), entity.position().add(0, entity.getEyeHeight(), 0), finalDamage);
     }
 
     public static List<ArmorStand> indicators = new ArrayList<>();
 
-    private void spawnIndicator(Level level, Vec3 position, double damage) {
+    private void spawnIndicator(ServerLevel level, Vec3 position, double damage) {
         if (damage < 1) return;
         position.add(random.nextFloat(2)-1, random.nextFloat(2)-1, random.nextFloat(2)-1);
         ArmorStand stand = new ArmorStand(EntityType.ARMOR_STAND, level);
@@ -110,6 +111,7 @@ public class EntityEvent implements Listener {
         stand.setCustomName(Component.literal(String.valueOf((double) Math.round(damage*100) / 100))
                 .withStyle(Style.EMPTY.withColor(16733525).withBold(true))
         );
+        level.tryAddFreshEntityWithPassengers(stand);
 
         indicators.add(stand);
         Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {

@@ -9,6 +9,7 @@ import net.annova.object.SimpleStructure;
 import net.annova.object.person.Team;
 import net.annova.object.person.status.StatusManager;
 import net.annova.util.AISString;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +17,6 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ public class Dungeon {
     private int key;
     private final DungeonBase base;
     private final Location summon;
-    private Vec3 position;
+    private Vec3i position;
     private ServerLevel level;
     private final Set<RPGPerson> players = new HashSet<>();
     private final Set<LivingEntity> entity = new HashSet<>();
@@ -68,7 +68,7 @@ public class Dungeon {
         return summon;
     }
 
-    public Vec3 getPosition() {
+    public Vec3i getPosition() {
         return position;
     }
 
@@ -173,9 +173,9 @@ public class Dungeon {
         }
 
         int i = 0;
-        int y = (int) this.position.y;
+        int y = (int) this.position.getY();
         for (SimpleStructure structure : base.getTemplate().structures) {
-            removeImportedBuild(structure, new Vec3(this.position.x, y+80*i, this.position.z), level);
+            removeImportedBuild(structure, this.position.above(80*i), level);
             i++;
         }
         removeDungeon(this.key);
@@ -199,17 +199,18 @@ public class Dungeon {
     }
 
     public void createDungeon() {
-        World world = getDungeonWorld();
+        ServerLevel world = getDungeonWorld();
 
         DungeonTemplate dungeonTemplate = base.getTemplate();
         if (getDungeons().isEmpty()) {
-            position = new Vec3(0, 0, 0);
+            position = new Vec3i(0, 0, 0);
         } else {
             int key = 0;
             for (Dungeon dungeon : getDungeons()) {
                 if (dungeon.getKey() > key) key = dungeon.getKey();
             }
-            position = getDungeon(key).getPosition().add(
+            this.position = getDungeon(key).position.north();
+            position = getDungeon(key).getPosition().offset(
                     dungeonTemplate.getStructure().getMaxX()+25,
                     0,
                     0
@@ -227,7 +228,7 @@ public class Dungeon {
 
     public void teleportPerson(RPGPerson person) {
         DungeonTemplate dungeonTemplate = this.base.getTemplate();
-        person.teleport(this.position.add(
+        person.teleport(this.position.offset(
                 dungeonTemplate.getStructure().getPositionWithPoint(dungeonTemplate.getSpawn())
         ), level);
     }
@@ -249,6 +250,9 @@ public class Dungeon {
         }
     }
 
+    public void spawnEntity(RPGEntity entity, Vec3i position) {
+        this.spawnEntity(entity, Vec3.atBottomCenterOf(position));
+    }
     public void spawnEntity(RPGEntity entity, Vec3 position) {
         float value = players.size()-1;
         this.entity.add(entity.create(this, position, this.level, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));

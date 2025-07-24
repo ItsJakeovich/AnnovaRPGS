@@ -2,16 +2,18 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
+import net.annova.object.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.entity.core.RPGEntityType.MELANOX;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
@@ -28,16 +30,17 @@ public class SpiderSwamps extends SectorLocation {
             "s0-swamps-msg-6",
             "s0-swamps-msg-7",
     };
-    private final Map<Player, Long> messageCooldown = new HashMap<>();
+    private final Map<UUID, Long> messageCooldown = new HashMap<>();
 
     @Override
-    public void movement(RPGPerson person, Player player) {
+    public void movement(RPGPerson person, ServerPlayer player) {
         long millis = System.currentTimeMillis();
-        if (messageCooldown.containsKey(player) &&  millis < messageCooldown.get(player)) return;
-        messageCooldown.put(player, millis + 1800_000); // 30 min
+        UUID uuid = player.getUUID();
+        if (messageCooldown.containsKey(uuid) &&  millis < messageCooldown.get(uuid)) return;
+        messageCooldown.put(uuid, millis + 1800_000); // 30 min
 
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
-        if (player.getEquipment().getHelmet() == null) person.damage(2.0f);
+        if (player.equipment.get(EquipmentSlot.HEAD) == ItemStack.EMPTY) person.damage(2.0f);
     }
 
     private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_SWAMPS, MELANOX);
@@ -46,16 +49,12 @@ public class SpiderSwamps extends SectorLocation {
         return toSpawn;
     }
 
-    private static final Location[] points = new org.bukkit.Location[] {
-            new org.bukkit.Location(world0, -759, 63, 163)
+    private static final Vec3iSelection[] borders = new Vec3iSelection[] {
+            new Vec3iSelection(-785, 80, 126, -743, 48, 191),
+            new Vec3iSelection(-771, 62, 192, -684, 2, 254)
     };
     @Override
-    public org.bukkit.Location[] points() {
-        return points;
-    }
-
-    @Override
-    public int squaredRadius() {
-        return 256;
+    public Vec3iSelection[] borders() {
+        return borders;
     }
 }

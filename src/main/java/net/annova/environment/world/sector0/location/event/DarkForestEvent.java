@@ -10,7 +10,7 @@ import static net.annova.environment.world.sector0.SuruWahare.world0;
 public class DarkForestEvent implements Listener {
     @EventHandler
     public void ignite(BlockIgniteEvent event) {
-        if (!worldSectors.get(world0).zones()[0].isOutside(event.getIgnitingBlock().getLocation())) // Dark Forest
+        if (worldSectors.get(world0).zones()[0].isInside(event.getIgnitingBlock().getLocation())) // Dark Forest
             event.setCancelled(true);
     }
 }

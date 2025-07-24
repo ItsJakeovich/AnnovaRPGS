@@ -3,10 +3,10 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.event.custom.PlayerDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.Material;
-import org.bukkit.entity.Entity;
+import net.minecraft.world.level.block.Blocks;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -37,9 +37,10 @@ public class AngelFish extends RPGItem implements Listener {
 
     @EventHandler
     public void onDamage(PlayerDamageCE event) {
-        Entity entity = event.getEntity();
+        LivingEntity entity = event.getEntity();
 
-        if (entity.getWorld().isClearWeather() && !entity.getLocation().getBlock().getType().equals(Material.WATER)) return;
+
+        if (entity.level().isThundering() || entity.level().isRaining() || !entity.getBlockStateOn().is(Blocks.WATER)) return;
         if (!ANGEL_FISH.has(entity)) return;
 
         event.decreaseDamage(event.getBaseDamage() * 0.05);

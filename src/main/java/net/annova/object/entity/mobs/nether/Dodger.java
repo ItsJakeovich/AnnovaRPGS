@@ -6,15 +6,17 @@ import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Set;
@@ -81,29 +83,30 @@ public class Dodger extends RPGEntity implements EntityAction {
 //        this.create(ent.getLocation());
 //        event.setCancelled(true);
 //    }
+    private static final MobEffectInstance INVISIBILITY = new MobEffectInstance(MobEffects.INVISIBILITY, 200, 1);
     @Override
     public boolean onTarget(Entity target) {
-        ((Creature) entity).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 200, 1));
+        entity.addEffect(INVISIBILITY);
         return true;
     }
 
     @Override
     public boolean onAttack(LivingEntity target) {
-        LivingEntity ent = (LivingEntity) entity.getBukkitEntity();
-        if (!ent.getEquipment().getItemInMainHand().getType().isAir()) return true;
+        if (!entity.equipment.get(EquipmentSlot.MAINHAND).isEmpty()) return true;
 
-        if (!(target instanceof Player player)) return true;
-
-        ItemStack[] inventory = player.getInventory().getContents();
-        for (int i = 0 ; i < 40; i++) {
-            int index = random.nextInt(inventory.length);
-            ItemStack check = inventory[index];
-            if (check == null) continue;
-            ent.getEquipment().setItemInMainHand(check);
-            player.getInventory().clear(index);
-            ent.removePotionEffect(PotionEffectType.INVISIBILITY);
-            getChorusLocation(ent.getLocation(), 10);
-            break;
+        if (target instanceof Player player) {
+            Inventory inventory = player.getInventory();
+            List<ItemStack> items = inventory.getNonEquipmentItems();
+            for (int i = 0; i < 40; i++) {
+                int index = random.nextInt(items.size());
+                ItemStack check = items.get(index);
+                if (check.isEmpty()) continue;
+                entity.setItemInHand(InteractionHand.MAIN_HAND, check);
+                inventory.setItem(index, ItemStack.EMPTY);
+                entity.removeEffect(MobEffects.INVISIBILITY);
+                getChorusLocation(entity.position(), (ServerLevel) entity.level(), 10);
+                break;
+            }
         }
         return true;
     }

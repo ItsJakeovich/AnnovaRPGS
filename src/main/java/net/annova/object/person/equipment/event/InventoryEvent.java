@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class InventoryEvent implements Listener {
-    Inventory inventory = null;
     @EventHandler
     public void inventory(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
@@ -20,9 +19,8 @@ public class InventoryEvent implements Listener {
         int slot = event.getSlot();
         // Open inventory action
         if (event.getInventory().getType().equals(InventoryType.CRAFTING)) {
-            inventory = event.getInventory();
             if (slot == -999 && event.getCursor().getType().isAir()) {
-                person.getEquipment().open(player);
+                person.getEquipment().open(person.getPerson());
                 event.setCancelled(true);
             }
         }

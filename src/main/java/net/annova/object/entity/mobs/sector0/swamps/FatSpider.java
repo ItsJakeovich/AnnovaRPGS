@@ -7,24 +7,25 @@ import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Color;
-import org.bukkit.Particle;
-import org.bukkit.entity.AreaEffectCloud;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static net.annova.main.AnnovaAPI.random;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
+import static net.minecraft.world.effect.MobEffects.POISON;
 
 public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
     @Override
@@ -78,7 +79,7 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
     }
 
     @Override
-    public boolean onAttack(LivingEntity target) {
+    public boolean onAttack(net.minecraft.world.entity.LivingEntity target) {
         return true;
     }
 
@@ -88,16 +89,17 @@ public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
 
     @Override
     public void onDeath() {
-        AreaEffectCloud cloud = (AreaEffectCloud) entity.level().getWorld().spawnEntity(this.getLocation(), org.bukkit.entity.EntityType.AREA_EFFECT_CLOUD);
-
+        ServerLevel level = entity.level().getMinecraftWorld();
+        AreaEffectCloud cloud = new AreaEffectCloud(EntityType.AREA_EFFECT_CLOUD, level);
         cloud.setRadius(3.0f);
         cloud.setDuration(120); // 5s
-        cloud.setReapplicationDelay(20);
+        cloud.reapplicationDelay = 20;
         cloud.setWaitTime(0);
-        cloud.setColor(Color.LIME);
-        cloud.setParticle(Particle.ENTITY_EFFECT);
+        PotionContents old = cloud.potionContents;
+        cloud.setPotionContents(new PotionContents(old.potion(), Optional.of(65280), old.customEffects(), old.customName()));
+        cloud.setParticle(() -> ParticleTypes.ENTITY_EFFECT);
 
-        cloud.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 100, 3), true); // 3 секунды яда 4
+        cloud.addEffect(new MobEffectInstance(POISON, 100, 3));
     }
 
     @Override

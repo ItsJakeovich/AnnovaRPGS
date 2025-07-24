@@ -3,12 +3,13 @@ package net.annova.object.magic.projectile;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import org.bukkit.Location;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 
 public class MeteoriteBall extends ParticleProjectile {
     @Override
-    public void onHit(Location location) {
-        location.createExplosion(6, true, false);
+    public void onHit(Vec3 position, ServerLevel level) {
+        position.createExplosion(6, true, false);
     }
 
     @Override
@@ -17,9 +18,9 @@ public class MeteoriteBall extends ParticleProjectile {
     }
 
     @Override
-    public Packet<?>[] particles(Location location) {
+    public Packet<?>[] particles(Vec3 position) {
         return new Packet[] {
-                new ClientboundLevelParticlesPacket(ParticleTypes.FLAME, true, true,location.getX(), location.getY(), location.getZ(), 0.6f, 0.6f, 0.6f, 0, 12),
+                new ClientboundLevelParticlesPacket(ParticleTypes.FLAME, true, true, position.x, position.y, position.z, 0.6f, 0.6f, 0.6f, 0, 12),
         };
     }
 

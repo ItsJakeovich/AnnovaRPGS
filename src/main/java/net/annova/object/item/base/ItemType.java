@@ -229,14 +229,30 @@ public enum ItemType {
         if (entity instanceof Mob mob) return this.has(mob);
         return false;
     }
+    public boolean has(net.minecraft.world.entity.LivingEntity living) {
+        net.minecraft.world.entity.EntityEquipment equipment = living.equipment;
+        return this.id.equals(getItemId(equipment.get(net.minecraft.world.entity.EquipmentSlot.MAINHAND)))
+                || this.id.equals(getItemId(equipment.get(net.minecraft.world.entity.EquipmentSlot.OFFHAND)));
+    }
     public boolean has(Mob mob) {
         EntityEquipment equipment = mob.getEquipment();
         return this.id.equals(getItemId(equipment.getItemInMainHand())) || this.id.equals(getItemId(equipment.getItemInOffHand()));
+    }
+    public boolean has(net.minecraft.world.entity.player.Player player) {
+        if (player == null) return false;
+        if (this.getItem() instanceof ItemEquipment) return this.hasEquipment(player);
+        else                                         return this.hasItem(player);
     }
     public boolean has(Player player) {
         if (player == null) return false;
         if (this.getItem() instanceof ItemEquipment) return this.hasEquipment(player);
         else                                         return this.hasItem(player);
+    }
+    public boolean hasItem(net.minecraft.world.entity.player.Player player) {
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (this.id.equals(getItemId(item))) return true;
+        }
+        return false;
     }
     public boolean hasItem(Player player) {
         for (org.bukkit.inventory.ItemStack item : player.getInventory().getContents()) {
@@ -244,8 +260,14 @@ public enum ItemType {
         }
         return false;
     }
+    public boolean hasEquipment(net.minecraft.world.entity.player.Player player) {
+        for (ItemStack item : getRPGPerson(player.getUUID()).getEquipment().getAllEquipment()) {
+            if (this.id.equals(getItemId(item))) return true;
+        }
+        return false;
+    }
     public boolean hasEquipment(Player player) {
-        for (org.bukkit.inventory.ItemStack item : getRPGPerson(player).getEquipment().getAllEquipment()) {
+        for (ItemStack item : getRPGPerson(player).getEquipment().getAllEquipment()) {
             if (this.id.equals(getItemId(item))) return true;
         }
         return false;

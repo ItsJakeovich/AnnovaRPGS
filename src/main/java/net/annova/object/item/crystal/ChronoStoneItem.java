@@ -3,10 +3,10 @@ package net.annova.object.item.crystal;
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -43,6 +43,6 @@ public class ChronoStoneItem extends RPGItem implements Listener {
 
         // damage * (1 + 0.01 * PH);
         // PH = losed health.
-        event.increaseDamage(event.getBaseDamage() * 0.01 * (entity.getAttribute(Attribute.MAX_HEALTH).getValue() - entity.getHealth()));
+        event.increaseDamage(event.getBaseDamage() * 0.01 * (entity.getAttribute(Attributes.MAX_HEALTH).getValue() - entity.getHealth()));
     }
 }

@@ -56,14 +56,7 @@ public enum StatusType {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
             ServerPlayer serverPlayer = person.getPerson().getServerPlayer();
-            int angle = switch (random.nextInt(4)) {
-                case 0 -> 0;
-                case 1 -> 90;
-                case 2 -> 180;
-                case 3 -> 270;
-                default -> throw new IllegalStateException("Unexpected value");
-            };
-            serverPlayer.connection.send(new ClientboundHurtAnimationPacket(serverPlayer.getId(),angle));
+            serverPlayer.connection.send(new ClientboundHurtAnimationPacket(serverPlayer.getId(), random.nextInt(360)));
             return true;
         }
 

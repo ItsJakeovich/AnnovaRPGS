@@ -14,7 +14,7 @@ import java.util.Map;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 
 public class GlobalWorld {
-    public static final Map<World, WorldSector> worldSectors = new HashMap<>();
+    public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     static {
         worldSectors.put(world0, new SuruWahare());
     }

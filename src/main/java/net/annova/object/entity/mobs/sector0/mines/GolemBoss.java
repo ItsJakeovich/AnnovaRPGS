@@ -11,18 +11,20 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.MinesGolemBoss;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
@@ -96,10 +98,9 @@ public class GolemBoss extends RPGEntity implements CustomType, EntitySpawn, Ent
 
     @Override
     public void onSpawn(ServerLevel level, Vec3 position) {
-        for (Entity nearby : location.getNearbyEntities(20, 12, 20)) {
-            if (nearby instanceof Player player) {
-                getRPGPerson(player).addStatus(StatusType.SHAKING, +6_000);
-            }
+        for (Player player : level.getNearbyPlayers(TargetingConditions.DEFAULT, null,
+                new AABB(BlockPos.containing(position)).inflate(20, 12, 20))) {
+            getRPGPerson(player).addStatus(StatusType.SHAKING, +6_000);
         }
     }
 

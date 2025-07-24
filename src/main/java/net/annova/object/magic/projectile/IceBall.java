@@ -3,6 +3,8 @@ package net.annova.object.magic.projectile;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -11,13 +13,13 @@ import static org.bukkit.Material.*;
 
 public class IceBall extends ParticleProjectile {
     @Override
-    public void onHit(Location location) {
-        World world = location.getWorld();
+    public void onHit(Vec3 position, ServerLevel level) {
+        World world = position.getWorld();
         for (int y = -24; y < 24; y++) {
             for (int z = -24; z < 24; z++) {
                 for (int x = -24; x < 24; x++) {
                     if (chance(0.2)) {
-                        Location blockLoc = location.clone().add(x, y, z);
+                        Location blockLoc = position.clone().add(x, y, z);
                         Block block = blockLoc.getBlock();
                         if (block.getType() == AIR) continue;
                         block.setType(PACKED_ICE);
@@ -38,10 +40,10 @@ public class IceBall extends ParticleProjectile {
     }
 
     @Override
-    public Packet<?>[] particles(Location location) {
+    public Packet<?>[] particles(Vec3 position) {
         return new Packet[] {
-                new ClientboundLevelParticlesPacket(ParticleTypes.SNOWFLAKE, true, true, location.getX(), location.getY(), location.getZ(), 0.25f, 0.25f, 0.25f, 0, 16),
-                new ClientboundLevelParticlesPacket(ParticleTypes.CRIT, true, true, location.getX(), location.getY(), location.getZ(), 0.25f, 0.25f, 0.25f, 0, 16),
+                new ClientboundLevelParticlesPacket(ParticleTypes.SNOWFLAKE, true, true, position.x, position.y, position.z, 0.25f, 0.25f, 0.25f, 0, 16),
+                new ClientboundLevelParticlesPacket(ParticleTypes.CRIT, true, true, position.x, position.y, position.z, 0.25f, 0.25f, 0.25f, 0, 16),
         };
     }
 

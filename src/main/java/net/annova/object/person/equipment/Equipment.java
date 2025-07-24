@@ -1,6 +1,7 @@
 package net.annova.object.person.equipment;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.annova.object.Person;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
@@ -9,24 +10,22 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.*;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_21_R4.CraftServer;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 
 import java.util.*;
 
-import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.main.Keys.EQUIPMENT_MENU;
 import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.object.item.base.RPGItem.getItemId;
-import static net.annova.util.BukkitObjects.addItems;
+import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
 
 public class Equipment {
     private final RPGPerson person;
@@ -54,7 +53,10 @@ public class Equipment {
 
     public void addEquipment(int index, ItemStack item) {
         if (item == null) return;
-        this.equipment[index] = item.clone();
+        this.equipment[index] = item.copy();
+    }
+    public void addEquipment(org.bukkit.inventory.ItemStack item, int slot) {
+        this.addEquipment(asNMSCopy(item), slot);
     }
     public void addEquipment(ItemStack item, int slot) {
         if (item == null) return;
@@ -66,31 +68,36 @@ public class Equipment {
                 return;
             }
 
-            this.equipment[availableIndex] = item.clone();
-            Player player = person.getPlayer();
+            this.equipment[availableIndex] = item.copy();
+            ServerPlayer player = person.getServerPlayer();
             if (slot != -1) player.getInventory().setItem(slot, null);
-            InventoryView view = player.getOpenInventory();
-            if (view.getTitle().equals("Equipment")) {
+            AbstractContainerMenu menu = player.containerMenu;
+            if (menu.getTitle().equals(EQUIPMENT_MENU.name(person.getPerson()))) {
                 EquipType type = this.getEquipType(item);
-                view.setItem(this.getSlotByIndex(type, availableIndex), item);
+                menu.getSlot(this.getSlotByIndex(type, availableIndex)).set(item);
             }
-            player.playSound(player, Sound.ITEM_ARMOR_EQUIP_GENERIC, 1, 1);
+            player.playSound(SoundEvents.ARMOR_EQUIP_GENERIC.value(), 1, 1);
 
             this.update();
         }
     }
 
+    public void removeEquipment(org.bukkit.inventory.ItemStack item, int slot) {
+        this.removeEquipment(asNMSCopy(item), slot);
+    }
     public void removeEquipment(ItemStack item, int slot) {
         EquipType type = this.getEquipType(item);
         int index = this.getIndexBySlot(type, slot);
         if (index == -1) return;
-        this.equipment[index] = null;
-        Player player = person.getPlayer();
-        if (player.getOpenInventory().getTitle().equals("Equipment")) {
-            player.getOpenInventory().setItem(slot, type.getIcon());
+        ServerPlayer player = person.getServerPlayer();
+        if (player.getInventory().add(item)) { // Если предмет может быть "снят"
+            this.equipment[index] = null;
+            AbstractContainerMenu menu = player.containerMenu;
+            if (menu.getTitle().equals(EQUIPMENT_MENU.name(person.getPerson()))) {
+                menu.getSlot(slot).set(type.getIcon());
+            }
+            this.update();
         }
-        this.update();
-        addItems(player, item);
     }
 
     private int getAvailableIndex(int[] slots) {
@@ -142,23 +149,8 @@ public class Equipment {
      * - - - - - - - - -   0
      * S K - - - - - K S   4
      */
-    public void open(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, "Equipment");
-
-        int iconIndex = 0;
-        for (EquipType equip : EquipType.values()) {
-            int[] slots = equip.getSlots();
-            int[] indices = equip.getIndices();
-            for (int i = 0; i < equip.getIndices().length; i++) {
-                ItemStack stack = equipment[indices[i]];
-                if (stack == null) stack = equip.getIcon();
-                inv.setItem(slots[i], stack);
-            }
-            iconIndex++;
-        }
-
-        player.closeInventory();
-        player.openInventory(inv);
+    public void open(Person person) {
+        person.openMenu(EQUIPMENT_MENU);
     }
 
     @Nullable
@@ -223,7 +215,7 @@ public class Equipment {
             else {
 //                CompoundTag tag = (CompoundTag) nms.save(getOpsTag());
 
-                joiner.add(CraftItemStack.asNMSCopy(item).save(getOpsTag()).toString());
+                joiner.add(item.save(getOpsTag()).toString());
             }
         }
         return joiner.toString();
@@ -238,10 +230,8 @@ public class Equipment {
 
             try {
                 this.addEquipment(i, // index
-                        CraftItemStack.asBukkitCopy(
                                 net.minecraft.world.item.ItemStack.CODEC.parse(NbtOps.INSTANCE, TagParser.parseCompoundFully(serialItem))
                                 .getOrThrow()
-                        )
                 );
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e);

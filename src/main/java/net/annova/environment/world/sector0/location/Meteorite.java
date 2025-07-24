@@ -4,46 +4,34 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.event.UpdateTask;
 import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
+import net.annova.object.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import net.minecraft.core.particles.DustColorTransitionOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
-import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 import static net.annova.util.BukkitObjects.random;
+import static net.minecraft.world.level.GameType.SURVIVAL;
 
 public class Meteorite extends SectorLocation {
     public Meteorite() {
         WorldUpdateTimer.addTask(new UpdateTask() {
+            private static final DustColorTransitionOptions options = new DustColorTransitionOptions(65535, 8421504, 3.0f);
+
             @Override
             public void update() {
-                Location location = Meteorite.points[0];
-                World world = location.getWorld();
-                world.spawnParticle(Particle.FLAME, location, 400, 28, 20, 28);
-                for (Entity entity : world.getNearbyEntities(location, 32, 24, 32)) {
-                    if (entity instanceof Player) {
-                        RPGPerson person = getRPGPerson(entity);
-                        SHARDS.tryNaturalSpawn(entity.getLocation());
-
-                        if (CHITIN == person.getArmorSet()) continue;
-                    }
-                    entity.setFireTicks(250);
-                    if (entity instanceof LivingEntity living) living.damage(4.0);
-                }
+                world0.sendParticles(ParticleTypes.FLAME, meteoriteCenter.x, meteoriteCenter.y, meteoriteCenter.z, 400, 28, 20, 28, 0);
             }
 
             @Override
@@ -64,54 +52,50 @@ public class Meteorite extends SectorLocation {
             "s0-meteorite-msg-7",
             "s0-meteorite-msg-8",
     };
-    private final Map<Player, Long> messageCooldown = new HashMap<>();
+    private final Map<UUID, Long> messageCooldown = new HashMap<>();
 
     @Override
-    public void movement(RPGPerson person, Player player) {
+    public void movement(RPGPerson person, ServerPlayer player) {
         boolean isDamageable = true;
         if (CHITIN == person.getArmorSet()) isDamageable = false;
         if (isDamageable) {
-            double pDistanceSquared = player.getLocation().distanceSquared(this.points()[0]);
-            player.setFireTicks(120);
-            if (player.getGameMode() == GameMode.SURVIVAL) {
+            double distance = this.meteoriteCenter.distanceToSqr(player.position());
+            if (player.gameMode() == SURVIVAL) {
                 double damage;
-                int fireTicks;
-                if (pDistanceSquared <= 576) {
+                int fireSeconds;
+                if (distance < 576) {
                     damage = 16;
-                    fireTicks = 600;
+                    fireSeconds = 30;
                 } else {
-                    double koefficient = 1 - pDistanceSquared / 3600;
+                    double koefficient = 576 / distance;
                     damage = 6 * koefficient;
-                    fireTicks = (int) (200 * koefficient);
+                    fireSeconds = (int) (30 * koefficient);
                 }
-                player.setFireTicks(fireTicks);
+                player.igniteForSeconds(fireSeconds);
                 person.damage(damage);
             }
         }
 
+        UUID uuid = player.getUUID();
         long millis = System.currentTimeMillis();
-        if (messageCooldown.containsKey(player) && millis < messageCooldown.get(player)) return;
-        messageCooldown.put(player, millis + 1800_000); // 30 min
+        if (messageCooldown.containsKey(uuid) && millis < messageCooldown.get(uuid)) return;
+        messageCooldown.put(uuid, millis + 1800_000); // 30 min
 
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_METEORITE, METEORITE_GOLEM);
+    private final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_METEORITE, METEORITE_GOLEM);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;
     }
 
-    private static final Location[] points = new org.bukkit.Location[] {
-            new org.bukkit.Location(world0, 715, 70, -183)
+    private final Vec3 meteoriteCenter = new Vec3(726.5, 40.5, -190.5);
+    private final Vec3iSelection[] borders = new Vec3iSelection[] {
+            new Vec3iSelection(670, 30, -132, 767, 80, -228)
     };
     @Override
-    public org.bukkit.Location[] points() {
-        return points;
-    }
-
-    @Override
-    public int squaredRadius() {
-        return 3600;
+    public Vec3iSelection[] borders() {
+        return borders;
     }
 }

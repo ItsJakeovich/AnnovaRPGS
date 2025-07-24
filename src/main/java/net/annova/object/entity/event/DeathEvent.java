@@ -10,6 +10,9 @@ import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
@@ -67,15 +70,17 @@ public class DeathEvent implements Listener {
             case PRISONER, SECURITY -> person.addDungeonPoints(2);
             case ZERO -> {
                 person.addDungeonPoints(1000);
-                getDungeonWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, entity.getLocation(), 3);
+                Vec3 position = entity.entity.position();
+                ServerLevel level = getDungeonWorld();
+                level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, position.x, position.y, position.z, 3, 0, 0, 0, 0);
                 if (chance(0.125)) {
                     DungeonTemplate dungeonTemplate = dungeon.getBase().getTemplate();
-                    dungeonTemplate.getAnimation("boss_gate", 1).start(dungeon.getPosition(), dungeonTemplate.getStructure());
-                    dungeonTemplate.getAnimation("mb_gate", 0).start(dungeon.getPosition(), dungeonTemplate.getStructure());
+                    dungeonTemplate.getAnimation("boss_gate", 1).start(level, dungeon.getPosition(), dungeonTemplate.getStructure());
+                    dungeonTemplate.getAnimation("mb_gate", 0).start(level, dungeon.getPosition(), dungeonTemplate.getStructure());
 
                     List<RPGEntity> entities = dungeonTemplate.getEntities().get(102);
-                    entities.forEach(major -> dungeon.spawnEntity(major, dungeon.getPosition().clone()
-                            .add(dungeonTemplate.getStructure().getLocationWithPoint(getDungeonWorld(), entities.getFirst().getPoint()))));
+                    entities.forEach(major -> dungeon.spawnEntity(major, dungeon.getPosition().offset(
+                            dungeonTemplate.getStructure().getPositionWithPoint(entities.getFirst().getPoint()))));
 
                     dungeon.send("dungeon-prison-major");
                 } else dungeon.endDungeon(240);

@@ -3,26 +3,19 @@ package net.annova.environment.world.sector0.location;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.event.UpdateTask;
 import net.annova.environment.world.event.WorldUpdateTimer;
+import net.annova.object.Vec3iSelection;
 import net.annova.object.person.RPGPerson;
-import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.object.LocationCategory;
-import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
-import net.annova.thread.event.HourTickEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
-import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.main.Keys.POSTAMENT_DRIADASONG;
 import static net.annova.object.entity.core.RPGEntityType.*;
-import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class DryadPedestal extends SectorLocation {
@@ -30,10 +23,10 @@ public class DryadPedestal extends SectorLocation {
         WorldUpdateTimer.addTask(new UpdateTask() {
             @Override
             public void update() {
-                for (Player player : world0.getPlayers()) {
+                for (ServerPlayer player : world0.players()) {
                     RPGPerson person = getRPGPerson(player);
                     if (person.getSectorLocation() instanceof DarkForest) {
-                        player.playSound(player, "location.postament.songdriada.songdriada", 1, 1);
+                        player.playSound(POSTAMENT_DRIADASONG, 1, 1);
                     }
                 }
             }
@@ -57,31 +50,26 @@ public class DryadPedestal extends SectorLocation {
     private final Map<UUID, Long> messageCooldown = new HashMap<>();
 
     @Override
-    public void movement(RPGPerson person, Player player) {
+    public void movement(RPGPerson person, ServerPlayer player) {
         long millis = System.currentTimeMillis();
-        UUID id = player.getUniqueId();
+        UUID id = player.getUUID();
         if (messageCooldown.containsKey(id) && millis < messageCooldown.get(id)) return;
         messageCooldown.put(id, millis + 1800_000); // 30 min
 
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD/*, FANG, WEREWOLF*/);
+    private final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD/*, FANG, WEREWOLF*/);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;
     }
 
-    private static final Location[] points = new org.bukkit.Location[] {
-            new org.bukkit.Location(world0, -466, 71, 242)
+    private final Vec3iSelection[] borders = new Vec3iSelection[] {
+            new Vec3iSelection(-362, 0, 123, -585, 256, 394)
     };
     @Override
-    public org.bukkit.Location[] points() {
-        return points;
-    }
-
-    @Override
-    public int squaredRadius() {
-        return 15625;
+    public Vec3iSelection[] borders() {
+        return borders;
     }
 }

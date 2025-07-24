@@ -10,8 +10,8 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.quest.QuestBase;
 import net.annova.environment.structure.Structure;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static net.annova.util.BukkitObjects.getWorld;
+import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
 
 public class GlobalRPG {
     private static final Map<String, RPGPerson> persons = new HashMap<>();
@@ -32,7 +32,7 @@ public class GlobalRPG {
 
     private static final Map<UUID, RPGEntity> entities = new HashMap<>();
 
-    private static final World dungeonWorld = getWorld("dungeon_world");
+    private static final ServerLevel dungeonWorld = loadWorldAndGet("dungeon_world");
     private static final Map<Integer, DungeonTemplate> dTemplates = new HashMap<>();
     private static final Map<Integer, Dungeon> dungeons = new HashMap<>();
     private static final Map<String, Structure> structures = new HashMap<>();
@@ -98,6 +98,14 @@ public class GlobalRPG {
         return entities.get(entity.getUniqueId());
     }
     @Nullable
+    public static RPGEntity getRPGEntity(net.minecraft.world.entity.Entity entity) {
+        return entities.get(entity.getUUID());
+    }
+    @Nullable
+    public static RPGEntity getRPGEntity(UUID uuid) {
+        return entities.get(uuid);
+    }
+    @Nullable
     public static RPGEntity getRPGEntity(LivingEntity entity) {
         return entities.get(entity.getUniqueId());
     }
@@ -121,7 +129,7 @@ public class GlobalRPG {
         return entities.values();
     }
 
-    public static World getDungeonWorld() {
+    public static ServerLevel getDungeonWorld() {
         return dungeonWorld;
     }
 

@@ -12,6 +12,7 @@ weapon-cast: "{pc}❖ {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 sector-loc-empty: "{sc}пустошь"
 ## equipment
 equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот полон!"
+equipment-menu: "{pc}≡ {mc}Экипировка"
 ## commands ≡ ● ◆ ❖
 # avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"

@@ -1,28 +1,37 @@
 package net.annova.util;
 
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_21_R4.CraftRegistry;
 
 public enum AMaterial {
-    BW(Material.BLACKSTONE_WALL),
-    BLACK_CONCTR(Material.BLACK_CONCRETE)
+    BW(Blocks.BLACKSTONE_WALL),
+    BLACK_CONCTR(Blocks.BLACK_CONCRETE)
     ;
-    private final Material material;
+    private final BlockState material;
 
-    AMaterial(Material material) {
-        this.material = material;
+    AMaterial(Block material) {
+        this.material = material.defaultBlockState();
     }
 
-    public static Material getMaterial(String id) {
+    public static BlockState getMaterial(String id) {
         id = id.toUpperCase();
         try {
             return AMaterial.valueOf(id).material;
         } catch (IllegalArgumentException e) {
             try {
-                return Material.valueOf(id);
-            } catch (IllegalArgumentException ex) {
+                return BlockStateParser.parseForBlock(
+                        CraftRegistry.getMinecraftRegistry(Registries.BLOCK),
+                        new StringReader(id), false).blockState();
+            } catch (CommandSyntaxException | IllegalArgumentException ex) {
                 Bukkit.getLogger().warning("Не найден: " + id);
-                return Material.REDSTONE_BLOCK;
+                return Blocks.REDSTONE_BLOCK.defaultBlockState();
             }
         }
     }

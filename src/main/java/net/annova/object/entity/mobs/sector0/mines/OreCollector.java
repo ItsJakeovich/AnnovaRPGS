@@ -10,7 +10,6 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

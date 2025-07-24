@@ -15,7 +15,6 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.FOREST_WOLF;
 import static net.annova.object.item.base.ItemType.WOLF_SKIN;
 import static net.annova.util.BukkitObjects.random;
@@ -77,7 +76,7 @@ public class ForestWolf extends RPGEntity implements CustomType, EntitySpawn {
     public void onSpawn(ServerLevel level, Vec3 position) {
         // от 0 до 3 собратьев
         for (int i = random.nextInt(4); i != 0; i--) {
-            FOREST_WOLF.getEntity().create(location, true);
+            FOREST_WOLF.getEntity().create(position, level, true);
         }
     }
 }
