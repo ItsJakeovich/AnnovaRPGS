@@ -4,6 +4,7 @@ import net.annova.main.GlobalRPG;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.person.RPGPerson;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -18,7 +19,8 @@ public class TargetEvent implements Listener {
     @EventHandler
     public void target(EntityTargetEvent event) {
         Entity entity = event.getEntity();
-        if (event.getTarget() instanceof Player player) {
+        net.minecraft.world.entity.Entity target = ((CraftEntity) event.getTarget()).getHandle();
+        if (target instanceof Player player) {
             RPGPerson person = getRPGPerson(player);
             EntityType type = entity.getType();
             if ((type == EntityType.SPIDER || type == EntityType.CAVE_SPIDER)
@@ -28,7 +30,7 @@ public class TargetEvent implements Listener {
         RPGEntity rpg = GlobalRPG.getRPGEntity(entity);
         if (rpg == null) return;
         if (rpg instanceof EntityAction action) {
-            if (action.onTarget(event.getTarget())) return;
+            if (action.onTarget(target)) return;
             event.setCancelled(true);
         }
     }

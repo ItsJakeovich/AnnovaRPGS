@@ -13,7 +13,7 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 public class AvatarCode {
     @CommandArg(name = "equipment", aliases = {"equip", "экипировка", "экип", "уйгшзьуте", "'rbgbhjdrf", "уйгшз"})
     public void equipment(Player player) {
-        getRPGPerson(player).getEquipment().open(player);
+        getRPGPerson(player).getEquipment().open();
     }
 
     @CommandArg(name = "info", aliases = {"information", "инфо", "информация", "штащ", "byaj"})

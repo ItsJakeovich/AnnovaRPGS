@@ -1,14 +1,15 @@
 package net.annova.thread;
 
 import net.annova.environment.world.SectorLocation;
-import net.annova.environment.world.WorldSector;
 import net.annova.object.LocationCategory;
-import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.MinuteTickEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,11 +22,11 @@ import static net.annova.util.BukkitObjects.random;
 public class UpdateSpawnTimer implements Listener {
     @EventHandler
     public void run(MinuteTickEvent event) {
-        for (WorldSector sector : worldSectors.values()) {
-            for (SectorLocation location : sector.zones()) {
-                Location[] points = location.points();
+        for (ServerLevel level : worldSectors.keySet()) {
+            for (SectorLocation location : worldSectors.get(level).zones()) {
+                Vec3iSelection[] borders = location.borders();
                 for (RPGEntityType entity : location.entitiesToSpawn()) {
-                    entity.tryNaturalSpawn(points[random.nextInt(points.length)]);
+                    entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 0);
                 }
             }
         }
@@ -36,10 +37,12 @@ public class UpdateSpawnTimer implements Listener {
             RPGEntityType[] entities = getEntitiesByCategory(LocationCategory.EVERYWHERE).toArray(new RPGEntityType[0]);
 
             // Entity spawn
-            Location location = player.getLocation();
+            ServerPlayer serverPlayer = person.getServerPlayer();
+            Vec3 position = serverPlayer.position();
+            ServerLevel level = serverPlayer.serverLevel();
             for (int i = random.nextInt(5)+1; i != 0; i--) { // от 1 до 5
                 RPGEntityType entity = entities[random.nextInt(entities.length)];
-                if (entity.getCondition().canSpawn(location)) entity.tryNaturalSpawn(location);
+                if (entity.getCondition().canSpawn(position, level)) entity.tryNaturalSpawn(position, level, 16);
             }
         }
     }

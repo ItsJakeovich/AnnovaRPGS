@@ -8,11 +8,10 @@ import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.magic.projectile.HarryBall;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.bukkit.Location;
-import org.bukkit.entity.Creature;
-import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Set;
@@ -76,19 +75,19 @@ public class Harry extends RPGEntity implements EntityActivity {
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        Creature creature = (Creature) entity.getBukkitEntity();
-                        if (creature.getTarget() == null) {
+                        Mob mob = entity;
+                        LivingEntity target = mob.getTarget();
+                        if (target == null) {
                             entity.setSpeed(Harry.this.speed());
                             return true;
                         } else {
                             entity.setSpeed(0);
                         }
 
-                        Location from = creature.getEyeLocation().clone().add(0, -0.5, 0);
-                        from.add(from.getDirection().multiply(2.5));
-
-                        Vector direction = creature.getTarget().getEyeLocation().toVector().subtract(from.toVector()).normalize();
-                        new HarryBall((org.bukkit.entity.LivingEntity) creature).create(from.setDirection(direction));
+                        new HarryBall(mob).create(mob.getEyePosition().add(0, -0.5, 0),
+                                target.getEyePosition(),
+                                mob.level().getMinecraftWorld()
+                        );
                         return true;
                     }
 

@@ -8,6 +8,7 @@ import net.annova.object.*;
 import net.annova.environment.structure.Structure;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -86,7 +87,7 @@ public class ConfirmRPGEvent implements Listener {
             case "structure" -> {
                 Structure structure = (Structure) confirm.getData().get("structure");
                 ServerPlayer player = person.getServerPlayer();
-                structure.getBase().create(structure, player.position(), player.serverLevel());
+                structure.getBase().create(structure, BlockPos.containing(player.position()), player.serverLevel());
             }
             default -> {
                 return;

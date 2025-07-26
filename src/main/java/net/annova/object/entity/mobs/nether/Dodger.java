@@ -104,7 +104,7 @@ public class Dodger extends RPGEntity implements EntityAction {
                 entity.setItemInHand(InteractionHand.MAIN_HAND, check);
                 inventory.setItem(index, ItemStack.EMPTY);
                 entity.removeEffect(MobEffects.INVISIBILITY);
-                getChorusLocation(entity.position(), (ServerLevel) entity.level(), 10);
+                getChorusLocation(entity.position(), entity.level().getMinecraftWorld(), 10);
                 break;
             }
         }

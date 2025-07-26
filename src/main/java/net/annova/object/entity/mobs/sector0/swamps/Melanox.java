@@ -14,16 +14,15 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomMelanox;
 import net.annova.object.magic.projectile.MelanoxRay;
 import net.annova.object.magic.projectile.WebBall;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
@@ -108,9 +107,9 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
                     public boolean activity() {
                         if (((Mob) entity).getTarget() == null) return true;
 
-                        Location location = Melanox.this.getLocation();
+                        Vec3 position = entity.position();
                         for (int i = 0; i < 6; i++) {
-                            new MelanoxRay().create(location.clone(), location.clone().add(random.nextDouble(2) - 1, random.nextDouble(0.4), random.nextDouble(2) - 1));
+                            new MelanoxRay().create(entity, position.add(random.nextDouble(2)-1, random.nextDouble(0.4), random.nextDouble(2)-1));
                         }
                         return true;
                     }
@@ -125,7 +124,7 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
                     public boolean activity() {
                         LivingEntity target = ((Mob) entity).getTarget();
                         if (target != null) {
-                            new WebBall().create(entity, target.getBukkitEntity());
+                            new WebBall().create(entity, target);
                         } return true;
                     }
 
@@ -178,23 +177,18 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
     }
 
     @Override
-    public boolean onAttack(org.bukkit.entity.LivingEntity target) {
+    public boolean onAttack(LivingEntity target) {
         return true;
     }
 
     @Override
-    public void onDamage(MobDamageCE event, org.bukkit.entity.LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         if (this.entity.getHealth() < this.entity.getMaxHealth()*0.15 && chance(0.1)) {
-            damager.setVelocity(damager.getLocation().toVector().subtract(this.getLocation().toVector())
-                    .normalize().multiply(3)
-            );
+            damager.setDeltaMovement(damager.position().subtract(entity.position()).normalize().scale(3));
+            damager.hurtMarked = true;
         }
-        org.bukkit.inventory.ItemStack item = damager.getEquipment().getItemInMainHand();
-        if (!item.getType().isAir() && chance(0.05)) {
-            ItemMeta meta = item.getItemMeta();
-            MELANOX_POISON.addModulit(meta.getPersistentDataContainer());
-            item.setItemMeta(meta);
-        }
+        ItemStack item = damager.getItemInHand(InteractionHand.MAIN_HAND);
+        if (!item.isEmpty() && chance(0.05)) MELANOX_POISON.addModulit(item);
     }
 
     @Override

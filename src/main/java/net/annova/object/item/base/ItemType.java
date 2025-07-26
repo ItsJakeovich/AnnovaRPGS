@@ -39,6 +39,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -275,6 +276,9 @@ public enum ItemType {
     public boolean equals(org.bukkit.inventory.ItemStack item) {
         return this.id.equals(getItemId(item));
     }
+    public boolean equals(ItemStack item) {
+        return this.id.equals(getItemId(item));
+    }
 
     /**
      * @return true if item found and decreased.
@@ -298,9 +302,12 @@ public enum ItemType {
         return false;
     }
 
-    /**
-     * @return true if item similar and decreased.
-     */
+    public boolean use(Player player) {
+        return this.use(player, player.getInventory().getItemInMainHand());
+    }
+    public boolean use(Player player, String itemId) {
+        return this.use(player, itemId, player.getInventory().getItemInMainHand());
+    }
     public boolean use(Player player, org.bukkit.inventory.ItemStack item) {
         return this.use(player, getItemId(item), item);
     }
@@ -309,11 +316,10 @@ public enum ItemType {
         RPGItem.subtractItem(player, item);
         return true;
     }
-    public boolean use(Player player) {
-        return this.use(player, player.getInventory().getItemInMainHand());
-    }
-    public boolean use(Player player, String itemId) {
-        return this.use(player, itemId, player.getInventory().getItemInMainHand());
+    public boolean use(ServerPlayer player, ItemStack item) {
+        if (!this.id.equals(getItemId(item))) return false;
+        RPGItem.subtractItem(player, item);
+        return true;
     }
 
     @Nullable

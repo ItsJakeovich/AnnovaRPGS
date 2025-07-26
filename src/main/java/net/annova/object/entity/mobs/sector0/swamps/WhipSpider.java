@@ -10,11 +10,13 @@ import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.magic.projectile.WebBall;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.*;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
@@ -81,18 +83,18 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
         return true;
     }
 
-    private final PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 40, 0);
+    private final MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 40, 0);
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
         if (entity.getHealth() < entity.getMaxHealth()*0.5 && chance(0.3)) {
             double reflection = event.getBaseDamage() * 0.9;
             event.decreaseDamage(reflection);
-            if (reflection > 1) damager.damage(reflection);
+            if (reflection > 1) damager.hurtServer(damager.level().getMinecraftWorld(), damager.damageSources().mobAttack(entity), (float) reflection);
 
             if (damager instanceof Player player) {
                 getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);
             }
-            damager.addPotionEffect(blindness);
+            damager.addEffect(BLINDNESS);
         }
     }
 

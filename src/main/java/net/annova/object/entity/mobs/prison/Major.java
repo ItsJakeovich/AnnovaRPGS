@@ -79,7 +79,7 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
     @Override
     public void onSpawn(ServerLevel level, Vec3 position) {
         for (int i = 6; i > 0; i--) {
-            RPGEntityType.SECURITY.getEntity().create(location);
+            RPGEntityType.SECURITY.getEntity().create(position, level);
         }
     }
 

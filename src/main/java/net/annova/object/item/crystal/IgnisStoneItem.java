@@ -1,23 +1,22 @@
 package net.annova.object.item.crystal;
 
+import net.annova.event.custom.InteractCE;
 import net.annova.object.RPGRarity;
-import net.annova.object.person.status.Status;
 import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -46,17 +45,16 @@ public class IgnisStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    private static final MobEffectInstance FIRE_RESISTANCE = new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200, 0);
     @EventHandler
-    private void mechanic(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (!IGNIS_STONE.use(player, item)) return;
+    private void mechanic(InteractCE event) {
+        ServerPlayer player = event.getPerson().getServerPlayer();
+        if (!IGNIS_STONE.use(player, event.getItemInHand())) return;
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1200, 0));
+        player.addEffect(FIRE_RESISTANCE);
         RPGPerson person = getRPGPerson(player);
         StatusManager manager = person.getStatusManager();
-        Status status = manager.getStatus(IGNIS);
-        if (status != null) return;
+        if (manager.getStatus(IGNIS) != null) return;
 
         manager.addStatus(IGNIS);
     }

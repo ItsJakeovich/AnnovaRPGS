@@ -6,10 +6,10 @@ import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class MotherSpider extends RPGEntity implements EntityAction {
 
         if (summoned.size() < 5) {
             for (int i = random.nextInt(2); i < 2; i++) { // от 1 до 2
-                summoned.add(SWAMP_SPIDER.getEntity().create(this.getLocation()));
+                summoned.add(SWAMP_SPIDER.getEntity().create(entity));
             }
         }
     }

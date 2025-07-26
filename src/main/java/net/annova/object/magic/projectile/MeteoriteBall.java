@@ -4,12 +4,15 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.bukkit.Location;
+import org.bukkit.World;
 
 public class MeteoriteBall extends ParticleProjectile {
     @Override
     public void onHit(Vec3 position, ServerLevel level) {
-        position.createExplosion(6, true, false);
+        level.explode(null, position.x, position.y, position.z, 6, true, Level.ExplosionInteraction.NONE);
     }
 
     @Override

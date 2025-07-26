@@ -3,9 +3,9 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.event.custom.MobDamageCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static net.annova.object.item.base.ItemType.NALIM_FISH;
 
@@ -38,20 +39,20 @@ public class NalimFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
-    private final Map<LivingEntity, Long> duration = new HashMap<>();
+    private final Map<UUID, Long> duration = new HashMap<>();
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!NALIM_FISH.equals(event.getItem())) return;
-        duration.put(event.getPlayer(), System.currentTimeMillis()+600_000);
+        duration.put(event.getPlayer().getUniqueId(), System.currentTimeMillis()+600_000);
     }
     @EventHandler
     public void onDamage(MobDamageCE event) {
         if (!event.getEvent().getCause().equals(EntityDamageEvent.DamageCause.DROWNING)) return;
         LivingEntity player = event.getEntity();
-        Long until = duration.get(player);
+        Long until = duration.get(player.getUUID());
         if (until != null) {
             if (System.currentTimeMillis() > until) {
-                duration.remove(player);
+                duration.remove(player.getUUID());
                 return;
             }
 

@@ -113,13 +113,13 @@ public abstract class RPGEntity {
     }
 
     public void createWithTarget(RPGEntity entity, LivingEntity target) {
-        this.createWithTarget((ServerLevel) entity.entity.level(), entity.entity.position(), target, 2);
+        this.createWithTarget(entity.entity.level().getMinecraftWorld(), entity.entity.position(), target, 2);
     }
     public void createWithTarget(RPGEntity entity, LivingEntity target, int chorus) {
-        this.createWithTarget((ServerLevel) entity.entity.level(), entity.entity.position(), target, chorus);
+        this.createWithTarget(entity.entity.level().getMinecraftWorld(), entity.entity.position(), target, chorus);
     }
     public Mob createWithTarget(LivingEntity entity, LivingEntity target, int chorus) {
-        return this.createWithTarget((ServerLevel) entity.level(), entity.position(), target, chorus);
+        return this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus);
     }
     public Mob createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus) {
         return this.createWithTarget(level, position, target, chorus, 0);
@@ -131,7 +131,7 @@ public abstract class RPGEntity {
         return this.createWithTarget(level, position, target, chorus, 0);
     }
     public Mob createWithTarget(LivingEntity entity, LivingEntity target, int chorus, long discardedAfter) {
-        return this.createWithTarget((ServerLevel) entity.level(), entity.position(), target, chorus, discardedAfter);
+        return this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus, discardedAfter);
     }
     public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
         Mob living = this.create(position, level, chorus);
@@ -143,7 +143,7 @@ public abstract class RPGEntity {
 
 
     public LivingEntity create(LivingEntity entity) {
-        ServerLevel level = (ServerLevel) entity.level(); // если что попробуй .getMinecraftWorld()
+        ServerLevel level = entity.level().getMinecraftWorld(); // если что попробуй .getMinecraftWorld()
         return this.create(getChorusLocation(entity.position(), level, 1), level);
     }
     public Mob create(Vec3 position, ServerLevel level) {
@@ -298,6 +298,6 @@ public abstract class RPGEntity {
         } else if (damager instanceof org.bukkit.entity.LivingEntity) {
             reason = damager.damageSources().mobAttack(damager);
         }
-        entity.hurtServer((ServerLevel) damager.level(), reason, damage);
+        entity.hurtServer(damager.level().getMinecraftWorld(), reason, damage);
     }
 }

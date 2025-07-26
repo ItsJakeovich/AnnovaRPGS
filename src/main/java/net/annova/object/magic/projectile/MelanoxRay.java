@@ -4,21 +4,22 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class MelanoxRay extends ParticleProjectile {
-    private final PotionEffect poison = new PotionEffect(PotionEffectType.POISON, 40, 3);
-    private final PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 120, 0);
+    private final MobEffectInstance POISON = new MobEffectInstance(MobEffects.POISON, 40, 3);
+    private final MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 120, 0);
     @Override
     public void onHit(Vec3 position, ServerLevel level) {
-        for (Entity entity : position.getWorld().getNearbyEntities(position, 1, 1, 1)) {
+        for (Entity entity : level.getEntities((net.minecraft.world.entity.Entity) null, new AABB(position, position).inflate(1, 1, 1))) {
             if (entity instanceof LivingEntity living) {
-                living.addPotionEffect(poison);
-                living.addPotionEffect(slowness);
+                living.addEffect(POISON);
+                living.addEffect(SLOWNESS);
             }
         }
     }

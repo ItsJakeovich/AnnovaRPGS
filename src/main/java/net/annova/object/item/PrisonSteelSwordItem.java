@@ -1,21 +1,18 @@
 package net.annova.object.item;
 
-import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
+import net.annova.object.item.base.attribute.ItemAction;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.RPGRarity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.object.item.base.ItemType.PRISON_STEEL_SWORD;
-
-public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
+public class PrisonSteelSwordItem extends RPGItem implements ItemAction, RPGTool {
     @Override
     public Item type() {
         return Items.IRON_SWORD;
@@ -46,10 +43,9 @@ public class PrisonSteelSwordItem extends RPGItem implements RPGTool, Listener {
         return 1.6;
     }
 
-    @EventHandler
-    private void hit(BattleCE event) {
-        if (!PRISON_STEEL_SWORD.equals(event.getDamager().getEquipment().getItemInMainHand())) return;
-
-        event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 300, 0));
+    private static final MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 300, 0);
+    @Override
+    public void onAttack(LivingEntity entity, LivingEntity target) {
+        target.addEffect(BLINDNESS);
     }
 }

@@ -3,21 +3,19 @@ package net.annova.object.magic.projectile;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_21_R4.CraftFluidCollisionMode;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
-import org.bukkit.craftbukkit.v1_21_R4.util.CraftRayTraceResult;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
+
+import java.util.Collection;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.BukkitObjects.sendPackets;
@@ -29,7 +27,24 @@ public abstract class ParticleProjectile {
     public abstract boolean isGravity();
 
     public void create(LivingEntity entity, Entity target) {
-        this.create(((Creature) entity).getEyeLocation(), target.getLocation());
+        this.create(entity.getEyePosition(), target.getEyePosition(), entity.level().getMinecraftWorld());
+    }
+    public void create(LivingEntity entity, Vec3 to) {
+        this.create(entity.getEyePosition(), to, entity.level().getMinecraftWorld());
+    }
+    public void create(Vec3 from, Vec3 to, ServerLevel level) {
+        Vec3 direction = to.add(0, 1, 0).subtract(from).normalize();
+
+        float pitch, yaw = 0;
+
+        double x = direction.x, z = direction.z;
+        if (x == 0 && z == 0) pitch = direction.y > 0 ? -90 : 90;
+        else {
+            yaw = (float)Math.toDegrees((Math.atan2(-x, z) + (Math.PI * 2D)) % (Math.PI * 2D));
+            pitch = (float)Math.toDegrees(Math.atan(-direction.y / Math.sqrt(x*x + z*z)));
+        }
+
+        this.tick(from.add(direction.scale(2.5)), yaw, pitch, direction.y, level);
     }
     public void create(Location from, Location to) {
         Vector direction = to.add(0,1, 0).toVector().subtract(from.toVector()).normalize();
@@ -59,18 +74,11 @@ public abstract class ParticleProjectile {
 
                 Vec3 direction = Vec3.directionFromRotation(yaw, pitch);
                 direction = new Vec3(direction.x, vertical, direction.z).normalize();
-                World world;
-                RayTraceResult result = world.rayTrace(position, direction, speed, FluidCollisionMode.NEVER,
-                        false, 1, null);
 
-                if (result != null) {
-                    Material type = result.getHitBlock() == null ? Material.AIR : result.getHitBlock().getType();
-                    if ((!type.equals(Material.AIR) && !type.equals(Material.BARRIER) && !type.equals(Material.WATER))
-                            || result.getHitEntity() != null) {
-                        ParticleProjectile.this.onHit(position, level);
-                        this.cancel();
-                        return;
-                    }
+                if (isCollision(level, position, direction, speed)) {
+                    ParticleProjectile.this.onHit(position, level);
+                    this.cancel();
+                    return;
                 }
                 Vector q;
 
@@ -94,26 +102,15 @@ public abstract class ParticleProjectile {
         }.runTaskTimer(getInstance(), 0L, 1);
     }
 
-    public void rayTrace(ServerLevel level, World world) {
-        Vector dir = direction.clone().normalize().multiply(maxDistance);
-        Vec3 startPos = CraftLocation.toVec3D(start);
-        Vec3 endPos = startPos.add(dir.getX(), dir.getY(), dir.getZ());
-        HitResult nmsHitResult = level.clip(new ClipContext(startPos, endPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, CollisionContext.empty()));
-        Vec3 startVec = null;
-        double blockHitDistance = maxDistance;
-        if (blockHit != null) {
-            startVec = start.toVector();
-            blockHitDistance = startVec.distance(blockHit.getHitPosition());
-        }
+    public static boolean isCollision(ServerLevel level, Vec3 position, Vec3 direction, double maxDistance) {
+        Vec3 dir = direction.scale(maxDistance);
+        Vec3 endPos = position.add(dir.x, dir.y, dir.z);
+        HitResult nmsHitResult = level.clip(new ClipContext(position, endPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, CollisionContext.empty()));
+        if (nmsHitResult.getType() != HitResult.Type.MISS) return true;
 
-        RayTraceResult entityHit = world.rayTraceEntities(start, direction, blockHitDistance, raySize, filter);
-        if (blockHit == null) {
-            return entityHit;
-        } else if (entityHit == null) {
-            return blockHit;
-        } else {
-            double entityHitDistanceSquared = startVec.distanceSquared(entityHit.getHitPosition());
-            return entityHitDistanceSquared < blockHitDistance * blockHitDistance ? entityHit : blockHit;
-        }
+        Collection<net.minecraft.world.entity.Entity> entities = level.getEntities((net.minecraft.world.entity.Entity) null,
+                new AABB(position, position).expandTowards(dir).inflate(0.25)
+        );
+        return !entities.isEmpty(); // true если попало.
     }
 }

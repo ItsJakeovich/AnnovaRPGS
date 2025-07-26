@@ -45,7 +45,7 @@ public class AnglerfishSpawnEgg extends RPGItem implements Listener {
         Player player = event.getPlayer();
         CraftBlock block = (CraftBlock) event.getClickedBlock();
         if (block == null) return;
-        new AnglerFish().create(block.getPosition().getBottomCenter(), (ServerLevel) block.getHandle());
+        new AnglerFish().create(block.getPosition().getBottomCenter(), block.getHandle().getMinecraftWorld());
 
         event.setCancelled(true);
         player.swingMainHand();

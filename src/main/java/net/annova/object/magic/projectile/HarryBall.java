@@ -1,16 +1,18 @@
 package net.annova.object.magic.projectile;
 
+import com.google.common.base.Predicates;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -28,24 +30,28 @@ public class HarryBall extends ParticleProjectile {
         return summoner;
     }
 
+    private final static MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 200, 0);
+    private final static MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 200, 0);
     @Override
     public void onHit(Vec3 position, ServerLevel level) {
-        for (Entity ent : position.getWorld().getNearbyEntities(position, 2, 2, 2, entity -> entity instanceof LivingEntity)) {
-            LivingEntity entity = (LivingEntity) ent;
+        for (Entity target : level.getEntities((Entity) null, new AABB(position, position).inflate(2.25), Predicates.instanceOf(LivingEntity.class))) {
+            LivingEntity entity = (LivingEntity) target;
             switch (effect.getRandom()) {
-                case TELEPORT -> entity.teleport(getChorusLocation(position, 16));
+                case TELEPORT -> {
+                    Vec3 newPos = getChorusLocation(position, level, 16);
+                    entity.teleportTo(newPos.x, newPos.y, newPos.z);
+                }
                 case DAMAGE -> {
-                    entity.damage(10);
-                    entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0));
-                    entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 200, 0));
+                    entity.hurtServer(level, level.damageSources().generic(), 10);
+                    entity.addEffect(BLINDNESS); entity.addEffect(SLOWNESS);
                 }
                 case COMBUST -> {
-                    entity.setFireTicks(300);
-                    double maxHealth = summoner.getAttribute(Attribute.MAX_HEALTH).getValue();
+                    entity.igniteForSeconds(15);
+                    float maxHealth = (float) summoner.getAttribute(Attributes.MAX_HEALTH).getValue();
                     summoner.setHealth(Math.min(summoner.getHealth()+20, maxHealth));
                 }
                 case FREEZE -> {
-                    entity.setFreezeTicks(500);
+                    entity.igniteForSeconds(25);
                     if (entity instanceof Player player) {
                         getRPGPerson(player).getStatusManager().addStatus(HARRY_DEFENCE_DEBUFF);
                     }
@@ -54,7 +60,7 @@ public class HarryBall extends ParticleProjectile {
         }
     }
     private enum effect {
-        TELEPORT, // телепортирует на рандом место
+        TELEPORT, // телепортирует на случайное место
         DAMAGE, // накладывает слепоту и замедление + 10 урона
         COMBUST, // поджигает + восстанавливает себе 20 здоровья
         FREEZE // замораживает и снижает защиту на 50%

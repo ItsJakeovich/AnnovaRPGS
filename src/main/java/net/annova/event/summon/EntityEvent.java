@@ -93,7 +93,7 @@ public class EntityEvent implements Listener {
                     (float) finalDamage
             );
         }
-        this.spawnIndicator((ServerLevel) entity.level(), entity.position().add(0, entity.getEyeHeight(), 0), finalDamage);
+        this.spawnIndicator(entity.level().getMinecraftWorld(), entity.position().add(0, entity.getEyeHeight(), 0), finalDamage);
     }
 
     public static List<ArmorStand> indicators = new ArrayList<>();

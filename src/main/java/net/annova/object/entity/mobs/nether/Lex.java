@@ -6,10 +6,10 @@ import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 import java.util.HashSet;
 import java.util.List;
@@ -95,11 +95,11 @@ public class Lex extends RPGEntity implements EntityAction {
         if (!this.spawnedSoldiers) {
             Soldier soldier = new Soldier();
             for (int i = 0; i < 8; i++) {
-                soldiers.add(soldier.create(entity).getBukkitEntity());
+                soldiers.add(soldier.create(entity));
             }
             this.spawnedSoldiers = true;
         } else {
-            soldiers.removeIf(check -> !check.isValid());
+            soldiers.removeIf(check -> !check.isAlive() || !check.valid);
             event.setCancelled(!soldiers.isEmpty()); // if is not empty -> event cancelled.
         }
     }

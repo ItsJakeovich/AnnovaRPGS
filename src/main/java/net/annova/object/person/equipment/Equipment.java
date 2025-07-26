@@ -141,6 +141,9 @@ public class Equipment {
         return this.finalValue.get(type);
     }
 
+    public void open() {
+        this.open(person.getPerson());
+    }
     /** (e - belt)
      * R R R - A - R R R   7
      * R R - - C - - R R   5

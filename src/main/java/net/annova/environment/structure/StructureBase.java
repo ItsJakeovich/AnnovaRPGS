@@ -2,6 +2,7 @@ package net.annova.environment.structure;
 
 import net.annova.object.Person;
 import net.annova.object.SimpleConstruction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
@@ -47,7 +48,7 @@ public abstract class StructureBase {
         String[] loc = rs.getString("LOCATION").split(",");
         SimpleConstruction construction = structure.getConstruction();
         construction.setLevel(((CraftWorld) Bukkit.getWorld(loc[0])).getHandle());
-        construction.setBuildPoint(new Vec3(Double.parseDouble(loc[1]), Double.parseDouble(loc[2]), Double.parseDouble(loc[3])));
+        construction.setBuildPoint(new Vec3i(Integer.parseInt(loc[1]), Integer.parseInt(loc[2]), Integer.parseInt(loc[3])));
 
         this.onInit(rs);
 
@@ -60,10 +61,10 @@ public abstract class StructureBase {
         if (structure == null) return;
         SimpleConstruction construction = structure.getConstruction();
         ServerLevel level = construction.getLevel();
-        Vec3 build = construction.getBuildPoint();
+        Vec3i build = construction.getBuildPoint();
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", construction.getKey());
-        save.put("LOCATION", level.getLevel().L.getLevelName() + "," + build.x + "," + build.y + "," + build.z);
+        save.put("LOCATION", level.getLevel().L.getLevelName() + "," + build.getX() + "," + build.getY() + "," + build.getZ());
         save.put("START", this.isStart());
 
         this.onSave(save);
@@ -82,7 +83,7 @@ public abstract class StructureBase {
         );
     }
 
-    public void create(Structure structure, Vec3 position, ServerLevel level) {
+    public void create(Structure structure, Vec3i position, ServerLevel level) {
         if (runnable != null) runnable.cancel();
         this.structure = structure;
         SimpleConstruction construction = structure.getConstruction();

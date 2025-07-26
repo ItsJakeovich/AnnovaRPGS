@@ -12,15 +12,16 @@ import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomOlderEnt;
 import net.annova.object.magic.physic.EntRoots;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,7 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
     private Vec3 vec3;
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
-        LivingEntity nonRPG =event.getEntity();
+        LivingEntity nonRPG = event.getEntity();
         RPGEntity rpg = GlobalRPG.getRPGEntity(nonRPG);
         if (rpg instanceof OlderEnt ent) {
             ent.ENTS.removeIf(entCheck -> !entCheck.isAlive());
@@ -146,9 +147,9 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
                     @Override
                     public boolean activity() {
                         if (((net.minecraft.world.entity.Mob) entity).getTarget() != null) {
-                            Location location = OlderEnt.this.getLocation();
+                            ServerLevel level = entity.level().getMinecraftWorld();
                             for (int i = random.nextInt(3) + 1; i != 0; i--) {
-                                ENTS.add(ENT.getEntity().create(getChorusLocation(location, 8)));
+                                ENTS.add(ENT.getEntity().create(getChorusLocation(entity.position(), level, 8), level));
                             }
                         }
                         return true;
@@ -162,10 +163,12 @@ public class OlderEnt extends RPGEntity implements CustomType, EntityAction, Ent
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        for (Entity target : entity.level().getWorld().getNearbyEntities(OlderEnt.this.getLocation(), 8, 6, 8)) {
+                        Vec3 position = entity.position();
+                        for (Entity target : entity.level().getEntities(null, new AABB(position, position).inflate(8, 6, 8))) {
                             if (target instanceof LivingEntity living) {
                                 EntRoots.addPhysicDebuff(living);
-                                living.damage(1);
+                                ServerLevel level = target.level().getMinecraftWorld();
+                                living.hurtServer(level, level.damageSources().generic(), 1);
                             }
                         }
                         return true;

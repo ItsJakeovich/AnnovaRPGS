@@ -24,7 +24,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -67,7 +66,7 @@ public enum RPGEntityType {
     SOLDIER(NETHER, Soldier.class),
 
     // Sector 0 - Dryad Pedestal
-    DARK_WOLF(S0_DRYAD, DarkWolf.class, (Location location) -> isNight(location.getWorld())),
+    DARK_WOLF(S0_DRYAD, DarkWolf.class, (Vec3 position, ServerLevel level) -> isNight(level)),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
     FANG(S0_DRYAD, Fang.class),
     WEREWOLF(S0_DRYAD, Werewolf.class),
@@ -128,10 +127,10 @@ public enum RPGEntityType {
     }
 
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
-        this(category, clazz, chance, 0, (Location location) -> true);
+        this(category, clazz, chance, 0, (Vec3 position, ServerLevel level) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount) {
-        this(category, clazz, chance, maxAmount, (Location location) -> true);
+        this(category, clazz, chance, maxAmount, (Vec3 position, ServerLevel level) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount, SpawnCondition condition) {
         this.category = category;
@@ -147,11 +146,11 @@ public enum RPGEntityType {
         this.chance = chance;
         this.maxAmount = 1;
         this.boss = true;
-        this.condition = (Location location) -> true;
+        this.condition = (Vec3 position, ServerLevel level) -> true;
     }
 
     public interface SpawnCondition {
-        boolean canSpawn(Location location);
+        boolean canSpawn(Vec3 position, ServerLevel level);
     }
 
     public RPGEntity getEntity() {
@@ -192,14 +191,13 @@ public enum RPGEntityType {
         return maxAmount;
     }
 
-    public void tryNaturalSpawn(Vec3 position, ServerLevel level) {
+    public void tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus) {
         if (!chance(chance)) return;
         sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
 
         if (this.maxAmount != 0 && this.maxAmount <= getAmountByTypeEntity(this)) return;
 
-        Vec3 spawn = getChorusLocation(position, level, 20);
-        if (spawn == position) return;
+        Vec3 spawn = getChorusLocation(position, level, chorus);
         if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return;
         RPGEntity entity = this.getEntity();
         entity.create(spawn, level);

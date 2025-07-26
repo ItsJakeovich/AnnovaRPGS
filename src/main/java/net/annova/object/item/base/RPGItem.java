@@ -3,6 +3,7 @@ package net.annova.object.item.base;
 import net.annova.object.RPGRarity;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.CustomData;
 import org.bukkit.Sound;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static net.annova.main.Keys.*;
+import static net.minecraft.sounds.SoundEvents.PISTON_EXTEND;
 import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
 
 public abstract class RPGItem {
@@ -30,6 +32,13 @@ public abstract class RPGItem {
         else player.getInventory().remove(item);
 
         player.playSound(player, Sound.BLOCK_PISTON_EXTEND, 1, 1);
+    }
+    public static void subtractItem(ServerPlayer player, net.minecraft.world.item.ItemStack item) {
+        int count = item.getCount();
+        if (count > 1) item.setCount(count-1);
+        else player.getInventory().removeItem(item);
+
+        player.playSound(PISTON_EXTEND);
     }
 
     public static boolean hasItemId(ItemStack item) {

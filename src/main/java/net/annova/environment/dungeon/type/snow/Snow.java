@@ -4,7 +4,6 @@ import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.environment.dungeon.type.DungeonBase;
 import net.annova.object.SimpleStructure;
-import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
 import static net.annova.main.GlobalRPG.getDTemplate;
@@ -26,7 +25,6 @@ public class Snow implements DungeonBase {
     public void start(Dungeon dungeon) {
         this.dungeon = dungeon;
 
-        Location location = dungeon.getPosition();
         SimpleStructure structure = template.getStructure(0);
     }
 

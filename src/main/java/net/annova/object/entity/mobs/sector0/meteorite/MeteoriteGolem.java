@@ -20,7 +20,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Location;
 import org.bukkit.event.Listener;
 
 import java.util.List;
@@ -127,9 +126,12 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                             this.massivePullCooldown = 60;
                         }
                         if (ballCooldown <= 0) {
-                            Location location = MeteoriteGolem.this.getLocation().add(0, 2, 0);
+                            Vec3 position = entity.position();
                             for (int i = 0; i < 8; i++) {
-                                new MeteoriteBall().create(location.clone(), location.clone().add(random.nextDouble(4) - 2, -1, random.nextDouble(4) - 2));
+                                new MeteoriteBall().create(position,
+                                        position.add(random.nextDouble(4)-2, -1, random.nextDouble(4)-2),
+                                        entity.level().getMinecraftWorld()
+                                );
                             }
                             this.ballCooldown = 30;
                         }
@@ -141,7 +143,7 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                             Vec3 direction = target.position().subtract(pos).normalize().scale(3);
                             target.push(direction);
 
-                            target.hurtServer((ServerLevel) entity.level(), level.damageSources().mobAttack(entity), 4);
+                            target.hurtServer(entity.level().getMinecraftWorld(), level.damageSources().mobAttack(entity), 4);
                             EntRoots.addPhysicDebuff(target);
                         }
                         return true;

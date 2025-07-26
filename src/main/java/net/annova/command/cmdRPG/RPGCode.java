@@ -9,14 +9,12 @@ import net.annova.object.magic.projectile.*;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
-import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -41,13 +39,13 @@ public class RPGCode {
         switch (Integer.parseInt(args[1])) {
             case -2 -> player.getAttribute(Attribute.SCALE).setBaseValue(Double.parseDouble(args[2]));
             case -1 -> {
-                ServerLevel level = ((CraftWorld) world0).getHandle();
+                ServerLevel level = world0.getMinecraftWorld();
                 Location location = player.getLocation();
                 ItemEntity entity = new ItemEntity(level, location.x(), location.y(), location.z(), MAGIC_SCRAP.create(1));
                 level.addFreshEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
             }
             case 0 -> new FireBall().create(spawn);
-            case 1 -> new HarryBall(player).create(spawn);
+            case 1 -> new HarryBall(((CraftPlayer) player).getHandle()).create(spawn);
             case 2 -> new IceBall().create(spawn);
             case 3 -> new MelanoxRay().create(spawn);
             case 4 -> new MeteoriteBall().create(spawn);
@@ -133,7 +131,7 @@ public class RPGCode {
         }
         RPGEntityType type = RPGEntityType.valueOf(args[1]);
         ServerPlayer serverPlayer = ((CraftPlayer) player).getHandle();
-        type.getEntity().create(serverPlayer.position(), (ServerLevel) serverPlayer.level());
+        type.getEntity().create(serverPlayer.position(), serverPlayer.serverLevel());
     }
 
     @CommandArg(name = "item", aliases = {"предмет", "шеуь", "ghtlvtn"})

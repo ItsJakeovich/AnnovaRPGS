@@ -191,22 +191,22 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
     }
 
     @Override
-    public boolean onTarget(org.bukkit.entity.Entity target) {
+    public boolean onTarget(Entity target) {
         return true;
     }
 
     @Override
-    public boolean onAttack(org.bukkit.entity.LivingEntity target) {
+    public boolean onAttack(LivingEntity target) {
         return true;
     }
 
     private Long cooldown = 0L;
     @Override
-    public void onDamage(MobDamageCE event, org.bukkit.entity.LivingEntity damager) {
+    public void onDamage(MobDamageCE event, LivingEntity damager) {
         long millis = System.currentTimeMillis();
         if (millis < cooldown) return;
         this.cooldown = millis + 35_000;
-        damager.damage(event.getBaseDamage());
+        damager.hurtServer(damager.level().getMinecraftWorld(), damager.damageSources().mobAttack(entity), (float) event.getBaseDamage());
     }
 
     @Override

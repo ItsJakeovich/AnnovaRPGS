@@ -5,19 +5,18 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class WebBall extends ParticleProjectile {
     @Override
     public void onHit(Vec3 position, ServerLevel level) {
-        for (Entity entity : position.getWorld().getNearbyEntities(position, 1, 1, 1)) {
-            if (entity instanceof Player player) {
-                getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS, 2_000);
-            }
+        for (Player player : level.getNearbyPlayers(TargetingConditions.DEFAULT, null, new AABB(position, position).inflate(1, 1, 1))) {
+            getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS, +2_000);
         }
     }
 

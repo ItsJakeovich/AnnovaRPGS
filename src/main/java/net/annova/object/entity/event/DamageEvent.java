@@ -35,7 +35,7 @@ public class DamageEvent implements Listener {
                 }
                 case RESISTANCE -> event.increaseDamage(event.getBaseDamage()*ability.getValue(ValueType.MAIN));
                 case AVOIDANCE -> {
-                    Vec3 newPos = getChorusLocation(entity.position(), (ServerLevel) entity.level(),
+                    Vec3 newPos = getChorusLocation(entity.position(), entity.level().getMinecraftWorld(),
                             ability.getValue(ValueType.RADIUS).intValue());
                     entity.teleportTo(newPos.x, newPos.y, newPos.z);
                     entity.addEffect(new MobEffectInstance(INVISIBILITY,

@@ -6,17 +6,20 @@ import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.RPGEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_21_R4.util.CraftLocation;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.object.entity.core.attribute.ability.RPGAbility.Type.EXPLOSION_NEUTRALITY;
 
 public class Berserk extends RPGEntity implements EntityAction {
@@ -87,7 +90,8 @@ public class Berserk extends RPGEntity implements EntityAction {
     @Override
     public boolean onAttack(LivingEntity target) {
         if (this.regened) {
-            target.getWorld().createExplosion(target.getLocation(), 1);
+            Vec3 position = target.position();
+            world0.explode(null, position.x, position.y, position.z, 1.0f, true, Level.ExplosionInteraction.STANDARD);
         }
         return true;
     }

@@ -5,9 +5,10 @@ import net.annova.object.entity.mobs.sector0.oasis.Crab;
 import net.annova.event.custom.BattleCE;
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -40,16 +41,18 @@ public class TideBlade extends RPGItem implements RPGTool, Listener {
     @EventHandler
     public void attack(BattleCE event) {
         LivingEntity damager = event.getDamager();
-        if (!TIDE_BLADE.equals(damager.getEquipment().getItemInMainHand())) return;
+        if (!TIDE_BLADE.equals(damager.getMainHandItem())) return;
 
         LivingEntity entity = event.getEntity();
         if (getRPGEntity(entity) instanceof Crab) {
-            event.setDamage(event.getDamage() + 3);
+            event.setDamage(event.getDamage() + 3*event.getStrengthMultiplier());
         }
 
-        if (damager.getWorld().isClearWeather() && (!entity.isInWater() || !damager.isInWater())) return;
+        ServerLevel level = entity.level().getMinecraftWorld();
+        if (!level.isRaining() && !level.isThundering()
+                && !(entity.isInWater() || damager.isInWater())) return;
 
-        event.setDamage(event.getDamage() + 0.9);
+        event.setDamage(event.getDamage() + 0.9*event.getStrengthMultiplier());
     }
 
     @Override

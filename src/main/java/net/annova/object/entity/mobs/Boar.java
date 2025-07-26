@@ -138,7 +138,7 @@ public class Boar extends RPGEntity implements EntityActivity {
                         // Если кабан близко, бей!
                         if (distance > 2.0 || !canAttack) return true;
 
-                        targetPlayer.hurtServer((ServerLevel) mob.level(), mob.damageSources().mobAttack(mob), 15.0f);
+                        targetPlayer.hurtServer(mob.level().getMinecraftWorld(), mob.damageSources().mobAttack(mob), 15.0f);
 
                         // Отталкивание игрока
                         Vec3 pigPosition = mob.position();
