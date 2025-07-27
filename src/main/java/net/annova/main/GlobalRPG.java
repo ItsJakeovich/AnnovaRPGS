@@ -67,9 +67,9 @@ public class GlobalRPG {
     }
 
     public static void addRPGPerson(Person person) {
-        RPGPerson rpgPerson = new RPGPerson(person);
-        persons.put(person.getName().toLowerCase(), rpgPerson);
-        personsUid.put(person.getUid(), rpgPerson);
+        RPGPerson RPGPerson = new RPGPerson(person);
+        persons.put(person.getName().toLowerCase(), RPGPerson);
+        personsUid.put(person.getUid(), RPGPerson);
     }
     public static void addRPGPerson(RPGPerson person) {
         persons.put(person.getPerson().getName().toLowerCase(), person);

@@ -5,7 +5,6 @@ public enum RPGRarity {
 
     COMMON(0xAAAAAA), // gray
     UNCOMMON(0x55FF55), // green
-
     RARE(0x55FFFF), // aqua
     ELITE(0xFF55FF), // light purple
     EPIC(0xAA00AA), // dark purple

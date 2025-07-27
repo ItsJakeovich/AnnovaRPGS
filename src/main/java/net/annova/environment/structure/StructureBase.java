@@ -4,7 +4,6 @@ import net.annova.object.Person;
 import net.annova.object.SimpleConstruction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.scheduler.BukkitTask;

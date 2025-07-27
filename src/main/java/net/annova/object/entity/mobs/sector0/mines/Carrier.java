@@ -1,14 +1,11 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.environment.world.sector0.location.Mines;
-import net.annova.main.GlobalRPG;
-import net.annova.object.CustomRunnable;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.entity.core.attribute.CustomType;
-import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
 import net.annova.object.person.RPGPerson;

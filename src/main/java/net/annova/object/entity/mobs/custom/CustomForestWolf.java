@@ -2,7 +2,6 @@ package net.annova.object.entity.mobs.custom;
 
 import net.annova.object.person.status.StatusType;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

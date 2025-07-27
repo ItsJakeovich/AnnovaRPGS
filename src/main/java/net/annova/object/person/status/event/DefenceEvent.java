@@ -1,11 +1,9 @@
 package net.annova.object.person.status.event;
 
-import net.annova.event.custom.MobDamageCE;
 import net.annova.event.custom.PlayerDamageCE;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;

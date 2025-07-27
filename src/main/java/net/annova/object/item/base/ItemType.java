@@ -6,6 +6,10 @@ import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.attribute.RPGArmor;
 import net.annova.object.item.base.attribute.RPGTool;
+import net.annova.object.item.civilization.BraidedLeather;
+import net.annova.object.item.civilization.Camp;
+import net.annova.object.item.civilization.FirstAidKit;
+import net.annova.object.item.civilization.Log;
 import net.annova.object.item.sector0.meteorite.ChitinBoots;
 import net.annova.object.item.sector0.meteorite.ChitinChestplate;
 import net.annova.object.item.sector0.meteorite.ChitinHelmet;
@@ -70,6 +74,11 @@ import static net.annova.util.BukkitObjects.chance;
 import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
 
 public enum ItemType {
+    // Civilization
+    BRAIDED_LEATHER(new BraidedLeather()),
+    CAMP(new Camp()),
+    FIRST_AID_KIT(new FirstAidKit()),
+    LOG(new Log()),
     // Containers
     PRISON_CONTAINER(new PrisonContainerItem()),
     // Stones
@@ -177,6 +186,8 @@ public enum ItemType {
     SPIDER_CHITIN(new SpiderChitin()),
     // unique
     DUNGEON_KEY(new DungeonKeyItem()),
+
+    EMPTY(new EmptyItem())
     ;
 
     private final RPGItem item;
@@ -205,6 +216,7 @@ public enum ItemType {
             ITEMS_BY_CATEGORY.get(itemType.category).add(itemType);
             BY_NAME.put(itemType.id, itemType);
         }
+        BY_NAME.put("", EMPTY);
     }
     public static ItemType getItemType(String itemName) {
         return BY_NAME.get(itemName);
@@ -219,6 +231,12 @@ public enum ItemType {
     }
     public static Set<ItemType> getItemsByCategory(ItemCategory category) {
         return ITEMS_BY_CATEGORY.get(category);
+    }
+    public static RPGItem getRPGItem(ItemStack item) {
+        return getItemType(item).getItem();
+    }
+    public static boolean isInstance(ItemStack item, Class<?> clazz) {
+        return getItemType(item).isInstance(clazz);
     }
 
     public boolean hasPlayer(Entity entity) {
@@ -278,6 +296,9 @@ public enum ItemType {
     }
     public boolean equals(ItemStack item) {
         return this.id.equals(getItemId(item));
+    }
+    public boolean isInstance(Class<?> clazz) {
+        return clazz.isInstance(this.item);
     }
 
     /**

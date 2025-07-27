@@ -4,11 +4,10 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.event.Listener;
 
 import java.util.List;
 
-public class StrengthStoneItem extends RPGItem implements Listener {
+public class StrengthStoneItem extends RPGItem {
     @Override
     public Item type() {
         return Items.AMETHYST_SHARD;
@@ -27,5 +26,10 @@ public class StrengthStoneItem extends RPGItem implements Listener {
     @Override
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
+    }
+
+    @Override
+    public boolean unusable() {
+        return false;
     }
 }

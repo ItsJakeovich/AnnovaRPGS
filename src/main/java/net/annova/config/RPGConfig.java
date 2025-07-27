@@ -1,7 +1,6 @@
 package net.annova.config;
 
 import net.annova.config.crafts.ConfigCrafts;
-import net.annova.exception.AnnovaException;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,3 +1,4 @@
 reload_lang/russian: true
 
+# Если нужно изменить рецепты, отключите обновление! (Поставьте false)
 reload_crafts: true

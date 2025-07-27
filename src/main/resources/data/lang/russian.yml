@@ -118,6 +118,16 @@ armor-defence:   "{pc}⛊ {mc}Защита{sc}: "
 armor-toughness: "{pc}⛉ {mc}Твердость{sc}: "
 armor-speed:     "{pc}🌀 {mc}Скорость{sc}: "
 
+## Civilization
+BRAIDED_LEATHER: "Плетёная кожа"
+BRAIDED_LEATHER-lore: "{pc}| {mc}Вы не очень хороши в плетении{sc}, {mc}но{sc}, {mc}похоже{sc}, {mc}вышло не плохо{sc}?"
+CAMP: "Лагерь"
+CAMP-lore: "{pc}| {mc}Кажется{sc}, {mc}тут хорошее место{sc}. {mc}Да{sc}? 
+{}{ac}| {mc}Активируйте его правой кнопкой мыши{sc}."
+FIRST_AID_KIT: "КПН"
+FIRST_AID_KIT-lore: "{pc}| {mc}Комплект первой надобности{sc}."
+LOG: "Брёвна"
+LOG-lore: "{pc}| {mc}Та же древесина{sc}. {mc}Просто собранная в кучу{sc}."
 ## containers
 PRISON_CONTAINER: "Пыльный контейнер"
 PRISON_CONTAINER-lore: "{pc}| {mc}Большой пыльный контейнер{sc}."

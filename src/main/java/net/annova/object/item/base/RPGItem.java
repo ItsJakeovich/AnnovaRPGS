@@ -23,6 +23,11 @@ public abstract class RPGItem {
     public abstract List<Float> modelData();
     public abstract int stackSize();
     public abstract RPGRarity rarity();
+    /**
+     * Определяет, может ли быть использован предмет (PlayerInteractEvent)
+     * @return true - не может, false - может.
+     */
+    public abstract boolean unusable();
 
     public static void subtractItem(Player player) {
         subtractItem(player, player.getInventory().getItemInMainHand());
@@ -52,6 +57,7 @@ public abstract class RPGItem {
     }
     @Nullable
     public static String getItemId(net.minecraft.world.item.ItemStack item) {
+        if (item == null) return ""; // that's return the EMPTY item.
         CustomData data = item.get(DataComponents.CUSTOM_DATA);
         if (data == null) return null;
         return ((StringTag) data.getUnsafe().get("annovas:id")).value();

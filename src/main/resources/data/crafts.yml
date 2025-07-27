@@ -145,6 +145,170 @@ materials:
       - 'w w'
       - 'q q'
 
+  - id: "braided_leather"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'STRING'
+        letter: 'q'
+      - id: 'LEATHER'
+        letter: 'w'
+    recipe:
+      - 'qwq'
+      - 'q q'
+      - 'qwq'
+
+  - id: "camp"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'log'
+        letter: 'q'
+      - id: 'WRITABLE_BOOK'
+        letter: 'w'
+      - id: 'LECTERN'
+        letter: 'e'
+      - id: 'braided_leather'
+        letter: 'r'
+      - id: 'first_aid_kit'
+        letter: 't'
+    recipe:
+      - 'qwq'
+      - 'qeq'
+      - 'rtr'
+
+  - id: "first_aid_kit"
+    amount: 1
+    craft_type: 'shaped'
+    valid: true
+    ingredients:
+      - id: 'CHEST'
+        letter: 'q'
+      - id: 'FURNACE'
+        letter: 'w'
+      - id: 'WHITE_BED'
+        letter: 'e'
+      - id: 'CRAFTING_TABLE'
+        letter: 'r'
+    recipe:
+      - 'qwq'
+      - 'ere'
+      - 'qwq'
+
+  - id: "log"
+    amount: 1
+    craft_type: 'shapeless'
+    valid: true
+    ingredients:
+      - id: 'OAK_LOG'
+        count: 9
+    sub-crafts:
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'ACACIA_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'CHERRY_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'BIRCH_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'DARK_OAK_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'JUNGLE_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'MANGROVE_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'PALE_OAK_LOG'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'SPRUCE_LOG'
+            count: 9
+      # WOOD
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'OAK_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'ACACIA_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'CHERRY_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'BIRCH_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'DARK_OAK_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'JUNGLE_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'MANGROVE_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'PALE_OAK_WOOD'
+            count: 9
+      - craft_type: 'shapeless'
+        amount: 1
+        valid: true
+        ingredients:
+          - id: 'SPRUCE_WOOD'
+            count: 9
+
 #  - id: "roots_lash"
 #    amount: 1
 #    craft_type: 'shaped'
