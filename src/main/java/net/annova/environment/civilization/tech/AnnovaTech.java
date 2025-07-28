@@ -1,5 +1,6 @@
 package net.annova.environment.civilization.tech;
 
+import net.annova.environment.civilization.Civilization;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -42,12 +43,15 @@ public enum AnnovaTech {
     public Category getCategory() {
         return category;
     }
+    public Type getType() {
+        return category.type;
+    }
 
     public Item getIcon() {
         return icon;
     }
 
-    public int getBaseScience() {
+    public int getBaseCost() {
         return baseScience;
     }
 
@@ -62,9 +66,37 @@ public enum AnnovaTech {
     }
     public enum Category {
         // Camp Categories
-        PROSPERITY, // CULTURE
-        HUNT,       // COMMERCIAL
-        THREAT,     // MILITARY
+        PROSPERITY(Type.CULTURE, Civilization.Stage.CAMP),
+        HUNT(Type.COMMERCIAL, Civilization.Stage.CAMP),
+        THREAT(Type.MILITARY, Civilization.Stage.CAMP),
+        ;
+        private final AnnovaTech.Type type;
+        private final Civilization.Stage stage;
+        private static final EnumMap<Civilization.Stage, EnumMap<Type, Category>> CATEGORY_BY_STAGE_AND_TYPE = new EnumMap<>(Civilization.Stage.class);
+        static {
+            for (Civilization.Stage stage : Civilization.Stage.values()) {
+                CATEGORY_BY_STAGE_AND_TYPE.put(stage, new EnumMap<>(Type.class));
+            }
+            for (Category category : Category.values()) {
+                CATEGORY_BY_STAGE_AND_TYPE.get(category.stage).put(category.type, category);
+            }
+        }
+
+        Category(AnnovaTech.Type type, Civilization.Stage stage) {
+            this.type = type;
+            this.stage = stage;
+        }
+
+        public AnnovaTech.Type getType() {
+            return type;
+        }
+        public Civilization.Stage getStage() {
+            return stage;
+        }
+
+        public static Category getByStageAndType(Civilization.Stage stage, AnnovaTech.Type type) {
+            return CATEGORY_BY_STAGE_AND_TYPE.get(stage).get(type);
+        }
     }
 
     public static EnumSet<AnnovaTech> getTechsByCategory(Category category) {

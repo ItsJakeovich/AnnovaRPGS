@@ -1,7 +1,5 @@
 package net.annova.environment.civilization;
 
-import net.annova.environment.civilization.territory.AreaChunk;
-import net.annova.environment.civilization.territory.CultureChunk;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
 import org.bukkit.Bukkit;
@@ -32,6 +30,7 @@ public class Town {
         this.leader = leader;
         this.members.add(leader);
         this.addBuild(hall);
+
         this.capital = capital;
 
         if (civilization == null) this.civilization = addCivilization(name, leader);

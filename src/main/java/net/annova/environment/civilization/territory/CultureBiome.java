@@ -1,5 +1,8 @@
 package net.annova.environment.civilization.territory;
 
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
+
 public enum CultureBiome {
     // Ocean, 20
     OCEAN(chunkType.OCEAN, 15, 5f),
@@ -86,74 +89,21 @@ public enum CultureBiome {
     LUSH_CAVES(chunkType.CAVE, 0, 0),
 
     // unused
-    NETHER_WASTES(chunkType.UNKNOWN, 0, 0),
-    THE_END(chunkType.UNKNOWN, 0, 0),
-    SMALL_END_ISLANDS(chunkType.UNKNOWN, 0, 0),
-    END_MIDLANDS(chunkType.UNKNOWN, 0, 0),
-    END_HIGHLANDS(chunkType.UNKNOWN, 0, 0),
-    END_BARRENS(chunkType.UNKNOWN, 0, 0),
-    SOUL_SAND_VALLEY(chunkType.UNKNOWN, 0, 0),
-    BASALT_DELTAS(chunkType.UNKNOWN, 0, 0),
-    CRIMSON_FOREST(chunkType.UNKNOWN, 0, 0),
+    NETHER_WASTES(0, 0),
+    THE_END(0, 0),
+    SMALL_END_ISLANDS(0, 0),
+    END_MIDLANDS(0, 0),
+    END_HIGHLANDS(0, 0),
+    END_BARRENS(0, 0),
+    SOUL_SAND_VALLEY(0, 0),
+    BASALT_DELTAS(0, 0),
+    CRIMSON_FOREST(0, 0),
     WARPED_FOREST(chunkType.UNKNOWN, 0, 0),
     THE_VOID(chunkType.UNKNOWN, 0, 0),
     ;
 
-    private final float growth;
-    private final float hammers;
-    private final chunkType type;
 
-    CultureBiome(float growth, float hammers) {
-        this(chunkType.UNKNOWN, growth, hammers);
-    }
-    CultureBiome(chunkType type, float growth, float hammers) {
-        this.type = type;
-        this.growth = 10;
-        this.hammers = 10;
-    }
+    CultureBiome(ResourceKey<Biome> biome) {
 
-    public enum chunkType {
-        OCEAN(110f),
-        RIVER(110f),
-        SWAMP(70f),
-        PLAINS(140f),
-        FOREST(120f),
-        JUNGLE(105f),
-        TAIGA(110f),
-        COAST(110f),
-        DESERT(80f),
-        SAVANNA(125f),
-        MESA(95f),
-        HILLS(55f),
-        MOUNTAIN(80f),
-        UNIQUE(155f),
-        CAVE(115f),
-        UNKNOWN(10f)
-        ;
-        private final float movement; // в множителе
-
-        chunkType(float movement) {
-            this.movement = movement;
-        }
-
-        public float getMovement() {
-            return movement;
-        }
-    }
-
-    public float getGrowth() {
-        return growth;
-    }
-
-    public float getHammers() {
-        return hammers;
-    }
-
-    public float getHousing() {
-        return 2.5f;
-    }
-
-    public chunkType getType() {
-        return type;
     }
 }

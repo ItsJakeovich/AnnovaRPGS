@@ -13,8 +13,28 @@ sector-loc-empty: "{sc}пустошь"
 ## equipment
 equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот полон!"
 equipment-menu: "{pc}≡ {mc}Экипировка"
-## commands ≡ ● ◆ ❖
-# avatar
+
+### Civilization
+## Research
+civ-research-CAMP-idle: "{ac}❖ {mc}Изучения лагеря простаивают{sc}!"
+civ-research-PROSPERITY-no-goal: "{ac}❖ {mc}Ветка процветания простаивает{sc}!"
+civ-research-HUNT-no-goal: "{ac}❖ {mc}Ветка охоты простаивает{sc}!"
+civ-research-THREAT-no-goal: "{ac}❖ {mc}Ветка угрозы простаивает{sc}!"
+
+civ-research-start: "{pc}❖ {mc}Технология {sc}⌈{ac}{tech}{sc}⌋ {mc}начала изучение{sc}!"
+civ-research-progress: "{pc}❖ {mc}Технология {sc}⌈{ac}{tech}{sc}⌋ {mc}изучена на {progress}{sc}!"
+civ-research-complete: "{pc}❖ {mc}Технология {sc}⌈{ac}{tech}{sc}⌋ {mc}изучена{sc}!"
+
+COLLECTING: "Собирательство"
+FIRE: "Огонь"
+WEAVING: "Плетение"
+
+JOINT_HUNTING: "Совместная охота"
+SPEAR: "Копье"
+GESTICULATION: "Гестикуляция"
+TRAPS: "Ловушки"
+### commands ≡ ● ◆ ❖
+## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
 avatar-equipment: "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает меню экипировки"
 avatar-info:      "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
@@ -30,12 +50,14 @@ avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 {}{pc} ◆ {mc}Восстановление{sc}: {regen}
 {}{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
 {}{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
-# calculator
+## calculator
 calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
+## civilization
+
 #calc-creative: "{pc}❖ {mc}Творческий режим{sc}."
 calc-result: "{pc}❖ {mc}Результат{sc}: {ac}{result}"
 calc-error: "{pc}❖ {mc}Невозможно выполнить уравнение{sc}: {ac}{input}"
-# dungeon
+## dungeon
 dungeon-menu: "{pc}≡ {mc}Управление подземельями{pc}:"
 dungeon-key:    "{pc} ● {mc}/dung key {sc}- {mc}выдает ключ от подземелья"
 dungeon-list:   "{pc} ● {mc}/dung list {sc}- {mc}список открытых подземелий"
@@ -53,9 +75,9 @@ dungeon-list-list: "{pc}≡ {mc}Список активных данжей{sc}:"
 dungeon-delete-args: "{pc}❖ {mc}Напишите ключ данжа{ac}! {sc}(число в /dung list)"
 dungeon-delete-not-found: "{pc}❖ {mc}Подземелье не найдено - {ac}{key}"
 dungeon-deleted: "{pc}❖ {mc}Подземелье закрыто{ac}!"
-# inventory
+## inventory
 invsee-args: "{pc}❖ {mc}Введите ник игрока{sc}. Дописав в конце 'ec', откроется эндер сундук"
-# rpg
+## rpg
 #rpg-altar-exist: "{fc}❖ {mc}Алтарь уже установлен{sc}. {}{pc}|  {sc}|● Для пересоздания пропишите команду /confirm"
 #rpg-altar-recreate: "{tc}❖ {mc}Алтарь пересоздан{sc}."
 rpg-menu: "{pc}≡ {mc}Управление плагином{mc}:"
@@ -71,7 +93,7 @@ rpg-status:       "{pc} ● {mc}/rpg status {sc}{STATUS} - {mc}вызывает 
 
 rpg-heal-success: "{pc}❖ {mc}Игрок {ac}{target} {mc}вылечен{sc}!"
 
-# team
+## team
 team-menu     : "{pc}≡ {mc}Управление командой{mc}:"
 team-create   : "{pc} ● {mc}/team create {sc}{name} - {mc}создать команду"
 team-leave    : "{pc} ● {mc}/team leave{sc} - {mc}покинуть команду"
@@ -106,7 +128,7 @@ team-gathering-request: "{pc}❖ {ac}{name} приглашает участни�
 team-gathering-successfully: "{pc}❖ {mc}Все участники команды были приглашены в подземелье{sc}!"
 team-gathering-already: "{pc}❖ {mc}Вы уже находитесь в подземелье{sc}."
 
-# Status bar
+## Status bar
 bar-health: "{pc}❖ {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
 ### Items

@@ -11,6 +11,9 @@ public class Research {
     public AnnovaTech getTech() {
         return tech;
     }
+    public AnnovaTech.Type getType() {
+        return tech.getCategory().getType();
+    }
 
     public float getProgress() {
         return progress;
@@ -18,7 +21,7 @@ public class Research {
     /**
      * @param progress by science (14800 / 16000)
      */
-    public void addProgress(float progress) {
-        this.progress += progress;
+    public float addProgress(float progress) {
+        return this.progress += progress;
     }
 }
