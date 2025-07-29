@@ -5,36 +5,38 @@ import net.annova.environment.civilization.tech.Research;
 import net.annova.lang.AISReplacement;
 import net.annova.lang.PathReplacement;
 import net.annova.lang.Replacement;
+import net.annova.main.GlobalRPG;
 import net.annova.object.person.RPGPerson;
-import net.minecraft.network.chat.Component;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import static net.annova.environment.civilization.tech.AnnovaTech.Category.getByStageAndType;
 import static net.annova.main.AnnovaRPG.getInstance;
 
 
 public class Civilization {
-    private final Component name;
+    private String name;
     private Stage stage;
 
     private Research culture, commercial, military;
     private AnnovaTech cultureGoal, commercialGoal, militaryGoal;
     private final EnumSet<AnnovaTech> completeTechs = EnumSet.noneOf(AnnovaTech.class);
 
-    private final List<Town> towns = new ArrayList<>();
-    private final List<RPGPerson> leaders = new ArrayList<>();
-    private final List<RPGPerson> citizens = new ArrayList<>();
+    private Town capital;
+    private final Set<Town> towns = new HashSet<>();
+    private final Set<RPGPerson> leaders = new HashSet<>();
+    private final Set<RPGPerson> citizens = new HashSet<>();
 
     public Civilization(String name, RPGPerson leader) {
-        this.name = Component.literal(name);
+        this.name = name;
         this.leaders.add(leader);
     }
 
-    public Component getName() {
+    public String getName() {
         return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Stage getStage() {
@@ -190,7 +192,18 @@ public class Civilization {
         return research == null ? 0 : research.getTech().getBaseCost();
     }
 
-    public List<Town> getTowns() {
+    public Town getCapital() {
+        return capital;
+    }
+    public void setCapital(Town capital) {
+        this.capital = capital;
+    }
+
+    public void addTown(Town town) {
+        this.towns.add(town);
+        GlobalRPG.addTown(town);
+    }
+    public Set<Town> getTowns() {
         return towns;
     }
 
@@ -202,11 +215,11 @@ public class Civilization {
         return base;
     }
 
-    public List<RPGPerson> getLeaders() {
+    public Set<RPGPerson> getLeaders() {
         return leaders;
     }
 
-    public List<RPGPerson> getCitizens() {
+    public Set<RPGPerson> getCitizens() {
         return citizens;
     }
 

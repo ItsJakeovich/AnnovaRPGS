@@ -15,6 +15,15 @@ equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот п
 equipment-menu: "{pc}≡ {mc}Экипировка"
 
 ### Civilization
+## Camp
+camp-set-action: "{pc}❖ {mc}Введите название своего лагеря в чат{sc}."
+camp-set-name: "{pc}❖ {mc}Установлено {sc}⌈{ac}{name}{sc}⌋. {mc}Если хотите изменить его{sc}, {mc}введите еще раз новое{sc}.
+{} {mc}|● {sc}Подтвердите поставку лагеря командой {s-com-/confirm}"
+camp-set-cancel-water: "{pc}❖ {mc}Нельзя установить лагерь в океане или реке{sc}!"
+camp-set-cancel-name: "{pc}❖ {mc}Неверный формат названия лагеря {sc}(латиница или кириллица)!"
+camp-set: "{pc}❖ Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был установлен{sc}! 
+{} {mc}|● {sc}Следующим шагом стоит построить главное здание{sc}!
+{} {mc}|● {sc}Для осведомления просмотрите команду {sc}{s-com-/town}"
 ## Research
 civ-research-CAMP-idle: "{ac}❖ {mc}Изучения лагеря простаивают{sc}!"
 civ-research-PROSPERITY-no-goal: "{ac}❖ {mc}Ветка процветания простаивает{sc}!"
@@ -53,7 +62,18 @@ avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 ## calculator
 calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
 ## civilization
-
+civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
+civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{ac}{name}{sc}⌋ {mc}не найдена{sc}!"
+civ-info: "
+{pc}≡ {mc}Информация о госудастве{pc}: 
+{}{pc}● {mc}Название{sc}: {mc}{name}
+{}{pc}● {mc}Этап{sc}: {mc}{stage}
+{}{pc}● {mc}Столица{sc}: {mc}{capital}
+{}{pc}● {mc}Города{sc}: {mc}{towns}
+"
+civ-info-advanced: "
+{}{pc}● {mc}Лидеры{sc}: {mc}{leaders}*
+"
 #calc-creative: "{pc}❖ {mc}Творческий режим{sc}."
 calc-result: "{pc}❖ {mc}Результат{sc}: {ac}{result}"
 calc-error: "{pc}❖ {mc}Невозможно выполнить уравнение{sc}: {ac}{input}"

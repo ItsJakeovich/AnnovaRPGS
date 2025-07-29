@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
 import com.google.common.base.Preconditions;
 import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
+import net.annova.environment.civilization.Town;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.object.person.equipment.ArmorSet;
 import net.annova.object.person.advancement.RPGAdvancement;
@@ -70,6 +71,8 @@ public class RPGPerson {
     private final List<ItemStack> pendingItems = new ArrayList<>();
     private final QuestManager questManager = new QuestManager();
     private boolean teleportAccess = false;
+
+    private Town town;
 
     private SectorLocation sectorLocation;
 
@@ -417,6 +420,13 @@ public class RPGPerson {
     }
     public double getMaxHealth() {
         return maxHealth;
+    }
+
+    public Town getTown() {
+        return town;
+    }
+    public void setTown(Town town) {
+        this.town = town;
     }
 
     @Nullable

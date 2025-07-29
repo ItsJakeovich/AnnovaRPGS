@@ -1,109 +1,138 @@
 package net.annova.environment.civilization.territory;
 
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.biome.Biome;
-
 public enum CultureBiome {
     // Ocean, 20
-    OCEAN(chunkType.OCEAN, 15, 5f),
-    COLD_OCEAN(chunkType.OCEAN, 5, 15),
-    LUKEWARM_OCEAN(chunkType.OCEAN, 10, 10),
-    FROZEN_OCEAN(chunkType.OCEAN, 0, 20),
-    WARM_OCEAN(chunkType.OCEAN, 20, 0),
-    // 15
-    DEEP_OCEAN(chunkType.OCEAN, 10, 2.5f),
-    DEEP_COLD_OCEAN(chunkType.OCEAN, 2.5f, 10),
-    DEEP_LUKEWARM_OCEAN(chunkType.OCEAN, 6.25f, 6.25f),
-    DEEP_FROZEN_OCEAN(chunkType.OCEAN, 0, 12.5f),
+    OCEAN(Type.OCEAN, 10, 10),
+    COLD_OCEAN(Type.OCEAN, 10, 10),
+    LUKEWARM_OCEAN(Type.OCEAN, 10, 10),
+    FROZEN_OCEAN(Type.OCEAN, 10, 10),
+    WARM_OCEAN(Type.OCEAN, 10, 10),
+    DEEP_OCEAN(Type.OCEAN, 10, 10),
+    DEEP_COLD_OCEAN(Type.OCEAN,10, 10),
+    DEEP_LUKEWARM_OCEAN(Type.OCEAN, 10, 10),
+    DEEP_FROZEN_OCEAN(Type.OCEAN, 10, 10),
 
     // rivers, 35
-    FROZEN_RIVER(chunkType.RIVER, 15, 20),
-    RIVER(chunkType.RIVER,30, 5),
+    FROZEN_RIVER(Type.RIVER, 10, 10),
+    RIVER(Type.RIVER,10, 10),
 
     // swamp, 200
-    SWAMP(chunkType.SWAMP, 150, 50),
-    MANGROVE_SWAMP(chunkType.SWAMP, 75, 125),
+    SWAMP(Type.SWAMP, 10, 10),
+    MANGROVE_SWAMP(Type.SWAMP, 10, 10),
 
     // plains, 250
-    PLAINS(chunkType.PLAINS, 200, 50),
-    SNOWY_PLAINS(chunkType.PLAINS, 50, 200), // snowy
-    SUNFLOWER_PLAINS(chunkType.PLAINS, 225, 25),
-    ICE_SPIKES(chunkType.PLAINS, 20, 230), // hills
-    MEADOW(chunkType.PLAINS, 120, 130), // hills
+    PLAINS(Type.PLAINS, 10, 10),
+    SNOWY_PLAINS(Type.PLAINS, 10, 10), // snowy
+    SUNFLOWER_PLAINS(Type.PLAINS, 10, 10),
+    ICE_SPIKES(Type.PLAINS, 10, 10), // hills
+    MEADOW(Type.PLAINS, 10, 10), // hills
 
     // forests, 250
-    FOREST(chunkType.FOREST, 150f, 100f),
-    BIRCH_FOREST(chunkType.FOREST, 175, 75),
-    DARK_FOREST(chunkType.FOREST, 125, 125),
-    FLOWER_FOREST(chunkType.FOREST, 200, 50),
-    OLD_GROWTH_BIRCH_FOREST(chunkType.FOREST, 100, 150), // hills
-    GROVE(chunkType.FOREST, 25, 225), // snowy hills
-    CHERRY_GROVE(chunkType.FOREST, 150, 100), // hills
+    FOREST(Type.FOREST, 10, 10),
+    BIRCH_FOREST(Type.FOREST, 10, 10),
+    DARK_FOREST(Type.FOREST, 10, 10),
+    FLOWER_FOREST(Type.FOREST, 10, 10),
+    OLD_GROWTH_BIRCH_FOREST(Type.FOREST, 10, 10), // hills
+    GROVE(Type.FOREST, 10, 10), // snowy hills
+    CHERRY_GROVE(Type.FOREST, 10, 10), // hills
 
     // jungle 225
-    JUNGLE(chunkType.JUNGLE, 120, 105),
-    SPARSE_JUNGLE(chunkType.JUNGLE, 175, 50),
-    BAMBOO_JUNGLE(chunkType.JUNGLE, 75, 150),
+    JUNGLE(Type.JUNGLE, 10, 10),
+    SPARSE_JUNGLE(Type.JUNGLE, 10, 10),
+    BAMBOO_JUNGLE(Type.JUNGLE, 10, 10),
 
     // taiga 200
-    TAIGA(chunkType.TAIGA, 125f, 75f),
-    SNOWY_TAIGA(chunkType.TAIGA, 75, 125), // snowy
-    OLD_GROWTH_PINE_TAIGA(chunkType.TAIGA, 50, 150), // hills
-    OLD_GROWTH_SPRUCE_TAIGA(chunkType.TAIGA, 35, 165), // hills
+    TAIGA(Type.TAIGA, 10, 10),
+    SNOWY_TAIGA(Type.TAIGA, 10, 10), // snowy
+    OLD_GROWTH_PINE_TAIGA(Type.TAIGA, 10, 10), // hills
+    OLD_GROWTH_SPRUCE_TAIGA(Type.TAIGA, 10, 10), // hills
 
     // coasts, 50
-    BEACH(chunkType.COAST, 35, 15),
-    SNOWY_BEACH(chunkType.COAST, 10, 40),
-    STONY_SHORE(chunkType.COAST, 25, 25),
+    BEACH(Type.COAST, 10, 10),
+    SNOWY_BEACH(Type.COAST, 10, 10),
+    STONY_SHORE(Type.COAST, 10, 10),
 
     // desert, 200
-    DESERT(chunkType.DESERT, 50f, 150f),
+    DESERT(Type.DESERT, 10, 10),
 
     // savanna 225
-    SAVANNA(chunkType.SAVANNA, 175, 50),
-    SAVANNA_PLATEAU(chunkType.SAVANNA, 100, 125), // hills
+    SAVANNA(Type.SAVANNA, 10, 10),
+    SAVANNA_PLATEAU(Type.SAVANNA, 10, 10), // hills
 
     // mesa 200
-    BADLANDS(chunkType.MESA, 75, 125),
-    WOODED_BADLANDS(chunkType.MESA, 35, 165), // forest
-    ERODED_BADLANDS(chunkType.MESA, 50, 150), // spikes
+    BADLANDS(Type.MESA, 10, 10),
+    WOODED_BADLANDS(Type.MESA, 10, 10), // forest
+    ERODED_BADLANDS(Type.MESA, 10, 10), // spikes
 
     // hills 200
-    WINDSWEPT_HILLS(chunkType.HILLS, 50, 150),
-    WINDSWEPT_GRAVELLY_HILLS(chunkType.HILLS, 35, 165),
-    WINDSWEPT_FOREST(chunkType.HILLS, 100, 100), // forest
-    WINDSWEPT_SAVANNA(chunkType.HILLS, 15, 185), // savanna
+    WINDSWEPT_HILLS(Type.HILLS, 10, 10),
+    WINDSWEPT_GRAVELLY_HILLS(Type.HILLS, 10, 10),
+    WINDSWEPT_FOREST(Type.HILLS, 10, 10), // forest
+    WINDSWEPT_SAVANNA(Type.HILLS, 10, 10), // savanna
 
     // Mountains, 100
-    FROZEN_PEAKS(chunkType.MOUNTAIN, 5, 95), // snowy
-    JAGGED_PEAKS(chunkType.MOUNTAIN, 22.5f, 77.5f),
-    STONY_PEAKS(chunkType.MOUNTAIN, 35, 65),
-    SNOWY_SLOPES(chunkType.MOUNTAIN, 10, 90), // snowy
+    FROZEN_PEAKS(Type.MOUNTAIN, 10, 10), // snowy
+    JAGGED_PEAKS(Type.MOUNTAIN, 10, 10),
+    STONY_PEAKS(Type.MOUNTAIN, 10, 10),
+    SNOWY_SLOPES(Type.MOUNTAIN, 10, 10), // snowy
 
     // unique, 300
-    MUSHROOM_FIELDS(chunkType.UNIQUE, 175, 125),
+    MUSHROOM_FIELDS(Type.UNIQUE, 10, 10),
 
     // cave
-    DEEP_DARK(chunkType.CAVE, 0, 0),
-    DRIPSTONE_CAVES(chunkType.CAVE, 0, 0),
-    LUSH_CAVES(chunkType.CAVE, 0, 0),
+    DEEP_DARK(Type.CAVE, 10, 10),
+    DRIPSTONE_CAVES(Type.CAVE, 10, 10),
+    LUSH_CAVES(Type.CAVE, 10, 10),
 
     // unused
-    NETHER_WASTES(0, 0),
-    THE_END(0, 0),
-    SMALL_END_ISLANDS(0, 0),
-    END_MIDLANDS(0, 0),
-    END_HIGHLANDS(0, 0),
-    END_BARRENS(0, 0),
-    SOUL_SAND_VALLEY(0, 0),
-    BASALT_DELTAS(0, 0),
-    CRIMSON_FOREST(0, 0),
-    WARPED_FOREST(chunkType.UNKNOWN, 0, 0),
-    THE_VOID(chunkType.UNKNOWN, 0, 0),
+    NETHER_WASTES(Type.EMPTY, 0, 0),
+    THE_END(Type.EMPTY, 0, 0),
+    SMALL_END_ISLANDS(Type.EMPTY, 0, 0),
+    END_MIDLANDS(Type.EMPTY, 0, 0),
+    END_HIGHLANDS(Type.EMPTY, 0, 0),
+    END_BARRENS(Type.EMPTY, 0, 0),
+    SOUL_SAND_VALLEY(Type.EMPTY, 0, 0),
+    BASALT_DELTAS(Type.EMPTY, 0, 0),
+    CRIMSON_FOREST(Type.EMPTY, 0, 0),
+    WARPED_FOREST(Type.EMPTY, 0, 0),
+    THE_VOID(Type.EMPTY, 0, 0),
     ;
 
+    private final CultureBiome.Type type;
+    private final float growth, hammer;
 
-    CultureBiome(ResourceKey<Biome> biome) {
+    CultureBiome(CultureBiome.Type type, float growth, float hammer) {
+        this.type = type;
+        this.growth = growth;
+        this.hammer = hammer;
+    }
 
+    public Type getType() {
+        return type;
+    }
+    public float getGrowth() {
+        return growth;
+    }
+    public float getHammers() {
+        return hammer;
+    }
+
+    public enum Type {
+        OCEAN(),
+        RIVER(),
+        SWAMP(),
+        PLAINS(),
+        FOREST(),
+        JUNGLE(),
+        TAIGA(),
+        COAST(),
+        DESERT(),
+        SAVANNA(),
+        MESA(),
+        HILLS(),
+        MOUNTAIN(),
+        UNIQUE(),
+        CAVE(),
+        EMPTY()
     }
 }

@@ -1,108 +1,82 @@
 package net.annova.environment.civilization;
 
+import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
-import org.bukkit.Bukkit;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static net.annova.main.GlobalRPG.addCivilization;
+import static net.annova.main.GlobalRPG.addTownChunk;
 
 public class Town {
-    private final String name;
-    private final Civilization civilization;
-    private final boolean capital;
-    private final RPGPerson leader;
-    private final List<TownBuild> builds = new ArrayList<>();
-    private float growth = 0;
-    private float hammers = 0;
-    private float culture = 0;
-    private float science = 0;
-    private float population = 1;
-    private float housing;
-    private final List<AreaChunk> areas = new ArrayList<>();
-    private final List<CultureChunk> chunks = new ArrayList<>();
-    private final List<RPGPerson> members = new ArrayList<>();
+    private String name;
+    private Civilization civilization;
+    private final Map<Vec3i, TownBuild> builds = new HashMap<>();
+    private float growth = 0, hammers = 0, culture = 0, science = 0;
+    private final AreaChunk centerChunk;
+    private final Set<AreaChunk> chunks = new HashSet<>();
+    private RPGPerson leader;
+    private final Set<RPGPerson> members = new HashSet<>();
 
-
-    public Town(String name, RPGPerson leader, TownBuild hall, boolean capital, Civilization civilization) {
+    public Town(String name, AreaChunk center, RPGPerson leader) {
+        this(name, leader, center, null);
+    }
+    public Town(String name, RPGPerson leader, AreaChunk center, Civilization civilization) {
         this.name = name;
         this.leader = leader;
         this.members.add(leader);
-        this.addBuild(hall);
+        this.centerChunk = center;
 
-        this.capital = capital;
-
-        if (civilization == null) this.civilization = addCivilization(name, leader);
-        else this.civilization = civilization;
-        this.civilization.getTowns().add(this);
-
-        TownCreateCE e = new TownCreateCE(this);
-        Bukkit.getPluginManager().callEvent(e);
-    }
-    public Town(String name, RPGPerson leader, TownBuild hall) {
-        this(name, leader, hall, true, null);
-
-    }
-    public Town(String name, RPGPerson leader, TownBuild hall, Civilization civilization) {
-        this(name, leader, hall, false, civilization);
+        if (civilization == null) {
+            this.civilization = addCivilization(name, leader);
+            this.civilization.setCapital(this);
+        } else this.civilization = civilization;
+        this.civilization.addTown(this);
     }
 
-    public String getName() {
+    public String  getName() {
         return name;
     }
-
-    public boolean isCapital() {
-        return capital;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Civilization getCivilization() {
         return civilization;
     }
-
-    public RPGPerson getLeader() {
-        return leader;
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
+    }
+    public boolean isCapital() {
+        return this == civilization.getCapital();
     }
 
-    public List<TownBuild> getBuilds() {
-        return builds;
-    }
-    @Nullable
     public TownBuild getBuild(Vec3i position) {
-        for (TownBuild build : this.getBuilds()) {
-            if (build.getConstruction().getBuildPoint().equals(position)) return build;
-        }
-        return null;
+        return this.builds.get(position);
+    }
+    public Collection<TownBuild> getBuilds() {
+        return builds.values();
     }
     public void addBuild(TownBuild build) {
-        this.builds.add(build);
+        this.builds.put(build.getConstruction().getBuildPoint(), build);
     }
 
     public void updateStats() {
         this.updateGrowth();
         this.updateHammers();
-        this.updateHousing();
     }
     public void updateGrowth() {
         float growth = 0;
-        for (AreaChunk area : this.getAreas()) {
-            growth+=area.getBiome().getGrowth();
-        }
+        for (AreaChunk area : this.getChunks())
+            growth += area.getBiome().getGrowth();
         this.growth = growth == 0 ? 5 : growth;
     }
     public void updateHammers() {
         float hammers = 0;
-        for (AreaChunk area : this.getAreas()) {
-            hammers+=area.getBiome().getHammers();
-        }
+        for (AreaChunk area : this.getChunks())
+            hammers += area.getBiome().getHammers();
         this.hammers = hammers == 0 ? 5 : hammers;
-    }
-    public void updateHousing() {
-        float housing = 1f;
-        for (AreaChunk area : this.getAreas()) {
-            housing+=area.getBiome().getHousing();
-        }
-        this.housing = housing - population;
     }
 
     public float getGrowth() {
@@ -137,39 +111,38 @@ public class Town {
         this.science = science;
     }
 
-    public float getPopulation() {
-        return population;
+    public AreaChunk getCenterChunk() {
+        return centerChunk;
     }
 
-    public void setPopulation(float population) {
-        this.population = population;
-    }
-
-    public float getHousing() {
-        return housing;
-    }
-
-    public void setHousing(float housing) {
-        this.housing = housing;
-    }
-
-    public List<CultureChunk> getChunks() {
+    public Set<AreaChunk> getChunks() {
         return chunks;
     }
-    public void addChunk(CultureChunk chunk) {
-        chunks.add(chunk);
-        addTownChunk(chunk);
+    public void addChunk(AreaChunk chunk) {
+        this.chunks.add(chunk);
+        addTownChunk(this, chunk);
     }
 
-    public List<AreaChunk> getAreas() {
-        return areas;
+    public RPGPerson getLeader() {
+        return leader;
     }
-    public void addArea(AreaChunk areaChunk) {
-        areas.add(areaChunk);
-        this.updateStats();
+    public void setLeader(RPGPerson leader) {
+        this.leader = leader;
     }
 
-    public List<RPGPerson> getMembers() {
+    public Set<RPGPerson> getMembers() {
         return members;
+    }
+    public void addMember(RPGPerson person) {
+        this.members.add(person);
+    }
+
+    public String toString() {
+        return this.getName()+": "
+                + this.getLeader().getPerson().getName()+","
+                + this.getGrowth()+","
+                + this.getHammers()+","
+                + this.getCulture()+","
+                + this.getScience();
     }
 }

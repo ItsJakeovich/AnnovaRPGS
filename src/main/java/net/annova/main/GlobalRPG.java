@@ -1,5 +1,8 @@
 package net.annova.main;
 
+import net.annova.environment.civilization.Civilization;
+import net.annova.environment.civilization.Town;
+import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.object.entity.core.RPGEntity;
@@ -9,9 +12,12 @@ import net.annova.object.npc.RPGNPC;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.quest.QuestBase;
 import net.annova.environment.structure.Structure;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.ChunkPos;
+import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -37,6 +43,10 @@ public class GlobalRPG {
     private static final Map<Integer, Dungeon> dungeons = new HashMap<>();
     private static final Map<String, Structure> structures = new HashMap<>();
     private static final Map<String, QuestBase> quests = new HashMap<>();
+
+    private static final Map<String, Civilization> civilizations = new HashMap<>();
+    private static final Map<String, Town> towns = new HashMap<>();
+    private static final Map<ChunkPos, AreaChunk> townChunks = new HashMap<>();
 
     @Nullable
     public static RPGPerson getRPGPerson(Entity entity) {
@@ -183,6 +193,41 @@ public class GlobalRPG {
     }
     public static Map<String, QuestBase> getQuestsMap() {
         return quests;
+    }
+
+    public static Collection<Civilization> getCivilizations() {
+        return civilizations.values();
+    }
+    public static Civilization getCivilization(String name) {
+        return civilizations.get(name);
+    }
+    public static Civilization addCivilization(String civName, RPGPerson leader) {
+        Civilization civilization = new Civilization(civName, leader);
+        civilizations.put(civName, civilization);
+        return civilization;
+    }
+
+    public static Town getTown(String name) {
+        return towns.get(name);
+    }
+    public static void removeTown(Town town) {
+        towns.remove(town.getName());
+        for (AreaChunk chunk : town.getChunks()) {
+            townChunks.remove(chunk.getPosition());
+        }
+    }
+    public static void addTown(Town town) {
+        towns.put(town.getName(), town);
+    }
+
+    public static Map<ChunkPos, AreaChunk> getTownChunks() {
+        return townChunks;
+    }
+    public AreaChunk getTownChunk(ChunkPos pos) {
+        return townChunks.get(pos);
+    }
+    public static void addTownChunk(Town town, AreaChunk areaChunk) {
+        townChunks.put(areaChunk.getPosition(), areaChunk);
     }
 
     public static SoundEvent getSoundFromString(String string) {
