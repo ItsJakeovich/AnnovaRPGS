@@ -38,6 +38,11 @@ public class TideBlade extends RPGItem implements RPGTool, Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void attack(BattleCE event) {
         LivingEntity damager = event.getDamager();

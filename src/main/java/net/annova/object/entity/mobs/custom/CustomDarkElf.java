@@ -40,7 +40,7 @@ public class CustomDarkElf extends Bogged {
     }
 
     @Override
-    protected boolean isSunBurnTick() {
+    public boolean isSunBurnTick() {
         return false;
     }
 
@@ -50,7 +50,7 @@ public class CustomDarkElf extends Bogged {
     private final SoundEvent death = getSoundFromString("custom.darkelf.death");
     private final SoundEvent attack = getSoundFromString("custom.darkelf.attack");
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return ambient;
     }
 
@@ -60,12 +60,12 @@ public class CustomDarkElf extends Bogged {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return hurt;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return death;
     }
 

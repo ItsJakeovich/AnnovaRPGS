@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,6 +44,11 @@ public class PrisonContainerItem extends RPGItem implements Listener {
     @Override
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
+    }
+
+    @Override
+    public boolean unusable() {
+        return false;
     }
 
     @EventHandler

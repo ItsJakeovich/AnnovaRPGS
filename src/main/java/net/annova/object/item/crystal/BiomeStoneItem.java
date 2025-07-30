@@ -49,6 +49,11 @@ public class BiomeStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private static final Map<Biome, Integer> biomeColors = new HashMap<>();
     static {
         biomeColors.put(OCEAN, 0x4682B4);

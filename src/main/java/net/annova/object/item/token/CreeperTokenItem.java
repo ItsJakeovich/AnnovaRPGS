@@ -33,6 +33,11 @@ public class CreeperTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(EntityTargetEvent event) {
         if (!CREEPER_TOKEN.has(event.getTarget())) return;

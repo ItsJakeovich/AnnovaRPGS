@@ -36,6 +36,11 @@ public class GravityStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(EntityPotionEffectEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {

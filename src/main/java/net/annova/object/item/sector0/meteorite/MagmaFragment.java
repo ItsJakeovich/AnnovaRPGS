@@ -29,4 +29,9 @@ public class MagmaFragment extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
+
+    @Override
+    public boolean unusable() {
+        return false;
+    }
 }

@@ -46,6 +46,11 @@ public class TimeStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private static final Set<Entity> stopped = new HashSet<>();
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {

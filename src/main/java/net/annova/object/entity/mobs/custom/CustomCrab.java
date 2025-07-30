@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.custom;
 
+import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import org.bukkit.event.entity.EntityKnockbackEvent;
 
 import java.util.Optional;
 import java.util.Set;
@@ -76,7 +76,7 @@ public class CustomCrab extends CaveSpider {
         if (flag) {
             float f1 = this.getKnockback(entity, damagesource);
             if (f1 > 0.0F && entity instanceof LivingEntity entityliving) {
-                entityliving.knockback((double)(f1 * 0.5F), (double)Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), this, EntityKnockbackEvent.KnockbackCause.ENTITY_ATTACK);
+                entityliving.knockback((double)(f1 * 0.5F), (double)Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), this, EntityKnockbackEvent.Cause.ENTITY_ATTACK);
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, (double)1.0F, 0.6));
             }
 
@@ -99,17 +99,17 @@ public class CustomCrab extends CaveSpider {
     }
 
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return SoundEvents.TURTLE_AMBIENT_LAND;
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return SoundEvents.TURTLE_HURT;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return SoundEvents.TURTLE_DEATH;
     }
 

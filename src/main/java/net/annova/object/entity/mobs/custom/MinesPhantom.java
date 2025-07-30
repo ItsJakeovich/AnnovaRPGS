@@ -10,7 +10,7 @@ public class MinesPhantom extends Zombie {
     }
 
     @Override
-    protected boolean isSunBurnTick() {
+    public boolean isSunBurnTick() {
         return false;
     }
 }

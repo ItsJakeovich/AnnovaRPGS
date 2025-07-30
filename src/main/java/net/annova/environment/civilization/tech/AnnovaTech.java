@@ -1,12 +1,16 @@
 package net.annova.environment.civilization.tech;
 
 import net.annova.environment.civilization.Civilization;
+import net.annova.lang.AISString;
+import net.annova.object.person.RPGPerson;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.List;
+
+import static net.annova.main.AnnovaRPG.getInstance;
 
 public enum AnnovaTech {
     COLLECTING(Category.PROSPERITY, Items.SWEET_BERRIES, 0),
@@ -21,7 +25,7 @@ public enum AnnovaTech {
     private final Category category;
     private final Item icon;
     private final int baseScience;
-    private final EnumSet<AnnovaTech> depends = EnumSet.noneOf(AnnovaTech.class);
+    private final EnumSet<AnnovaTech> depends;
 
     private static final EnumMap<AnnovaTech.Category, EnumSet<AnnovaTech>> TECHS_BY_CATEGORY = new EnumMap<>(AnnovaTech.Category.class);
     static {
@@ -37,7 +41,8 @@ public enum AnnovaTech {
         this.category = category;
         this.icon = icon;
         this.baseScience = baseScience;
-        this.depends.addAll(Arrays.asList(depends));
+        this.depends = EnumSet.noneOf(AnnovaTech.class);
+        this.depends.addAll(List.of(depends));
     }
 
     public Category getCategory() {
@@ -57,6 +62,10 @@ public enum AnnovaTech {
 
     public EnumSet<AnnovaTech> getDepends() {
         return depends;
+    }
+
+    public AISString toString(RPGPerson person) {
+        return person.getPerson().getAISString(getInstance(), this.name());
     }
 
     public enum Type {

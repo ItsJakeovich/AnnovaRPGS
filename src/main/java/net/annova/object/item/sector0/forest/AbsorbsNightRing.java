@@ -34,6 +34,11 @@ public class AbsorbsNightRing extends RPGItem implements ItemEquipment {
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public EquipType getEquipmentType() {
         return EquipType.RING;
     }

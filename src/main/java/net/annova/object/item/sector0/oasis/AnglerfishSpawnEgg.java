@@ -3,11 +3,9 @@ package net.annova.object.item.sector0.oasis;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.mobs.sector0.oasis.AnglerFish;
 import net.annova.object.item.base.RPGItem;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_21_R4.block.CraftBlock;
+import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +34,11 @@ public class AnglerfishSpawnEgg extends RPGItem implements Listener {
     @Override
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
+    }
+
+    @Override
+    public boolean unusable() {
+        return false;
     }
 
     @EventHandler

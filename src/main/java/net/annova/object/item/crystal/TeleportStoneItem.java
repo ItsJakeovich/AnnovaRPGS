@@ -38,6 +38,11 @@ public class TeleportStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         ItemStack item = event.getItem();

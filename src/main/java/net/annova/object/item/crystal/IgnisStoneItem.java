@@ -45,6 +45,11 @@ public class IgnisStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private static final MobEffectInstance FIRE_RESISTANCE = new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200, 0);
     @EventHandler
     private void mechanic(InteractCE event) {

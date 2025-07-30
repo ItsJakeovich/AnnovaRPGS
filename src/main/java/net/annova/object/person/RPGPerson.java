@@ -6,6 +6,7 @@ import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.lang.AISString;
 import net.annova.object.person.equipment.ArmorSet;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
@@ -19,7 +20,6 @@ import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.annova.object.person.status.ValueType;
-import net.annova.util.AISString;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
@@ -36,7 +36,7 @@ import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
 import org.bukkit.advancement.AdvancementProgress;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
@@ -54,9 +54,9 @@ import java.util.Set;
 
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
 import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
-import static net.annova.util.MessageObjects.sendForAll;
 import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
 public class RPGPerson {

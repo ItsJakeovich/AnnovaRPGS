@@ -27,4 +27,9 @@ public class GreenStoneItem extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
+
+    @Override
+    public boolean unusable() {
+        return false;
+    }
 }

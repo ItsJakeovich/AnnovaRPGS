@@ -4,7 +4,7 @@
   <groupId>net.annova</groupId>
   <artifactId>AnnovaRPG</artifactId>
   <name>AnnovaRPG</name>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
 
   <build>
     <resources>
@@ -61,34 +61,20 @@
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>spigotmc-repo</id>
-      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>papermc</id>
-      <url>https://repo.papermc.io/repository/maven-public/</url>
-    </repository>
-    <repository>
-      <id>sonatype</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
-      <groupId>io.papermc.paper</groupId>
-      <artifactId>paper-api</artifactId>
-      <version>1.21.5-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
+      <groupId>org.purpurmc</groupId>
+      <artifactId>purpur-api</artifactId>
+      <version>1.21.5</version>
+      <scope>system</scope>
+      <systemPath>/home/itsjakeovich/IdeaProjects/Purpur/purpur-api/build/libs/purpur-api-1.21.5-R0.1-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot</artifactId>
-      <version>1.21.5-R0.1-SNAPSHOT</version>
-      <classifier>remapped-mojang</classifier>
-      <scope>provided</scope>
+      <groupId>net.minecraft</groupId>
+      <artifactId>purpur-nms</artifactId>
+      <version>1.21.5</version>
+      <scope>system</scope>
+      <systemPath>/home/itsjakeovich/IdeaProjects/Purpur/purpur-server/build/libs/purpur-server-1.21.5-R0.1-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.annova</groupId>

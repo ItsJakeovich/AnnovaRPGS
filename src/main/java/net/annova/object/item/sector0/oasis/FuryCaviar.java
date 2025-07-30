@@ -36,6 +36,11 @@ public class FuryCaviar extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!FURY_CAVIAR.equals(event.getItem())) return;

@@ -37,7 +37,7 @@ import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
-import net.annova.util.AISString;
+import net.annova.lang.AISString;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -71,9 +71,10 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.*;
 import static net.annova.object.person.RPGPerson.colorizeNumber;
 import static net.annova.util.BukkitObjects.chance;
-import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
+import static org.bukkit.craftbukkit.inventory.CraftItemStack.asNMSCopy;
 
 public enum ItemType {
+    EMPTY(new EmptyItem()),
     // Civilization
     BRAIDED_LEATHER(new BraidedLeather()),
     CAMP(new Camp()),
@@ -186,8 +187,6 @@ public enum ItemType {
     SPIDER_CHITIN(new SpiderChitin()),
     // unique
     DUNGEON_KEY(new DungeonKeyItem()),
-
-    EMPTY(new EmptyItem())
     ;
 
     private final RPGItem item;
@@ -388,7 +387,7 @@ public enum ItemType {
         return this.create(person.getPerson(), amount, chance);
     }
     public ItemStack create(Person person, int amount, double chance) {
-        if (amount < 1 || (chance != 1 && !chance(chance))) return ItemStack.EMPTY;
+        if (this.item.type() == Items.AIR|| amount < 1 || (chance != 1 && !chance(chance))) return ItemStack.EMPTY;
 
         ItemStack nms = new ItemStack(this.item.type(), amount);
 

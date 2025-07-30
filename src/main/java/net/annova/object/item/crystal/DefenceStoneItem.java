@@ -9,9 +9,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.util.BukkitObjects.addItems;
-
 public class DefenceStoneItem extends RPGItem {
     @Override
     public Item type() {
@@ -31,6 +28,11 @@ public class DefenceStoneItem extends RPGItem {
     @Override
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
+    }
+
+    @Override
+    public boolean unusable() {
+        return false;
     }
 
     public static final PotionEffect DEFENCE_STONE_RESISTANCE = new PotionEffect(PotionEffectType.RESISTANCE, 120, 1, true, false, true);

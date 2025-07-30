@@ -39,6 +39,11 @@ public class ControlMovementStickItem extends RPGItem implements Listener {
         return RPGRarity.IMPOSSIBLE;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void hit(EntityDamageByEntityEvent conEvent) {
         if (!(conEvent.getDamager() instanceof Player damager)) return;

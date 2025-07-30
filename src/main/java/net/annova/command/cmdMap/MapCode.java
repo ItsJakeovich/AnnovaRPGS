@@ -2,7 +2,7 @@ package net.annova.command.cmdMap;
 
 import net.annova.command.register.DefaultArg;
 import net.annova.object.Person;
-import net.annova.util.AISString;
+import net.annova.lang.AISString;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

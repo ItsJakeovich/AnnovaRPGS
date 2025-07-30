@@ -34,6 +34,11 @@ public class PrisonChestplateItem extends RPGItem implements RPGArmor, RPGArmorA
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public void activity(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 600, 0));
     }

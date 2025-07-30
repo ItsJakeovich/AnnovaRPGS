@@ -35,6 +35,11 @@ public class ChronoStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     // drop event in net.annova.event.AgeStonesEvent
     @EventHandler
     private void mechanic(BattleCE event) {

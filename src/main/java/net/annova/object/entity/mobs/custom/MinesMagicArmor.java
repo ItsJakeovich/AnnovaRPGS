@@ -42,22 +42,22 @@ public class MinesMagicArmor extends Zombie {
     }
 
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return SoundEvents.ARMOR_EQUIP_IRON.value();
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return SoundEvents.ANVIL_HIT;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return SoundEvents.ANVIL_BREAK;
     }
 
     @Override
-    protected boolean isSunBurnTick() {
+    public boolean isSunBurnTick() {
         return false;
     }
 }

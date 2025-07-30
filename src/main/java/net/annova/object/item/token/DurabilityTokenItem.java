@@ -34,6 +34,11 @@ public class DurabilityTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(PlayerItemDamageEvent event) {
         if (!DURABILITY_TOKEN.has(event.getPlayer())) return;

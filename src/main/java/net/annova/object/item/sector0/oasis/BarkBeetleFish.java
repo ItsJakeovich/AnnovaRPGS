@@ -35,6 +35,11 @@ public class BarkBeetleFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void capitatorEvent(DropItemFoundBlockCE event) {
         if (!BARK_BEETLE_FISH.equals(event.getItem())) return;

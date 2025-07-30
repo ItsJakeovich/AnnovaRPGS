@@ -40,6 +40,11 @@ public class DeathStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();

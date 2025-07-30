@@ -5,7 +5,7 @@ import net.annova.object.SimpleConstruction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.sql.ResultSet;
@@ -63,7 +63,7 @@ public abstract class StructureBase {
         Vec3i build = construction.getBuildPoint();
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", construction.getKey());
-        save.put("LOCATION", level.getLevel().L.getLevelName() + "," + build.getX() + "," + build.getY() + "," + build.getZ());
+        save.put("LOCATION", level.serverLevelData.getLevelName() + "," + build.getX() + "," + build.getY() + "," + build.getZ());
         save.put("START", this.isStart());
 
         this.onSave(save);

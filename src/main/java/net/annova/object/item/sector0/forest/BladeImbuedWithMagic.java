@@ -41,6 +41,11 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public double damage() {
         return 8.5;
     }

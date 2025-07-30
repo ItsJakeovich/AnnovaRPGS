@@ -38,6 +38,11 @@ public class ReturnStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getAction().name().charAt(0) != 'R') return;

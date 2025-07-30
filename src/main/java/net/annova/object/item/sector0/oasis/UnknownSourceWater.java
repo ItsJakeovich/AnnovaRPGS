@@ -53,6 +53,11 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Li
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public void initConfiguration(net.minecraft.world.item.ItemStack item) {
         CustomData data = item.get(DataComponents.CUSTOM_DATA);
         item.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);

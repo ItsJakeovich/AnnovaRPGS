@@ -33,6 +33,11 @@ public class DragonStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void onDamage(PlayerDamageCE event) {
         if (DRAGON_STONE.has(event.getPlayer())) {

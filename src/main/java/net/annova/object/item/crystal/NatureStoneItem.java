@@ -29,4 +29,9 @@ public class NatureStoneItem extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
+
+    @Override
+    public boolean unusable() {
+        return false;
+    }
 }

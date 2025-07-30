@@ -39,6 +39,11 @@ public class AirStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();

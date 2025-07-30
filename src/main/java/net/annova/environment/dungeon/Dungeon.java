@@ -8,7 +8,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.Team;
 import net.annova.object.person.status.StatusManager;
-import net.annova.util.AISString;
+import net.annova.lang.AISString;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

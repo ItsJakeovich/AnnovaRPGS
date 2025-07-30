@@ -35,6 +35,11 @@ public class SaturationTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void use(MouseClickCE event) {
         if (event.getClickType().equals(MouseClickCE.ClickType.LEFT_CLICK)) return;

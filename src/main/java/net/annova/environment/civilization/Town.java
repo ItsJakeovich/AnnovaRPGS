@@ -138,11 +138,11 @@ public class Town {
     }
 
     public String toString() {
-        return this.getName()+": "
-                + this.getLeader().getPerson().getName()+","
-                + this.getGrowth()+","
-                + this.getHammers()+","
-                + this.getCulture()+","
+        return "{mc}" + this.getName()+"{sc}: {mc}"
+                + this.getLeader().getPerson().getName()+"{sc},{mc}"
+                + this.getGrowth()+"{sc},{mc}"
+                + this.getHammers()+"{sc},{mc}"
+                + this.getCulture()+"{sc},{mc}"
                 + this.getScience();
     }
 }

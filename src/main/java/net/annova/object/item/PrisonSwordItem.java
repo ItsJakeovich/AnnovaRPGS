@@ -40,6 +40,11 @@ public class PrisonSwordItem extends RPGItem implements RPGTool, Listener {
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public double damage() {
         return 6;
     }

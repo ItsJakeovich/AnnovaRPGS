@@ -35,6 +35,11 @@ public class EntsPatronAmulet extends RPGItem implements ItemEquipment, Listener
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public EquipType getEquipmentType() {
         return EquipType.AMULET;
     }

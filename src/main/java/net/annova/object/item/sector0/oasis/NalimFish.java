@@ -39,6 +39,11 @@ public class NalimFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private final Map<UUID, Long> duration = new HashMap<>();
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {

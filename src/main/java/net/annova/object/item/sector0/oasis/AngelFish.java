@@ -35,6 +35,11 @@ public class AngelFish extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void onDamage(PlayerDamageCE event) {
         LivingEntity entity = event.getEntity();

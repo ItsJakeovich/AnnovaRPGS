@@ -38,6 +38,11 @@ public class FireFish extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     PotionEffect poison = new PotionEffect(PotionEffectType.POISON, 200, 0);
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {

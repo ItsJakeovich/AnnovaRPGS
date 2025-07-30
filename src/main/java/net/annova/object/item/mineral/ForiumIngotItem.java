@@ -27,4 +27,9 @@ public class ForiumIngotItem extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.EVENT;
     }
+
+    @Override
+    public boolean unusable() {
+        return false;
+    }
 }

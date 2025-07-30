@@ -34,6 +34,11 @@ public class VitalStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     // drop event in net.annova.event.AgeStonesEvent
 
     @EventHandler

@@ -28,6 +28,11 @@ public class ForiumFragmentItem extends RPGItem {
         return RPGRarity.EVENT;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
 //    public ItemStack create(RPGPerson person, double chance) {
 //        double plus = 0;
 //        for (RPGItem item : person.getRPGArmor()) {

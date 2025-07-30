@@ -27,4 +27,9 @@ public class CrabClaw extends RPGItem {
     public RPGRarity rarity() {
         return RPGRarity.COMMON;
     }
+
+    @Override
+    public boolean unusable() {
+        return false;
+    }
 }

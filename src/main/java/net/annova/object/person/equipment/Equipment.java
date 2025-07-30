@@ -15,17 +15,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_21_R4.CraftServer;
+import org.bukkit.craftbukkit.CraftServer;
 
 import javax.annotation.Nullable;
 
 import java.util.*;
 
+import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.EQUIPMENT_MENU;
 import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.object.item.base.RPGItem.getItemId;
-import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
+import static org.bukkit.craftbukkit.inventory.CraftItemStack.asNMSCopy;
 
 public class Equipment {
     private final RPGPerson person;
@@ -230,11 +231,9 @@ public class Equipment {
         for (int i = 0; i < serialItems.length; i++) {
             String serialItem = serialItems[i];
             if (serialItem.equals(" ")) continue;
-
             try {
                 this.addEquipment(i, // index
-                                net.minecraft.world.item.ItemStack.CODEC.parse(NbtOps.INSTANCE, TagParser.parseCompoundFully(serialItem))
-                                .getOrThrow()
+                                net.minecraft.world.item.ItemStack.parse(getMinecraftServer().registryAccess(), TagParser.parseCompoundFully(serialItem)).get()
                 );
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e);

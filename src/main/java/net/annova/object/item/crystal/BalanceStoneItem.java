@@ -36,6 +36,11 @@ public class BalanceStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     public static final Set<EntityType<?>> UNDEAD = Set.of(
             EntityType.ZOMBIE,
 //            EntityType.ZOMBIE_VILLAGER,

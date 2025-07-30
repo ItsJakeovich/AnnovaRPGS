@@ -58,7 +58,7 @@ public class CustomMeteoriteGolem extends IronGolem {
     private final SoundEvent attack = getSoundFromString("custom.somethingo.attack");
 
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return ambient;
     }
 
@@ -68,12 +68,12 @@ public class CustomMeteoriteGolem extends IronGolem {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return hurt;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return death;
     }
 

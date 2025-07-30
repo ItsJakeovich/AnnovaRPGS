@@ -2,7 +2,7 @@ package net.annova.object.person.quest;
 
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
-import net.annova.util.AISString;
+import net.annova.lang.AISString;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 

@@ -15,7 +15,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.bukkit.craftbukkit.v1_21_R4.potion.CraftPotionEffectType;
+import org.bukkit.craftbukkit.potion.CraftPotionEffectType;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -34,13 +34,13 @@ public class CustomOlderEnt extends CustomIronGolem {
     }
 
     @Override
-    public boolean setTarget(LivingEntity entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
+    public boolean setTarget(LivingEntity entityliving, EntityTargetEvent.TargetReason reason) {
         if (entityliving instanceof Player player) {
             RPGPerson person = getRPGPerson(player.getUUID());
             if (person.getStatusManager().hasStatus(StatusType.ENT_PATRON_BUFF)) return false;
             if (ENT_CORE.has(player.getBukkitEntity())) return false;
         }
-        return super.setTarget(entityliving, reason, fireEvent);
+        return super.setTarget(entityliving, reason);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CustomOlderEnt extends CustomIronGolem {
     private final SoundEvent death = getSoundFromString("custom.olderent.death");
     private final SoundEvent attack = getSoundFromString("custom.olderent.attack");
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return ambient;
     }
     @Override
@@ -77,11 +77,11 @@ public class CustomOlderEnt extends CustomIronGolem {
         this.playSound(step, 1.0F, 1.0F);
     }
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return hurt;
     }
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return death;
     }
     @Override

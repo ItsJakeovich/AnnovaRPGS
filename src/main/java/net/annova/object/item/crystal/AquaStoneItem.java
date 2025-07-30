@@ -36,6 +36,11 @@ public class AquaStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();

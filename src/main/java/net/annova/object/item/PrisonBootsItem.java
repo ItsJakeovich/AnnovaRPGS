@@ -30,6 +30,11 @@ public class PrisonBootsItem extends RPGItem implements RPGArmor {
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public float armor() {
         return 2;
     }

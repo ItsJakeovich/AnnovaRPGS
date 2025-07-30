@@ -40,6 +40,11 @@ public class FlyTokenItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private static final Set<UUID> allow = new HashSet<>();
     @EventHandler
     private void use(PlayerInteractEvent event) {

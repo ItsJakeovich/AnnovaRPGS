@@ -47,6 +47,11 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void interact(InteractCE event) {
         PlayerInteractEvent handle = event.getHandle();

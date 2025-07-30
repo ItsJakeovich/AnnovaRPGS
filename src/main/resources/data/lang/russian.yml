@@ -7,6 +7,8 @@ death-dungeon: "{pc}| {sc}{name} {mc}погиб в подземелье!"
 
 weapon-cast: "{pc}❖ {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 
+nothing: "ничего"
+
 ### Person
 ## Sector location
 sector-loc-empty: "{sc}пустошь"
@@ -26,6 +28,10 @@ camp-set: "{pc}❖ Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был устан�
 {} {mc}|● {sc}Для осведомления просмотрите команду {sc}{s-com-/town}"
 ## Research
 civ-research-CAMP-idle: "{ac}❖ {mc}Изучения лагеря простаивают{sc}!"
+
+PROSPERITY: "Процветание"
+HUNT: "Охота"
+Threat: "Угроза"
 civ-research-PROSPERITY-no-goal: "{ac}❖ {mc}Ветка процветания простаивает{sc}!"
 civ-research-HUNT-no-goal: "{ac}❖ {mc}Ветка охоты простаивает{sc}!"
 civ-research-THREAT-no-goal: "{ac}❖ {mc}Ветка угрозы простаивает{sc}!"
@@ -33,6 +39,8 @@ civ-research-THREAT-no-goal: "{ac}❖ {mc}Ветка угрозы простаи
 civ-research-start: "{pc}❖ {mc}Технология {sc}⌈{ac}{tech}{sc}⌋ {mc}начала изучение{sc}!"
 civ-research-progress: "{pc}❖ {mc}Технология {sc}⌈{ac}{tech}{sc}⌋ {mc}изучена на {progress}{sc}!"
 civ-research-complete: "{pc}❖ {mc}Технология {sc}⌈{ac}{tech}{sc}⌋ {mc}изучена{sc}!"
+
+civ-research-empty: "{mc}мы ничего не исследуем{sc}!"
 
 COLLECTING: "Собирательство"
 FIRE: "Огонь"
@@ -42,6 +50,22 @@ JOINT_HUNTING: "Совместная охота"
 SPEAR: "Копье"
 GESTICULATION: "Гестикуляция"
 TRAPS: "Ловушки"
+## commands
+civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
+civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{ac}{name}{sc}⌋ {mc}не найдена{sc}!"
+civ-info: "
+{pc}≡ {mc}Информация о госудастве{pc}: 
+{}{pc}● {mc}Название{sc}: {mc}{name}
+{}{pc}● {mc}Этап{sc}: {mc}{stage}
+{}{pc}● {mc}Столица{sc}: {mc}{capital}
+{}{pc}● {mc}Города{sc}: {mc}{towns}
+"
+civ-info-advanced: "
+{}{pc}● {mc}Наука{sc}: {mc}{science}
+{}{pc}● {mc}Исследования{sc}: {mc}{research}
+{}{pc}● {mc}Лидеры{sc}: {mc}{leaders}*
+"
+
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
@@ -61,19 +85,6 @@ avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 {}{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
 ## calculator
 calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
-## civilization
-civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
-civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{ac}{name}{sc}⌋ {mc}не найдена{sc}!"
-civ-info: "
-{pc}≡ {mc}Информация о госудастве{pc}: 
-{}{pc}● {mc}Название{sc}: {mc}{name}
-{}{pc}● {mc}Этап{sc}: {mc}{stage}
-{}{pc}● {mc}Столица{sc}: {mc}{capital}
-{}{pc}● {mc}Города{sc}: {mc}{towns}
-"
-civ-info-advanced: "
-{}{pc}● {mc}Лидеры{sc}: {mc}{leaders}*
-"
 #calc-creative: "{pc}❖ {mc}Творческий режим{sc}."
 calc-result: "{pc}❖ {mc}Результат{sc}: {ac}{result}"
 calc-error: "{pc}❖ {mc}Невозможно выполнить уравнение{sc}: {ac}{input}"
@@ -160,6 +171,7 @@ armor-defence:   "{pc}⛊ {mc}Защита{sc}: "
 armor-toughness: "{pc}⛉ {mc}Твердость{sc}: "
 armor-speed:     "{pc}🌀 {mc}Скорость{sc}: "
 
+unknown-name: "отсутствует."
 ## Civilization
 BRAIDED_LEATHER: "Плетёная кожа"
 BRAIDED_LEATHER-lore: "{pc}| {mc}Вы не очень хороши в плетении{sc}, {mc}но{sc}, {mc}похоже{sc}, {mc}вышло не плохо{sc}?"

@@ -9,8 +9,6 @@ import net.annova.object.Person;
 import net.annova.object.SimpleObject;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.ChunkPos;
-import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -38,6 +36,12 @@ public class ConfirmEvent implements Listener {
         Confirm confirm = person.getConfirm();
         switch (confirm.getConfirmType()) {
             case "set-camp" -> {
+                String name = (String) confirm.getData().getOrDefault("name", "");
+                if (!isCyrillicOrLatin(name)) {
+                    person.send(getInstance(), "camp-set-cancel-name");
+                    return;
+                }
+
                 RPGPerson rpg = getRPGPerson(person);
                 ServerPlayer player = rpg.getServerPlayer();
 
@@ -45,11 +49,6 @@ public class ConfirmEvent implements Listener {
                 if (chunk.isWater()) {
                     person.send(getInstance(), "camp-set-cancel-water");
                     person.resetConfirm();
-                    return;
-                }
-                String name = (String) confirm.getData().getOrDefault("name", "");
-                if (!isCyrillicOrLatin(name)) {
-                    person.send(getInstance(), "camp-set-cancel-name");
                     return;
                 }
 

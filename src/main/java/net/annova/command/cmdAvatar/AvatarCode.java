@@ -1,10 +1,10 @@
 package net.annova.command.cmdAvatar;
 
 import net.annova.command.register.CommandArg;
+import net.annova.lang.AISString;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.ValueType;
-import net.annova.util.AISString;
 import org.bukkit.entity.Player;
 
 import static net.annova.main.AnnovaRPG.getInstance;

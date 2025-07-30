@@ -9,12 +9,8 @@ import net.annova.environment.structure.Structure;
 import net.annova.environment.structure.StructureBase;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.*;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.level.biome.Biome;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
@@ -24,13 +20,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.event.summon.EntityEvent.indicators;
-import static net.annova.main.AnnovaAPI.getMinecraftServer;
-import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
 import static net.annova.main.GlobalRPG.*;
@@ -50,12 +43,12 @@ public final class AnnovaRPG extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
-        try {
-            loadInfo.add("{pc}| {mc}События{sc}: {ac}" + initEvents(getInstance(), "net.annova"));
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                 NoSuchMethodException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            loadInfo.add("{pc}| {mc}События{sc}: {ac}" + initEvents(getInstance(), "net.annova"));
+//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+//                 NoSuchMethodException | InvocationTargetException e) {
+//            throw new RuntimeException(e);
+//        }
         try {
             loadInfo.add("{pc}| {mc}Команды{sc}: {ac}" + initCommands("RPGCommand", "net.annova.command"));
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException |

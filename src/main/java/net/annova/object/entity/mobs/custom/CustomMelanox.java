@@ -21,7 +21,7 @@ public class CustomMelanox extends Spider {
     private final SoundEvent death = getSoundFromString("custom.melanox.death");
     private final SoundEvent attack = getSoundFromString("custom.melanox.attack");
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return ambient;
     }
 
@@ -31,12 +31,12 @@ public class CustomMelanox extends Spider {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return hurt;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return death;
     }
 

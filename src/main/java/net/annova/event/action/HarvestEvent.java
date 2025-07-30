@@ -7,7 +7,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

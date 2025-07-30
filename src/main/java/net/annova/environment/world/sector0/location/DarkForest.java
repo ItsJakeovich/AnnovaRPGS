@@ -13,7 +13,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_21_R4.CraftParticle;
+import org.bukkit.craftbukkit.CraftParticle;
 
 import java.util.EnumSet;
 import java.util.HashMap;

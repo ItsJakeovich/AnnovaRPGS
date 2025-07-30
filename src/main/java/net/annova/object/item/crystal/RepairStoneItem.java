@@ -44,6 +44,11 @@ public class RepairStoneItem extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private final String title = ChatColor.BLUE + "Нажатием почините предмет:";
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {

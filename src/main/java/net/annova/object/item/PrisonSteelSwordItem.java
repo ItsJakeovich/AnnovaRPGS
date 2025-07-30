@@ -34,6 +34,11 @@ public class PrisonSteelSwordItem extends RPGItem implements ItemAction, RPGTool
     }
 
     @Override
+    public boolean unusable() {
+        return false;
+    }
+
+    @Override
     public double damage() {
         return 12.5;
     }

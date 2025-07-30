@@ -35,6 +35,11 @@ public class VolcanicStreamsMalma extends RPGItem implements Listener {
         return RPGRarity.COMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     public void consume(PlayerItemConsumeEvent event) {
         if (!AZURE_FISH.equals(event.getItem())) return;

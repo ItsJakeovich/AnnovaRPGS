@@ -36,7 +36,12 @@ public class DarkStoneItem extends RPGItem implements Listener {
     public RPGRarity rarity() {
         return RPGRarity.UNCOMMON;
     }
-    
+
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     @EventHandler
     private void mechanic(PlayerInteractEvent event) {
         Player player = event.getPlayer();

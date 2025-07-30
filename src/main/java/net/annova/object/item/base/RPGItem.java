@@ -16,7 +16,7 @@ import java.util.List;
 
 import static net.annova.main.Keys.*;
 import static net.minecraft.sounds.SoundEvents.PISTON_EXTEND;
-import static org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack.asNMSCopy;
+import static org.bukkit.craftbukkit.inventory.CraftItemStack.asNMSCopy;
 
 public abstract class RPGItem {
     public abstract Item type();

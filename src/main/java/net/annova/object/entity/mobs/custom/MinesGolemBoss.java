@@ -30,7 +30,7 @@ public class MinesGolemBoss extends CustomIronGolem {
     private final SoundEvent death = getSoundFromString("custom.eldergolem.death");
     private final SoundEvent attack = getSoundFromString("custom.eldergolem.attack");
     @Override
-    protected SoundEvent getAmbientSound() {
+    public SoundEvent getAmbientSound() {
         return ambient;
     }
 
@@ -40,12 +40,12 @@ public class MinesGolemBoss extends CustomIronGolem {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource var0) {
+    public SoundEvent getHurtSound(DamageSource var0) {
         return hurt;
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    public SoundEvent getDeathSound() {
         return death;
     }
 

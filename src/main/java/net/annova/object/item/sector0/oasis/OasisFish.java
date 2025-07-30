@@ -43,6 +43,11 @@ public class OasisFish extends RPGItem implements Listener {
         return RPGRarity.UNCOMMON;
     }
 
+    @Override
+    public boolean unusable() {
+        return false;
+    }
+
     private final String[] messageKeys = {
             "s0-oasis-oasis-0",
             "s0-oasis-oasis-1",

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.jetbrains.annotations.Nullable;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.ENT_CORE;
@@ -27,13 +28,13 @@ public class CustomEnt extends Zombie {
     }
 
     @Override
-    public boolean setTarget(LivingEntity entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
-        if (entityliving instanceof Player player) {
+    public boolean setTarget(@Nullable LivingEntity target, @Nullable EntityTargetEvent.TargetReason reason) {
+        if (target instanceof Player player) {
             RPGPerson person = getRPGPerson(player.getUUID());
             if (person.getStatusManager().hasStatus(StatusType.ENT_PATRON_BUFF)) return false;
             if (ENT_CORE.has(player.getBukkitEntity())) return false;
         }
-        return super.setTarget(entityliving, reason, fireEvent);
+        return super.setTarget(target, reason);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class CustomEnt extends Zombie {
     }
 
     @Override
-    protected boolean isSunBurnTick() {
+    public boolean isSunBurnTick() {
         return false;
     }
 }
