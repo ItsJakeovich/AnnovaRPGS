@@ -1,6 +1,6 @@
 package net.annova.object.item.crystal;
 
-import net.annova.event.custom.InteractCE;
+import net.annova.event.custom.RightInteractCE;
 import net.annova.object.RPGRarity;
 import net.annova.object.person.status.Status;
 import net.annova.event.custom.MobDamageCE;
@@ -53,7 +53,7 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
     }
 
     @EventHandler
-    private void interact(InteractCE event) {
+    private void interact(RightInteractCE event) {
         PlayerInteractEvent handle = event.getHandle();
         if (handle.getAction().name().charAt(0) != 'R') return;
         if (!handle.getHand().equals(EquipmentSlot.HAND)) return;

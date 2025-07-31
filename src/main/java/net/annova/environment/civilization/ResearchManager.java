@@ -71,7 +71,7 @@ public class ResearchManager {
             case CULTURE -> this.cultureGoal = tech;
             case COMMERCIAL -> this.commercialGoal = tech;
             case MILITARY -> this.militaryGoal = tech;
-        };
+        }
     }
 
     public EnumSet<AnnovaTech> getCompleteTechs() {
@@ -175,14 +175,18 @@ public class ResearchManager {
 
     public AISString researchToString(RPGPerson rpgPerson, AnnovaTech.Type type) {
         Person person = rpgPerson.getPerson();
-        AISString string = new AISString(person.getAISString(getInstance(), getByStageAndType(civilization.getStage(), type).name()) + "{sc}: {mc}");
+        AISString string = person.getAISString(getInstance(), getByStageAndType(civilization.getStage(), type).name());
+        string.append("{sc}: {mc}");
         Research research = this.getResearch(type);
-        if (research == null) {
-            string.append(
-                    research.getTech().toString(rpgPerson) + "{sc}" + (int)(this.getResearchCost(research)/research.getProgress()) + "%" +
-                    "{sc}→ {mc}" + this.getCultureGoal().toString(rpgPerson) + "{sc}."
-            );
-        } else string.append(person.getAISString(getInstance(), "nothing") + "{sc}.");
+        if (research != null) {
+            string.append(research.getTech().toString(rpgPerson));
+            string.append("{sc}" + (int)(this.getResearchCost(research)/research.getProgress()) + "%" + "{sc}→ {mc}");
+            string.append(this.getCultureGoal().toString(rpgPerson));
+            string.append("{sc}.");
+        } else {
+            string.append(person.getAISString(getInstance(), "nothing"));
+            string.append("{sc}.");
+        }
         return string;
     }
 }

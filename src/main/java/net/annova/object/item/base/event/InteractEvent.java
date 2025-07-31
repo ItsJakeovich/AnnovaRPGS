@@ -1,6 +1,6 @@
 package net.annova.object.item.base.event;
 
-import net.annova.event.custom.InteractCE;
+import net.annova.event.custom.RightInteractCE;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -8,7 +8,7 @@ import static net.annova.object.item.base.ItemType.getRPGItem;
 
 public class InteractEvent implements Listener {
     @EventHandler
-    public void interact(InteractCE event) {
+    public void interact(RightInteractCE event) {
         if (getRPGItem(event.getItemInHand()).unusable())
             event.setCancelled(true);
     }

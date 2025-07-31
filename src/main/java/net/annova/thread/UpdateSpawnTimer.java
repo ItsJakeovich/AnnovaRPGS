@@ -3,11 +3,13 @@ package net.annova.thread;
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
 import net.annova.object.Vec3iSelection;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.MinuteTickEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -26,7 +28,10 @@ public class UpdateSpawnTimer implements Listener {
             for (SectorLocation location : worldSectors.get(level).zones()) {
                 Vec3iSelection[] borders = location.borders();
                 for (RPGEntityType entity : location.entitiesToSpawn()) {
-                    entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 0);
+                    if (entity.isBoss() && location.getBoss() != null) continue;
+                    RPGEntity living = entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 0);
+
+                    if (living != null && entity.isBoss()) location.setBoss(living);
                 }
             }
         }

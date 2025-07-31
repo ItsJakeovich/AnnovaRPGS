@@ -17,13 +17,18 @@ equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот п
 equipment-menu: "{pc}≡ {mc}Экипировка"
 
 ### Civilization
+stage-CAMP: "лагерь"
+stage-PROVINCE: "провинция"
+stage-CIVILIZATION: "цивилизация"
 ## Camp
-camp-set-action: "{pc}❖ {mc}Введите название своего лагеря в чат{sc}."
-camp-set-name: "{pc}❖ {mc}Установлено {sc}⌈{ac}{name}{sc}⌋. {mc}Если хотите изменить его{sc}, {mc}введите еще раз новое{sc}.
+camp-set-action: "{pc}❖ {mc}Введите название для своего лагеря в чат{sc}.
+{}{sc} | от 4 до 20 символов, латиница и/или кириллица."
+camp-set-cancel-name: "{pc}❖ {mc}Неверный формат названия лагеря {sc}(4-20 символов, латиница или кириллица)!"
+camp-set-name: "{pc}❖ {mc}Установлено {sc}⌈{mc}{name}{sc}⌋. {mc}Если хотите изменить его{sc}, {mc}введите еще раз новое{sc}.
 {} {mc}|● {sc}Подтвердите поставку лагеря командой {s-com-/confirm}"
+camp-set-cancel-blank: "{ac}❖ {mc}Необходимо ввести название лагеря в чат{sc}! "
 camp-set-cancel-water: "{pc}❖ {mc}Нельзя установить лагерь в океане или реке{sc}!"
-camp-set-cancel-name: "{pc}❖ {mc}Неверный формат названия лагеря {sc}(латиница или кириллица)!"
-camp-set: "{pc}❖ Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был установлен{sc}! 
+camp-set: "{pc}❖ {mc}Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был установлен{sc}! 
 {} {mc}|● {sc}Следующим шагом стоит построить главное здание{sc}!
 {} {mc}|● {sc}Для осведомления просмотрите команду {sc}{s-com-/town}"
 ## Research
@@ -31,7 +36,7 @@ civ-research-CAMP-idle: "{ac}❖ {mc}Изучения лагеря проста�
 
 PROSPERITY: "Процветание"
 HUNT: "Охота"
-Threat: "Угроза"
+THREAT: "Угроза"
 civ-research-PROSPERITY-no-goal: "{ac}❖ {mc}Ветка процветания простаивает{sc}!"
 civ-research-HUNT-no-goal: "{ac}❖ {mc}Ветка охоты простаивает{sc}!"
 civ-research-THREAT-no-goal: "{ac}❖ {mc}Ветка угрозы простаивает{sc}!"
@@ -51,19 +56,20 @@ SPEAR: "Копье"
 GESTICULATION: "Гестикуляция"
 TRAPS: "Ловушки"
 ## commands
+civilization-menu: "{pc}≡ {mc}Управление цивилизацией{sc}:"
+civilization-info: "{pc} ● {mc}/civ info {sc}{название} - {mc}информация о цивилизации"
 civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
-civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{ac}{name}{sc}⌋ {mc}не найдена{sc}!"
-civ-info: "
-{pc}≡ {mc}Информация о госудастве{pc}: 
-{}{pc}● {mc}Название{sc}: {mc}{name}
-{}{pc}● {mc}Этап{sc}: {mc}{stage}
-{}{pc}● {mc}Столица{sc}: {mc}{capital}
-{}{pc}● {mc}Города{sc}: {mc}{towns}
+civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{mc}{name}{sc}⌋ {mc}не найдена{sc}!"
+civ-info: "{pc}≡ {mc}Информация о госудастве{pc}: 
+{}{pc} ● {mc}Название{sc}: {mc}{name}
+{}{pc} ● {mc}Этап{sc}: {mc}{stage}
+{}{pc} ● {mc}Столица{sc}: {mc}{capital}
+{}{pc} ● {mc}Города{sc}: {mc}{towns}
 "
 civ-info-advanced: "
-{}{pc}● {mc}Наука{sc}: {mc}{science}
-{}{pc}● {mc}Исследования{sc}: {mc}{research}
-{}{pc}● {mc}Лидеры{sc}: {mc}{leaders}*
+{}{pc} ● {mc}Наука{sc}: {mc}{science}
+{}{pc} ● {mc}Исследования{sc}: {mc}{research}
+{}{pc} ● {mc}Лидеры{sc}: {mc}{leaders}*
 "
 
 ### commands ≡ ● ◆ ❖
@@ -177,9 +183,10 @@ BRAIDED_LEATHER: "Плетёная кожа"
 BRAIDED_LEATHER-lore: "{pc}| {mc}Вы не очень хороши в плетении{sc}, {mc}но{sc}, {mc}похоже{sc}, {mc}вышло не плохо{sc}?"
 CAMP: "Лагерь"
 CAMP-lore: "{pc}| {mc}Кажется{sc}, {mc}тут хорошее место{sc}. {mc}Да{sc}? 
-{}{ac}| {mc}Активируйте его правой кнопкой мыши{sc}."
-FIRST_AID_KIT: "КПН"
-FIRST_AID_KIT-lore: "{pc}| {mc}Комплект первой надобности{sc}."
+{}
+{}{pc}❖ {mc}Установка на правую кнопку мыши{sc}."
+FIRST_AID_KIT: "Комплект первой надобности"
+FIRST_AID_KIT-lore: "{pc}| {mc}Содержит все, что нужно для обустроенного жилища{sc}."
 LOG: "Брёвна"
 LOG-lore: "{pc}| {mc}Та же древесина{sc}. {mc}Просто собранная в кучу{sc}."
 ## containers
@@ -187,63 +194,63 @@ PRISON_CONTAINER: "Пыльный контейнер"
 PRISON_CONTAINER-lore: "{pc}| {mc}Большой пыльный контейнер{sc}."
 ## stones
 AIR_STONE: "Кристалл воздуха"
-AIR_STONE-lore: " {}{pc}| {pc}❖ {mc}Отталкивает ближайщих существ{sc}."
+AIR_STONE-lore: " {}{pc}❖ {mc}Отталкивает ближайщих существ{sc}."
 AQUA_STONE: "Водяной кристалл"
-AQUA_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании накладывает эффект {ac}Грация дельфина{sc}.
-{}{pc}| {pc}❖ {mc}При использовании накладывает эффект {ac}Подводное дыхание{sc}."
+AQUA_STONE-lore: " {}{pc}❖ {mc}При использовании накладывает эффект {ac}Грация дельфина{sc}.
+{}{pc}❖ {mc}При использовании накладывает эффект {ac}Подводное дыхание{sc}."
 BALANCE_STONE: "Кристалл &fбаланса"
-BALANCE_STONE-lore: " {}{pc}| {pc}❖ {mc}Увеличивает вдвое урон по нежити{sc}.
-{}{pc}| {pc}❖ {mc}Уменьшает вдвое урон по не-нежити{sc}."
+BALANCE_STONE-lore: " {}{pc}❖ {mc}Увеличивает вдвое урон по нежити{sc}.
+{}{pc}❖ {mc}Уменьшает вдвое урон по не-нежити{sc}."
 BIOME_STONE: "Частичный кристалл"
 BIOME_STONE-lore: "{pc}| {mc}Когда-то был частью чего-то большего{sc}..."
 CHRONO_STONE: "Кристалл старости"
-CHRONO_STONE-lore: " {}{pc}| {pc}❖ {mc}Урон{sc}: {tc}+2% {mc}за каждое лишенное &c🖤{sc}."
+CHRONO_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+2% {mc}за каждое лишенное &c🖤{sc}."
 DARK_STONE: "Кристалл тьмы"
-DARK_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании окружающие сущности атакуют друг друга{sc}."
+DARK_STONE-lore: " {}{pc}❖ {mc}При использовании окружающие сущности атакуют друг друга{sc}."
 DEATH_STONE: "Кристалл душ"
 DEATH_STONE-lore: "{pc}| {mc}Кристалл душ{sc}, {mc}крайне нестабилен{sc}...
-{}{pc}| {}{pc}| {pc}❖ {mc}Добыча{sc}: {tc}+100%{sc}."
+{}{pc}| {}{pc}❖ {mc}Добыча{sc}: {tc}+100%{sc}."
 DEFENCE_STONE: "Кристалл защиты"
-DEFENCE_STONE-lore: " {}{pc}| {pc}❖ {mc}Эффект{sc}: {tc}сопративление{sc}.
-{}{pc}| {pc}❖ {mc}Эффект{sc}: {fc}замедление{sc}."
+DEFENCE_STONE-lore: " {}{pc}❖ {mc}Эффект{sc}: {tc}сопративление{sc}.
+{}{pc}❖ {mc}Эффект{sc}: {fc}замедление{sc}."
 DRAGON_STONE: "Драконий кристалл"
-DRAGON_STONE-lore: " {}{pc}| {pc}❖ {mc}Входящий урон{sc}: {tc}-10%{sc}."
+DRAGON_STONE-lore: " {}{pc}❖ {mc}Входящий урон{sc}: {tc}-10%{sc}."
 EARTH_STONE: "Земляной кристалл"
-EARTH_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании заменяет камень на руды{sc}."
+EARTH_STONE-lore: " {}{pc}❖ {mc}При использовании заменяет камень на руды{sc}."
 GRAVITY_STONE: "Кристалл гравитации"
-GRAVITY_STONE-lore: " {}{pc}| {pc}❖ {mc}Единожды защищает от эффекта левитации{sc}."
+GRAVITY_STONE-lore: " {}{pc}❖ {mc}Единожды защищает от эффекта левитации{sc}."
 GREEN_STONE: "Зеленый кристалл"
-GREEN_STONE-lore: " {}{pc}| {pc}❖ {mc}Здоровье{sc}: {tc}+8{sc}."
+GREEN_STONE-lore: " {}{pc}❖ {mc}Здоровье{sc}: {tc}+8{sc}."
 ICE_STONE: "Ледяной кристалл"
-ICE_STONE-lore: " {}{pc}| {pc}❖ {mc}Эффект замедления в радиусе {ac}7 {mc}блоков{sc}."
+ICE_STONE-lore: " {}{pc}❖ {mc}Эффект замедления в радиусе {ac}7 {mc}блоков{sc}."
 IGNIS_STONE: "Огненный кристалл"
-IGNIS_STONE-lore: " {}{pc}| {pc}❖ {mc}Урон{sc}: {tc}+10.0{}{pc}| {pc}❖ {mc}Эффект{sc}: {mc}огнестойкость{sc}."
+IGNIS_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+10.0{}{pc}❖ {mc}Эффект{sc}: {mc}огнестойкость{sc}."
 LIGHT_STONE: "Кристалл света"
-LIGHT_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании ослабляет окружающую нежить{sc}."
+LIGHT_STONE-lore: " {}{pc}❖ {mc}При использовании ослабляет окружающую нежить{sc}."
 NATURE_STONE: "Кристалл природы"
-NATURE_STONE-lore: " {}{pc}| {pc}❖ {mc}Ускоряет рост растений в округе{sc}."
+NATURE_STONE-lore: " {}{pc}❖ {mc}Ускоряет рост растений в округе{sc}."
 PSYONIC_STONE: "Псионический кристалл"
-PSYONIC_STONE-lore: " {}{pc}| {pc}❖ {mc}Создает слабое магнитное поле{sc}."
+PSYONIC_STONE-lore: " {}{pc}❖ {mc}Создает слабое магнитное поле{sc}."
 RED_STONE: "Красный кристалл"
-RED_STONE-lore: " {}{pc}| {pc}❖ {mc}Эффективность колец{sc}: {tc}+0.8% {sc}(макс. +6.4%). {ac}Пока что +4% от одного!!!"
+RED_STONE-lore: " {}{pc}❖ {mc}Эффективность колец{sc}: {tc}+0.8% {sc}(макс. +6.4%). {ac}Пока что +4% от одного!!!"
 REGENERATION_STONE: "Кристалл регенерации"
-REGENERATION_STONE-lore: " {}{pc}| {pc}❖ {mc}Регенерация{sc}: {tc}+2 {mc}раз в 5 секунд"
+REGENERATION_STONE-lore: " {}{pc}❖ {mc}Регенерация{sc}: {tc}+2 {mc}раз в 5 секунд"
 REPAIR_STONE: "Кристалл ремесла"
-REPAIR_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании{sc}: {mc}ремонтирует предмет{sc} (не исчезает)."
+REPAIR_STONE-lore: " {}{pc}❖ {mc}При использовании{sc}: {mc}ремонтирует предмет{sc} (не исчезает)."
 RETURN_STONE: "Кристалл возврата"
-RETURN_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании{sc}: {mc}телепорт домой{sc}."
+RETURN_STONE-lore: " {}{pc}❖ {mc}При использовании{sc}: {mc}телепорт домой{sc}."
 RUNIC_DEFENCE_STONE: "Рунический кристалл защиты"
-RUNIC_DEFENCE_STONE-lore: " {}{pc}| {pc}❖ {mc}Защищает от урона свыше {ac}100 {mc}единиц{sc}. {}{pc}| {mc}Имеет 3 заряда с перезарядкой {ac}30 {mc}минут{sc}."
+RUNIC_DEFENCE_STONE-lore: " {}{pc}❖ {mc}Защищает от урона свыше {ac}100 {mc}единиц{sc}. {}{pc}| {mc}Имеет 3 заряда с перезарядкой {ac}30 {mc}минут{sc}."
 RUNIC_STONE: "Рунический камень"
-RUNIC_STONE-lore: " {}{pc}| {pc}❖ {mc}Урон{sc}: {tc}+100%{sc}. {}{pc}| {pc}❖ {mc}Входящий урон{sc}: {fc}+100%{sc}."
+RUNIC_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+100%{sc}. {}{pc}❖ {mc}Входящий урон{sc}: {fc}+100%{sc}."
 STRENGTH_STONE: "Кристалл гнева"
-STRENGTH_STONE-lore: " {}{pc}| {pc}❖ {mc}Урон{sc}: {tc}+50%{sc}. {}{pc}| {pc}❖ {mc}Входящий урон{sc}: {fc}+30%{sc}."
+STRENGTH_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+50%{sc}. {}{pc}❖ {mc}Входящий урон{sc}: {fc}+30%{sc}."
 TELEPORT_STONE: "Кристалл телепорта"
-TELEPORT_STONE-lore: " {}{pc}| {pc}❖ {mc}Shift+ПКМ{sc}: {mc}поставка метки{sc}. {}{pc}| {pc}❖ {mc}ПКМ{sc}: {mc}телепорт к метке{sc}."
+TELEPORT_STONE-lore: " {}{pc}❖ {mc}Shift+ПКМ{sc}: {mc}поставка метки{sc}. {}{pc}❖ {mc}ПКМ{sc}: {mc}телепорт к метке{sc}."
 TIME_STONE: "Кристалл времени"
-TIME_STONE-lore: " {}{pc}| {pc}❖ {mc}При использовании отключает окружающее время{sc}."
+TIME_STONE-lore: " {}{pc}❖ {mc}При использовании отключает окружающее время{sc}."
 VITAL_STONE: "Кристалл молодости"
-VITAL_STONE-lore: " {}{pc}| {pc}❖ {mc}Урон{sc}: {tc}+1.5% {mc}за каждое имеющиеся &c🖤{sc}."
+VITAL_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+1.5% {mc}за каждое имеющиеся &c🖤{sc}."
 ## Equipment
 CHITIN_BOOTS: "Хитиновые ботинки"
 CHITIN_BOOTS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они уверенно {}{pc}| {mc}держат на болотной топи{sc}, {mc}словно ты сам вырос в паутине{sc}."
@@ -265,12 +272,12 @@ PRISON_LEGGINGS-lore: "{pc}| {mc}Были сняты с охранника во 
 PRISON_STEEL_SWORD: "Стальной клинок"
 PRISON_STEEL_SWORD-lore: "{pc}| {mc}Был создан внутри стен тюрьмы{sc}."
 PRISON_SWORD: "Клинок заключенного"
-PRISON_SWORD-lore: " {}{pc}| {pc}❖ {mc}Шанс выбить золотой слиток{sc}: {tc}16%{sc}."
+PRISON_SWORD-lore: "{pc}❖ {mc}Шанс выбить золотой слиток{sc}: {tc}16%{sc}."
 
 CONTROL_MOVEMENT_STICK: "Палочка передвижения"
-CONTROL_MOVEMENT_STICK-lore: " {}{pc}| {pc}❖ {mc}При ударе{sc}: {mc}забирает контроль у игрока{sc}."
+CONTROL_MOVEMENT_STICK-lore: " {}{pc}❖ {mc}При ударе{sc}: {mc}забирает контроль у игрока{sc}."
 CONTROL_STOP_STICK: "Палочка остановки передвижения"
-CONTROL_STOP_STICK-lore: " {}{pc}| {pc}❖ {mc}При ударе обездвиживает игрока{sc}."
+CONTROL_STOP_STICK-lore: " {}{pc}❖ {mc}При ударе обездвиживает игрока{sc}."
 ## components
 FORIUM_FRAGMENT: "Осколок фориума"
 FORIUM_FRAGMENT-lore: "{pc}| {mc}Испускает тусклый яркий свет{sc}."
@@ -278,17 +285,17 @@ FORIUM_INGOT: "Слиток фориума"
 FORIUM_INGOT-lore: "{pc}| {mc}Холоднее любого снеговика{sc}..."
 ## Tokens
 CREEPER_TOKEN: "Жетон крипера"
-CREEPER_TOKEN-lore: " {}{pc}| {pc}❖ {mc}Криперы более не агрессивны{sc}."
+CREEPER_TOKEN-lore: " {}{pc}❖ {mc}Криперы более не агрессивны{sc}."
 DURABILITY_TOKEN: "Жетон прочности"
-DURABILITY_TOKEN-lore: " {}{pc}| {pc}❖ {mc}Шанс не потерять прочность предметами{sc}: {tc}15%{sc}."
+DURABILITY_TOKEN-lore: " {}{pc}❖ {mc}Шанс не потерять прочность предметами{sc}: {tc}15%{sc}."
 FLY_TOKEN: "Жетон полёта"
-FLY_TOKEN-lore: " {}{pc}| {pc}❖ {mc}При использовании дает полёт на {ac}15 {mc}минут{sc}."
+FLY_TOKEN-lore: " {}{pc}❖ {mc}При использовании дает полёт на {ac}15 {mc}минут{sc}."
 PRISON_TOKEN: "Жетон заключения"
-PRISON_TOKEN-lore: " {}{pc}| {pc}❖ {mc}Монета меж-пронстранства{sc}."
+PRISON_TOKEN-lore: " {}{pc}❖ {mc}Монета меж-пронстранства{sc}."
 RANGE_TOKEN: "Жетон радиуса"
-RANGE_TOKEN-lore: " {}{pc}| {pc}❖ {mc}Взаимодействие с блоками{sc}: {tc}+2.5{sc}."
+RANGE_TOKEN-lore: " {}{pc}❖ {mc}Взаимодействие с блоками{sc}: {tc}+2.5{sc}."
 SATURATION_TOKEN: "Жетон насыщения"
-SATURATION_TOKEN-lore: " {}{pc}| {pc}❖ {mc}При использовании{sc}: {mc}эффект Насыщения на {ac}60 {mc}минут{sc}."
+SATURATION_TOKEN-lore: " {}{pc}❖ {mc}При использовании{sc}: {mc}эффект Насыщения на {ac}60 {mc}минут{sc}."
 ## S0 - DRYAD
 DARK_WOLF_FANG: "Клык тёмного волка"
 PACK_LEADER_AMULET: "Амулет вожака стаи"

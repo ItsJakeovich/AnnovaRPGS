@@ -12,12 +12,10 @@ import net.annova.object.npc.RPGNPC;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.quest.QuestBase;
 import net.annova.environment.structure.Structure;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.ChunkPos;
-import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -50,7 +48,7 @@ public class GlobalRPG {
 
     @Nullable
     public static RPGPerson getRPGPerson(Entity entity) {
-        if (entity instanceof Player player) return getRPGPerson(player);
+        if (entity instanceof Player) return getRPGPerson(entity.getUniqueId());
         return null;
     }
     @Nullable

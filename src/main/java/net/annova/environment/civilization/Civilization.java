@@ -1,7 +1,9 @@
 package net.annova.environment.civilization;
 
+import net.annova.lang.AISString;
 import net.annova.lang.Replacement;
 import net.annova.main.GlobalRPG;
+import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 
 import java.util.*;
@@ -21,6 +23,7 @@ public class Civilization {
 
     public Civilization(String name, RPGPerson leader) {
         this.name = name;
+        this.stage = Stage.CAMP;
         this.leaders.add(leader);
         this.researchManager = new ResearchManager(this);
     }
@@ -34,6 +37,9 @@ public class Civilization {
 
     public Stage getStage() {
         return stage;
+    }
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     public ResearchManager getResearchManager() {
@@ -94,6 +100,10 @@ public class Civilization {
 
         public float getBaseScience() {
             return baseScience;
+        }
+
+        public AISString toString(Person person) {
+            return person.getAISString(getInstance(), "stage-" + this.name());
         }
     }
 }

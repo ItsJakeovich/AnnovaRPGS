@@ -123,11 +123,11 @@ public enum RPGEntityType {
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz) {
         this(category, clazz, 1.0);
     }RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition) {
-        this(category, clazz, 1.0, 0, condition);
+        this(category, clazz, 1.0, 20, condition);
     }
 
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
-        this(category, clazz, chance, 0, (Vec3 position, ServerLevel level) -> true);
+        this(category, clazz, chance, 20, (Vec3 position, ServerLevel level) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount) {
         this(category, clazz, chance, maxAmount, (Vec3 position, ServerLevel level) -> true);
@@ -191,15 +191,16 @@ public enum RPGEntityType {
         return maxAmount;
     }
 
-    public void tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus) {
-        if (!chance(chance)) return;
+    public RPGEntity tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus) {
+        if (!chance(chance)) return null;
         sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
 
-        if (this.maxAmount != 0 && this.maxAmount <= getAmountByTypeEntity(this)) return;
+        if (getAmountByTypeEntity(this) > this.maxAmount) return null;
 
         Vec3 spawn = getChorusLocation(position, level, chorus);
-        if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return;
+        if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return null;
         RPGEntity entity = this.getEntity();
         entity.create(spawn, level);
+        return entity;
     }
 }

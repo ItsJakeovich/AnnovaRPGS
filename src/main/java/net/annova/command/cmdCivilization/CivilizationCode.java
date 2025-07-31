@@ -20,7 +20,6 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 public class CivilizationCode {
     @CommandArg(name = "info")
     public void info(Player player, String[] args) {
-        long start = System.nanoTime();
         RPGPerson rpg = getRPGPerson(player);
         Person person = rpg.getPerson();
         Civilization civilization;
@@ -39,26 +38,26 @@ public class CivilizationCode {
         }
         AISString info = person.getAISString(getInstance(), "civ-info")
                 .replaceTag("{name}", civilization.getName())
-                .replaceTag("{stage}", civilization.getStage().name().toLowerCase())
+                .replaceTag("{stage}", civilization.getStage().toString(person))
                 ;
 
-        String capitalString = "{}{pc} ◆ {mc}";
+        String capitalString;
         AISString townString = new AISString("");
         Set<Town> towns = civilization.getTowns(); towns.remove(civilization.getCapital());
         if (!civilization.getLeaders().contains(rpg)) {
-            capitalString += civilization.getCapital().getName();
-            for (Town town : towns) townString.append("{}{pc} ◆ {mc}" + town.getName());
+            capitalString = civilization.getCapital().getName();
+            for (Town town : towns) townString.append("{}{pc}  ◆ {mc}" + town.getName());
         } else { // Если лидер этой цивилизации
             // Towns
-            capitalString += civilization.getCapital().toString();
-            for (Town town : towns) townString.append("{}{pc} ◆ {mc}" + town.toString());
+            capitalString = civilization.getCapital().toString();
+            for (Town town : towns) townString.append("{}{pc}  ◆ {mc}" + town.toString());
             // Researchs
             ResearchManager manager = civilization.getResearchManager();
-            AISString researchString = new AISString("{}{pc} ◆ {mc}")
+            AISString researchString = new AISString("{}{pc}  ◆ {mc}")
                     .append(manager.researchToString(rpg, AnnovaTech.Type.CULTURE))
-                    .append("{}{pc} ◆ {mc}")
+                    .append("{}{pc}  ◆ {mc}")
                     .append(manager.researchToString(rpg, AnnovaTech.Type.COMMERCIAL))
-                    .append("{}{pc} ◆ {mc}")
+                    .append("{}{pc}  ◆ {mc}")
                     .append(manager.researchToString(rpg, AnnovaTech.Type.MILITARY));
             // Leaders
             StringJoiner joiner = new StringJoiner("{sc},{mc}");
@@ -76,6 +75,5 @@ public class CivilizationCode {
                 .replaceTag("{capital}", capitalString)
                 .replaceTag("{towns}", townString)
         );
-        person.send(System.nanoTime() - start + "ns");
     }
 }

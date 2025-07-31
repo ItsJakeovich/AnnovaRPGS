@@ -23,6 +23,10 @@ public class ConfirmEvent implements Listener {
         String command = event.getCommand();
         switch (person.getConfirm().getConfirmType()) {
             case "set-camp" -> {
+                if (command.length() < 4 || command.length() > 20 || !isCyrillicOrLatin(command)) {
+                    person.send(getInstance(), "camp-set-cancel-name");
+                    return;
+                }
                 person.send(getInstance(), "camp-set-name", "{name}", command);
                 person.getConfirm().addData(new SimpleObject("name", event.getCommand()));
             }
@@ -37,8 +41,8 @@ public class ConfirmEvent implements Listener {
         switch (confirm.getConfirmType()) {
             case "set-camp" -> {
                 String name = (String) confirm.getData().getOrDefault("name", "");
-                if (!isCyrillicOrLatin(name)) {
-                    person.send(getInstance(), "camp-set-cancel-name");
+                if (name.isEmpty()) {
+                    person.send(getInstance(), "camp-set-cancel-blank");
                     return;
                 }
 
@@ -52,7 +56,7 @@ public class ConfirmEvent implements Listener {
                     return;
                 }
 
-                person.send(getInstance(), "camp-set");
+                person.send(getInstance(), "camp-set", "{name}", name);
                 Town town = new Town(name, chunk, rpg);
                 rpg.setTown(town);
             }

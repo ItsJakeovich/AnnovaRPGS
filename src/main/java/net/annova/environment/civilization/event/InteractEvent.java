@@ -1,6 +1,6 @@
 package net.annova.environment.civilization.event;
 
-import net.annova.event.custom.InteractCE;
+import net.annova.event.custom.RightInteractCE;
 import net.annova.object.Person;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,11 +10,11 @@ import static net.annova.object.item.base.ItemType.CAMP;
 
 public class InteractEvent implements Listener {
     @EventHandler
-    public void interact(InteractCE event) {
+    public void interact(RightInteractCE event) {
         if (!CAMP.equals(event.getItemInHand())) return;
 
         Person person = event.getPerson();
         person.send(getInstance(), "camp-set-action");
-        person.getConfirm().setConfirmType("set-camp-name");
+        person.getConfirm().setConfirmType("set-camp");
     }
 }

@@ -6,9 +6,7 @@ import net.annova.object.person.RPGPerson;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 
@@ -25,14 +23,16 @@ public enum AnnovaTech {
     private final Category category;
     private final Item icon;
     private final int baseScience;
-    private final EnumSet<AnnovaTech> depends;
+    private Set<AnnovaTech> depends;
 
-    private static final EnumMap<AnnovaTech.Category, EnumSet<AnnovaTech>> TECHS_BY_CATEGORY = new EnumMap<>(AnnovaTech.Category.class);
+    private static final EnumMap<Category, EnumSet<AnnovaTech>> TECHS_BY_CATEGORY = new EnumMap<>(Category.class);
     static {
         for (Category category : Category.values()) {
             TECHS_BY_CATEGORY.put(category, EnumSet.noneOf(AnnovaTech.class));
         }
         for (AnnovaTech tech : AnnovaTech.values()) {
+            EnumSet<AnnovaTech> newDepends = EnumSet.noneOf(AnnovaTech.class);
+            newDepends.addAll(tech.depends); tech.depends = newDepends;
             TECHS_BY_CATEGORY.get(tech.category).add(tech);
         }
     }
@@ -41,8 +41,7 @@ public enum AnnovaTech {
         this.category = category;
         this.icon = icon;
         this.baseScience = baseScience;
-        this.depends = EnumSet.noneOf(AnnovaTech.class);
-        this.depends.addAll(List.of(depends));
+        this.depends = new HashSet<>(List.of(depends));
     }
 
     public Category getCategory() {
@@ -60,7 +59,7 @@ public enum AnnovaTech {
         return baseScience;
     }
 
-    public EnumSet<AnnovaTech> getDepends() {
+    public Set<AnnovaTech> getDepends() {
         return depends;
     }
 
@@ -79,7 +78,7 @@ public enum AnnovaTech {
         HUNT(Type.COMMERCIAL, Civilization.Stage.CAMP),
         THREAT(Type.MILITARY, Civilization.Stage.CAMP),
         ;
-        private final AnnovaTech.Type type;
+        private final Type type;
         private final Civilization.Stage stage;
         private static final EnumMap<Civilization.Stage, EnumMap<Type, Category>> CATEGORY_BY_STAGE_AND_TYPE = new EnumMap<>(Civilization.Stage.class);
         static {
@@ -91,19 +90,19 @@ public enum AnnovaTech {
             }
         }
 
-        Category(AnnovaTech.Type type, Civilization.Stage stage) {
+        Category(Type type, Civilization.Stage stage) {
             this.type = type;
             this.stage = stage;
         }
 
-        public AnnovaTech.Type getType() {
+        public Type getType() {
             return type;
         }
         public Civilization.Stage getStage() {
             return stage;
         }
 
-        public static Category getByStageAndType(Civilization.Stage stage, AnnovaTech.Type type) {
+        public static Category getByStageAndType(Civilization.Stage stage, Type type) {
             return CATEGORY_BY_STAGE_AND_TYPE.get(stage).get(type);
         }
     }

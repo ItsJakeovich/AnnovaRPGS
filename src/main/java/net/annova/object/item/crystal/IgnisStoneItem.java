@@ -1,6 +1,6 @@
 package net.annova.object.item.crystal;
 
-import net.annova.event.custom.InteractCE;
+import net.annova.event.custom.RightInteractCE;
 import net.annova.object.RPGRarity;
 import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.MobDamageCE;
@@ -52,7 +52,7 @@ public class IgnisStoneItem extends RPGItem implements Listener {
 
     private static final MobEffectInstance FIRE_RESISTANCE = new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200, 0);
     @EventHandler
-    private void mechanic(InteractCE event) {
+    private void mechanic(RightInteractCE event) {
         ServerPlayer player = event.getPerson().getServerPlayer();
         if (!IGNIS_STONE.use(player, event.getItemInHand())) return;
 

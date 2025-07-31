@@ -2,6 +2,7 @@ package net.annova.main;
 
 import net.annova.config.AnnovaConfig;
 import net.annova.config.RPGConfig;
+import net.annova.environment.civilization.tech.AnnovaTech;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -24,6 +25,7 @@ import java.util.List;
 import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.event.summon.EntityEvent.indicators;
+import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
 import static net.annova.main.GlobalRPG.*;
@@ -43,12 +45,12 @@ public final class AnnovaRPG extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
-//        try {
-//            loadInfo.add("{pc}| {mc}События{sc}: {ac}" + initEvents(getInstance(), "net.annova"));
-//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-//                 NoSuchMethodException | InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            loadInfo.add("{pc}| {mc}События{sc}: {ac}" + initEvents(getInstance(), "net.annova"));
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
         try {
             loadInfo.add("{pc}| {mc}Команды{sc}: {ac}" + initCommands("RPGCommand", "net.annova.command"));
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException |
