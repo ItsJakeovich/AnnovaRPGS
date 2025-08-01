@@ -26,7 +26,7 @@ public class Town {
         this.name = name;
         this.leader = leader;
         this.members.add(leader);
-        this.centerChunk = center;
+        this.centerChunk = center; addTownChunk(this, centerChunk);
 
         if (civilization == null) {
             this.civilization = addCivilization(name, leader);
@@ -138,11 +138,11 @@ public class Town {
     }
 
     public String toString() {
-        return "{mc}" + this.getName()+" {sc}("
-                + this.getLeader().getPerson().getName()
-                + ", \uD83C\uDF3F{sc}"+(int)this.getGrowth()
-                + ", \uD83D\uDEE0{sc}"+(int)this.getHammers()
-                + ", \uD83C\uDFBC{sc}"+(int)this.getCulture()
-                + ", \uD83D\uDD0E{sc}"+ (int)this.getScience()+")";
+        String color = this.isCapital() ? "{ac}" : "{mc}";
+        return color + this.getName()
+                +"{sc} - {g}\uD83C\uDF3F{mc}"+(int)this.getGrowth()
+                + "{sc}, {o}\uD83D\uDEE0{mc}"+(int)this.getHammers()
+                + "{sc}, {p}\uD83C\uDFBC{mc}"+(int)this.getCulture()
+                + "{sc}, {b}\uD83D\uDD0E{mc}"+ (int)this.getScience();
     }
 }

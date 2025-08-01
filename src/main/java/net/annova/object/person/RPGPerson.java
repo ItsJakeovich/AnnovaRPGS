@@ -80,6 +80,7 @@ public class RPGPerson {
 
     private double health = 20;
     private double maxHealth = 20;
+    private float baseJump = 0.41999998688697815f;
 
     public int minutesInDarkForest = 0;
     public int catchedTreasures = 0;
@@ -333,7 +334,7 @@ public class RPGPerson {
     public void updateSpeed(float speed) {
         float multiplier = 1;
         if (statusManager.hasStatus(StatusType.PHANTOM_FEAR)) multiplier += 0.05f;
-        this.person.setSpeed(speed * multiplier);
+        this.person.setSpeed(speed * multiplier, this.baseJump * multiplier);
     }
 
     public boolean isReady() {

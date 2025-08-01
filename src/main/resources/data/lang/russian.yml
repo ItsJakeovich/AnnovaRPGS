@@ -1,6 +1,4 @@
 map-url: "{pc}❖ {mc}Нажатием откройте карту"
-night-skip: "{tc}Доброе утро, наше счастье {fc}🖤"
-night-enter: "{pc}❖ &r&k123 {tc}Сладких снов &r&k123"
 
 death-base: "{pc}| {sc}{name} {mc}погиб!"
 death-dungeon: "{pc}| {sc}{name} {mc}погиб в подземелье!"
@@ -55,23 +53,37 @@ JOINT_HUNTING: "Совместная охота"
 SPEAR: "Копье"
 GESTICULATION: "Гестикуляция"
 TRAPS: "Ловушки"
-## commands
+## commands civ
 civilization-menu: "{pc}≡ {mc}Управление цивилизацией{sc}:"
 civilization-info: "{pc} ● {mc}/civ info {sc}{название} - {mc}информация о цивилизации"
 civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
 civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{mc}{name}{sc}⌋ {mc}не найдена{sc}!"
-civ-info: "{pc}≡ {mc}Информация о госудастве{pc}: 
-{}{pc} ● {mc}Название{sc}: {mc}{name}
-{}{pc} ● {mc}Этап{sc}: {mc}{stage}
-{}{pc} ● {mc}Столица{sc}: {mc}{capital}
-{}{pc} ● {mc}Города{sc}: {mc}{towns}
+civ-info: "{pc}≡ {mc}Информация о цивилизации{pc}: 
+{}{pc} ● {sc}Название: {mc}{name}
+{}{pc} ● {sc}Этап: {mc}{stage}
+{}{pc} ● {sc}Города: {towns}
+{}{pc} ● {sc}Лидеры: {mc}{leaders}
 "
 civ-info-advanced: "
-{}{pc} ● {mc}Наука{sc}: {mc}{science}
-{}{pc} ● {mc}Исследования{sc}: {mc}{research}
-{}{pc} ● {mc}Лидеры{sc}: {mc}{leaders}*
+{}{pc} ● {sc}Наука: {mc}{science}
+{}{pc} ● {sc}Исследования: {mc}{research}
 "
-
+## commands town
+town-menu: "{pc}≡ {mc}Управление городом{sc}:"
+town-info: "{pc} ● {mc}/town info {sc}{название} - {mc}информация о городе"
+twn-info-not-found: "{ac}❖ {mc}Город {sc}⌈{mc}{name}{sc}⌋ {mc}не найден{sc}!"
+twn-info: "{pc}≡ {mc}Информация о городе{pc}:
+{}{pc} ● {sc}Название: {mc}{name}
+{}{pc} ● {sc}Цивилизация: {mc}{civ}
+{}{pc} ● {sc}Жители: {members}
+"
+twn-info-advanced: "
+{}{pc} ● {sc}Позиция: {mc}{pos}
+{}{pc} ● {sc}Урожайность: {mc}{growth}{g}🌿
+{}{pc} ● {sc}Производство: {mc}{hammers}{o}🛠
+{}{pc} ● {sc}Культура: {mc}{culture}{p}🎼
+{}{pc} ● {sc}Наука: {mc}{science}{b}🔎
+"
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"

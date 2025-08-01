@@ -197,25 +197,25 @@ public class GlobalRPG {
         return civilizations.values();
     }
     public static Civilization getCivilization(String name) {
-        return civilizations.get(name);
+        return civilizations.get(name.toLowerCase());
     }
     public static Civilization addCivilization(String civName, RPGPerson leader) {
         Civilization civilization = new Civilization(civName, leader);
-        civilizations.put(civName, civilization);
+        civilizations.put(civName.toLowerCase(), civilization);
         return civilization;
     }
 
     public static Town getTown(String name) {
-        return towns.get(name);
+        return towns.get(name.toLowerCase());
     }
     public static void removeTown(Town town) {
-        towns.remove(town.getName());
+        towns.remove(town.getName().toLowerCase());
         for (AreaChunk chunk : town.getChunks()) {
             townChunks.remove(chunk.getPosition());
         }
     }
     public static void addTown(Town town) {
-        towns.put(town.getName(), town);
+        towns.put(town.getName().toLowerCase(), town);
     }
 
     public static Map<ChunkPos, AreaChunk> getTownChunks() {

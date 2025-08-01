@@ -10,7 +10,7 @@ public class CivilizationRPGCommand extends CommandBase {
     public CivilizationRPGCommand() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(
                 "civilization",
-                new String[]{"цивилизация", "сшмшдшяфешщт", "wbdbkbpfwbz", "цив", "wbd", "civ", "сшм"},
+                new String[]{"ц", "c", "цивилизация", "сшмшдшяфешщт", "wbdbkbpfwbz", "цив", "wbd", "civ", "сшм"},
                 "civilization control panel",
                 new CivilizationCode(),
                 getInstance(),
