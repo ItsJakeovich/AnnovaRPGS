@@ -6,26 +6,33 @@ death-dungeon: "{pc}| {sc}{name} {mc}погиб в подземелье!"
 weapon-cast: "{pc}❖ {mc}Подготовка{sc}: {ac}{percent}{mc}%"
 
 nothing: "ничего"
+wasteland: "пустошь"
 
 ### Person
-## Sector location
-sector-loc-empty: "{sc}пустошь"
+## board
+board-town: "{pc}● {sc}Город: "
+board-civ: "{pc}● {sc}Цивилизация: "
+board-culture: "{pc}● {sc}Культура: "
 ## equipment
 equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот полон!"
 equipment-menu: "{pc}≡ {mc}Экипировка"
 
 ### Civilization
+enter-wasteland: "{pc}❖ {mc}Пустошь {pc}❖"
+enter-culture: "{pc}❖ {mc}Культура {color}{town} {sc}({civ}) {pc}❖"
+
 stage-CAMP: "лагерь"
 stage-PROVINCE: "провинция"
 stage-CIVILIZATION: "цивилизация"
 ## Camp
 camp-set-action: "{pc}❖ {mc}Введите название для своего лагеря в чат{sc}.
 {}{sc} | от 4 до 20 символов, латиница и/или кириллица."
-camp-set-cancel-name: "{pc}❖ {mc}Неверный формат названия лагеря {sc}(4-20 символов, латиница или кириллица)!"
+camp-set-not-item: "{ac}❖ {mc}Возьмите в инвентарь лагерь{sc}!"
+camp-set-cancel-name: "{ac}❖ {mc}Неверный формат названия лагеря {sc}(4-20 символов, латиница или кириллица)!"
 camp-set-name: "{pc}❖ {mc}Установлено {sc}⌈{mc}{name}{sc}⌋. {mc}Если хотите изменить его{sc}, {mc}введите еще раз новое{sc}.
 {} {mc}|● {sc}Подтвердите поставку лагеря командой {s-com-/confirm}"
 camp-set-cancel-blank: "{ac}❖ {mc}Необходимо ввести название лагеря в чат{sc}! "
-camp-set-cancel-water: "{pc}❖ {mc}Нельзя установить лагерь в океане или реке{sc}!"
+camp-set-cancel-water: "{ac}❖ {mc}Нельзя установить лагерь в океане или реке{sc}!"
 camp-set: "{pc}❖ {mc}Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был установлен{sc}! 
 {} {mc}|● {sc}Следующим шагом стоит построить главное здание{sc}!
 {} {mc}|● {sc}Для осведомления просмотрите команду {sc}{s-com-/town}"
@@ -54,8 +61,9 @@ SPEAR: "Копье"
 GESTICULATION: "Гестикуляция"
 TRAPS: "Ловушки"
 ## commands civ
-civilization-menu: "{pc}≡ {mc}Управление цивилизацией{sc}:"
-civilization-info: "{pc} ● {mc}/civ info {sc}{название} - {mc}информация о цивилизации"
+civilization-menu:  "{pc}≡ {mc}Управление цивилизацией{sc}:"
+civilization-info:  "{pc} ● {mc}/civ info {sc}{название} - {mc}информация о цивилизации"
+civilization-stats: "{pc} ● {mc}/civ stats {sc}- {mc}статистика цивилизации"
 civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
 civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{mc}{name}{sc}⌋ {mc}не найдена{sc}!"
 civ-info: "{pc}≡ {mc}Информация о цивилизации{pc}: 
@@ -65,12 +73,18 @@ civ-info: "{pc}≡ {mc}Информация о цивилизации{pc}:
 {}{pc} ● {sc}Лидеры: {mc}{leaders}
 "
 civ-info-advanced: "
-{}{pc} ● {sc}Наука: {mc}{science}
+{}{pc} ● {sc}Наука: {mc}{science}{b}📖
 {}{pc} ● {sc}Исследования: {mc}{research}
 "
+civ-stats: "{pc}≡ {mc}Статистика {civ}{pc}: 
+{}{pc} ● {mc}Наука {sc}{sciencetotal}{sc}:
+{}{pc}  ◆ {sc}Базовая: {mc}{sciencebase}{b}📖
+{}{pc}  ◆ {sc}Города: {mc}{sciencetowns}{b}📖
+"
 ## commands town
-town-menu: "{pc}≡ {mc}Управление городом{sc}:"
-town-info: "{pc} ● {mc}/town info {sc}{название} - {mc}информация о городе"
+town-menu:  "{pc}≡ {mc}Управление городом{sc}:"
+town-info:  "{pc} ● {mc}/town info {sc}{название} - {mc}информация о городе"
+town-stats: "{pc} ● {mc}/town stats {sc}- {mc}статистика города"
 twn-info-not-found: "{ac}❖ {mc}Город {sc}⌈{mc}{name}{sc}⌋ {mc}не найден{sc}!"
 twn-info: "{pc}≡ {mc}Информация о городе{pc}:
 {}{pc} ● {sc}Название: {mc}{name}
@@ -84,6 +98,14 @@ twn-info-advanced: "
 {}{pc} ● {sc}Культура: {mc}{culture}{p}🎼
 {}{pc} ● {sc}Наука: {mc}{science}{b}🔎
 "
+twn-stats: "{pc}≡ {mc}Статистика {town}{pc}: 
+{}{pc} ● {mc}Урожайность {sc}{growthtotal}{sc}:
+{}{pc}  ◆ {sc}Базовая: {mc}{growthbase}{g}🌿
+{}{pc}  ◆ {sc}Чанки: {mc}{growthchunk}{g}🌿
+{}{pc} ● {mc}Производство {sc}{hammertotal}{sc}:
+{}{pc}  ◆ {sc}Базовое: {mc}{hammerbase}{o}🛠
+{}{pc}  ◆ {sc}Чанки: {mc}{hammerchunk}{o}🛠
+"
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
@@ -91,16 +113,16 @@ avatar-equipment: "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает �
 avatar-info:      "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
 
 avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
-{}{pc}● {mc}Имя{sc}: {mc}{name}
-{}{pc}● {mc}Локация{sc}: {location}
-{}{pc}● {mc}Модификаторы{pc}:
-{}{pc} ◆ {mc}Урон{sc}: {damage}{sc}, {damage-multiplier}
-{}{pc} ◆ {mc}Получаемый урон{sc}: {defence-multiplier}
-{}{pc} ◆ {mc}Урон от падения{sc}: {fall-multiplier}
-{}{pc} ◆ {mc}Здоровье{sc}: {health}
-{}{pc} ◆ {mc}Восстановление{sc}: {regen}
-{}{pc} ◆ {mc}Взаимодействие с блоками{sc}: {block}
-{}{pc} ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
+{}{pc} ● {mc}Имя{sc}: {mc}{name}
+{}{pc} ● {mc}Локация{sc}: {location}
+{}{pc} ● {mc}Модификаторы{pc}:
+{}{pc}  ◆ {mc}Урон{sc}: {damage}{sc}, {damage-multiplier}
+{}{pc}  ◆ {mc}Получаемый урон{sc}: {defence-multiplier}
+{}{pc}  ◆ {mc}Урон от падения{sc}: {fall-multiplier}
+{}{pc}  ◆ {mc}Здоровье{sc}: {health}
+{}{pc}  ◆ {mc}Восстановление{sc}: {regen}
+{}{pc}  ◆ {mc}Взаимодействие с блоками{sc}: {block}
+{}{pc}  ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
 ## calculator
 calc-args: "{pc}❖ {mc}Введите аргументы{sc}."
 #calc-creative: "{pc}❖ {mc}Творческий режим{sc}."

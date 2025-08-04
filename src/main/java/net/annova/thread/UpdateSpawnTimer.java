@@ -9,7 +9,6 @@ import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.MinuteTickEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,7 +28,7 @@ public class UpdateSpawnTimer implements Listener {
                 Vec3iSelection[] borders = location.borders();
                 for (RPGEntityType entity : location.entitiesToSpawn()) {
                     if (entity.isBoss() && location.getBoss() != null) continue;
-                    RPGEntity living = entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 0);
+                    RPGEntity living = entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 10);
 
                     if (living != null && entity.isBoss()) location.setBoss(living);
                 }

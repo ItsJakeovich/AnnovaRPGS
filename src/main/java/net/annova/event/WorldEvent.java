@@ -28,7 +28,7 @@ public class WorldEvent implements Listener {
         for (RPGAdvancement rpg : RPGAdvancement.values()) {
             Advancement advancement = rpg.resolve();
             if (advancement == null) {
-                sendInfo("§e| Missing advancement: " + rpg.getKey().getKey());
+                sendInfo("| Missing advancement: " + rpg.getKey().getKey());
                 continue;
             }
             if (player.getAdvancementProgress(advancement).isDone()) {

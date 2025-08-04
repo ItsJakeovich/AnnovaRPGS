@@ -205,7 +205,7 @@ public class Equipment {
     }
 
     private static RegistryAccess.Frozen opsTag = null;
-    private static RegistryAccess.Frozen getOpsTag() {
+    public static RegistryAccess.Frozen getOpsTag() {
         if (opsTag == null) {
             opsTag = ((CraftServer) Bukkit.getServer()).getServer().registries()
                     .compositeAccess();

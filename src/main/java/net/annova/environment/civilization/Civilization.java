@@ -15,6 +15,11 @@ public class Civilization {
     private Stage stage;
 
     private final ResearchManager researchManager;
+    private final EnumMap<StatSources, Float> science = new EnumMap<>(StatSources.class);
+    public enum StatSources {
+        BASE,
+        TOWNS,
+    }
 
     private Town capital;
     private final Set<Town> towns = new HashSet<>();
@@ -26,6 +31,30 @@ public class Civilization {
         this.stage = Stage.CAMP;
         this.leaders.add(leader);
         this.researchManager = new ResearchManager(this);
+        for (StatSources source : StatSources.values()) {
+            this.science.put(source, 0.0f);
+        }
+        this.setScienceSource(StatSources.BASE, this.stage.baseScience);
+    }
+
+    public float getScience() {
+        float value = 0;
+        for (StatSources source : StatSources.values()) {
+            value += science.get(source);
+        }
+        return value;
+    }
+    public float getScienceSource(StatSources source) {
+        return this.science.get(source);
+    }
+    public void setScienceSource(StatSources source, float value) {
+        this.science.put(source, value);
+    }
+
+    public void updateTowns() {
+        float science = 0;
+        for (Town town : this.towns) science += town.getValue(StatType.SCIENCE);
+        this.setScienceSource(StatSources.TOWNS, science);
     }
 
     public String getName() {
@@ -66,18 +95,11 @@ public class Civilization {
 
     public void addTown(Town town) {
         this.towns.add(town);
+        this.citizens.addAll(town.getMembers());
         GlobalRPG.addTown(town);
     }
     public Set<Town> getTowns() {
         return towns;
-    }
-
-    public float getScience() {
-        float base = this.stage.baseScience;
-        for (Town town : this.getTowns()) {
-            base+=town.getScience();
-        }
-        return base;
     }
 
     public Set<RPGPerson> getLeaders() {
@@ -105,5 +127,9 @@ public class Civilization {
         public AISString toString(Person person) {
             return person.getAISString(getInstance(), "stage-" + this.name());
         }
+    }
+
+    public String toString() {
+        return this.getName()+"{sc} - {mc}"+this.getScience()+"{b}\uD83D\uDCD6";
     }
 }

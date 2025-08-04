@@ -4,9 +4,12 @@ import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
 import com.google.common.base.Preconditions;
 import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
+import net.annova.environment.civilization.Civilization;
 import net.annova.environment.civilization.Town;
+import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.lang.AISString;
+import net.annova.object.Scoreboard;
 import net.annova.object.person.equipment.ArmorSet;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
@@ -54,9 +57,11 @@ import java.util.Set;
 
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
 import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
+import static net.annova.main.GlobalRPG.getAreaChunk;
 import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
 public class RPGPerson {
@@ -75,6 +80,7 @@ public class RPGPerson {
     private Town town;
 
     private SectorLocation sectorLocation;
+    private AreaChunk currentArea;
 
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
 
@@ -175,9 +181,6 @@ public class RPGPerson {
         ServerPlayer server = this.getPerson().getServerPlayer();
 
         ServerGamePacketListenerImpl connection = server.connection;
-        /*connection.send(new ClientboundSoundEntityPacket(HURT_HOLDER, SoundSource.HOSTILE,
-                server, 1, 1, random.nextLong())
-        );*/
         Player player = this.getPlayer();
         player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
         connection.send(new ClientboundHurtAnimationPacket(server.getId(), 90.0F));
@@ -428,6 +431,8 @@ public class RPGPerson {
     }
     public void setTown(Town town) {
         this.town = town;
+        Scoreboard scoreboard = this.person.getScoreboard();
+        scoreboard.initScoreBoard();
     }
 
     @Nullable
@@ -436,7 +441,7 @@ public class RPGPerson {
     }
     public String getStringSectorLocation() {
         return sectorLocation == null
-                ? this.person.getAISString(getInstance(), "sector-loc-empty").getDefined().getString()
+                ? "{sc}" + this.person.getAISString(getInstance(), "wasteland").getDefined().getString()
                 : "{mc}" + sectorLocation.getClass().getSimpleName().toLowerCase()
                 ;
     }
@@ -456,6 +461,28 @@ public class RPGPerson {
         // Movement event
         if (sectorLocation == null) return;
         sectorLocation.movement(this, player);
+    }
+
+    public AreaChunk getCurrentArea() {
+        return currentArea;
+    }
+    public void updateCurrentArea() {
+        AreaChunk newArea = getAreaChunk(this.getServerPlayer().chunkPosition());
+        if (newArea == this.currentArea) return;
+        AISString message;
+        if (newArea == null) {
+            message = this.person.getAISString(getInstance(), "enter-wasteland");
+        } else { message = this.person.getAISString(getInstance(), "enter-culture");
+            Town town = newArea.getTown();
+            Civilization civilization = town.getCivilization();
+            message.replaceTag("{color}", civilization.getCitizens().contains(this) ? "{tc}" : "{fc}");
+            message.replaceTag("{town}", town.getName());
+            message.replaceTag("{civ}", civilization.getName());
+        }
+        this.person.sendTitle(new AISString(""), message, 10, 20, 5);
+        this.currentArea = newArea;
+
+        this.person.getScoreboard().updateScoreboard("culture", getInfo(this, "culture"));
     }
 
     public boolean isTeleportAccess() {

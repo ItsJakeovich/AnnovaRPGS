@@ -2,7 +2,6 @@ package net.annova.main;
 
 import net.annova.config.AnnovaConfig;
 import net.annova.config.RPGConfig;
-import net.annova.environment.civilization.tech.AnnovaTech;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -25,6 +24,7 @@ import java.util.List;
 import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.event.summon.EntityEvent.indicators;
+import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaGlobal.loadAllStructures;
@@ -58,21 +58,24 @@ public final class AnnovaRPG extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        this.initThreads();
         loadAllStructures();
         DungeonTemplate.createDungeonWorld();
 
         this.initialization();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!containsRPGPerson(player)) {
-                addRPGPerson(getPerson(player));
+            RPGPerson person = getRPGPerson(player);
+            if (person == null) {
+                person = addRPGPerson(getPerson(player));
             }
+            person.getPerson().getScoreboard().initScoreBoard();
         }
         loadInfo.add("{pc}| {mc}Игроки {sc}: {ac}" + getRPGPersons().size());
 
         loadInfo.forEach(AnnovaConfig::sendInfo);
         loadInfo = null;
+
+        this.initThreads();
 
         sendInfo("{pc}❖ {mc}Плагин {ac}AnnovaRPG {mc}запущен{sc}!");
     }
@@ -100,6 +103,10 @@ public final class AnnovaRPG extends JavaPlugin {
         }
         for (RPGPerson person : getRPGPersons()) {
             person.save();
+        }
+        getSQL().truncateTable(RPGEntity.TABLE);
+        for (RPGEntity entity : getEntities()) {
+            entity.save();
         }
     }
 

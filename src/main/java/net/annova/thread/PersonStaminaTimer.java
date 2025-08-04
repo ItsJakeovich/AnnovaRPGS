@@ -15,13 +15,14 @@ public class PersonStaminaTimer implements Listener {
     @EventHandler
     public void onTick(SecondTickEvent event) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            RPGPerson pers = getRPGPerson(player);
-            pers.updateStatusBar();
-            Person person = pers.getPerson();
-            if (pers.getStatusManager().getStatus(STOPPED) != null) continue;
+            RPGPerson rpg = getRPGPerson(player);
+            rpg.updateCurrentArea();
+            rpg.updateStatusBar();
+            Person person = rpg.getPerson();
+            if (rpg.getStatusManager().getStatus(STOPPED) != null) continue;
 
             person.increaseStamina(0.05f);
-            pers.updateSpeed(130);
+            rpg.updateSpeed(130);
         }
     }
 

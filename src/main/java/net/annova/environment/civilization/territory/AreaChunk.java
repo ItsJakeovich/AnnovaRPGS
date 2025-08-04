@@ -1,5 +1,6 @@
 package net.annova.environment.civilization.territory;
 
+import net.annova.environment.civilization.Town;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -15,6 +16,7 @@ import static net.minecraft.world.level.biome.Biomes.RIVER;
 public class AreaChunk {
     private CultureBiome biome;
     private final ChunkPos position;
+    private Town town;
     private boolean river = false;
 
     private static final Set<ResourceKey<Biome>> RIVER_BIOMES = Set.of(RIVER, FROZEN_RIVER);
@@ -44,6 +46,13 @@ public class AreaChunk {
 
     public ChunkPos getPosition() {
         return position;
+    }
+
+    public Town getTown() {
+        return town;
+    }
+    public void setTown(Town town) {
+        this.town = town;
     }
 
     public boolean isWater() {

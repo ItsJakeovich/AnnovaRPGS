@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.chance;
@@ -18,7 +19,7 @@ public class CustomForestWolf extends Wolf {
     }
 
     @Override
-    public boolean doHurtTarget(ServerLevel worldserver, Entity entity) {
+    public boolean doHurtTarget(@NotNull ServerLevel worldserver, @NotNull Entity entity) {
         if (super.doHurtTarget(worldserver, entity)) {
             if (entity instanceof Player player && chance(0.02)) {
                 getRPGPerson(player.getUUID()).addStatus(StatusType.BLEEDING);

@@ -63,12 +63,31 @@ public class CivilizationCode {
                     .append(manager.researchToString(rpg, AnnovaTech.Type.MILITARY));
             info.append(
                     person.getAISString(getInstance(), "civ-info-advanced")
-                            .replaceTag("{science}", (int)civilization.getScience() + "{b}\uD83D\uDCD6")
+                            .replaceTag("{science}", String.valueOf((int)civilization.getScience()))
                             .replaceTag("{research}", researchString)
             );
         }
         person.send(info
                 .replaceTag("{towns}", townString)
+        );
+    }
+
+    @CommandArg(name = "stats", aliases = {"статы", "ыефеы", "s", "с"})
+    public void stats(Player player) {
+        RPGPerson rpg = getRPGPerson(player);
+        Person person = rpg.getPerson();
+        Town town = rpg.getTown();
+        if (town == null) {
+            person.send(getInstance(), "civ-info-cancel-town");
+            return;
+        }
+        Civilization civ = town.getCivilization();
+
+        person.send(person.getAISString(getInstance(), "civ-stats")
+                .replaceTag("{civ}", civ.getName())
+                .replaceTag("{sciencetotal}", String.valueOf(civ.getScience()))
+                .replaceTag("{sciencebase}", String.valueOf(civ.getScienceSource(Civilization.StatSources.BASE)))
+                .replaceTag("{sciencetowns}", String.valueOf(civ.getScienceSource(Civilization.StatSources.TOWNS)))
         );
     }
 }

@@ -1,7 +1,10 @@
 package net.annova.object.entity.core;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.world.SectorLocation;
+import net.annova.main.AnnovaAPI;
+import net.annova.main.AnnovaSQL;
 import net.annova.object.CustomRunnable;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
@@ -15,8 +18,10 @@ import net.annova.object.entity.core.status.StatusType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -38,20 +43,26 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
+import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
 import static net.annova.main.Keys.NK_ID;
+import static net.annova.object.person.equipment.Equipment.getOpsTag;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 
 public abstract class RPGEntity {
     public Mob entity;
     public Dungeon dungeon;
     public int point;
+    private int experience;
     private SectorLocation sectorLocation;
     private final RPGEntityType rpgType;
     private final Map<StatusType, EntityStatus> statuses = new EnumMap<>(StatusType.class);
@@ -80,15 +91,74 @@ public abstract class RPGEntity {
 
     public static final String TABLE = "ENTITY";
 
+    private static final EquipmentSlot[] slots = {
+            EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND,
+            EquipmentSlot.HEAD, EquipmentSlot.CHEST,
+            EquipmentSlot.LEGS, EquipmentSlot.FEET
+    };
     public static void init() {
         getSQL().initTable(TABLE,
-                "CLASS VARCHAR(128)",
-                "LOCATION VARCHAR(128)",
-                "LEVEL SMALLINT(1)",
-                "EXP INTEGER(1)",
-                "INVENTORY TEXT"
+                "UID VARCHAR(36)",
+                "TYPE VARCHAR(60)",
+                "POSITION VARCHAR(64)",
+                "EXP INT UNSIGNED",
+                "EQUIPMENT TEXT",
+
+                "PRIMARY KEY (UID)"
         );
-        //ResultSet rs = getSQL().(TABLE);
+        try (PreparedStatement ps = getSQL().getConnection().prepareStatement("SELECT * FROM " + TABLE)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] position = rs.getString("POSITION").split(",");
+                Vec3 pos = new Vec3(Double.parseDouble(position[1]), Double.parseDouble(position[2]), Double.parseDouble(position[3]));
+                ServerLevel level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(position[0])));
+                RPGEntity entity = RPGEntityType.valueOf(rs.getString("TYPE")).getEntity();
+                entity.create(pos, level);
+                entity.experience = rs.getInt("EXP");
+
+                String[] equipment = rs.getString("EQUIPMENT").split(";");
+                net.minecraft.world.entity.EntityEquipment equip = entity.entity.equipment; try {
+                    for (int i = 0; i < equipment.length; i++) {
+                        String serialItem = equipment[i];
+                        if (serialItem.equals(" ")) continue;
+                        equip.set(slots[i], ItemStack.parse(getMinecraftServer().registryAccess(), TagParser.parseCompoundFully(serialItem)).get());
+                    }
+                } catch (CommandSyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            } rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void save() {
+        Vec3 pos = this.entity.position();
+        Map<String, Object> save = new HashMap<>();
+        save.put("UID", this.entity.getUUID().toString());
+        save.put("TYPE", this.rpgType.name());
+        save.put("POSITION", this.entity.level().dimension().location().getPath() + "," +
+                ((double) (int)(pos.x*100))/100 + "," + ((double) (int)(pos.y*100))/100 + "," + ((double) (int)(pos.z*100))/100);
+        save.put("EXP", this.experience);
+        save.put("EQUIPMENT", this.serializeEquipment());
+        AnnovaAPI.getSQL().saveObject(TABLE, "UID", save);
+    }
+
+    public String serializeEquipment() {
+        StringJoiner joiner = new StringJoiner(";");
+        net.minecraft.world.entity.EntityEquipment equipment = this.entity.equipment;
+        ItemStack[] items = new ItemStack[] {
+                equipment.get(EquipmentSlot.MAINHAND),
+                equipment.get(EquipmentSlot.OFFHAND),
+                equipment.get(EquipmentSlot.HEAD),
+                equipment.get(EquipmentSlot.CHEST),
+                equipment.get(EquipmentSlot.LEGS),
+                equipment.get(EquipmentSlot.FEET),
+        };
+        for (ItemStack item : items) {
+            if (item.isEmpty()) joiner.add(" ");
+            else joiner.add(item.save(getOpsTag()).toString());
+        }
+        return joiner.toString();
     }
 
     private static EntityType<?> register(ResourceKey<EntityType<?>> resourcekey, EntityType.Builder<?> entitytypes_builder) {
@@ -164,7 +234,7 @@ public abstract class RPGEntity {
             try {
                 ent = (LivingEntity) type.clazz().getDeclaredConstructor(EntityType.class, Level.class).newInstance(this.type(), level);
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                sendInfo("§e| No such method while creating entity: " + this.getClass().getName());
+                sendInfo("| No such method while creating entity: " + this.getClass().getName());
             }
         } else ent = (LivingEntity) this.type().create(level, EntitySpawnReason.EVENT);
         ent.setPos(position);
@@ -244,9 +314,15 @@ public abstract class RPGEntity {
     public int getPoint() {
         return point;
     }
-
     public void setPoint(int point) {
         this.point = point;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public SectorLocation getSectorLocation() {

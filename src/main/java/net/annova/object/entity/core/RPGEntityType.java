@@ -37,6 +37,7 @@ import static net.annova.object.LocationCategory.*;
 import static net.annova.util.BukkitObjects.chance;
 
 public enum RPGEntityType {
+    // Длинее 60 нельзя! Если что меняй в RPGEntity.init();
     PRISONER(D_PRISON, Prisoner.class),
     HERSON(D_PRISON, Herson.class),
     VELDER(D_PRISON, Velder.class),
@@ -198,6 +199,7 @@ public enum RPGEntityType {
         if (getAmountByTypeEntity(this) > this.maxAmount) return null;
 
         Vec3 spawn = getChorusLocation(position, level, chorus);
+        if (position == spawn) return null;
         if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return null;
         RPGEntity entity = this.getEntity();
         entity.create(spawn, level);

@@ -47,6 +47,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.*;
@@ -232,7 +233,9 @@ public enum ItemType {
         return ITEMS_BY_CATEGORY.get(category);
     }
     public static RPGItem getRPGItem(ItemStack item) {
-        return getItemType(item).getItem();
+        ItemType type = getItemType(item);
+        if (type == null) return null;
+        return type.getItem();
     }
     public static boolean isInstance(ItemStack item, Class<?> clazz) {
         return getItemType(item).isInstance(clazz);
@@ -300,6 +303,24 @@ public enum ItemType {
         return clazz.isInstance(this.item);
     }
 
+    public boolean removeItem(net.minecraft.world.entity.LivingEntity entity) {
+        if (entity instanceof net.minecraft.world.entity.player.Player player) {
+            Inventory inv = player.getInventory();
+            for (ItemStack item : inv.getContents()) {
+                if (!this.id.equals(getItemId(item))) continue;
+                inv.removeItem(item);
+                return true;
+            }
+        } else {
+            net.minecraft.world.entity.EntityEquipment equipment = entity.equipment;
+            for (net.minecraft.world.entity.EquipmentSlot slot : net.minecraft.world.entity.EquipmentSlot.values()) {
+                if (!this.id.equals(getItemId(equipment.get(slot)))) continue;
+                equipment.set(slot, null);
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * @return true if item found and decreased.
      */

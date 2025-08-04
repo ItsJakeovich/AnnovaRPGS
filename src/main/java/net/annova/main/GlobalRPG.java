@@ -14,6 +14,7 @@ import net.annova.object.person.quest.QuestBase;
 import net.annova.environment.structure.Structure;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.ChunkPos;
 import org.bukkit.entity.Entity;
@@ -44,7 +45,7 @@ public class GlobalRPG {
 
     private static final Map<String, Civilization> civilizations = new HashMap<>();
     private static final Map<String, Town> towns = new HashMap<>();
-    private static final Map<ChunkPos, AreaChunk> townChunks = new HashMap<>();
+    private static final Map<ChunkPos, AreaChunk> areaChunks = new HashMap<>();
 
     @Nullable
     public static RPGPerson getRPGPerson(Entity entity) {
@@ -74,10 +75,11 @@ public class GlobalRPG {
         return persons.values();
     }
 
-    public static void addRPGPerson(Person person) {
-        RPGPerson RPGPerson = new RPGPerson(person);
-        persons.put(person.getName().toLowerCase(), RPGPerson);
-        personsUid.put(person.getUid(), RPGPerson);
+    public static RPGPerson addRPGPerson(Person person) {
+        RPGPerson rpg = new RPGPerson(person);
+        persons.put(person.getName().toLowerCase(), rpg);
+        personsUid.put(person.getUid(), rpg);
+        return rpg;
     }
     public static void addRPGPerson(RPGPerson person) {
         persons.put(person.getPerson().getName().toLowerCase(), person);
@@ -211,21 +213,28 @@ public class GlobalRPG {
     public static void removeTown(Town town) {
         towns.remove(town.getName().toLowerCase());
         for (AreaChunk chunk : town.getChunks()) {
-            townChunks.remove(chunk.getPosition());
+            areaChunks.remove(chunk.getPosition());
         }
     }
     public static void addTown(Town town) {
         towns.put(town.getName().toLowerCase(), town);
     }
 
-    public static Map<ChunkPos, AreaChunk> getTownChunks() {
-        return townChunks;
+    public static Map<ChunkPos, AreaChunk> getAreaChunks() {
+        return areaChunks;
     }
-    public AreaChunk getTownChunk(ChunkPos pos) {
-        return townChunks.get(pos);
+    public static AreaChunk getAreaChunk(RPGPerson person) {
+        return getAreaChunk(person.getServerPlayer().chunkPosition());
     }
-    public static void addTownChunk(Town town, AreaChunk areaChunk) {
-        townChunks.put(areaChunk.getPosition(), areaChunk);
+    public static AreaChunk getAreaChunk(ServerPlayer player) {
+        return getAreaChunk(player.chunkPosition());
+    }
+    public static AreaChunk getAreaChunk(ChunkPos pos) {
+        return areaChunks.get(pos);
+    }
+    public static void addAreaChunk(Town town, AreaChunk areaChunk) {
+        areaChunk.setTown(town);
+        areaChunks.put(areaChunk.getPosition(), areaChunk);
     }
 
     public static SoundEvent getSoundFromString(String string) {

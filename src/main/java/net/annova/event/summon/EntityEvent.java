@@ -108,7 +108,7 @@ public class EntityEvent implements Listener {
         stand.setSmall(true);
         stand.setCustomNameVisible(true);
         stand.setCustomName(Component.literal(String.valueOf((double) Math.round(damage*100) / 100))
-                .withStyle(Style.EMPTY.withColor(16733525).withBold(true))
+                .withStyle(Style.EMPTY.withColor(16733525))
         );
         level.tryAddFreshEntityWithPassengers(stand);
 
