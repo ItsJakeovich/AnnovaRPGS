@@ -28,7 +28,7 @@ public class UpdateSpawnTimer implements Listener {
                 Vec3iSelection[] borders = location.borders();
                 for (RPGEntityType entity : location.entitiesToSpawn()) {
                     if (entity.isBoss() && location.getBoss() != null) continue;
-                    RPGEntity living = entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 10);
+                    RPGEntity living = entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 10, entity.isWaterSpawn());
 
                     if (living != null && entity.isBoss()) location.setBoss(living);
                 }
@@ -46,7 +46,7 @@ public class UpdateSpawnTimer implements Listener {
             ServerLevel level = serverPlayer.serverLevel();
             for (int i = random.nextInt(5)+1; i != 0; i--) { // от 1 до 5
                 RPGEntityType entity = entities[random.nextInt(entities.length)];
-                if (entity.getCondition().canSpawn(position, level)) entity.tryNaturalSpawn(position, level, 16);
+                if (entity.getCondition().canSpawn(position, level)) entity.tryNaturalSpawn(position, level, 16, entity.isWaterSpawn());
             }
         }
     }

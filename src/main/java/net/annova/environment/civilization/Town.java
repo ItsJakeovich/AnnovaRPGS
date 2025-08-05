@@ -1,5 +1,7 @@
 package net.annova.environment.civilization;
 
+import net.annova.environment.civilization.build.BuildBase;
+import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.civilization.territory.CultureBiome;
 import net.annova.object.person.RPGPerson;
@@ -130,6 +132,10 @@ public class Town {
     }
     public void addMember(RPGPerson person) {
         this.members.add(person);
+    }
+
+    public EnumSet<BuildBase> getAvailableBuilds() {
+        return EnumSet.noneOf(BuildBase.class);
     }
 
     public String toString() {

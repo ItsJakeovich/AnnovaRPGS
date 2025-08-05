@@ -1,4 +1,4 @@
-package net.annova.command.cmdCivilization;
+package net.annova.command.civ.cmdCivilization;
 
 import net.annova.command.register.CommandArg;
 import net.annova.environment.civilization.Civilization;

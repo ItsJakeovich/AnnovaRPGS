@@ -60,14 +60,7 @@ public abstract class SectorLocation {
 
         int squaredRadius = radius*radius;
         for (int i = 0; i < squaredRadius; i++) {
-            double offsetX = (random.nextDouble() - 0.5) * 2 * radius;
-            double offsetY = (random.nextDouble() - 0.5) * radius;
-            double offsetZ = (random.nextDouble() - 0.5) * 2 * radius;
-
-            Vec3 targetPos = position.add(offsetX, offsetY, offsetZ);
-            BlockPos blockPos = BlockPos.containing(targetPos);
-
-            BlockPos above = blockPos.above();
+            BlockPos blockPos = getRandomBlockPos(position, level, radius);
 
             if (!level.getBlockState(blockPos.below()).isSolidRender()) continue;
             if (level.getBlockState(blockPos).isSolidRender()) continue;
@@ -76,6 +69,26 @@ public abstract class SectorLocation {
             return Vec3.atBottomCenterOf(blockPos);
         }
         return position; // fallback
+    }
+    public static Vec3 getWaterChorusLocation(Vec3 position, ServerLevel level, int radius) {
+        if (radius == 0) return position;
+
+        int squaredRadius = radius*radius;
+        for (int i = 0; i < squaredRadius; i++) {
+            BlockPos blockPos = getRandomBlockPos(position, level, radius);
+
+            if (!level.getBlockState(blockPos).is(Blocks.WATER)) continue;
+
+            return Vec3.atBottomCenterOf(blockPos);
+        }
+        return position; // fallback
+    }
+    public static BlockPos getRandomBlockPos(Vec3 position, ServerLevel level, int radius) {
+        return BlockPos.containing(position.add(
+                (random.nextDouble() - 0.5) * 2 * radius,
+                (random.nextDouble() - 0.5) * radius,
+                (random.nextDouble() - 0.5) * 2 * radius
+        ));
     }
 
     public void showTerritory(ServerLevel level) {

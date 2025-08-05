@@ -32,6 +32,7 @@ import java.util.*;
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
+import static net.annova.environment.world.SectorLocation.getWaterChorusLocation;
 import static net.annova.main.GlobalRPG.getAmountByTypeEntity;
 import static net.annova.object.LocationCategory.*;
 import static net.annova.util.BukkitObjects.chance;
@@ -90,11 +91,11 @@ public enum RPGEntityType {
     ANGLER_FISH(S0_OASIS, AnglerFish.class),
     CRAB(S0_OASIS, Crab.class),
     // Sector 0 - Swamps
-    FAT_SPIDER(S0_SWAMPS, FatSpider.class),
-    MELANOX(S0_SWAMPS, Melanox.class),
-    MOTHER_SPIDER(S0_SWAMPS, MotherSpider.class),
-    SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class),
-    WHIP_SPIDER(S0_SWAMPS, WhipSpider.class)
+    MELANOX(S0_SWAMPS, Melanox.class, 0.04, true),
+    FAT_SPIDER(S0_SWAMPS, FatSpider.class, true),
+    MOTHER_SPIDER(S0_SWAMPS, MotherSpider.class, true),
+    SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class, true),
+    WHIP_SPIDER(S0_SWAMPS, WhipSpider.class, true)
     ;
 
     final LocationCategory category;
@@ -103,6 +104,7 @@ public enum RPGEntityType {
     private final double chance;
     private final int maxAmount;
     private final boolean boss;
+    private final boolean waterSpawn;
     private final SpawnCondition condition;
 
     private static final Map<LocationCategory, EnumSet<RPGEntityType>> ENTITIES_BY_CATEGORY = new EnumMap<>(LocationCategory.class);
@@ -118,36 +120,41 @@ public enum RPGEntityType {
         }
     }
 
-    RPGEntityType(Class<? extends RPGEntity> clazz) {
-        this(WITHOUT, clazz);
-    }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz) {
-        this(category, clazz, 1.0);
-    }RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition) {
-        this(category, clazz, 1.0, 20, condition);
+        this(category, clazz, false);
     }
-
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, boolean waterSpawn) {
+        this(category, clazz, (Vec3 position, ServerLevel level) -> true, waterSpawn);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, boolean boss, boolean waterSpawn) {
+        this(category, clazz, (Vec3 position, ServerLevel level) -> true, boss, waterSpawn);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition) {
+        this(category, clazz, 1.0, 20, false, false, condition);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition, boolean waterSpawn) {
+        this(category, clazz, 1.0, 20, false, waterSpawn, condition);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition, boolean boss, boolean waterSpawn) {
+        this(category, clazz, 1.0, 20, boss, waterSpawn, condition);
+    }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
-        this(category, clazz, chance, 20, (Vec3 position, ServerLevel level) -> true);
+        this(category, clazz, chance, 20, false, false, (Vec3 position, ServerLevel level) -> true);
+    }
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, boolean boss) {
+        this(category, clazz, chance, 20, boss, false, (Vec3 position, ServerLevel level) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount) {
-        this(category, clazz, chance, maxAmount, (Vec3 position, ServerLevel level) -> true);
+        this(category, clazz, chance, maxAmount, false, false, (Vec3 position, ServerLevel level) -> true);
     }
-    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount, SpawnCondition condition) {
+    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount, boolean boss, boolean waterSpawn, SpawnCondition condition) {
         this.category = category;
         this.clazz = clazz;
         this.chance = chance;
         this.maxAmount = maxAmount;
-        this.boss = false;
+        this.boss = boss;
+        this.waterSpawn = waterSpawn;
         this.condition = condition;
-    }
-    RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, boolean boss) {
-        this.category = category;
-        this.clazz = clazz;
-        this.chance = chance;
-        this.maxAmount = 1;
-        this.boss = true;
-        this.condition = (Vec3 position, ServerLevel level) -> true;
     }
 
     public interface SpawnCondition {
@@ -184,6 +191,10 @@ public enum RPGEntityType {
         return boss;
     }
 
+    public boolean isWaterSpawn() {
+        return waterSpawn;
+    }
+
     public SpawnCondition getCondition() {
         return condition;
     }
@@ -192,13 +203,13 @@ public enum RPGEntityType {
         return maxAmount;
     }
 
-    public RPGEntity tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus) {
+    public RPGEntity tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus, boolean waterSpawn) {
         if (!chance(chance)) return null;
         sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
 
         if (getAmountByTypeEntity(this) > this.maxAmount) return null;
 
-        Vec3 spawn = getChorusLocation(position, level, chorus);
+        Vec3 spawn = waterSpawn ? getWaterChorusLocation(position, level, chorus) : getChorusLocation(position, level, chorus);
         if (position == spawn) return null;
         if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return null;
         RPGEntity entity = this.getEntity();

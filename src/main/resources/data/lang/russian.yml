@@ -106,6 +106,8 @@ twn-stats: "{pc}≡ {mc}Статистика {town}{pc}:
 {}{pc}  ◆ {sc}Базовое: {mc}{hammerbase}{o}🛠
 {}{pc}  ◆ {sc}Чанки: {mc}{hammerchunk}{o}🛠
 "
+# build command
+
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"

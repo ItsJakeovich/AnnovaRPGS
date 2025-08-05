@@ -1,4 +1,4 @@
-package net.annova.command.cmdTown;
+package net.annova.command.civ.cmdTown;
 
 import net.annova.command.register.CommandBase;
 

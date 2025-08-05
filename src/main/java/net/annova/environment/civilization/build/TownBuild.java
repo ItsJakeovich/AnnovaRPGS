@@ -1,4 +1,4 @@
-package net.annova.environment.civilization;
+package net.annova.environment.civilization.build;
 
 import net.annova.object.SimpleConstruction;
 
