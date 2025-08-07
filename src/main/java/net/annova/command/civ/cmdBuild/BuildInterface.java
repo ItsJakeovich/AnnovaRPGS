@@ -2,6 +2,7 @@ package net.annova.command.civ.cmdBuild;
 
 import net.annova.environment.civilization.build.BuildBase;
 import net.annova.object.Person;
+import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
 import net.annova.util.MenuBase;
 import net.minecraft.network.chat.Component;
@@ -50,32 +51,49 @@ public class BuildInterface implements MenuBase {
                 SimpleContainer container = new SimpleContainer(54);
                 RPGPerson rpg = getRPGPerson(person);
 
-                int page = (int) o;
-                if (page < 1) page = 1;
-                List<BuildBase> builds = List.copyOf(rpg.getTown().getAvailableBuilds());
-                while (page*45 < builds.size()) page--;
-                BuildInterface.this.page = page;
-
-                int startIndex = 45 * (page-1);
-                for (int it = 0; it < 45; it++) {
-                    container.setItem(it, builds.get(startIndex+it).createItem(person));
-                }
-                if (page > 1) { // Кнопка назад
+                if (o instanceof BuildBase base) {
                     container.setItem(45, createItem(Items.NAUTILUS_SHELL,
                             person.getAISString(getInstance(), "build-inter-previous").getDefined(person),
                             -1,
-                            "build-previous"
+                            "build-style-previous"
                     ));
-                }
-                if (builds.size() > 45*page) { // Кнопка вперед
-                    container.setItem(53, createItem(Items.NAUTILUS_SHELL,
-                            person.getAISString(getInstance(), "build-inter-next").getDefined(person),
-                            -1,
-                            "build-next"
-                    ));
-                }
+                    int it = 0;
+                    for (SimpleStructure structure : base.getStyles()) {
+                        container.setItem(it, createItem(Items.QUARTZ_BLOCK,
+                                person.getAISString(getInstance(), "icon-" + structure.getName()).getDefined(person),
+                                -1,
+                                "preview-" + structure.getName()
+                        ));
+                        it++;
+                    }
+                } else {
+                    int page = (int) o;
+                    if (page < 1) page = 1;
+                    List<BuildBase> builds = List.copyOf(rpg.getTown().getAvailableBuilds());
+                    while (page * 45 < builds.size()) page--;
+                    BuildInterface.this.page = page;
 
-                net.minecraft.world.item.ItemStack glassPane = getNewItem(Items.CYAN_STAINED_GLASS_PANE);
+                    int startIndex = 45 * (page - 1);
+                    for (int it = 0; it < 45 && it < builds.size(); it++) {
+                        container.setItem(it, builds.get(startIndex + it).createItem(person));
+                    }
+                    if (page > 1) { // Кнопка назад
+                        container.setItem(45, createItem(Items.NAUTILUS_SHELL,
+                                person.getAISString(getInstance(), "build-inter-previous").getDefined(person),
+                                -1,
+                                "build-previous"
+                        ));
+                    }
+                    if (builds.size() > 45 * page) { // Кнопка вперед
+                        container.setItem(53, createItem(Items.NAUTILUS_SHELL,
+                                person.getAISString(getInstance(), "build-inter-next").getDefined(person),
+                                -1,
+                                "build-next"
+                        ));
+                    }
+
+                    net.minecraft.world.item.ItemStack glassPane = getNewItem(Items.CYAN_STAINED_GLASS_PANE);
+                }
                 return ChestMenu.sixRows(i, inventory, container);
             }
         };

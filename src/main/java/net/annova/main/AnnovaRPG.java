@@ -111,6 +111,7 @@ public final class AnnovaRPG extends JavaPlugin {
     }
 
     private void initThreads() {
+        // CivilizationTickTimer - TenMinutesTickEvent;
         syncTimer(this, new PersonUpdateTimer(), 100); // 5s
         // PersonStaminaTimer - SecondTickEvent
         // UpdateSpawnTimer - MinuteTickEvent;

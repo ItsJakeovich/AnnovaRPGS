@@ -429,6 +429,9 @@ public class RPGPerson {
     public Town getTown() {
         return town;
     }
+    public Town getSelectedTown() {
+        return town;
+    }
     public void setTown(Town town) {
         this.town = town;
         Scoreboard scoreboard = this.person.getScoreboard();

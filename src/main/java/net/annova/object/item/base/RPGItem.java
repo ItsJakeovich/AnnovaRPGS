@@ -59,7 +59,9 @@ public abstract class RPGItem {
     public static String getItemId(net.minecraft.world.item.ItemStack item) {
         if (item == null) return ""; // that's return the EMPTY item.
         CustomData data = item.get(DataComponents.CUSTOM_DATA);
-        if (data == null) return null;
-        return ((StringTag) data.getUnsafe().get("annovas:id")).value();
+        if (data == null) return "";
+        StringTag tag = (StringTag) data.getUnsafe().get("annovas:id");
+        if (tag == null) return "";
+        return tag.value();
     }
 }

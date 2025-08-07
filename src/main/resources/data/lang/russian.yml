@@ -107,7 +107,13 @@ twn-stats: "{pc}≡ {mc}Статистика {town}{pc}:
 {}{pc}  ◆ {sc}Чанки: {mc}{hammerchunk}{o}🛠
 "
 # build command
+build-cancel-culture: "{ac}❖ {mc}Нельзя построить здание вне территории города{sc}!"
+build-cancel-water: "{ac}❖ {mc}Это здание нельзя построить в чанках реки или океана{sc}."
+build-progress: "{pc}=- {mc}Постройка {sc}⌈{mc}{construction}{sc}⌋ {mc}в {sc}{town} {mc}завершена на {pc}{percent}{sc}%{sc}."
+build-completed: "{pc}=- {mc}Город {sc}{town} {mc}завершил постройку {sc}⌈{mc}{construction}{sc}⌋{sc}!"
 
+build-interface-name: "{pc}≡ {mc}Список зданий города {town}"
+build-camp: "Лагерь (основное здание)"
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"

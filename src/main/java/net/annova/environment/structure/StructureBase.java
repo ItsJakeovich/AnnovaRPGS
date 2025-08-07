@@ -62,7 +62,7 @@ public abstract class StructureBase {
         ServerLevel level = construction.getLevel();
         Vec3i build = construction.getBuildPoint();
         Map<String, Object> save = new HashMap<>();
-        save.put("NAME", construction.getKey());
+        save.put("NAME", construction.getStructure().getName());
         save.put("LOCATION", level.dimension().location().getPath() + "," + build.getX() + "," + build.getY() + "," + build.getZ());
         save.put("START", this.isStart());
 

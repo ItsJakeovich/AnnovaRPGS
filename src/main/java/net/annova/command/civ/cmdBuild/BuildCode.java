@@ -2,8 +2,13 @@ package net.annova.command.civ.cmdBuild;
 
 import net.annova.command.register.DefaultArg;
 import net.annova.environment.civilization.Town;
+import net.annova.environment.civilization.build.BuildBase;
 import net.annova.event.custom.MenuClickKeyCE;
+import net.annova.main.AnnovaGlobal;
+import net.annova.object.Confirm;
 import net.annova.object.Person;
+import net.annova.object.SimpleObject;
+import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
 import net.annova.util.MenuBase;
 import org.bukkit.entity.Player;
@@ -12,9 +17,10 @@ import org.bukkit.event.Listener;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.util.GlobalTasks.getCenterByPlayer;
+import static net.annova.util.GlobalTasks.previewBuild;
 
 public class BuildCode implements Listener {
-    private static final MenuBase buildInterface = new BuildInterface();
     @DefaultArg
     public void onCommand(Player player, String[] args) {
         RPGPerson rpg = getRPGPerson(player);
@@ -25,21 +31,35 @@ public class BuildCode implements Listener {
             return;
         }
 
-        person.openMenu(buildInterface, person, 1);
+        person.openMenu(new BuildInterface(), person, 1);
     }
 
     @EventHandler
     public void menuClick(MenuClickKeyCE event) {
+        Person person = event.getPerson();
+        MenuBase menu = person.getMenu();
         String key = event.getKey();
+        if (key.startsWith("b-place-")) { // открывает меню со стилями
+            person.openMenu(menu, person, BuildBase.valueOf(key.split("-")[2]));
+            return;
+        } else if (key.startsWith("preview-")) { // отсюда после /confirm начинается постройка.
+            Confirm confirm = person.getConfirm();
+            confirm.setConfirmType("build");
+            SimpleStructure structure = AnnovaGlobal.getStructure(key.split("-")[1]);
+            confirm.addData(new SimpleObject("structure", structure));
+            previewBuild(person, structure, getCenterByPlayer(structure, person.getServerPlayer()));
+        }
+
+        int page;
+        if (menu instanceof BuildInterface inf) page = inf.getPage();
+        else return;
+        if (key.equals("build-style-previous")) {
+            person.openMenu(menu, person, page);
+            return;
+        }
         int delta;
         if (key.equals("build-previous")) delta = -1;
         else if (key.equals("build-next")) delta = 1;
-        else return;
-
-        Person person = event.getPerson();
-        int page;
-        MenuBase menu = person.getMenu();
-        if (menu instanceof BuildInterface inf) page = inf.getPage();
         else return;
 
         person.openMenu(menu, person, delta+page);

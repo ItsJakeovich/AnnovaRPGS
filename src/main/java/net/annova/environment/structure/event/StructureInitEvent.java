@@ -42,11 +42,10 @@ public class StructureInitEvent implements Listener {
             }
         }
 
-        String name = information[1];
-        SimpleConstruction construction = new SimpleConstruction(name, structure, Person.CardinalDirection.NORTH, null, null);
+        SimpleConstruction construction = new SimpleConstruction(structure, Person.CardinalDirection.NORTH, null, null);
         construction.setCompleted(true);
         Structure mapStructure = new Structure(construction, basePoint);
-        mapStructure.setBase(switch (name.toLowerCase()) {
+        mapStructure.setBase(switch (structure.getName()) {
             //case "altar" -> new Altar();
             //case "firealtar" -> new FireAltar();
             default -> null;

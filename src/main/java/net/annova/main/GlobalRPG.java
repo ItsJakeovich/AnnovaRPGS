@@ -167,7 +167,7 @@ public class GlobalRPG {
         return structures.get(key);
     }
     public static void addStructure(Structure structure) {
-        structures.put(structure.getConstruction().getKey(), structure);
+        structures.put(structure.getConstruction().getStructure().getName(), structure);
     }
     public static void removeStructure(String key) {
         structures.remove(key);

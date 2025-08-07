@@ -3,22 +3,28 @@ package net.annova.environment.civilization.event;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.event.custom.ConfirmChatActionCE;
+import net.annova.event.custom.LeftClickCE;
 import net.annova.event.custom.PersonConfirmCE;
-import net.annova.object.Confirm;
-import net.annova.object.Person;
-import net.annova.object.SimpleObject;
+import net.annova.object.*;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.ChunkPos;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static net.annova.lang.MessageObjects.isCyrillicOrLatin;
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.main.GlobalRPG.getAreaChunk;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.CAMP;
 import static net.annova.object.item.base.RPGItem.subtractItem;
+import static net.annova.util.GlobalTasks.cancelPreviewBuild;
+import static net.annova.util.GlobalTasks.previewBuild;
 
 public class ConfirmEvent implements Listener {
     @EventHandler
@@ -38,11 +44,73 @@ public class ConfirmEvent implements Listener {
     }
 
     @EventHandler
+    public void movePreview(LeftClickCE event) {
+        Person person = event.getPerson();
+        Preview preview = event.getPerson().getPreview();
+        if (preview == null) return;
+        cancelPreviewBuild(person);
+        Vec3i newPos = preview.position();
+        switch (Person.getCardinalDirection(person.getServerPlayer())) {
+            case SOUTH -> newPos.offset(0, 0, 1);
+            case WEST -> newPos.offset(-1, 0, 0);
+            case EAST -> newPos.offset(1, 0, 0);
+            default /*NORTH*/ -> newPos.offset(0, 0, -1);
+        }
+        previewBuild(person, preview.structure(), newPos);
+    }
+
+    @EventHandler
     public void confirm(PersonConfirmCE event) {
         Person person = event.getPerson();
 
         Confirm confirm = person.getConfirm();
         switch (confirm.getConfirmType()) {
+            case "build" -> {
+                RPGPerson rpg = getRPGPerson(person);
+                ServerPlayer serverPlayer = person.getServerPlayer();
+
+                Preview preview = person.getPreview();
+                Vec3i position = preview.position();
+                ServerLevel level = preview.level();
+                SimpleStructure structure = preview.structure();
+
+                boolean outOfCulture = false;
+                boolean isInWater = false;
+                Town town = rpg.getSelectedTown();
+                Set<AreaChunk> areas = town.getChunks();
+                // просто переменные
+
+                int chunkX = position.getX() >> 4, chunkZ = position.getZ() >> 4;
+                int chunksX = structure.getMaxX() >> 4, chunksZ = structure.getMaxZ() >> 4;
+                loop:
+                for (int x = 0; x < chunksX; x++) {
+                    for (int z = 0; z < chunksZ; z++) {
+                        AreaChunk area = getAreaChunk(new ChunkPos(chunkX+x, chunkZ+z));
+                        if (!areas.contains(area)) {
+                            outOfCulture = true;
+                            break loop;
+                        }
+                        if (area.isWater()) {
+                            isInWater = true;
+                            break loop;
+                        }
+                    }
+                } // проверка на культуру и воду
+                if (outOfCulture) {
+                    person.send(getInstance(), "build-cancel-culture");
+                    cancelPreviewBuild(person);
+                } else if (isInWater) {
+                    person.send(getInstance(), "build-cancel-water");
+                    cancelPreviewBuild(person);
+                } else {
+                    town.addConstruction(new SimpleConstruction(
+                            preview.structure(),
+                            preview.direction(),
+                            preview.position(),
+                            person.getServerPlayer().serverLevel()
+                    ));
+                } // отмена / стройка
+            }
             case "set-camp" -> {
                 String name = (String) confirm.getData().getOrDefault("name", "");
                 if (name.isEmpty()) {

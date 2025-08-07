@@ -4,17 +4,21 @@ import net.annova.environment.civilization.build.BuildBase;
 import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.civilization.territory.CultureBiome;
+import net.annova.lang.Replacement;
+import net.annova.object.SimpleConstruction;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
 
 import java.util.*;
 
+import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addCivilization;
 import static net.annova.main.GlobalRPG.addAreaChunk;
 
 public class Town {
     private String name;
     private Civilization civilization;
+    private final List<TownBuild> constructions = new ArrayList<>();
     private final Map<Vec3i, TownBuild> builds = new HashMap<>();
     private final AreaChunk centerChunk;
     private final Set<AreaChunk> chunks = new HashSet<>();
@@ -98,6 +102,17 @@ public class Town {
         return this == civilization.getCapital();
     }
 
+    public List<TownBuild> getConstructions() {
+        return constructions;
+    }
+    public void addConstruction(SimpleConstruction construction) {
+        this.constructions.add(new TownBuild(this, construction));
+    }
+    public void updateConstruction() {
+        if (this.constructions.isEmpty()) return;
+        this.constructions.getFirst().nextTick(this.getValue(StatType.HAMMERS));
+    }
+
     public TownBuild getBuild(Vec3i position) {
         return this.builds.get(position);
     }
@@ -134,8 +149,14 @@ public class Town {
         this.members.add(person);
     }
 
+    public void send(String message, Replacement... replacements) {
+        for (RPGPerson person : this.members) {
+            person.getPerson().send(getInstance(), message, replacements);
+        }
+    }
+
     public EnumSet<BuildBase> getAvailableBuilds() {
-        return EnumSet.noneOf(BuildBase.class);
+        return EnumSet.allOf(BuildBase.class);
     }
 
     public String toString() {
