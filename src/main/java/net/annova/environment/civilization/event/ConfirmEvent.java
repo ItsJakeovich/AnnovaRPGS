@@ -44,22 +44,6 @@ public class ConfirmEvent implements Listener {
     }
 
     @EventHandler
-    public void movePreview(LeftClickCE event) {
-        Person person = event.getPerson();
-        Preview preview = event.getPerson().getPreview();
-        if (preview == null) return;
-        cancelPreviewBuild(person);
-        Vec3i newPos = preview.position();
-        switch (Person.getCardinalDirection(person.getServerPlayer())) {
-            case SOUTH -> newPos.offset(0, 0, 1);
-            case WEST -> newPos.offset(-1, 0, 0);
-            case EAST -> newPos.offset(1, 0, 0);
-            default /*NORTH*/ -> newPos.offset(0, 0, -1);
-        }
-        previewBuild(person, preview.structure(), newPos);
-    }
-
-    @EventHandler
     public void confirm(PersonConfirmCE event) {
         Person person = event.getPerson();
 

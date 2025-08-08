@@ -43,7 +43,7 @@ public class BuildInterface implements MenuBase {
         return new MenuProvider() {
             @Override
             public @NotNull Component getDisplayName() {
-                return name(person).append("{sc}: {mc}" + (int) o);
+                return name(person).append(String.valueOf(o));
             }
 
             @Override
@@ -53,7 +53,7 @@ public class BuildInterface implements MenuBase {
 
                 if (o instanceof BuildBase base) {
                     container.setItem(45, createItem(Items.NAUTILUS_SHELL,
-                            person.getAISString(getInstance(), "build-inter-previous").getDefined(person),
+                            person.getAISString(getInstance(), "build-interface-previous").getDefined(person),
                             -1,
                             "build-style-previous"
                     ));
@@ -62,7 +62,7 @@ public class BuildInterface implements MenuBase {
                         container.setItem(it, createItem(Items.QUARTZ_BLOCK,
                                 person.getAISString(getInstance(), "icon-" + structure.getName()).getDefined(person),
                                 -1,
-                                "preview-" + structure.getName()
+                                "preview:" + structure.getName()
                         ));
                         it++;
                     }
@@ -79,14 +79,14 @@ public class BuildInterface implements MenuBase {
                     }
                     if (page > 1) { // Кнопка назад
                         container.setItem(45, createItem(Items.NAUTILUS_SHELL,
-                                person.getAISString(getInstance(), "build-inter-previous").getDefined(person),
+                                person.getAISString(getInstance(), "build-interface-previous").getDefined(person),
                                 -1,
                                 "build-previous"
                         ));
                     }
                     if (builds.size() > 45 * page) { // Кнопка вперед
                         container.setItem(53, createItem(Items.NAUTILUS_SHELL,
-                                person.getAISString(getInstance(), "build-inter-next").getDefined(person),
+                                person.getAISString(getInstance(), "build-interface-next").getDefined(person),
                                 -1,
                                 "build-next"
                         ));

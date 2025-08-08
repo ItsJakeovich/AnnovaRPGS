@@ -39,15 +39,18 @@ public class BuildCode implements Listener {
         Person person = event.getPerson();
         MenuBase menu = person.getMenu();
         String key = event.getKey();
+        System.out.println(key);
         if (key.startsWith("b-place-")) { // открывает меню со стилями
             person.openMenu(menu, person, BuildBase.valueOf(key.split("-")[2]));
             return;
-        } else if (key.startsWith("preview-")) { // отсюда после /confirm начинается постройка.
+        } else if (key.startsWith("preview:")) { // отсюда после /confirm начинается постройка.
+            person.closeMenu(true);
             Confirm confirm = person.getConfirm();
             confirm.setConfirmType("build");
-            SimpleStructure structure = AnnovaGlobal.getStructure(key.split("-")[1]);
+            SimpleStructure structure = AnnovaGlobal.getStructure(key.split(":")[1]);
             confirm.addData(new SimpleObject("structure", structure));
             previewBuild(person, structure, getCenterByPlayer(structure, person.getServerPlayer()));
+            person.send(getInstance(), "build-confirm");
         }
 
         int page;

@@ -113,7 +113,7 @@ public abstract class RPGEntity {
                 Vec3 pos = new Vec3(Double.parseDouble(position[1]), Double.parseDouble(position[2]), Double.parseDouble(position[3]));
                 ServerLevel level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(position[0])));
                 RPGEntity entity = RPGEntityType.valueOf(rs.getString("TYPE")).getEntity();
-                entity.create(pos, level);
+                entity.create(pos, level, true);
                 entity.experience = rs.getInt("EXP");
 
                 String[] equipment = rs.getString("EQUIPMENT").split(";");

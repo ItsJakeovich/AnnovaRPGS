@@ -112,8 +112,14 @@ build-cancel-water: "{ac}❖ {mc}Это здание нельзя построи
 build-progress: "{pc}=- {mc}Постройка {sc}⌈{mc}{construction}{sc}⌋ {mc}в {sc}{town} {mc}завершена на {pc}{percent}{sc}%{sc}."
 build-completed: "{pc}=- {mc}Город {sc}{town} {mc}завершил постройку {sc}⌈{mc}{construction}{sc}⌋{sc}!"
 
-build-interface-name: "{pc}≡ {mc}Список зданий города {town}"
-build-camp: "Лагерь (основное здание)"
+build-interface-name: "{pc}≡ {mc}Здания {ac}{town}{sc}: "
+build-interface-previous: "{fc}Назад"
+build-interface-next: "{tc}Дальше"
+build-confirm: "{pc}❖ {mc}Подтвердите поставку здания командой {s-com-/confirm}{sc}."
+
+build-camp: "Лагерь {sc}(основное здание)"
+
+icon-camp-default: "Классический лагерь"
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
