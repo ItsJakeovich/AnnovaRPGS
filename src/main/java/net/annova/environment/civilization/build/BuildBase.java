@@ -1,9 +1,9 @@
 package net.annova.environment.civilization.build;
 
+import net.annova.lang.AISString;
 import net.annova.object.Person;
 import net.annova.object.SimpleStructure;
 import net.annova.util.BukkitObjects;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -52,11 +52,11 @@ public enum BuildBase {
     }
 
     public ItemStack createItem(Person person) {
-        return BukkitObjects.createItem(icon, this.getLocalName(person), -1, "b-place-" + this.name());
+        return BukkitObjects.createItem(icon, this.getLocalName(person).getDefined(person), -1, "b-place-" + this.name());
     }
 
-    public Component getLocalName(Person person) {
-        return person.getAISString(getInstance(), this.local).getDefined(person);
+    public AISString getLocalName(Person person) {
+        return person.getAISString(getInstance(), this.local);
     }
 
     public static BuildBase getBuildBase(SimpleStructure structure) {

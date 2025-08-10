@@ -30,12 +30,12 @@ camp-set-action: "{pc}❖ {mc}Введите название для своег�
 camp-set-not-item: "{ac}❖ {mc}Возьмите в инвентарь лагерь{sc}!"
 camp-set-cancel-name: "{ac}❖ {mc}Неверный формат названия лагеря {sc}(4-20 символов, латиница или кириллица)!"
 camp-set-name: "{pc}❖ {mc}Установлено {sc}⌈{mc}{name}{sc}⌋. {mc}Если хотите изменить его{sc}, {mc}введите еще раз новое{sc}.
-{} {mc}|● {sc}Подтвердите поставку лагеря командой {s-com-/confirm}"
+{} {mc}|● {sc}Подтвердите установку лагеря командой {s-com-/confirm}"
 camp-set-cancel-blank: "{ac}❖ {mc}Необходимо ввести название лагеря в чат{sc}! "
 camp-set-cancel-water: "{ac}❖ {mc}Нельзя установить лагерь в океане или реке{sc}!"
 camp-set: "{pc}❖ {mc}Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был установлен{sc}! 
 {} {mc}|● {sc}Следующим шагом стоит построить главное здание{sc}!
-{} {mc}|● {sc}Для осведомления просмотрите команду {sc}{s-com-/town}"
+{} {mc}|● {sc}Для осведомления просмотрите команду {s-com-/town}"
 ## Research
 civ-research-CAMP-idle: "{ac}❖ {mc}Изучения лагеря простаивают{sc}!"
 
@@ -109,15 +109,19 @@ twn-stats: "{pc}≡ {mc}Статистика {town}{pc}:
 # build command
 build-cancel-culture: "{ac}❖ {mc}Нельзя построить здание вне территории города{sc}!"
 build-cancel-water: "{ac}❖ {mc}Это здание нельзя построить в чанках реки или океана{sc}."
-build-progress: "{pc}=- {mc}Постройка {sc}⌈{mc}{construction}{sc}⌋ {mc}в {sc}{town} {mc}завершена на {pc}{percent}{sc}%{sc}."
-build-completed: "{pc}=- {mc}Город {sc}{town} {mc}завершил постройку {sc}⌈{mc}{construction}{sc}⌋{sc}!"
+build-set: "{pc}❖ {mc}Здание {sc}⌈{mc}{construction}{sc}⌋ {mc}добавлено в очередь строительства{sc}! 
+{}{sc} | Стоимость: ({cost})"
+build-tick: "{pc}❖ {mc}Постройка {sc}⌈{mc}{construction}{sc}⌋ {mc}в {sc}{town} {mc}завершена на {ac}{percent}{sc}%"
+build-complete: "{pc}❖ {mc}Город {sc}{town} {mc}завершил постройку {sc}⌈{ac}{construction}{sc}⌋!"
 
 build-interface-name: "{pc}≡ {mc}Здания {ac}{town}{sc}: "
 build-interface-previous: "{fc}Назад"
 build-interface-next: "{tc}Дальше"
-build-confirm: "{pc}❖ {mc}Подтвердите поставку здания командой {s-com-/confirm}{sc}."
+build-confirm: "{pc}❖ {mc}Подтвердите поставку здания командой {sc}{s-com-/confirm}{sc}."
 
-build-camp: "Лагерь {sc}(основное здание)"
+build-progress: "{pc}❖ {mc}хабубский прогресс {progress}"
+
+build-camp: "Лагерь"
 
 icon-camp-default: "Классический лагерь"
 ### commands ≡ ● ◆ ❖

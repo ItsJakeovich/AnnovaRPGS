@@ -1,10 +1,12 @@
 package net.annova.environment.civilization.event;
 
 import net.annova.environment.civilization.Town;
+import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.event.custom.ConfirmChatActionCE;
 import net.annova.event.custom.LeftClickCE;
 import net.annova.event.custom.PersonConfirmCE;
+import net.annova.lang.AISReplacement;
 import net.annova.object.*;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
@@ -48,8 +50,10 @@ public class ConfirmEvent implements Listener {
         Person person = event.getPerson();
 
         Confirm confirm = person.getConfirm();
+        System.out.println(confirm.getConfirmType());
         switch (confirm.getConfirmType()) {
             case "build" -> {
+                System.out.println("build1");
                 RPGPerson rpg = getRPGPerson(person);
                 ServerPlayer serverPlayer = person.getServerPlayer();
 
@@ -66,8 +70,7 @@ public class ConfirmEvent implements Listener {
 
                 int chunkX = position.getX() >> 4, chunkZ = position.getZ() >> 4;
                 int chunksX = structure.getMaxX() >> 4, chunksZ = structure.getMaxZ() >> 4;
-                loop:
-                for (int x = 0; x < chunksX; x++) {
+                loop: for (int x = 0; x < chunksX; x++) {
                     for (int z = 0; z < chunksZ; z++) {
                         AreaChunk area = getAreaChunk(new ChunkPos(chunkX+x, chunkZ+z));
                         if (!areas.contains(area)) {
@@ -93,7 +96,8 @@ public class ConfirmEvent implements Listener {
                             preview.position(),
                             person.getServerPlayer().serverLevel()
                     ));
-                } // отмена / стройка
+                    cancelPreviewBuild(person);
+                }
             }
             case "set-camp" -> {
                 String name = (String) confirm.getData().getOrDefault("name", "");

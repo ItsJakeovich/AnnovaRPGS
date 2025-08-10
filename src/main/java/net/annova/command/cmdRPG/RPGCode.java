@@ -29,6 +29,7 @@ import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
+import static net.annova.thread.CivilizationTickTimer.civilizationsTick;
 import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
@@ -156,5 +157,10 @@ public class RPGCode {
         }
         StatusType type = StatusType.valueOf(args[1]);
         getRPGPerson(player).getStatusManager().addStatus(type);
+    }
+
+    @CommandArg(name = "next-tick")
+    public void nextTick(Player player) {
+        civilizationsTick();
     }
 }

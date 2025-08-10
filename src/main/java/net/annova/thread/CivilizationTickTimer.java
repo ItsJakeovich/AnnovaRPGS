@@ -11,6 +11,10 @@ import static net.annova.main.GlobalRPG.getCivilizations;
 public class CivilizationTickTimer implements Listener {
     @EventHandler
     public void tick(TenMinutesTickEvent event) {
+        civilizationsTick();
+    }
+
+    public static void civilizationsTick() {
         for (Civilization civilization : getCivilizations()) {
             System.out.println(civilization.getName());
             for (Town town : civilization.getTowns()) town.updateConstruction();

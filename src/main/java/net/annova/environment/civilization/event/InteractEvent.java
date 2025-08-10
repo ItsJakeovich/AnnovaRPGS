@@ -20,7 +20,7 @@ public class InteractEvent implements Listener {
 
         Person person = event.getPerson();
         person.send(getInstance(), "camp-set-action");
-        person.getConfirm().setConfirmType("set-camp");
+        person.getConfirm().setConfirmType("set-camp").setNeedChat(true);
     }
 
     @EventHandler

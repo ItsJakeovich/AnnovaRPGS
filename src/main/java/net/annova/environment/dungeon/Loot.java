@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
@@ -176,7 +177,7 @@ public class Loot {
         if (amount < 1 || !chance(chance)) return ItemStack.EMPTY;
         ItemStack item = new ItemStack(material, amount);
         if (name != null) item.set(CUSTOM_NAME, name);
-        if (model != -1) item.get(DataComponents.CUSTOM_MODEL_DATA).floats().add(model);
+        if (model != -1) item.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(model), List.of(), List.of(), List.of()));
         return item;
     }
 

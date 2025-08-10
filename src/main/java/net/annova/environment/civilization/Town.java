@@ -4,6 +4,8 @@ import net.annova.environment.civilization.build.BuildBase;
 import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.civilization.territory.CultureBiome;
+import net.annova.lang.AISReplacement;
+import net.annova.lang.PathReplacement;
 import net.annova.lang.Replacement;
 import net.annova.object.SimpleConstruction;
 import net.annova.object.person.RPGPerson;
@@ -105,12 +107,25 @@ public class Town {
     public List<TownBuild> getConstructions() {
         return constructions;
     }
+
+    /**
+     * Добавляет постройку в город, начинает ее строительство.
+     * @param construction структура что будет строится
+     */
     public void addConstruction(SimpleConstruction construction) {
-        this.constructions.add(new TownBuild(this, construction));
+        TownBuild build = new TownBuild(this, construction);
+        this.constructions.add(build);
+        if (this.constructions.size() == 1) this.updateConstruction(); // если первое здание, насчет чуток его строить )
+        else this.send("build-set",
+                new PathReplacement("{construction}", getInstance(), build.getBase().getLocal()),
+                new AISReplacement("{cost}", String.valueOf(build.getCost()))
+        );
     }
     public void updateConstruction() {
         if (this.constructions.isEmpty()) return;
-        this.constructions.getFirst().nextTick(this.getValue(StatType.HAMMERS));
+
+        if (this.constructions.getFirst().nextTick(this.getValue(StatType.HAMMERS)))
+            this.constructions.removeFirst();
     }
 
     public TownBuild getBuild(Vec3i position) {

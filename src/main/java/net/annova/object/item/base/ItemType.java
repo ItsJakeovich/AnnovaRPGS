@@ -417,6 +417,7 @@ public enum ItemType {
         nms.set(DataComponents.CUSTOM_NAME, local.getOrDefault(this.name(), local.get("unknown-name")).clone()
                 .getDefined(person, this.item.rarity().getColor())
         );
+        nms.set(DataComponents.MAX_STACK_SIZE, this.item.stackSize());
         nms.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of()));
 
         List<Component> newLore = new ArrayList<>();
