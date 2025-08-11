@@ -42,7 +42,7 @@ public class Town {
         this.name = name;
         this.leaders.add(leader);
         this.members.add(leader);
-        this.centerChunk = center; this.addChunk(center); addAreaChunk(this, centerChunk);
+        this.centerChunk = center; this.addChunk(center);
 
         if (civilization == null) {
             this.civilization = addCivilization(name, leader);
@@ -136,6 +136,11 @@ public class Town {
     }
     public void addBuild(TownBuild build) {
         this.builds.put(build.getConstruction().getBuildPoint(), build);
+    }
+
+    public Collection<TownBuild> getAllStructures() {
+        Collection<TownBuild> builds = this.builds.values();
+        builds.addAll(constructions); return builds;
     }
 
     public AreaChunk getCenterChunk() {
