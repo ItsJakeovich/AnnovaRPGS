@@ -7,15 +7,16 @@ import net.annova.event.custom.ConfirmChatActionCE;
 import net.annova.event.custom.PersonConfirmCE;
 import net.annova.object.*;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.Collection;
 import java.util.Set;
 
 import static net.annova.lang.MessageObjects.isCyrillicOrLatin;
@@ -62,7 +63,8 @@ public class ConfirmEvent implements Listener {
                 Town town = rpg.getSelectedTown();
                 Set<AreaChunk> areas = town.getChunks();
                 int chunkX = position.getX() >> 4, chunkZ = position.getZ() >> 4;
-                int chunksX = structure.getMaxX() >> 4, chunksZ = structure.getMaxZ() >> 4;
+                int chunksX = (structure.getMaxX()+15) >> 4, chunksZ = (structure.getMaxZ()+15) >> 4;
+                double columnSupport = 0;
                 for (int x = 0; x < chunksX; x++) {
                     for (int z = 0; z < chunksZ; z++) {
                         AreaChunk area = getAreaChunk(new ChunkPos(chunkX + x, chunkZ + z));
@@ -76,43 +78,27 @@ public class ConfirmEvent implements Listener {
                             cancelPreviewBuild(person);
                             return;
                         }
-                    }
-                }
+                        int startY = position.getY()-1, minY = level.getMinY();
+                        int cX = position.getX(), cZ = position.getZ();
+                        int maxX = cX+16, maxZ = cZ+16;
+                        for (; cX < maxX; cX+=3) {
+                            loopZ:for (; cZ < maxZ; cZ +=3) {
+                                for (int cY = startY; cY >= minY; cY--) {
+                                    BlockState block = level.getBlockState(new BlockPos(cX, cY, cZ));
+                                    if (block.isAir()) continue;
 
-                Collection<TownBuild> townBuilds = town.getAllStructures();
-                for (Vec3i point : new Vec3i[]{
-                        position,
-                        position.offset(structure.getMaxX(), 0, 0),
-                        position.offset(0, structure.getMaxY(), 0),
-                        position.offset(0, 0, structure.getMaxZ()),
-                        position.offset(structure.getMaxX(), structure.getMaxY(), 0),
-                        position.offset(0, structure.getMaxY(), structure.getMaxZ()),
-                        position.offset(structure.getMaxX(), 0, structure.getMaxZ()),
-                        position.offset(structure.getMaxX(), structure.getMaxY(), structure.getMaxZ())
-                }) {
-                    int pointX = point.getX(), pointY = point.getY(), pointZ = point.getZ();
-                    for (TownBuild build : townBuilds) {
-                        SimpleStructure struct = build.getConstruction().getStructure();
-                        Vec3i min = build.getConstruction().getBuildPoint(), max = min.offset(struct.getMaxX(), struct.getMaxY(), struct.getMaxZ());
-
-                        if (pointX >= min.getX() && pointX <= max.getX()
-                                && pointY >= min.getY() && pointY <= max.getY()
-                                && pointZ >= min.getZ() && pointZ <= max.getZ()) {
-                            Конфликтует с другим строением -> сообщение + return;
+                                }
+                            }
                         }
                     }
                 }
 
-                Vec3i positionMax = position.offset(structure.getMaxX(), structure.getMaxY(), structure.getMaxZ());
-                for (TownBuild builds : town.getAllStructures()) {
-                    SimpleConstruction construct = builds.getConstruction();
-                    SimpleStructure struct = construct.getStructure();
-                    Vec3i min = construct.getBuildPoint(), max = min.offset(struct.getMaxX(), struct.getMaxY(), struct.getMaxZ());
-
-                    if ((position.getX() >= min.getX() || positionMax.getX() <= max.getX()) &&
-                            (position.getY() >= min.getY() || positionMax.getY() <= max.getY()) &&
-                            (position.getZ() >= min.getZ() || positionMax.getZ() <= max.getZ())) {
-
+                for (TownBuild build : town.getAllStructures()) {
+                    SimpleConstruction construction = build.getConstruction();
+                    if (construction.getStructure().intersect(position, construction)) {
+                        person.send(getInstance(), "build-cancel-intersects");
+                        cancelPreviewBuild(person);
+                        return;
                     }
                 }
 
