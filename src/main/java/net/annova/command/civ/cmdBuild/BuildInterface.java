@@ -5,6 +5,7 @@ import net.annova.object.Person;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
 import net.annova.util.MenuBase;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.MenuProvider;

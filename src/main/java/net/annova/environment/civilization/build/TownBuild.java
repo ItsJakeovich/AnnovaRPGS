@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.util.GlobalTasks.buildConstructionTick;
@@ -59,6 +60,10 @@ public class TownBuild {
         this.cost = cost;
     }
 
+    public Town getTown() {
+        return town;
+    }
+
     public SimpleConstruction getConstruction() {
         return construction;
     }
@@ -92,5 +97,20 @@ public class TownBuild {
             );
             return false;
         }
+    }
+
+    public String serialize() {
+        StringJoiner data = new StringJoiner("`");
+        data.add(base.name());
+        data.add(construction.serialize());
+        data.add(String.valueOf(cost));
+        return data.toString();
+    }
+    public TownBuild(Town town, String serialized) {
+        String[] data = serialized.split("`");
+        this.town = town;
+        this.base = BuildBase.valueOf(data[0]);
+        this.construction = new SimpleConstruction(data[1]);
+        this.cost = Float.parseFloat(data[2]);
     }
 }

@@ -7,21 +7,24 @@ import net.annova.environment.civilization.territory.CultureBiome;
 import net.annova.lang.AISReplacement;
 import net.annova.lang.PathReplacement;
 import net.annova.lang.Replacement;
+import net.annova.main.AnnovaAPI;
+import net.annova.main.AnnovaSQL;
 import net.annova.object.SimpleConstruction;
 import net.annova.object.person.RPGPerson;
-import net.minecraft.core.Vec3i;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.addCivilization;
-import static net.annova.main.GlobalRPG.addAreaChunk;
+import static net.annova.main.GlobalRPG.*;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class Town {
     private String name;
     private Civilization civilization;
     private final List<TownBuild> constructions = new ArrayList<>();
-    private final Map<Vec3i, TownBuild> builds = new HashMap<>();
+    private final List<TownBuild> builds = new ArrayList<>();
     private final AreaChunk centerChunk;
     private final Set<AreaChunk> chunks = new HashSet<>();
     private final Set<RPGPerson> leaders = new HashSet<>();
@@ -33,6 +36,50 @@ public class Town {
     public enum StatSources {
         BASE,
         CHUNK
+    }
+
+    public static String TABLE = "TOWN";
+    public static void init() {
+        AnnovaSQL sql = AnnovaAPI.getSQL();
+        sql.initTable(TABLE,
+                "NAME VARCHAR(20)",
+                "CIVILIZATION VARCHAR(20)",
+                "CONSTRUCTIONS MEDIUMTEXT",
+                "BUILDS MEDIUMTEXT",
+                "CENTER_CHUNK VARCHAR(15)",
+                "CHUNKS TEXT",
+                "LEADERS TEXT",
+                "MEMBERS TEXT",
+
+                "PRIMARY KEY (NAME)"
+        );
+        sql.loadFromDB(TABLE, Civilization.class);
+    }
+    public void save() {
+        Map<String, Object> save = new HashMap<>();
+        save.put("NAME", this.name);
+        save.put("CIVILIZATION", this.civilization.getName());
+        save.put("RESEARCH_MANAGER", this.researchManager.serialize());
+        save.put("CAPITAL", this.capital.getName());
+
+
+        AnnovaAPI.getSQL().saveObject(TABLE, "NAME", save);
+    }
+
+    public Town(ResultSet rs) throws SQLException {
+        this.name = rs.getString("NAME");
+        this.stage = Civilization.Stage.valueOf(rs.getString("STAGE"));
+        this.researchManager = ResearchManager.deserialize(this, rs.getString("RESEARCH_MANAGER"));
+        this.capital = getTown(rs.getString("CAPITAL"));
+        for (String town : rs.getString("TOWNS").split(","))
+            this.towns.add(getTown(town));
+
+        for (String leader : rs.getString("LEADERS").split(","))
+            this.leaders.add(getRPGPerson(leader));
+        for (String citizen : rs.getString("CITIZENS").split(","))
+            this.citizens.add(getRPGPerson(citizen));
+
+        this.initScience();
     }
 
     public Town(String name, AreaChunk center, RPGPerson leader) {
@@ -115,8 +162,7 @@ public class Town {
     public void addConstruction(SimpleConstruction construction) {
         TownBuild build = new TownBuild(this, construction);
         this.constructions.add(build);
-        if (this.constructions.size() == 1) this.updateConstruction(); // если первое здание, насчет чуток его строить )
-        else this.send("build-set",
+        this.send("build-set",
                 new PathReplacement("{construction}", getInstance(), build.getBase().getLocal()),
                 new AISReplacement("{cost}", String.valueOf(build.getCost()))
         );
@@ -124,23 +170,26 @@ public class Town {
     public void updateConstruction() {
         if (this.constructions.isEmpty()) return;
 
-        if (this.constructions.getFirst().nextTick(this.getValue(StatType.HAMMERS)))
+        TownBuild first = this.constructions.getFirst();
+        if (first.nextTick(this.getValue(StatType.HAMMERS))) {
+            this.addBuild(first);
             this.constructions.removeFirst();
+        }
     }
 
-    public TownBuild getBuild(Vec3i position) {
-        return this.builds.get(position);
-    }
-    public Collection<TownBuild> getBuilds() {
-        return builds.values();
+    public List<TownBuild> getBuilds() {
+        return builds;
     }
     public void addBuild(TownBuild build) {
-        this.builds.put(build.getConstruction().getBuildPoint(), build);
+        this.builds.add(build);
     }
 
-    public Collection<TownBuild> getAllStructures() {
-        Collection<TownBuild> builds = this.builds.values();
-        builds.addAll(constructions); return builds;
+    public List<TownBuild> getAllStructures() {
+        List<TownBuild> builds = new ArrayList<>(this.builds.size() + this.constructions.size());
+        builds.addAll(this.builds);
+        builds.addAll(this.constructions);
+        builds.init
+        return builds;
     }
 
     public AreaChunk getCenterChunk() {

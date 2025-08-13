@@ -101,8 +101,7 @@ public class RPGPerson {
 
                 "PRIMARY KEY (NAME)"
         );
-        sql.loadFromDB(TABLE, RPGPerson.class)
-                .forEach(person -> addRPGPerson((RPGPerson) person));
+        sql.loadFromDB(TABLE, RPGPerson.class);
     }
     public void save() {
         Map<String, Object> save = new HashMap<>();
@@ -119,6 +118,8 @@ public class RPGPerson {
         this.person = AnnovaGlobal.getPerson(rs.getString("NAME"));
         this.questManager.deserialize(rs.getString("QUEST_MANAGER"));
         this.equipment.deserialize(rs.getString("EQUIPMENT"));
+
+        addRPGPerson(this);
     }
 
     public Person getPerson() {

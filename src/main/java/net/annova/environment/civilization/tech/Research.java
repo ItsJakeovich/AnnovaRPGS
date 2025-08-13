@@ -24,4 +24,14 @@ public class Research {
     public float addProgress(float progress) {
         return this.progress += progress;
     }
+
+    public String serialize() {
+        return this.tech.name()+":"+progress;
+    }
+    public static Research deserialize(String serialized) {
+        String[] data = serialized.split(":");
+        Research research = new Research(AnnovaTech.valueOf(data[0]));
+        research.progress = Float.parseFloat(data[1]);
+        return research;
+    }
 }

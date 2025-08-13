@@ -109,6 +109,7 @@ twn-stats: "{pc}≡ {mc}Статистика {town}{pc}:
 # build command
 build-cancel-culture: "{ac}❖ {mc}Нельзя построить здание вне территории города{sc}!"
 build-cancel-water: "{ac}❖ {mc}Это здание нельзя построить в чанках реки или океана{sc}."
+build-cancel-support: "{ac}❖ {mc}Здание не может быть поддержано{sc}: {mc}{real}/{max} {sc}({percent})"
 build-set: "{pc}❖ {mc}Здание {sc}⌈{mc}{construction}{sc}⌋ {mc}добавлено в очередь строительства{sc}! 
 {}{sc} | Стоимость: ({cost})"
 build-tick: "{pc}❖ {mc}Постройка {sc}⌈{mc}{construction}{sc}⌋ {mc}в {sc}{town} {mc}завершена на {ac}{percent}{sc}%"

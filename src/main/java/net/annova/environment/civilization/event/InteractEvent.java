@@ -26,19 +26,21 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void movePreview(LeftClickCE event) {
         Person person = event.getPerson();
-        Preview preview = event.getPerson().getPreview();
+        Preview preview = person.getPreview();
         if (preview == null) return;
         cancelPreviewBuild(person);
         Vec3i newPos = preview.position();
-        float pitch = person.getServerPlayer().getXRot();
-        if (pitch < -50) newPos = newPos.offset(0, 1, 0);
-        else if (pitch > 50) newPos = newPos.offset(0, -1, 0);
-        else {
-            switch (Person.getCardinalDirection(person.getServerPlayer())) {
-                case SOUTH -> newPos = newPos.offset(0, 0, 1);
-                case WEST -> newPos = newPos.offset(-1, 0, 0);
-                case EAST -> newPos = newPos.offset(1, 0, 0);
-                default /*NORTH*/ -> newPos = newPos.offset(0, 0, -1);
+        if (!person.getServerPlayer().isShiftKeyDown()) {
+            float pitch = person.getServerPlayer().getXRot();
+            if (pitch < -50) newPos = newPos.offset(0, 1, 0);
+            else if (pitch > 50) newPos = newPos.offset(0, -1, 0);
+            else {
+                switch (Person.getCardinalDirection(person.getServerPlayer())) {
+                    case SOUTH -> newPos = newPos.offset(0, 0, 1);
+                    case WEST -> newPos = newPos.offset(-1, 0, 0);
+                    case EAST -> newPos = newPos.offset(1, 0, 0);
+                    default /*NORTH*/ -> newPos = newPos.offset(0, 0, -1);
+                }
             }
         }
         previewBuild(person, preview.structure(), newPos);

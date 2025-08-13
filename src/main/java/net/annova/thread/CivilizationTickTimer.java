@@ -17,6 +17,7 @@ public class CivilizationTickTimer implements Listener {
     public static void civilizationsTick() {
         for (Civilization civilization : getCivilizations()) {
             System.out.println(civilization.getName());
+            civilization.updateTowns();
             for (Town town : civilization.getTowns()) town.updateConstruction();
         }
     }

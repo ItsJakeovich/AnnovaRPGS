@@ -2,6 +2,7 @@ package net.annova.main;
 
 import net.annova.config.AnnovaConfig;
 import net.annova.config.RPGConfig;
+import net.annova.environment.civilization.Civilization;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -108,6 +109,10 @@ public final class AnnovaRPG extends JavaPlugin {
         for (RPGEntity entity : getEntities()) {
             entity.save();
         }
+
+        for (Civilization civilization : getCivilizations()) {
+            civilization.save();
+        }
     }
 
     private void initThreads() {
@@ -123,6 +128,8 @@ public final class AnnovaRPG extends JavaPlugin {
         RPGPerson.init();
         RPGEntity.init();
         StructureBase.init();
+
+        Civilization.init();
     }
 
     public static JavaPlugin getInstance() {

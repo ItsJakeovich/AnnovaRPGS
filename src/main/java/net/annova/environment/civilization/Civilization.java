@@ -2,13 +2,18 @@ package net.annova.environment.civilization;
 
 import net.annova.lang.AISString;
 import net.annova.lang.Replacement;
+import net.annova.main.AnnovaAPI;
+import net.annova.main.AnnovaSQL;
 import net.annova.main.GlobalRPG;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.main.GlobalRPG.*;
 
 public class Civilization {
     private String name;
@@ -26,17 +31,72 @@ public class Civilization {
     private final Set<RPGPerson> leaders = new HashSet<>();
     private final Set<RPGPerson> citizens = new HashSet<>();
 
+    public static final String TABLE = "CIVILIZATION";
+
+    public static void init() {
+        AnnovaSQL sql = AnnovaAPI.getSQL();
+        sql.initTable(TABLE,
+                "NAME VARCHAR(20)",
+                "STAGE VARCHAR(12)",
+                "RESEARCH_MANAGER MEDIUMTEXT",
+                "CAPITAL VARCHAR(20)",
+                "TOWNS TEXT",
+                "LEADERS TEXT",
+                "CITIZENS TEXT",
+
+                "PRIMARY KEY (NAME)"
+        );
+        sql.loadFromDB(TABLE, Civilization.class);
+    }
+    public void save() {
+        Map<String, Object> save = new HashMap<>();
+        save.put("NAME", this.name);
+        save.put("STAGE", this.stage.name());
+        save.put("RESEARCH_MANAGER", this.researchManager.serialize());
+        save.put("CAPITAL", this.capital.getName());
+
+        StringJoiner joiner = new StringJoiner(",");
+        for (Town town : this.towns) joiner.add(town.getName());
+        save.put("TOWNS", joiner.toString()); joiner = new StringJoiner(",");
+        for (RPGPerson leader : this.leaders) joiner.add(leader.getPerson().getName());
+        save.put("LEADERS", joiner.toString()); joiner = new StringJoiner(",");
+        for (RPGPerson citizen : this.citizens) joiner.add(citizen.getPerson().getName());
+        save.put("CITIZENS", joiner.toString());
+
+        AnnovaAPI.getSQL().saveObject(TABLE, "NAME", save);
+    }
+
+    public Civilization(ResultSet rs) throws SQLException {
+        this.name = rs.getString("NAME");
+        this.stage = Stage.valueOf(rs.getString("STAGE"));
+        this.researchManager = ResearchManager.deserialize(this, rs.getString("RESEARCH_MANAGER"));
+        this.capital = getTown(rs.getString("CAPITAL"));
+        for (String town : rs.getString("TOWNS").split(","))
+            this.towns.add(getTown(town));
+
+        for (String leader : rs.getString("LEADERS").split(","))
+            this.leaders.add(getRPGPerson(leader));
+        for (String citizen : rs.getString("CITIZENS").split(","))
+            this.citizens.add(getRPGPerson(citizen));
+
+        this.initScience();
+        addCivilization(this);
+    }
+
     public Civilization(String name, RPGPerson leader) {
         this.name = name;
         this.stage = Stage.CAMP;
         this.leaders.add(leader);
         this.researchManager = new ResearchManager(this);
+        this.initScience();
+    }
+
+    public void initScience() {
         for (StatSources source : StatSources.values()) {
             this.science.put(source, 0.0f);
         }
         this.setScienceSource(StatSources.BASE, this.stage.baseScience);
     }
-
     public float getScience() {
         float value = 0;
         for (StatSources source : StatSources.values()) {

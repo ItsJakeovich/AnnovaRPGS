@@ -2,6 +2,7 @@ package net.annova.main;
 
 import net.annova.environment.civilization.Civilization;
 import net.annova.environment.civilization.Town;
+import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -12,6 +13,7 @@ import net.annova.object.npc.RPGNPC;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.quest.QuestBase;
 import net.annova.environment.structure.Structure;
+import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,10 +24,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
 
@@ -46,6 +45,7 @@ public class GlobalRPG {
     private static final Map<String, Civilization> civilizations = new HashMap<>();
     private static final Map<String, Town> towns = new HashMap<>();
     private static final Map<ChunkPos, AreaChunk> areaChunks = new HashMap<>();
+    private static final Map<ServerLevel, List<TownBuild>> builds = new HashMap<>();
 
     @Nullable
     public static RPGPerson getRPGPerson(Entity entity) {
@@ -206,6 +206,9 @@ public class GlobalRPG {
         civilizations.put(civName.toLowerCase(), civilization);
         return civilization;
     }
+    public static void addCivilization(Civilization civilization) {
+        civilizations.put(civilization.getName().toLowerCase(), civilization);
+    }
 
     public static Town getTown(String name) {
         return towns.get(name.toLowerCase());
@@ -235,6 +238,18 @@ public class GlobalRPG {
     public static void addAreaChunk(Town town, AreaChunk areaChunk) {
         areaChunk.setTown(town);
         areaChunks.put(areaChunk.getPosition(), areaChunk);
+    }
+
+    public static void addBuildsList(ServerLevel level) {
+        builds.put(level, new ArrayList<>());
+    }
+    public static void addTownBuild(TownBuild build) {
+        builds.get(build.getConstruction().getLevel()).add(build);
+    }
+    public static TownBuild getTownBuild(ServerLevel level, Vec3i pos) {
+        for (TownBuild build : builds.get(level)) {
+            //тут нужно intersect(Vec3i)
+        }
     }
 
     public static SoundEvent getSoundFromString(String string) {

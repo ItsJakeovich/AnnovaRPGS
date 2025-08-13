@@ -5,6 +5,8 @@ import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.event.custom.ConfirmChatActionCE;
 import net.annova.event.custom.PersonConfirmCE;
+import net.annova.lang.AISReplacement;
+import net.annova.lang.AISString;
 import net.annova.object.*;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.BlockPos;
@@ -64,7 +66,6 @@ public class ConfirmEvent implements Listener {
                 Set<AreaChunk> areas = town.getChunks();
                 int chunkX = position.getX() >> 4, chunkZ = position.getZ() >> 4;
                 int chunksX = (structure.getMaxX()+15) >> 4, chunksZ = (structure.getMaxZ()+15) >> 4;
-                double columnSupport = 0;
                 for (int x = 0; x < chunksX; x++) {
                     for (int z = 0; z < chunksZ; z++) {
                         AreaChunk area = getAreaChunk(new ChunkPos(chunkX + x, chunkZ + z));
@@ -78,19 +79,40 @@ public class ConfirmEvent implements Listener {
                             cancelPreviewBuild(person);
                             return;
                         }
-                        int startY = position.getY()-1, minY = level.getMinY();
-                        int cX = position.getX(), cZ = position.getZ();
-                        int maxX = cX+16, maxZ = cZ+16;
-                        for (; cX < maxX; cX+=3) {
-                            loopZ:for (; cZ < maxZ; cZ +=3) {
-                                for (int cY = startY; cY >= minY; cY--) {
-                                    BlockState block = level.getBlockState(new BlockPos(cX, cY, cZ));
-                                    if (block.isAir()) continue;
+                    }
+                } // Проверку на основание нужно делать отдельно, так как размер здания может быть меньше чанка.
 
-                                }
-                            }
+                double maxSupportThreshold = 0;
+                double realSupportThreshold = 0;
+
+                int startY = position.getY()-1, minY = level.getMinY();
+                int maxHeigth = startY-minY;
+                double modifier = 1.0/maxHeigth;
+
+                int xStep = (int) Math.max(structure.getMaxX() * 0.1, 1),
+                        zStep = (int) Math.max(structure.getMaxZ()*0.1, 1);
+                int maxX = position.getX()+structure.getMaxX(), maxZ = position.getZ()+structure.getMaxZ();
+                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(0, 0, 0);
+                for (int x = position.getX(); x < maxX; x+=xStep) {
+                    for (int z = position.getZ(); z < maxZ; z +=zStep) {
+                        pos.set(x, startY, z);
+                        for (int cY = maxHeigth; cY >= 0; cY--, pos.setY(pos.getY()-1)) {
+                            double support = cY * modifier;
+                            maxSupportThreshold += support;
+                            if (level.getBlockState(pos).isAir()) continue;
+                            realSupportThreshold += support;
                         }
                     }
+                }
+                double supportPercent = realSupportThreshold / maxSupportThreshold;
+                if (supportPercent < 0.75) {
+                    person.send(person.getAISString(getInstance(), "build-cancel-support")
+                            .replaceTag("{real}", String.valueOf(realSupportThreshold))
+                            .replaceTag("{max}", String.valueOf(maxSupportThreshold))
+                            .replaceTag("{percent}", (int)(supportPercent*100) + "%")
+                    );
+                    cancelPreviewBuild(person);
+                    return;
                 }
 
                 for (TownBuild build : town.getAllStructures()) {
