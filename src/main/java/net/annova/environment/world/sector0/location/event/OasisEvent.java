@@ -7,6 +7,7 @@ import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -30,19 +31,7 @@ import static net.annova.util.BukkitObjects.*;
 import static net.annova.util.BukkitObjects.chance;
 
 public class OasisEvent implements Listener {
-
-    @EventHandler
-    public void bottleClickBubble(PlayerInteractAtEntityEvent event) {
-        if (!event.getRightClicked().equals(bubble)) return;
-
-        Player player = event.getPlayer();
-        PlayerInventory inventory = player.getInventory();
-        if (!inventory.getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) return;
-
-        RPGItem.subtractItem(player); addItems(player, UNKNOWN_SOURCE_WATER.create(player));
-        player.playSound(player, Sound.ITEM_BOTTLE_FILL, 1, 1);
-        getRPGPerson(player).completeAdvancement(WATER);
-    }
+    // bottleclickbubble теперь в самом CustomBubble;
 
     public static final Map<ItemType, Double> OASIS_FISHS = new HashMap<>();
     static {

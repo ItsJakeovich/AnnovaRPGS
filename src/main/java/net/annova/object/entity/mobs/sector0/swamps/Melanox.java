@@ -45,7 +45,7 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
 
     @Override
     public String name() {
-        return "Melanox";
+        return " ";
     }
 
     @Override

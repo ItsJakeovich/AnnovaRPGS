@@ -14,6 +14,8 @@ import java.util.*;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
+import static net.annova.util.AISUtil.joinList;
+import static net.annova.util.AISUtil.loadList;
 
 public class Civilization {
     private String name;
@@ -54,14 +56,9 @@ public class Civilization {
         save.put("STAGE", this.stage.name());
         save.put("RESEARCH_MANAGER", this.researchManager.serialize());
         save.put("CAPITAL", this.capital.getName());
-
-        StringJoiner joiner = new StringJoiner(",");
-        for (Town town : this.towns) joiner.add(town.getName());
-        save.put("TOWNS", joiner.toString()); joiner = new StringJoiner(",");
-        for (RPGPerson leader : this.leaders) joiner.add(leader.getPerson().getName());
-        save.put("LEADERS", joiner.toString()); joiner = new StringJoiner(",");
-        for (RPGPerson citizen : this.citizens) joiner.add(citizen.getPerson().getName());
-        save.put("CITIZENS", joiner.toString());
+        save.put("TOWNS", joinList(this.towns, Town::getName, ","));
+        save.put("LEADERS", joinList(this.leaders, p -> p.getPerson().getName(), ","));
+        save.put("CITIZENS", joinList(this.citizens, p -> p.getPerson().getName(), ","));
 
         AnnovaAPI.getSQL().saveObject(TABLE, "NAME", save);
     }
@@ -71,15 +68,17 @@ public class Civilization {
         this.stage = Stage.valueOf(rs.getString("STAGE"));
         this.researchManager = ResearchManager.deserialize(this, rs.getString("RESEARCH_MANAGER"));
         this.capital = getTown(rs.getString("CAPITAL"));
-        for (String town : rs.getString("TOWNS").split(","))
-            this.towns.add(getTown(town));
+        for (String townName : rs.getString("TOWNS").split(",")) {
+            Town town = getTown(townName);
+            town.setCivilization(this);
+            this.towns.add(town);
+        }
 
-        for (String leader : rs.getString("LEADERS").split(","))
-            this.leaders.add(getRPGPerson(leader));
-        for (String citizen : rs.getString("CITIZENS").split(","))
-            this.citizens.add(getRPGPerson(citizen));
+        loadList(this.leaders, rs.getString("LEADERS"), GlobalRPG::getRPGPerson, ",");
+        loadList(this.citizens, rs.getString("CITIZENS"), GlobalRPG::getRPGPerson, ",");
 
         this.initScience();
+        this.updateTowns();
         addCivilization(this);
     }
 

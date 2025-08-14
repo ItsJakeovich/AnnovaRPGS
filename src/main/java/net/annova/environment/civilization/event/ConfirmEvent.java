@@ -1,26 +1,24 @@
 package net.annova.environment.civilization.event;
 
 import net.annova.environment.civilization.Town;
-import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
+import net.annova.environment.world.SectorLocation;
 import net.annova.event.custom.ConfirmChatActionCE;
 import net.annova.event.custom.PersonConfirmCE;
-import net.annova.lang.AISReplacement;
-import net.annova.lang.AISString;
 import net.annova.object.*;
 import net.annova.object.person.RPGPerson;
+import net.annova.util.AISUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.Set;
 
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.lang.MessageObjects.isCyrillicOrLatin;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getAreaChunk;
@@ -53,7 +51,6 @@ public class ConfirmEvent implements Listener {
         System.out.println(confirm.getConfirmType());
         switch (confirm.getConfirmType()) {
             case "build" -> {
-                System.out.println("build1");
                 RPGPerson rpg = getRPGPerson(person);
                 ServerPlayer serverPlayer = person.getServerPlayer();
 
@@ -62,6 +59,7 @@ public class ConfirmEvent implements Listener {
                 ServerLevel level = preview.level();
                 SimpleStructure structure = preview.structure();
 
+                // Проверка на культуру и реку/океан
                 Town town = rpg.getSelectedTown();
                 Set<AreaChunk> areas = town.getChunks();
                 int chunkX = position.getX() >> 4, chunkZ = position.getZ() >> 4;
@@ -80,8 +78,15 @@ public class ConfirmEvent implements Listener {
                             return;
                         }
                     }
-                } // Проверку на основание нужно делать отдельно, так как размер здания может быть меньше чанка.
+                }
+                // Проверка на пересечение с другими зданиями
+                if (town.intersects(position, structure)) {
+                    person.send(getInstance(), "build-cancel-intersects");
+                    cancelPreviewBuild(person);
+                    return;
+                }
 
+                // Проверка на основание
                 double maxSupportThreshold = 0;
                 double realSupportThreshold = 0;
 
@@ -111,17 +116,7 @@ public class ConfirmEvent implements Listener {
                             .replaceTag("{max}", String.valueOf(maxSupportThreshold))
                             .replaceTag("{percent}", (int)(supportPercent*100) + "%")
                     );
-                    cancelPreviewBuild(person);
                     return;
-                }
-
-                for (TownBuild build : town.getAllStructures()) {
-                    SimpleConstruction construction = build.getConstruction();
-                    if (construction.getStructure().intersect(position, construction)) {
-                        person.send(getInstance(), "build-cancel-intersects");
-                        cancelPreviewBuild(person);
-                        return;
-                    }
                 }
 
                 town.addConstruction(new SimpleConstruction(
@@ -142,7 +137,18 @@ public class ConfirmEvent implements Listener {
                 RPGPerson rpg = getRPGPerson(person);
                 ServerPlayer player = rpg.getServerPlayer();
 
-                AreaChunk chunk = new AreaChunk(player.serverLevel(), player.chunkPosition());
+                ServerLevel level = player.serverLevel();
+                AreaChunk chunk = new AreaChunk(level, player.chunkPosition());
+                ChunkPos chunkPos = chunk.getPosition();
+                Vec3i min = chunkPos.getBlockAt(0, 0, 0), max = chunkPos.getBlockAt(15, 0, 15);
+                for (SectorLocation location : getWorldSector(level).zones()) {
+                    for (Vec3iSelection selection : location.borders()) {
+                        if (!AISUtil.intersects(selection.getMinPoint(), selection.getMaxPoint(), min, max)) continue;
+                        person.send(getInstance(), "camp-set-cancel-locations");
+                        person.resetConfirm();
+                        return;
+                    }
+                }
                 if (chunk.isWater()) {
                     person.send(getInstance(), "camp-set-cancel-water");
                     person.resetConfirm();

@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class CustomCrab extends CaveSpider {
             Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH
     );
     @Override
-    protected InteractionResult mobInteract(Player entityhuman, InteractionHand enumhand) {
+    protected @NotNull InteractionResult mobInteract(Player entityhuman, @NotNull InteractionHand enumhand) {
         ItemStack itemstack = entityhuman.getItemInHand(enumhand);
         if (FISH_ITEMS.contains(itemstack.getItem())) {
             RPGPerson person = getRPGPerson(entityhuman.getUUID());
@@ -57,7 +58,6 @@ public class CustomCrab extends CaveSpider {
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0F, true));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -66,18 +66,18 @@ public class CustomCrab extends CaveSpider {
     }
 
     @Override
-    public boolean doHurtTarget(ServerLevel worldserver, Entity entity) {
+    public boolean doHurtTarget(@NotNull ServerLevel worldserver, @NotNull Entity entity) {
         float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
         ItemStack itemstack = this.getWeaponItem();
-        DamageSource damagesource = (DamageSource) Optional.ofNullable(itemstack.getItem().getDamageSource(this)).orElse(this.damageSources().mobAttack(this));
+        DamageSource damagesource = Optional.ofNullable(itemstack.getItem().getDamageSource(this)).orElse(this.damageSources().mobAttack(this));
         f = EnchantmentHelper.modifyDamage(worldserver, itemstack, entity, damagesource, f);
         f += itemstack.getItem().getAttackDamageBonus(entity, f, damagesource);
         boolean flag = entity.hurtServer(worldserver, damagesource, f);
         if (flag) {
             float f1 = this.getKnockback(entity, damagesource);
             if (f1 > 0.0F && entity instanceof LivingEntity entityliving) {
-                entityliving.knockback((double)(f1 * 0.5F), (double)Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), this, EntityKnockbackEvent.Cause.ENTITY_ATTACK);
-                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, (double)1.0F, 0.6));
+                entityliving.knockback(f1 * 0.5F, Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), this, EntityKnockbackEvent.Cause.ENTITY_ATTACK);
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, 1.0F, 0.6));
             }
 
             if (entity instanceof LivingEntity entityliving1) {
@@ -93,23 +93,23 @@ public class CustomCrab extends CaveSpider {
     }
 
     @Override
-    public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
+    public boolean hurtServer(@NotNull ServerLevel worldserver, DamageSource damagesource, float f) {
         if (damagesource.is(DamageTypes.DROWN)) return false;
         return super.hurtServer(worldserver, damagesource, f);
     }
 
     @Override
-    public SoundEvent getAmbientSound() {
+    public @NotNull SoundEvent getAmbientSound() {
         return SoundEvents.TURTLE_AMBIENT_LAND;
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource var0) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource var0) {
         return SoundEvents.TURTLE_HURT;
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return SoundEvents.TURTLE_DEATH;
     }
 

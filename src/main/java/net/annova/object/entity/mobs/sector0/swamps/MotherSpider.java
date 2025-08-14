@@ -4,8 +4,10 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.CustomSwampSpider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +20,11 @@ import java.util.Set;
 import static net.annova.object.entity.core.RPGEntityType.SWAMP_SPIDER;
 import static net.annova.util.BukkitObjects.random;
 
-public class MotherSpider extends RPGEntity implements EntityAction {
+public class MotherSpider extends RPGEntity implements CustomType, EntityAction {
+    @Override
+    public Class<?> clazz() {
+        return CustomSwampSpider.class;
+    }
     @Override
     public EntityType<?> type() {
         return EntityType.SPIDER;
@@ -26,7 +32,7 @@ public class MotherSpider extends RPGEntity implements EntityAction {
 
     @Override
     public String name() {
-        return "";
+        return "  ";
     }
 
     @Override

@@ -5,9 +5,11 @@ import net.annova.object.CustomRunnable;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.CustomSwampSpider;
 import net.annova.object.magic.projectile.WebBall;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,7 +28,11 @@ import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
-public class WhipSpider extends RPGEntity implements EntityAction, EntityActivity {
+public class WhipSpider extends RPGEntity implements CustomType, EntityAction, EntityActivity {
+    @Override
+    public Class<?> clazz() {
+        return CustomSwampSpider.class;
+    }
     @Override
     public EntityType<?> type() {
         return EntityType.SPIDER;
@@ -34,7 +40,7 @@ public class WhipSpider extends RPGEntity implements EntityAction, EntityActivit
 
     @Override
     public String name() {
-        return "WhipSpider";
+        return "   ";
     }
 
     @Override

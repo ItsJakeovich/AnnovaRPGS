@@ -9,6 +9,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import static net.minecraft.world.level.biome.Biomes.FROZEN_RIVER;
 import static net.minecraft.world.level.biome.Biomes.RIVER;
@@ -62,5 +63,21 @@ public class AreaChunk {
     }
     public boolean hasRiver() {
         return this.river;
+    }
+
+    public String serialize() {
+        StringJoiner joiner = new StringJoiner("`");
+        joiner.add(biome.name());
+        joiner.add(String.valueOf(position.x));
+        joiner.add(String.valueOf(position.z));
+        joiner.add(String.valueOf(river));
+        return joiner.toString();
+    }
+    public AreaChunk(Town town, String serialized) {
+        String[] data = serialized.split("`");
+        this.biome = CultureBiome.valueOf(data[0]);
+        this.position = new ChunkPos(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        this.town = town;
+        this.river = Boolean.parseBoolean(data[3]);
     }
 }

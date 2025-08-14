@@ -8,14 +8,14 @@ import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.main.GlobalRPG.getTownBuild;
 
 public class BlockEvent implements Listener {
     @EventHandler
     public void blockPlaceBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();
-        TownBuild build = getTownBuild(player.serverLevel(), event.getBlockPos());
+        TownBuild build = getWorldSector(player.serverLevel()).getBuildAt(event.getBlockPos());
         if (build == null) return;
         RPGPerson person = getRPGPerson(player);
         Town town = person.getTown();

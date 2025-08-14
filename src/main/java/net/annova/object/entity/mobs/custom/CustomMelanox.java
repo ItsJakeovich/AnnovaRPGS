@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static net.annova.main.GlobalRPG.getSoundFromString;
 
-public class CustomMelanox extends Spider {
+public class CustomMelanox extends CustomSwampSpider {
     public CustomMelanox(EntityType<? extends Spider> entitytypes, Level world) {
         super(entitytypes, world);
     }

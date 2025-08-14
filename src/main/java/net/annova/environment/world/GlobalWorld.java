@@ -12,16 +12,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
-import static net.annova.main.GlobalRPG.addBuildsList;
 
 public class GlobalWorld {
-    public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
+    private static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     static {
         worldSectors.put(world0, new SuruWahare());
-
-        for (ServerLevel level : worldSectors.keySet()) addBuildsList(level);
     }
 
+    public static Map<ServerLevel, WorldSector> getWorldSectors() {
+        return worldSectors;
+    }
+    public static WorldSector getWorldSector(ServerLevel level) {
+        return worldSectors.get(level);
+    }
     public static ServerLevel loadWorldAndGet(String worldName) {
         World world = Bukkit.getWorld(worldName);
         return ((CraftWorld) (world == null ? Bukkit.createWorld(new WorldCreator(worldName)) : world)).getHandle();

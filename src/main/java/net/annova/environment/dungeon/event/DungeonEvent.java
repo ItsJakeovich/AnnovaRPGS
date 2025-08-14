@@ -1,15 +1,17 @@
-package net.annova.event;
+package net.annova.environment.dungeon.event;
 
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.Person;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -115,17 +117,11 @@ public class DungeonEvent implements Listener {
 //
 //        event.setCancelled(true);
 //    }
-
     @EventHandler
-    public void place(BlockPlaceEvent event) {
-        if (!event.getBlock().getLocation().getWorld().equals(getDungeonWorld())) return;
-        if (event.getPlayer().isOp()) return;
-        event.setCancelled(true);
-    }
-    @EventHandler
-    public void destroy(BlockBreakEvent event) {
-        if (!event.getBlock().getLocation().getWorld().equals(getDungeonWorld())) return;
-        if (event.getPlayer().isOp()) return;
+    public void destroy(NonCommandBlockRestrictionCE event) {
+        ServerPlayer player = event.getPlayer();
+        if (!player.serverLevel().equals(getDungeonWorld())) return;
+        if (player.server.getPlayerList().isOp(player.gameProfile)) return;
         event.setCancelled(true);
     }
     @EventHandler

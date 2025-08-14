@@ -9,20 +9,25 @@ import net.annova.lang.PathReplacement;
 import net.annova.lang.Replacement;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaSQL;
+import net.annova.main.GlobalRPG;
 import net.annova.object.SimpleConstruction;
+import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.core.Vec3i;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.util.AISUtil.joinList;
+import static net.annova.util.AISUtil.loadList;
 
 public class Town {
     private String name;
-    private Civilization civilization;
+    private Civilization civilization = null;
     private final List<TownBuild> constructions = new ArrayList<>();
     private final List<TownBuild> builds = new ArrayList<>();
     private final AreaChunk centerChunk;
@@ -43,7 +48,6 @@ public class Town {
         AnnovaSQL sql = AnnovaAPI.getSQL();
         sql.initTable(TABLE,
                 "NAME VARCHAR(20)",
-                "CIVILIZATION VARCHAR(20)",
                 "CONSTRUCTIONS MEDIUMTEXT",
                 "BUILDS MEDIUMTEXT",
                 "CENTER_CHUNK VARCHAR(15)",
@@ -53,33 +57,32 @@ public class Town {
 
                 "PRIMARY KEY (NAME)"
         );
-        sql.loadFromDB(TABLE, Civilization.class);
+        sql.loadFromDB(TABLE, Town.class);
     }
     public void save() {
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", this.name);
-        save.put("CIVILIZATION", this.civilization.getName());
-        save.put("RESEARCH_MANAGER", this.researchManager.serialize());
-        save.put("CAPITAL", this.capital.getName());
-
+        save.put("CONSTRUCTIONS", joinList(this.constructions, TownBuild::serialize, ">"));
+        save.put("BUILDS", joinList(this.builds, TownBuild::serialize, ">"));
+        save.put("CENTER_CHUNK", this.centerChunk.serialize());
+        Set<AreaChunk> chunksForDB = new HashSet<>(this.chunks);
+        chunksForDB.remove(centerChunk);
+        save.put("CHUNKS", joinList(chunksForDB, AreaChunk::serialize, ">"));
+        save.put("LEADERS", joinList(this.leaders, p -> p.getPerson().getName(), ">"));
+        save.put("MEMBERS", joinList(this.members, p -> p.getPerson().getName(), ">"));
 
         AnnovaAPI.getSQL().saveObject(TABLE, "NAME", save);
     }
 
     public Town(ResultSet rs) throws SQLException {
         this.name = rs.getString("NAME");
-        this.stage = Civilization.Stage.valueOf(rs.getString("STAGE"));
-        this.researchManager = ResearchManager.deserialize(this, rs.getString("RESEARCH_MANAGER"));
-        this.capital = getTown(rs.getString("CAPITAL"));
-        for (String town : rs.getString("TOWNS").split(","))
-            this.towns.add(getTown(town));
-
-        for (String leader : rs.getString("LEADERS").split(","))
-            this.leaders.add(getRPGPerson(leader));
-        for (String citizen : rs.getString("CITIZENS").split(","))
-            this.citizens.add(getRPGPerson(citizen));
-
-        this.initScience();
+        // Цивилизация выставляется в цивилизации.
+        loadList(this.constructions, rs.getString("CONSTRUCTIONS"), c -> new TownBuild(this, c), ">");
+        loadList(this.builds, rs.getString("BUILD"), b -> new TownBuild(this, b), ">");
+        this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.chunks.add(centerChunk);
+        loadList(this.chunks, rs.getString("CHUNKS"), c -> new AreaChunk(this,c ), ">");
+        loadList(this.leaders, rs.getString("LEADERS"), GlobalRPG::getRPGPerson, ">");
+        loadList(this.members, rs.getString("MEMBERS"), GlobalRPG::getRPGPerson, ">");
     }
 
     public Town(String name, AreaChunk center, RPGPerson leader) {
@@ -166,6 +169,7 @@ public class Town {
                 new PathReplacement("{construction}", getInstance(), build.getBase().getLocal()),
                 new AISReplacement("{cost}", String.valueOf(build.getCost()))
         );
+        getWorldSector(construction.getLevel()).addBuild(build);
     }
     public void updateConstruction() {
         if (this.constructions.isEmpty()) return;
@@ -188,8 +192,15 @@ public class Town {
         List<TownBuild> builds = new ArrayList<>(this.builds.size() + this.constructions.size());
         builds.addAll(this.builds);
         builds.addAll(this.constructions);
-        builds.init
         return builds;
+    }
+    public boolean intersects(Vec3i min, SimpleStructure structure) {
+        Vec3i max = structure.getMaxPoint(min);
+        for (TownBuild build : this.constructions)
+            if (build.getConstruction().intersect(min, max)) return true;
+        for (TownBuild build : this.builds)
+            if (build.getConstruction().intersect(min, max)) return true;
+        return false;
     }
 
     public AreaChunk getCenterChunk() {

@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.mines;
 
 import net.annova.environment.world.sector0.location.Mines;
+import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -9,6 +10,7 @@ import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.MinesMagicArmorNeutral;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.entity.Entity;
@@ -79,17 +81,14 @@ public class Carrier extends RPGEntity implements CustomType, Listener {
     }
 
     @EventHandler
-    public void blockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
+    public void blockBreak(NonCommandBlockRestrictionCE event) {
+        ServerPlayer player = event.getPlayer();
         RPGPerson person = getRPGPerson(player);
         if (!(person.getSectorLocation() instanceof Mines)) return;
 
-        for (Entity check : player.getLocation().getNearbyEntities(16, 6, 16)) {
-            RPGEntity rpg = getRPGEntity(check);
-            if (rpg == null) continue;
-            if (rpg.getRPGType() == RPGEntityType.CARRIER) {
-                rpg.entity.setTarget(person.getPerson().getServerPlayer());
-            }
+        for (net.minecraft.world.entity.Entity entity : player.serverLevel().getEntities(player, player.getBoundingBox().inflate(16, 6, 16))) {
+            RPGEntity rpg = getRPGEntity(entity);
+            if (rpg != null && rpg.getRPGType() == RPGEntityType.CARRIER) rpg.entity.setTarget(player);
         }
     }
 }

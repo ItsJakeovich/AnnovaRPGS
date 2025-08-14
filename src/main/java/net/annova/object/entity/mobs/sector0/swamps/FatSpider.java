@@ -4,9 +4,11 @@ import net.annova.event.custom.MobDamageCE;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.CustomSwampSpider;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,7 +29,11 @@ import static net.annova.main.AnnovaAPI.random;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.minecraft.world.effect.MobEffects.POISON;
 
-public class FatSpider extends RPGEntity implements EntityAction, EntitySpawn {
+public class FatSpider extends RPGEntity implements CustomType, EntityAction, EntitySpawn {
+    @Override
+    public Class<?> clazz() {
+        return CustomSwampSpider.class;
+    }
     @Override
     public EntityType<?> type() {
         return EntityType.SPIDER;

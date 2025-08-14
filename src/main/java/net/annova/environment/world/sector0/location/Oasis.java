@@ -6,9 +6,11 @@ import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
 import net.annova.object.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.entity.mobs.custom.CustomOasisBubble;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -22,10 +24,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.entity.core.RPGEntityType.ANGLER_FISH;
-import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.object.person.advancement.RPGAdvancement.*;
 import static net.annova.util.BukkitObjects.*;
 
@@ -85,7 +86,7 @@ public class Oasis extends SectorLocation {
     private static final DustColorTransitionOptions options = new DustColorTransitionOptions(65535, 255, 4.0f);
     public static Vec3 spawnOasisBubble() {
         Vec3 position = bubblePoints[random.nextInt(bubblePoints.length)];
-        bubble = new ArmorStand(net.minecraft.world.entity.EntityType.ARMOR_STAND, world0);
+        bubble = new CustomOasisBubble(EntityType.ARMOR_STAND, world0);
         bubble.setPos(position);
         world0.tryAddFreshEntityWithPassengers(bubble);
         bubble.setNoGravity(true);

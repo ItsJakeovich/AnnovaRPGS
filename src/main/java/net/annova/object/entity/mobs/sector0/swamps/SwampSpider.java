@@ -3,7 +3,9 @@ package net.annova.object.entity.mobs.sector0.swamps;
 import net.annova.object.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
+import net.annova.object.entity.mobs.custom.CustomSwampSpider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,7 +14,11 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 
-public class SwampSpider extends RPGEntity {
+public class SwampSpider extends RPGEntity implements CustomType {
+    @Override
+    public Class<?> clazz() {
+        return CustomSwampSpider.class;
+    }
     @Override
     public EntityType<?> type() { // Вылезает из под воды - спавнить под водой.
         return EntityType.SILVERFISH;
@@ -20,7 +26,7 @@ public class SwampSpider extends RPGEntity {
 
     @Override
     public String name() {
-        return "SwampSpider";
+        return "";
     }
 
     @Override

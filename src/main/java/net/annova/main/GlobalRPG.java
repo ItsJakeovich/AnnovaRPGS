@@ -6,6 +6,7 @@ import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
+import net.annova.environment.world.SectorGrid;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.Person;
 import net.annova.object.entity.core.RPGEntityType;
@@ -45,7 +46,6 @@ public class GlobalRPG {
     private static final Map<String, Civilization> civilizations = new HashMap<>();
     private static final Map<String, Town> towns = new HashMap<>();
     private static final Map<ChunkPos, AreaChunk> areaChunks = new HashMap<>();
-    private static final Map<ServerLevel, List<TownBuild>> builds = new HashMap<>();
 
     @Nullable
     public static RPGPerson getRPGPerson(Entity entity) {
@@ -210,6 +210,9 @@ public class GlobalRPG {
         civilizations.put(civilization.getName().toLowerCase(), civilization);
     }
 
+    public static Collection<Town> getTowns() {
+        return towns.values();
+    }
     public static Town getTown(String name) {
         return towns.get(name.toLowerCase());
     }
@@ -238,18 +241,6 @@ public class GlobalRPG {
     public static void addAreaChunk(Town town, AreaChunk areaChunk) {
         areaChunk.setTown(town);
         areaChunks.put(areaChunk.getPosition(), areaChunk);
-    }
-
-    public static void addBuildsList(ServerLevel level) {
-        builds.put(level, new ArrayList<>());
-    }
-    public static void addTownBuild(TownBuild build) {
-        builds.get(build.getConstruction().getLevel()).add(build);
-    }
-    public static TownBuild getTownBuild(ServerLevel level, Vec3i pos) {
-        for (TownBuild build : builds.get(level)) {
-            //тут нужно intersect(Vec3i)
-        }
     }
 
     public static SoundEvent getSoundFromString(String string) {

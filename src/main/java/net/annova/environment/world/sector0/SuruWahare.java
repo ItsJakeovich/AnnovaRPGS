@@ -8,7 +8,7 @@ import org.bukkit.World;
 
 import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
 
-public class SuruWahare implements WorldSector {
+public class SuruWahare extends WorldSector {
     public static final ServerLevel world0 = loadWorldAndGet("world"); // позже надо sector 0
     /**
      * 0 - Dark Forest
