@@ -1,22 +1,28 @@
 package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.event.UpdateTask;
+import net.annova.environment.world.event.WorldUpdateTimer;
 import net.annova.object.LocationCategory;
 import net.annova.object.Vec3iSelection;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.entity.core.RPGEntityType.MELANOX;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
+import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
 public class SpiderSwamps extends SectorLocation {
@@ -41,6 +47,24 @@ public class SpiderSwamps extends SectorLocation {
 
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
         if (player.equipment.get(EquipmentSlot.HEAD) == ItemStack.EMPTY) person.damage(2.0f);
+    }
+
+    public SpiderSwamps() {
+        WorldUpdateTimer.addTask(new UpdateTask() {
+            @Override
+            public void update() {
+                if (SpiderSwamps.this.getBoss() == null && chance(MELANOX.getChance())) {
+                    RPGEntity entity = MELANOX.getEntity();
+                    entity.create(new Vec3(-702.5, 9, 239.5), world0);
+                    SpiderSwamps.this.setBoss(entity);
+                }
+            }
+
+            @Override
+            public int period() {
+                return 300; // 30 секунд
+            }
+        });
     }
 
     private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_SWAMPS, MELANOX);

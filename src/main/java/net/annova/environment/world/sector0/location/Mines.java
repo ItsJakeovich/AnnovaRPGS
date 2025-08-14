@@ -90,7 +90,7 @@ public class Mines extends SectorLocation {
         person.completeAdvancement(RPGAdvancement.MINES);
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_MINES, GOLEM_BOSS);
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_MINES);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;

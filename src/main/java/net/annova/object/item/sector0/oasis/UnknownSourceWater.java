@@ -75,7 +75,7 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Li
         ItemStack item = event.getItem();
         if (UNKNOWN_SOURCE_WATER.equals(item)) {
             PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-            if (System.currentTimeMillis() > pdc.get(NK_MILLIS, PersistentDataType.LONG)) return;
+            if (System.currentTimeMillis() > pdc.get(NK_EXPIRE, PersistentDataType.LONG)) return;
 
             Player player = event.getPlayer();
             if (pdc.get(NK_SOURCE_WATER, PersistentDataType.BOOLEAN)) {

@@ -59,7 +59,7 @@ public class DryadPedestal extends SectorLocation {
         person.getPerson().send(getInstance(), messageKeys[random.nextInt(messageKeys.length)]);
     }
 
-    private final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD/*, FANG, WEREWOLF*/);
+    private final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_DRYAD);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;

@@ -71,7 +71,7 @@ public class DarkForest extends SectorLocation {
         person.getPerson().send(getInstance(), MSGKeys[random.nextInt(MSGKeys.length)]);
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_FOREST, OLDER_ENT, DARK_ELF);
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_FOREST);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;

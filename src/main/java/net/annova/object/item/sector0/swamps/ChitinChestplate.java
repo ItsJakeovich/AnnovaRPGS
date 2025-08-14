@@ -1,4 +1,4 @@
-package net.annova.object.item.sector0.meteorite;
+package net.annova.object.item.sector0.swamps;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
@@ -8,15 +8,15 @@ import net.minecraft.world.item.Items;
 
 import java.util.List;
 
-public class ChitinLeggings extends RPGItem implements RPGArmor {
+public class ChitinChestplate extends RPGItem implements RPGArmor {
     @Override
     public Item type() {
-        return Items.IRON_LEGGINGS;
+        return Items.IRON_CHESTPLATE;
     }
 
     @Override
     public List<Float> modelData() {
-        return List.of(463f);
+        return List.of(462f);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ChitinLeggings extends RPGItem implements RPGArmor {
 
     @Override
     public float armor() {
-        return 2.7f;
+        return 3.3f;
     }
 
     @Override
@@ -46,6 +46,6 @@ public class ChitinLeggings extends RPGItem implements RPGArmor {
 
     @Override
     public float speed() {
-        return -0.01f;
+        return -0.02f;
     }
 }

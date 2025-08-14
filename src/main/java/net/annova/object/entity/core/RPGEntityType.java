@@ -70,12 +70,12 @@ public enum RPGEntityType {
     // Sector 0 - Dryad Pedestal
     DARK_WOLF(S0_DRYAD, DarkWolf.class, (Vec3 position, ServerLevel level) -> isNight(level)),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
-    FANG(S0_DRYAD, Fang.class),
-    WEREWOLF(S0_DRYAD, Werewolf.class),
+    FANG(S0_DRYAD, Fang.class, 0.05,true),
+    WEREWOLF(S0_DRYAD, Werewolf.class, 0.05, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector 0 - Forest
     ENT(S0_FOREST, Ent.class, 0.1, 15),
-    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.03, true),
-    DARK_ELF(S0_FOREST, DarkElf.class, 0.01, true),
+    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.05, true),
+    DARK_ELF(S0_FOREST, DarkElf.class, 0.03, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector - Meteorite
     METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
     SHARDS(S0_METEORITE, Shards.class),
@@ -151,8 +151,8 @@ public enum RPGEntityType {
         this.category = category;
         this.clazz = clazz;
         this.chance = chance;
-        this.maxAmount = maxAmount;
         this.boss = boss;
+        this.maxAmount = boss ? 1 : maxAmount;
         this.waterSpawn = waterSpawn;
         this.condition = condition;
     }
@@ -185,6 +185,10 @@ public enum RPGEntityType {
     }
     public boolean equals(RPGEntity entity) {
         return this.equals(entity.getRPGType());
+    }
+
+    public double getChance() {
+        return chance;
     }
 
     public boolean isBoss() {
