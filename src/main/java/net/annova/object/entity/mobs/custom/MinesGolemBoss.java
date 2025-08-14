@@ -5,11 +5,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.bukkit.event.entity.EntityTargetEvent;
+import org.jetbrains.annotations.Nullable;
 
 import static net.annova.main.GlobalRPG.getSoundFromString;
+import static net.annova.object.item.base.ItemType.ENT_CORE;
 
 public class MinesGolemBoss extends CustomIronGolem {
     public MinesGolemBoss(EntityType<? extends IronGolem> entitytypes, Level world) {

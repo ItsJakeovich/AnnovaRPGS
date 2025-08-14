@@ -32,8 +32,7 @@ import java.util.Set;
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.main.AnnovaAPI.random;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
-import static net.annova.object.item.base.ItemType.PURPLE_CRYSTAL_FRAGMENT;
+import static net.annova.object.item.base.ItemType.*;
 import static net.annova.util.BukkitObjects.sendPackets;
 
 public class GolemBoss extends RPGEntity implements CustomType, EntitySpawn, EntityActivity {
@@ -80,6 +79,7 @@ public class GolemBoss extends RPGEntity implements CustomType, EntitySpawn, Ent
     @Override
     public List<ItemStack> loot(Person person) {
         return List.of(
+                GOLEM_CORE.create(person, 0.03),
                 MAGIC_SCRAP.create(person, random.nextInt(5)+4),
                 PURPLE_CRYSTAL_FRAGMENT.create(person, 0.03),
                 createItem(Items.COBBLESTONE, random.nextInt(329)+16),

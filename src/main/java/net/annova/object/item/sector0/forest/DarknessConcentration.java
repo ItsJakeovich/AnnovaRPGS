@@ -25,7 +25,7 @@ public class DarknessConcentration extends RPGItem {
 
     @Override
     public RPGRarity rarity() {
-        return RPGRarity.COMMON;
+        return RPGRarity.UNCOMMON;
     }
 
     @Override

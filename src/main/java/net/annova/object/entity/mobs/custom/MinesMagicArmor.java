@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -12,7 +13,10 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.bukkit.event.entity.EntityTargetEvent;
+import org.jetbrains.annotations.Nullable;
 
+import static net.annova.object.item.base.ItemType.ENT_CORE;
 import static net.minecraft.world.item.Items.*;
 
 public class MinesMagicArmor extends Zombie {
@@ -24,6 +28,12 @@ public class MinesMagicArmor extends Zombie {
         this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(IRON_CHESTPLATE));
         this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(IRON_LEGGINGS));
         this.setItemSlot(EquipmentSlot.FEET, new ItemStack(IRON_BOOTS));
+    }
+
+    @Override
+    public boolean setTarget(@Nullable LivingEntity target, @Nullable EntityTargetEvent.TargetReason reason) {
+        if (reason == EntityTargetEvent.TargetReason.CLOSEST_PLAYER && target instanceof Player player) if (ENT_CORE.has(player)) return false;
+        return super.setTarget(target, reason);
     }
 
     @Override

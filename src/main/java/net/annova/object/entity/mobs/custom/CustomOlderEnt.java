@@ -35,7 +35,7 @@ public class CustomOlderEnt extends CustomIronGolem {
 
     @Override
     public boolean setTarget(LivingEntity entityliving, EntityTargetEvent.TargetReason reason) {
-        if (entityliving instanceof Player player) {
+        if (reason == EntityTargetEvent.TargetReason.CLOSEST_PLAYER && entityliving instanceof Player player) {
             RPGPerson person = getRPGPerson(player.getUUID());
             if (person.getStatusManager().hasStatus(StatusType.ENT_PATRON_BUFF)) return false;
             if (ENT_CORE.has(player.getBukkitEntity())) return false;

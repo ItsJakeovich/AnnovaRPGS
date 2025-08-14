@@ -10,6 +10,7 @@ import net.annova.object.item.civilization.BraidedLeather;
 import net.annova.object.item.civilization.Camp;
 import net.annova.object.item.civilization.FirstAidKit;
 import net.annova.object.item.civilization.Log;
+import net.annova.object.item.sector0.mines.GolemCore;
 import net.annova.object.item.sector0.swamps.ChitinBoots;
 import net.annova.object.item.sector0.swamps.ChitinChestplate;
 import net.annova.object.item.sector0.swamps.ChitinHelmet;
@@ -20,7 +21,7 @@ import net.annova.object.item.sector0.forest.*;
 import net.annova.object.item.sector0.dryad.WolfSkin;
 import net.annova.object.item.sector0.meteorite.FireCrystal;
 import net.annova.object.item.sector0.meteorite.MagmaFragment;
-import net.annova.object.item.sector0.meteorite.MeteoriteFragment;
+import net.annova.object.item.sector0.meteorite.HotStone;
 import net.annova.object.item.sector0.meteorite.MeteoriteGolemCore;
 import net.annova.object.item.sector0.mines.MagicScrap;
 import net.annova.object.item.mineral.ForiumFragmentItem;
@@ -154,9 +155,10 @@ public enum ItemType {
 
     FIRE_CRYSTAL(new FireCrystal()),
     MAGMA_FRAGMENT(new MagmaFragment()),
-    METEORITE_FRAGMENT(new MeteoriteFragment()),
+    HOT_STONE(new HotStone()),
     METEORITE_GOLEM_CORE(new MeteoriteGolemCore()),
     // S0 - Mines
+    GOLEM_CORE(new GolemCore()),
     MAGIC_SCRAP(new MagicScrap()),
     PURPLE_CRYSTAL_FRAGMENT(new PurpleCrystalFragment()),
     // S0 - OASIS
@@ -408,7 +410,7 @@ public enum ItemType {
         return this.create(person.getPerson(), amount, chance);
     }
     public ItemStack create(Person person, int amount, double chance) {
-        if (this.item.type() == Items.AIR|| amount < 1 || (chance != 1 && !chance(chance))) return ItemStack.EMPTY;
+        if (this.item.type() == Items.AIR || amount < 1 || !chance(chance)) return ItemStack.EMPTY;
 
         ItemStack nms = new ItemStack(this.item.type(), amount);
 

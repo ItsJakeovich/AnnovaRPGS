@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -29,7 +30,7 @@ public class CustomEnt extends Zombie {
 
     @Override
     public boolean setTarget(@Nullable LivingEntity target, @Nullable EntityTargetEvent.TargetReason reason) {
-        if (target instanceof Player player) {
+        if (reason == EntityTargetEvent.TargetReason.CLOSEST_PLAYER && target instanceof Player player) {
             RPGPerson person = getRPGPerson(player.getUUID());
             if (person.getStatusManager().hasStatus(StatusType.ENT_PATRON_BUFF)) return false;
             if (ENT_CORE.has(player.getBukkitEntity())) return false;
@@ -38,7 +39,7 @@ public class CustomEnt extends Zombie {
     }
 
     @Override
-    public boolean doHurtTarget(ServerLevel worldserver, Entity entity) {
+    public boolean doHurtTarget(@NotNull ServerLevel worldserver, @NotNull Entity entity) {
         if (super.doHurtTarget(worldserver, entity)) {
             if (entity instanceof LivingEntity living) {
                 if (living.hasEffect(SLOWNESS)) {

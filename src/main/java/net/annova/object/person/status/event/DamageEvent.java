@@ -43,7 +43,7 @@ public class DamageEvent implements Listener {
                 if (chance(0.04)) EntRoots.addPhysicDebuff(target);
             }
             if (manager.hasStatus(StatusType.PACK_LEADER_BUFF)) {
-                double modifier = 0;
+                double modifier = 1;
                 for (ItemStack item : getArmorContents(target)) {
                     if (item.getItem() == Items.AIR) continue;
                     modifier+=0.25;

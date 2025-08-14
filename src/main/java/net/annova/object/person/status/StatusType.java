@@ -3,10 +3,17 @@ package net.annova.object.person.status;
 import net.annova.environment.world.sector0.location.DarkForest;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -30,6 +37,7 @@ import static net.annova.object.item.crystal.DefenceStoneItem.DEFENCE_STONE_SLOW
 import static net.annova.object.person.status.ValueType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
+import static net.minecraft.world.level.block.LiquidBlock.LEVEL;
 
 public enum StatusType {
     CB_DAMAGE_DEBUFF(Map.of(ValueType.DAMAGE, -0.5)),
@@ -249,33 +257,47 @@ public enum StatusType {
     MAGMA_FRAGMENT_BURNING(new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            player.setFireTicks(50);
+            if (person.getArmorSet() != CHITIN) player.setFireTicks(100);
             return true;
         }
 
         @Override
         public long repeating() {
-            return 40;
+            return 80;
         }
     }, MAGMA_FRAGMENT),
+    HOT_STONE_BURNING(new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            if (person.getArmorSet() != CHITIN) player.setFireTicks(100);
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 80;
+        }
+    }, HOT_STONE),
     METEORITE_CORE_BURNING(new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            if (person.getArmorSet() != CHITIN) player.setFireTicks(30);
-            Location location = player.getLocation();
-            Block block = location.getBlock();
-            if (block.getType() == Material.WATER && ((Levelled) block.getBlockData()).getLevel() == 0) {
-                block.setType(Material.OBSIDIAN);
-                location.getWorld().playSound(location, Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
+            ServerPlayer serverPlayer = person.getServerPlayer();
+            if (person.getArmorSet() != CHITIN) serverPlayer.igniteForTicks(100);
+
+            BlockState state = serverPlayer.getInBlockState();
+            if (state.is(Blocks.WATER) && state.getValue(LEVEL) == 0) {
+                ServerLevel level = serverPlayer.serverLevel(); BlockPos pos = serverPlayer.blockPosition();
+                level.setBlock(pos, Blocks.OBSIDIAN.defaultBlockState(), 1, 1);
+                level.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1, 1);
             }
             return true;
         }
 
         @Override
         public long repeating() {
-            return 20;
+            return 80;
         }
-    }, MAGMA_FRAGMENT),
+    }, METEORITE_GOLEM_CORE),
 
     PHANTOM_FEAR(new StatusActivity() {
         private static final MobEffectInstance DARKNESS = new MobEffectInstance(MobEffects.DARKNESS, 80, 0);
@@ -294,6 +316,20 @@ public enum StatusType {
         @Override
         public long repeating() {
             return 40;
+        }
+    }),
+
+    DARKNESS_CONCENTRATION_STATUS(DARKNESS_CONCENTRATION, new StatusActivity() {
+        @Override
+        public boolean activity(RPGPerson person, Player player, Object object) {
+            person.getPerson().send(getInstance(), "DARKNESS_CONCENTRATION-effect");
+            person.damage(5);
+            return true;
+        }
+
+        @Override
+        public long repeating() {
+            return 18000;
         }
     })
     ;

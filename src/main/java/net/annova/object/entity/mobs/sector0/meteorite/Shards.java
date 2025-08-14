@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-import static net.annova.object.item.base.ItemType.METEORITE_FRAGMENT;
+import static net.annova.object.item.base.ItemType.HOT_STONE;
 
 public class Shards extends RPGEntity implements CustomType {
     @Override
@@ -57,7 +57,7 @@ public class Shards extends RPGEntity implements CustomType {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(METEORITE_FRAGMENT.create(person, 1, 0.04));
+        return List.of(HOT_STONE.create(person, 1, 0.04));
     }
 
     @Override

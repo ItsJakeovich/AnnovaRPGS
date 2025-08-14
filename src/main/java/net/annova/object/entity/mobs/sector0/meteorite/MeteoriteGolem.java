@@ -72,7 +72,7 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
     @Override
     public List<ItemStack> loot(Person person) {
         return List.of(
-                METEORITE_FRAGMENT.create(person, random.nextInt(7)+6),
+                HOT_STONE.create(person, random.nextInt(7)+6),
                 FIRE_CRYSTAL.create(person, random.nextInt(2)+1, 0.33),
                 MAGMA_FRAGMENT.create(person, random.nextInt(4)+1, 0.45),
                 METEORITE_GOLEM_CORE.create(person, 0.04)
