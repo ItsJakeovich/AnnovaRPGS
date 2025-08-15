@@ -2,7 +2,7 @@ package net.annova.command.cmdInventory;
 
 import net.annova.command.register.DefaultArg;
 import net.annova.main.AnnovaAPI;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

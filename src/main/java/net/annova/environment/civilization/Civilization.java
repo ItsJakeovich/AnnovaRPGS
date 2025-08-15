@@ -5,7 +5,7 @@ import net.annova.lang.Replacement;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaSQL;
 import net.annova.main.GlobalRPG;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 
 import java.sql.ResultSet;

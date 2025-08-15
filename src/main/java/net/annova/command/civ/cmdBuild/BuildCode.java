@@ -6,15 +6,18 @@ import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.build.BuildBase;
 import net.annova.event.custom.MenuClickKeyCE;
 import net.annova.main.AnnovaGlobal;
-import net.annova.object.Confirm;
-import net.annova.object.Person;
+import net.annova.object.person.Confirm;
+import net.annova.object.person.Person;
 import net.annova.object.SimpleObject;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
-import net.annova.util.MenuBase;
+import net.annova.util.menu.MenuBase;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -32,7 +35,9 @@ public class BuildCode implements Listener {
             return;
         }
 
-        person.openMenu(new BuildInterface(), person, 1);
+        Map<String, Object> data = new HashMap<>();
+        data.put("page", 1);
+        person.openMenu(new BuildInterface(), person, data);
     }
 
     @CommandArg(name = "progress", aliases = {"прогресс", "п", "p", "зкщпкуыы", "ghjuhtcc"})
@@ -55,7 +60,9 @@ public class BuildCode implements Listener {
         String key = event.getKey();
         System.out.println(key);
         if (key.startsWith("b-place-")) { // открывает меню со стилями
-            person.openMenu(menu, person, BuildBase.valueOf(key.split("-")[2]));
+            Map<String, Object> data = new HashMap<>();
+            data.put("build", BuildBase.valueOf(key.split("-")[2]));
+            person.openMenu(menu, person, data);
             return;
         } else if (key.startsWith("preview:")) { // отсюда после /confirm начинается постройка.
             person.closeMenu(true);
@@ -67,19 +74,5 @@ public class BuildCode implements Listener {
             previewBuild(person, structure, getCenterByPlayer(structure, person.getServerPlayer()));
             person.send(getInstance(), "build-confirm");
         }
-
-        int page;
-        if (menu instanceof BuildInterface inf) page = inf.getPage();
-        else return;
-        if (key.equals("build-style-previous")) {
-            person.openMenu(menu, person, page);
-            return;
-        }
-        int delta;
-        if (key.equals("build-previous")) delta = -1;
-        else if (key.equals("build-next")) delta = 1;
-        else return;
-
-        person.openMenu(menu, person, delta+page);
     } // Поддтверждение в environment -> civilization -> event -> ConfirmEvent
 }

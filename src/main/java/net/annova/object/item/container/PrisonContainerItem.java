@@ -1,7 +1,7 @@
 package net.annova.object.item.container;
 
 import net.annova.object.item.base.RPGItem;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;

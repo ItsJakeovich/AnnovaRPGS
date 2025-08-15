@@ -1,6 +1,6 @@
 package net.annova.environment.structure;
 
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.SimpleConstruction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;

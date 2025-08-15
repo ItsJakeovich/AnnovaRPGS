@@ -36,7 +36,7 @@ import net.annova.object.item.sector0.oasis.TideGraspRing;
 import net.annova.object.item.sector0.swamps.SpiderChitin;
 import net.annova.object.item.token.*;
 import net.annova.object.item.sector0.oasis.*;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.lang.AISString;
 import net.minecraft.core.component.DataComponentType;

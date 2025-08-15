@@ -46,6 +46,9 @@ public class RPGConfig implements ConfigBase {
     public static Map<String, ConfigCrafts> getCrafts() {
         return crafts;
     }
+    public static ConfigCrafts getCraft(String id) {
+        return crafts.get(id);
+    }
     public static Collection<ConfigCrafts> getAllCrafts() {
         return crafts.values();
     }

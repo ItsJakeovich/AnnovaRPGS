@@ -1,6 +1,6 @@
 package net.annova.thread;
 
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.SecondTickEvent;
 import org.bukkit.Bukkit;

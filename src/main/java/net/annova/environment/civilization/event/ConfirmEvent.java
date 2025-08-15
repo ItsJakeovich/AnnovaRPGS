@@ -6,7 +6,7 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.event.custom.ConfirmChatActionCE;
 import net.annova.event.custom.PersonConfirmCE;
 import net.annova.object.*;
-import net.annova.object.person.RPGPerson;
+import net.annova.object.person.*;
 import net.annova.util.AISUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;

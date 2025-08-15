@@ -4,7 +4,7 @@ import net.annova.command.register.CommandArg;
 import net.annova.environment.civilization.StatType;
 import net.annova.environment.civilization.Town;
 import net.annova.lang.AISString;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
 import org.bukkit.entity.Player;

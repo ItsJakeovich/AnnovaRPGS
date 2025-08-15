@@ -2,8 +2,8 @@ package net.annova.environment.civilization.event;
 
 import net.annova.event.custom.LeftClickCE;
 import net.annova.event.custom.RightClickCE;
-import net.annova.object.Person;
-import net.annova.object.Preview;
+import net.annova.object.person.Person;
+import net.annova.object.person.Preview;
 import net.minecraft.core.Vec3i;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

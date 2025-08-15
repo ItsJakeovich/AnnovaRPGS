@@ -9,7 +9,6 @@ import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.lang.AISString;
-import net.annova.object.Scoreboard;
 import net.annova.object.person.equipment.ArmorSet;
 import net.annova.object.person.advancement.RPGAdvancement;
 import net.annova.environment.world.SectorLocation;
@@ -17,7 +16,6 @@ import net.annova.environment.world.WorldSector;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaGlobal;
 import net.annova.main.AnnovaSQL;
-import net.annova.object.Person;
 import net.annova.object.person.equipment.Equipment;
 import net.annova.object.person.quest.QuestManager;
 import net.annova.object.person.status.StatusManager;
@@ -56,7 +54,7 @@ import java.util.*;
 import java.util.Set;
 
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
-import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -453,7 +451,7 @@ public class RPGPerson {
         this.sectorLocation = null;
 
         ServerPlayer player = this.getServerPlayer();
-        WorldSector sector = worldSectors.get(player.serverLevel());
+        WorldSector sector = getWorldSector(player.serverLevel());
         if (sector == null) return;
         BlockPos blockPos = player.blockPosition();
         for (SectorLocation sectorLocation : sector.zones()) {

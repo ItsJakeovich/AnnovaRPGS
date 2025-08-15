@@ -23,7 +23,7 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.*;
 
-import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -113,7 +113,7 @@ public class RPGCode {
             player.sendMessage("Usage: /rpg border {1-6}");
             return;
         }
-        WorldSector sector = worldSectors.get(getPerson(player).getServerPlayer().serverLevel());
+        WorldSector sector = getWorldSector(getPerson(player).getServerPlayer().serverLevel());
         if (sector == null) return;
         int location = Integer.parseInt(args[1]);
         sector.zones()[location].showTerritory(world0);

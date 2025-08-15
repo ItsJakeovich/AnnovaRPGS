@@ -2,7 +2,7 @@ package net.annova.object.entity.mobs.prison;
 
 import net.annova.main.GlobalRPG;
 import net.annova.object.CustomRunnable;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;

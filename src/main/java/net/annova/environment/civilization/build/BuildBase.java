@@ -1,7 +1,7 @@
 package net.annova.environment.civilization.build;
 
 import net.annova.lang.AISString;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.SimpleStructure;
 import net.annova.util.BukkitObjects;
 import net.minecraft.world.item.Item;

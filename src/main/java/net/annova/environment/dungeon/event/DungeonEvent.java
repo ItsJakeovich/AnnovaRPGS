@@ -2,7 +2,7 @@ package net.annova.environment.dungeon.event;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.event.custom.NonCommandBlockRestrictionCE;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

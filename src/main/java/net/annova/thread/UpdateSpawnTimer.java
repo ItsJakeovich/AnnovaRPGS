@@ -2,7 +2,7 @@ package net.annova.thread;
 
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
-import net.annova.object.Vec3iSelection;
+import net.annova.object.person.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
@@ -15,7 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
+import static net.annova.environment.world.GlobalWorld.getWorldSectors;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
@@ -23,8 +24,8 @@ import static net.annova.util.BukkitObjects.random;
 public class UpdateSpawnTimer implements Listener {
     @EventHandler
     public void run(MinuteTickEvent event) {
-        for (ServerLevel level : worldSectors.keySet()) {
-            for (SectorLocation location : worldSectors.get(level).zones()) {
+        for (ServerLevel level : getWorldSectors().keySet()) {
+            for (SectorLocation location : getWorldSector(level).zones()) {
                 Vec3iSelection[] borders = location.borders();
                 for (RPGEntityType entity : location.entitiesToSpawn()) {
                     if (entity.isBoss() && location.getBoss() != null) continue;

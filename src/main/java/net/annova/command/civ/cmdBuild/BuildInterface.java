@@ -1,13 +1,12 @@
 package net.annova.command.civ.cmdBuild;
 
 import net.annova.environment.civilization.build.BuildBase;
-import net.annova.object.Person;
+import net.annova.main.AnnovaAPI;
+import net.annova.object.person.Person;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
-import net.annova.util.MenuBase;
-import net.minecraft.core.registries.Registries;
+import net.annova.util.menu.MenuBase;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,7 +17,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Map;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -33,18 +32,14 @@ public class BuildInterface implements MenuBase {
     }
 
     @Override
-    public MutableComponent name(Person person) {
-        return person.getAISString(getInstance(), "build-interface-name")
-                .replaceTag("{town}", getRPGPerson(person).getTown().getName())
-                .getDefined(person);
-    }
-
-    @Override
-    public MenuProvider inventory(Person person, Object o) {
+    public MenuProvider inventory(Person person, Map<String, Object> data) {
         return new MenuProvider() {
             @Override
             public @NotNull Component getDisplayName() {
-                return name(person).append(String.valueOf(o));
+                return person.getAISString(getInstance(), "build-interface-name")
+                        .replaceTag("{town}", getRPGPerson(person).getTown().getName())
+                        .getDefined(person)
+                        .append(String.valueOf(data.get("page")));
             }
 
             @Override
@@ -52,14 +47,15 @@ public class BuildInterface implements MenuBase {
                 SimpleContainer container = new SimpleContainer(54);
                 RPGPerson rpg = getRPGPerson(person);
 
-                if (o instanceof BuildBase base) {
+                BuildBase build = (BuildBase) data.get("build");
+                if (build != null) {
                     container.setItem(45, createItem(Items.NAUTILUS_SHELL,
-                            person.getAISString(getInstance(), "build-interface-previous").getDefined(person),
+                            person.getAISString(AnnovaAPI.getInstance(), "interface-previous").getDefined(person),
                             -1,
-                            "build-style-previous"
+                            "return"
                     ));
                     int it = 0;
-                    for (SimpleStructure structure : base.getStyles()) {
+                    for (SimpleStructure structure : build.getStyles()) {
                         container.setItem(it, createItem(Items.QUARTZ_BLOCK,
                                 person.getAISString(getInstance(), "icon-" + structure.getName()).getDefined(person),
                                 -1,
@@ -68,28 +64,29 @@ public class BuildInterface implements MenuBase {
                         it++;
                     }
                 } else {
-                    int page = (int) o;
+                    int page = (int) data.get("page");
+                    BuildBase[] builds = rpg.getTown().getAvailableBuilds().toArray(new BuildBase[0]);
+                    int maxPage = (builds.length+44) / 45;
+                    if (page > maxPage) page = maxPage;
                     if (page < 1) page = 1;
-                    List<BuildBase> builds = List.copyOf(rpg.getTown().getAvailableBuilds());
-                    while (page * 45 < builds.size()) page--;
                     BuildInterface.this.page = page;
 
-                    int startIndex = 45 * (page - 1);
-                    for (int it = 0; it < 45 && it < builds.size(); it++) {
-                        container.setItem(it, builds.get(startIndex + it).createItem(person));
+                    int startIndex = 45 * (page-1);
+                    for (int it = startIndex; it < 45 && it < builds.length; it++) {
+                        container.setItem(it, builds[startIndex + it].createItem(person));
                     }
                     if (page > 1) { // Кнопка назад
                         container.setItem(45, createItem(Items.NAUTILUS_SHELL,
-                                person.getAISString(getInstance(), "build-interface-previous").getDefined(person),
+                                person.getAISString(AnnovaAPI.getInstance(), "interface-previous").getDefined(person),
                                 -1,
-                                "build-previous"
+                                "previous"
                         ));
                     }
-                    if (builds.size() > 45 * page) { // Кнопка вперед
+                    if (builds.length > 45 * page) { // Кнопка вперед
                         container.setItem(53, createItem(Items.NAUTILUS_SHELL,
-                                person.getAISString(getInstance(), "build-interface-next").getDefined(person),
+                                person.getAISString(AnnovaAPI.getInstance(), "interface-next").getDefined(person),
                                 -1,
-                                "build-next"
+                                "next"
                         ));
                     }
 

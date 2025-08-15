@@ -4,6 +4,8 @@ import net.annova.event.custom.DropItemFoundBlockCE;
 import net.annova.object.person.advancement.RPGAdvancement;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.entity.CraftItem;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +27,6 @@ public class DropRPGEvent implements Listener {
         final Player player = event.getPlayer();
 
         new BukkitRunnable() {
-
             public void run() {
                 Location location = item.getLocation();
                 Vector velocity = item.getVelocity().normalize();
@@ -36,12 +37,12 @@ public class DropRPGEvent implements Listener {
                 Block block = location.add(velocity).getBlock();
                 if (block.isEmpty()) return;
 
-                ItemStack stack = item.getItemStack();
-                DropItemFoundBlockCE dropItemCE = new DropItemFoundBlockCE(player, stack, block);
+                DropItemFoundBlockCE dropItemCE = new DropItemFoundBlockCE(player, ((CraftItem) item).getHandle().getItem(), block);
                 PluginManager pm = Bukkit.getPluginManager();
                 pm.callEvent(dropItemCE);
 
                 // Если рыба уплывёт
+                ItemStack stack = item.getItemStack();
                 if (block.getType().equals(Material.WATER)) {
                     Material material = stack.getType();
                     for (Material fish : FISH_ITEMS) {

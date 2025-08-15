@@ -2,7 +2,7 @@ package net.annova.environment.world.sector0.location;
 
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.LocationCategory;
-import net.annova.object.Vec3iSelection;
+import net.annova.object.person.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusType;

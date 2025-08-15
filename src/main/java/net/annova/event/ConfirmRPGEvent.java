@@ -6,6 +6,8 @@ import net.annova.event.custom.PersonConfirmCE;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.*;
 import net.annova.environment.structure.Structure;
+import net.annova.object.person.Confirm;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
 import net.minecraft.core.BlockPos;

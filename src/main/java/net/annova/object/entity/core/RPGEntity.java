@@ -6,7 +6,7 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.main.AnnovaAPI;
 import net.annova.main.AnnovaSQL;
 import net.annova.object.CustomRunnable;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.CustomType;
 import net.annova.object.entity.core.attribute.EntityActivity;

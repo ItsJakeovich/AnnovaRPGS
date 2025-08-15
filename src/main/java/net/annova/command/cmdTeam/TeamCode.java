@@ -1,7 +1,7 @@
 package net.annova.command.cmdTeam;
 
 import net.annova.command.register.CommandArg;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleObject;
 import net.annova.object.person.Team;

@@ -5,7 +5,7 @@ import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.entity.core.RPGEntity;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +23,7 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.object.Person.getCardinalDirection;
+import static net.annova.object.person.Person.getCardinalDirection;
 import static net.annova.util.BukkitObjects.random;
 
 public class Boar extends RPGEntity implements EntityActivity {

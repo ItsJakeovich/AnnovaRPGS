@@ -1,7 +1,7 @@
 package net.annova.environment.structure.event;
 
 import net.annova.event.custom.StructureCreateCE;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.SimpleBlock;
 import net.annova.object.SimpleConstruction;
 import net.annova.object.SimpleStructure;
@@ -43,7 +43,7 @@ public class StructureInitEvent implements Listener {
         }
 
         SimpleConstruction construction = new SimpleConstruction(structure, Person.CardinalDirection.NORTH, null, null);
-        construction.setCompleted(true);
+        construction.setComplete(true);
         Structure mapStructure = new Structure(construction, basePoint);
         mapStructure.setBase(switch (structure.getName()) {
             //case "altar" -> new Altar();

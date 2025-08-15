@@ -1,7 +1,7 @@
 package net.annova.event;
 
 import net.annova.event.custom.PostPersonJoinCE;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

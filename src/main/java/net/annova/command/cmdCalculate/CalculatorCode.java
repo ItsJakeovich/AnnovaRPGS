@@ -1,7 +1,7 @@
 package net.annova.command.cmdCalculate;
 
 import net.annova.command.register.DefaultArg;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import org.bukkit.entity.Player;
 
 import javax.script.ScriptEngine;

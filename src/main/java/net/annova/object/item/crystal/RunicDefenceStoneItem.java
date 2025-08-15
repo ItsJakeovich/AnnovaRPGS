@@ -15,8 +15,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
 
@@ -54,10 +52,6 @@ public class RunicDefenceStoneItem extends RPGItem implements Listener {
 
     @EventHandler
     private void interact(RightClickCE event) {
-        PlayerInteractEvent handle = event.getHandle();
-        if (handle.getAction().name().charAt(0) != 'R') return;
-        if (!handle.getHand().equals(EquipmentSlot.HAND)) return;
-
         ServerPlayer player = event.getPerson().getServerPlayer();
         if (!RUNIC_DEFENCE_STONE.equals(player.getMainHandItem())) return;
 

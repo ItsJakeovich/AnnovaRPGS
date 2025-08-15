@@ -2,7 +2,7 @@ package net.annova.command.cmdDungeon;
 
 import net.annova.command.register.CommandArg;
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.minecraft.core.Vec3i;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;

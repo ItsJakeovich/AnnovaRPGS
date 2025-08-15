@@ -5,7 +5,7 @@ import net.annova.environment.civilization.tech.Research;
 import net.annova.lang.AISReplacement;
 import net.annova.lang.AISString;
 import net.annova.lang.PathReplacement;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 
 import java.util.ArrayList;

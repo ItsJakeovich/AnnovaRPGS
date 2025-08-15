@@ -3,7 +3,7 @@ package net.annova.environment.dungeon;
 import net.annova.environment.dungeon.type.DungeonBase;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.item.base.ItemType;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.Team;

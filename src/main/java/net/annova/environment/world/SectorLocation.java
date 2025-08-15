@@ -1,10 +1,9 @@
 package net.annova.environment.world;
 
-import net.annova.object.Vec3iSelection;
+import net.annova.object.person.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
-import net.annova.util.AISUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;

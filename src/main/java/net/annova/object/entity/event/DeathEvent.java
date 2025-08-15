@@ -5,7 +5,7 @@ import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.environment.world.SectorLocation;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.event.custom.RPGEntityDeathCE;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.person.RPGPerson;

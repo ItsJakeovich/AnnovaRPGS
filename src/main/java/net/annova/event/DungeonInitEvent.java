@@ -7,6 +7,7 @@ import net.annova.event.custom.StructureCreateCE;
 import net.annova.object.*;
 import net.annova.object.animation.Animation;
 import net.annova.object.animation.Frame;
+import net.annova.object.person.Person;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Material;

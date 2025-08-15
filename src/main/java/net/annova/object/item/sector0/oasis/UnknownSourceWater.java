@@ -63,7 +63,7 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Li
         item.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
         CompoundTag tag = data.getUnsafe();
         tag.putLong(NK_EXPIRE.toString(), System.currentTimeMillis() + 3600_000);
-        tag.putBoolean(NK_SOURCE_WATER.toString(), false);
+        tag.putBoolean(NK_SOURCE_WATER.toString(), true);
     }
 
     private static final PotionEffect defRegeneration = new PotionEffect(PotionEffectType.REGENERATION, 100, 2);
@@ -98,7 +98,7 @@ public class UnknownSourceWater extends RPGItem implements ItemConfiguration, Li
 
                 ItemMeta meta = stack.getItemMeta();
                 if (isNight(item.getWorld())) {
-                    meta.getPersistentDataContainer().set(NK_SOURCE_WATER, PersistentDataType.BOOLEAN, true);
+                    meta.getPersistentDataContainer().set(NK_SOURCE_WATER, PersistentDataType.BOOLEAN, false);
                     stack.addUnsafeEnchantment(Enchantment.LOOTING, 1);
                     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 } else {

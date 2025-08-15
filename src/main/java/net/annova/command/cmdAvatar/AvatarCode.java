@@ -2,7 +2,7 @@ package net.annova.command.cmdAvatar;
 
 import net.annova.command.register.CommandArg;
 import net.annova.lang.AISString;
-import net.annova.object.Person;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.ValueType;
 import org.bukkit.entity.Player;
