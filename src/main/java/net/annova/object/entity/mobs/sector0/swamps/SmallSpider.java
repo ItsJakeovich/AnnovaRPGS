@@ -1,5 +1,6 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
+import net.annova.object.entity.mobs.custom.CustomSmallSpider;
 import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -14,10 +15,10 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 
-public class SwampSpider extends RPGEntity implements CustomType {
+public class SmallSpider extends RPGEntity implements CustomType {
     @Override
     public Class<?> clazz() {
-        return CustomSwampSpider.class;
+        return CustomSmallSpider.class;
     }
     @Override
     public EntityType<?> type() { // Вылезает из под воды - спавнить под водой.

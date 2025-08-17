@@ -106,17 +106,6 @@ public class DungeonEvent implements Listener {
         }
     }
 
-//    @EventHandler
-//    public void spawn(EntitySpawnEvent event) {
-//        if (!event.getLocation().getWorld().equals(getDungeonWorld())) return;
-//
-//        Entity entity = event.getEntity();
-//        if (entity instanceof ArmorStand) return;
-//        if (!(entity instanceof LivingEntity)) return;
-//        if (entity.getPersistentDataContainer().has(NK_ID)) return;
-//
-//        event.setCancelled(true);
-//    }
     @EventHandler
     public void destroy(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();

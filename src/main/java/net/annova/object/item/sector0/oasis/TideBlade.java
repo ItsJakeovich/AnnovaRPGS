@@ -57,12 +57,12 @@ public class TideBlade extends RPGItem implements RPGTool, Listener {
         if (!level.isRaining() && !level.isThundering()
                 && !(entity.isInWater() || damager.isInWater())) return;
 
-        event.setDamage(event.getDamage() + 0.9*event.getStrengthMultiplier());
+        event.setDamage(event.getDamage() + 1.5*event.getStrengthMultiplier());
     }
 
     @Override
     public double damage() {
-        return 6;
+        return 6.5;
     }
 
     @Override

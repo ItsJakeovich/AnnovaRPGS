@@ -27,7 +27,7 @@ public class ConfigCrafts {
     private int amount = 1;
     private CraftType craftType;
     private final List<ItemIngredient> ingredients = new ArrayList<>();
-    private RecipeHolder recipe;
+    private RecipeHolder<?> recipe;
     private List<String> recipeCraft = new ArrayList<>();
     private Material source = null;
     private long experience = 0;
@@ -107,7 +107,7 @@ public class ConfigCrafts {
     private static void loadCrafts() {
         for (ConfigCrafts mat : getAllCrafts()) {
             if (mat.craftType.equals(CraftType.FURNACE)) {
-                mat.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getName(), mat.id)),
+                mat.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), mat.id)),
                         new SmeltingRecipe("", CookingBookCategory.MISC, Ingredient.of(CraftItemType.bukkitToMinecraft(mat.getSource())), mat.item, mat.getExperience(), mat.getMeltingTime()));
             } else {
                 mat.loadWorkbenceRecipe();
@@ -134,8 +134,8 @@ public class ConfigCrafts {
                 for (ItemIngredient ing : ingredients) {
                     data.put(ing.getLetter(), Ingredient.of(ing.getMaterial()));
                 }
-                this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getName(), id)),
-                        new ShapedRecipe("", CraftingBookCategory.MISC, ShapedRecipePattern.of(data, (String[]) recipeCraft.toArray()), this.item));
+                this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
+                        new ShapedRecipe("", CraftingBookCategory.MISC, ShapedRecipePattern.of(data, recipeCraft.toArray(new String[0])), this.item));
             }
             case SHAPELESS -> {
                 List<Ingredient> data = new ArrayList<>(ingredients.size());
@@ -144,7 +144,7 @@ public class ConfigCrafts {
                         data.add(Ingredient.of(ingredient.getMaterial()));
                     }
                 }
-                this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getName(), id)),
+                this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
                         new ShapelessRecipe("", CraftingBookCategory.MISC, this.item, data));
             }
         }

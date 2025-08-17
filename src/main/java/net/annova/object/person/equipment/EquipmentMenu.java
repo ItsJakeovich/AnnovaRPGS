@@ -1,9 +1,8 @@
 package net.annova.object.person.equipment;
 
 import net.annova.object.person.Person;
-import net.annova.util.MenuBase;
+import net.annova.util.menu.MenuBase;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,8 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -24,12 +21,12 @@ public class EquipmentMenu implements MenuBase {
     public MenuProvider inventory(Person person, Map<String, Object> data) {
         return new MenuProvider() {
             @Override
-            public @NotNull Component getDisplayName() {
+            public Component getDisplayName() {
                 return person.getColorString(getInstance(), "equipment-menu");
             }
 
             @Override
-            public @Nullable AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
+            public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
                 SimpleContainer container = new SimpleContainer(54);
                 Equipment equipment = getRPGPerson(person).getEquipment();
                 int iconIndex = 0;

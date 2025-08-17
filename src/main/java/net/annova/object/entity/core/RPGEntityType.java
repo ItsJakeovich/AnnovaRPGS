@@ -94,7 +94,7 @@ public enum RPGEntityType {
     MELANOX(S0_SWAMPS, Melanox.class, 0.04, true),
     FAT_SPIDER(S0_SWAMPS, FatSpider.class, true),
     MOTHER_SPIDER(S0_SWAMPS, MotherSpider.class, true),
-    SWAMP_SPIDER(S0_SWAMPS, SwampSpider.class, true),
+    SWAMP_SPIDER(S0_SWAMPS, SmallSpider.class, true),
     WHIP_SPIDER(S0_SWAMPS, WhipSpider.class, true)
     ;
 

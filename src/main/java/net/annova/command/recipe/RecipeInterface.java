@@ -13,8 +13,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 
 import java.util.Map;
 
@@ -33,14 +34,14 @@ public class RecipeInterface extends PagedMenu {
     public MenuProvider inventory(Person person, Map<String, Object> data) {
         return new MenuProvider() {
             @Override
-            public @NotNull Component getDisplayName() {
+            public Component getDisplayName() {
                 return person.getAISString(getInstance(), "recipe-interface-name")
                         .replaceTag("{current}", current == null ? "" : current.getItemStack().getCustomName().getString())
                         .getDefined(person);
             }
 
             @Override
-            public @Nullable AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
+            public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
                 current = getCraft((String) data.get("item_id"));
                 SimpleContainer container;
 
@@ -78,7 +79,10 @@ public class RecipeInterface extends PagedMenu {
                             "return"
                     ));
                     container.setItem(24, current.getItemStack());
-                    if (current.getRecipe().value() instanceof )
+                    Recipe<?> holder = current.getRecipe().value();
+                    if (holder instanceof ShapedRecipe recipe) {
+
+                    }
                 }
                 return ChestMenu.sixRows(i, inventory, container);
             }

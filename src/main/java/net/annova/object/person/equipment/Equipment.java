@@ -17,8 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.CraftServer;
 
-import javax.annotation.Nullable;
-
 import java.util.*;
 
 import static net.annova.main.AnnovaAPI.getMinecraftServer;
@@ -44,7 +42,6 @@ public class Equipment {
      * @param index ItemStack[] array
      * @return ItemStack / null if slot is empty
      */
-    @Nullable
     public ItemStack getEquipment(int index) {
         return equipment[index];
     }
@@ -73,7 +70,7 @@ public class Equipment {
             ServerPlayer player = person.getServerPlayer();
             if (slot != -1) player.getInventory().setItem(slot, null);
             AbstractContainerMenu menu = player.containerMenu;
-            if (menu.getTitle().equals(EQUIPMENT_MENU.name(person.getPerson()))) {
+            if (person.getPerson().getMenu() instanceof EquipmentMenu) {
                 EquipType type = this.getEquipType(item);
                 menu.getSlot(this.getSlotByIndex(type, availableIndex)).set(item);
             }
@@ -94,7 +91,7 @@ public class Equipment {
         if (player.getInventory().add(item)) { // Если предмет может быть "снят"
             this.equipment[index] = null;
             AbstractContainerMenu menu = player.containerMenu;
-            if (menu.getTitle().equals(EQUIPMENT_MENU.name(person.getPerson()))) {
+            if (person.getPerson().getMenu() instanceof EquipmentMenu) {
                 menu.getSlot(slot).set(type.getIcon());
             }
             this.update();
@@ -157,7 +154,6 @@ public class Equipment {
         person.openMenu(EQUIPMENT_MENU);
     }
 
-    @Nullable
     public EquipType getEquipType(ItemStack itemStack) {
         EquipType type = null;
         if (getItemType(itemStack).getItem() instanceof ItemEquipment equip) {

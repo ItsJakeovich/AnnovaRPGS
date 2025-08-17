@@ -18,6 +18,7 @@ public class BlockEvent implements Listener {
         TownBuild build = getWorldSector(player.serverLevel()).getBuildAt(event.getBlockPos());
         if (build == null) return;
         RPGPerson person = getRPGPerson(player);
+        person.getPerson().setStamina(0.005f);
         Town town = person.getTown();
         if (build.getConstruction().isProtectedBlock(event.getBlockPos())
                 || town == null

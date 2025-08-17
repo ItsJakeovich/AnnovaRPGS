@@ -1,7 +1,7 @@
 package net.annova.main;
 
 import net.annova.object.person.equipment.EquipmentMenu;
-import net.annova.util.MenuBase;
+import net.annova.util.menu.MenuBase;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import org.bukkit.NamespacedKey;

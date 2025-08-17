@@ -128,7 +128,12 @@ public final class AnnovaRPG extends JavaPlugin {
         Civilization.init();
     }
 
-    public static JavaPlugin getInstance() {
-        return plugin;
+    public static AnnovaRPG getInstance() {
+        return (AnnovaRPG) plugin;
+    }
+
+    private final String name = this.getName().toLowerCase();
+    public String getNamespaceName() {
+        return name;
     }
 }
