@@ -126,6 +126,9 @@ icon-camp-default: "Классический лагерь"
 ### Interfaces
 build-interface-name: "{pc}≡ {mc}Здания {ac}{town}{sc}: "
 recipe-interface-name: "{pc}≡ {mc}Рецепты предметов{sc}: {current}"
+recipe-shaped: "{pc}❖ {mc}Предметы нужно выкладывать строго по слотам{sc}!"ё
+recipe-shapeless: "{pc}❖ {mc}Предметы можно выкладывать как угодно{sc}."
+recipe-furnace: "{pc}❖ {mc}Левый предмет нужно положить в печку{sc}."
 ### commands ≡ ● ◆ ❖
 ## avatar
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"

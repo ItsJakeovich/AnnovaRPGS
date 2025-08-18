@@ -2,6 +2,7 @@ package net.annova.environment.civilization.event;
 
 import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.build.TownBuild;
+import net.annova.environment.world.SectorLocation;
 import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,9 +16,14 @@ public class BlockEvent implements Listener {
     @EventHandler
     public void blockPlaceBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();
+        RPGPerson person = getRPGPerson(player);
+        SectorLocation location = person.getSectorLocation();
+        if (location != null && location.isProtected()) {
+            event.setCancelled(true);
+            return;
+        }
         TownBuild build = getWorldSector(player.serverLevel()).getBuildAt(event.getBlockPos());
         if (build == null) return;
-        RPGPerson person = getRPGPerson(player);
         person.getPerson().setStamina(0.005f);
         Town town = person.getTown();
         if (build.getConstruction().isProtectedBlock(event.getBlockPos())

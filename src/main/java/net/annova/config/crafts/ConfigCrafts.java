@@ -28,6 +28,7 @@ public class ConfigCrafts {
     private CraftType craftType;
     private final List<ItemIngredient> ingredients = new ArrayList<>();
     private RecipeHolder<?> recipe;
+    private final ItemStack[] showRecipe = new ItemStack[9];
     private List<String> recipeCraft = new ArrayList<>();
     private Material source = null;
     private long experience = 0;
@@ -57,7 +58,7 @@ public class ConfigCrafts {
                 for (Map<?, ?> i : (List<Map<?, ?>>) b.get("ingredients")) {
                     int count = i.containsKey("count") ? (int) i.get("count") : 1;
 
-                    craft.ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1).getItem(), count, (String) i.get("letter")));
+                    craft.ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
                     if (b.containsKey("recipe")) {
                         craft.recipeCraft = (List<String>) b.get("recipe");
                     }
@@ -79,7 +80,7 @@ public class ConfigCrafts {
                         if (i.containsKey("count")) {
                             count = (int) i.get("count");
                         }
-                        ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1).getItem(), count, (String) i.get("letter")));
+                        ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
                         crafts.put(craft.id, craft);
                     }
                     if (sc.containsKey("recipe")) {
@@ -88,9 +89,16 @@ public class ConfigCrafts {
                     craft.subCrafts.add(new SubCraft(craft_type, amount, ingredients, recipe));
                 }
             }
+            int i = 0;
+            for (String recipe : craft.recipeCraft) {
+                for (char character : recipe.toCharArray()) {
+                    ItemIngredient ingredient = craft.getIngredientByLetter(character);
+                    craft.showRecipe[i] = ingredient != null ? ingredient.getItemStack() : ItemStack.EMPTY;
+                    i++;
+                }
+            }
             crafts.put(craft.id, craft);
         }
-
         loadCrafts();
 
         loadInfo.add("{pc}| {mc}Крафты {sc}: {ac}" + crafts.size());
@@ -132,7 +140,7 @@ public class ConfigCrafts {
             case SHAPED -> {
                 Map<Character, Ingredient> data = new HashMap<>();
                 for (ItemIngredient ing : ingredients) {
-                    data.put(ing.getLetter(), Ingredient.of(ing.getMaterial()));
+                    data.put(ing.getLetter(), Ingredient.ofStacks(List.of(ing.getItemStack())));
                 }
                 this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
                         new ShapedRecipe("", CraftingBookCategory.MISC, ShapedRecipePattern.of(data, recipeCraft.toArray(new String[0])), this.item));
@@ -141,7 +149,7 @@ public class ConfigCrafts {
                 List<Ingredient> data = new ArrayList<>(ingredients.size());
                 for (ItemIngredient ingredient : this.ingredients) {
                     for (int i = 0; i < ingredient.getCount(); i++) {
-                        data.add(Ingredient.of(ingredient.getMaterial()));
+                        data.add(Ingredient.ofStacks(List.of(ingredient.getItemStack())));
                     }
                 }
                 this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
@@ -169,9 +177,19 @@ public class ConfigCrafts {
     public List<ItemIngredient> getIngredients() {
         return ingredients;
     }
+    public ItemIngredient getIngredientByLetter(char letter) {
+        for (ItemIngredient ingredient : this.ingredients) {
+            if (ingredient.getLetter() == letter) return ingredient;
+        }
+        return null;
+    }
 
     public RecipeHolder<?> getRecipe() {
         return recipe;
+    }
+
+    public ItemStack[] getShowRecipe() {
+        return showRecipe;
     }
 
     public List<String> getRecipeCraft() {

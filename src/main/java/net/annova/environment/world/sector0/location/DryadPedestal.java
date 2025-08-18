@@ -72,4 +72,9 @@ public class DryadPedestal extends SectorLocation {
     public Vec3iSelection[] borders() {
         return borders;
     }
+
+    @Override
+    public boolean isProtected() {
+        return false;
+    }
 }

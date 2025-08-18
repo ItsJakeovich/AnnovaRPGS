@@ -22,6 +22,7 @@ public abstract class SectorLocation {
 
     public abstract EnumSet<RPGEntityType> entitiesToSpawn();
     public abstract Vec3iSelection[] borders();
+    public abstract boolean isProtected();
 
     public boolean isOutside(Location location) {
         return !this.isInside(location.getBlockX(), location.getBlockY(), location.getBlockZ());
