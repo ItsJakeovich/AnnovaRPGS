@@ -87,6 +87,6 @@ public class DarkForest extends SectorLocation {
 
     @Override
     public boolean isProtected() {
-        return false;
+        return true;
     }
 }

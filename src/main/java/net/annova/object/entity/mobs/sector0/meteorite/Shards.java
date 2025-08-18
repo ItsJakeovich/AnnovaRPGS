@@ -42,7 +42,7 @@ public class Shards extends RPGEntity implements CustomType {
 
     @Override
     public double damage() {
-        return 3;
+        return 6;
     }
 
     @Override

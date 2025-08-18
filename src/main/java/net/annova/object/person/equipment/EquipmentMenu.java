@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -21,12 +22,12 @@ public class EquipmentMenu implements MenuBase {
     public MenuProvider inventory(Person person, Map<String, Object> data) {
         return new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return person.getColorString(getInstance(), "equipment-menu");
             }
 
             @Override
-            public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+            public AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
                 SimpleContainer container = new SimpleContainer(54);
                 Equipment equipment = getRPGPerson(person).getEquipment();
                 int iconIndex = 0;
@@ -35,7 +36,7 @@ public class EquipmentMenu implements MenuBase {
                     int[] indices = equip.getIndices();
                     for (int it = 0; it < equip.getIndices().length; it++) {
                         ItemStack stack = equipment.getEquipment(indices[it]);
-                        if (stack.isEmpty()) stack = equip.getIcon();
+                        if (stack == null || stack.isEmpty()) stack = equip.getIcon();
                         container.setItem(slots[it], stack);
                     }
                     iconIndex++;

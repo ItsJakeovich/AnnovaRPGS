@@ -73,6 +73,9 @@ public final class AnnovaRPG extends JavaPlugin {
             person.getPerson().getScoreboard().initScoreBoard();
         }
         loadInfo.add("{pc}| {mc}Игроки {sc}: {ac}" + getRPGPersons().size());
+        loadInfo.add("{pc}| {mc}Мобики {sc}: {ac}" + getEntities().size());
+        loadInfo.add("{pc}| {mc}Города {sc}: {ac}" + getTowns().size());
+        loadInfo.add("{pc}| {mc}Цивилизации {sc}: {ac}" + getCivilizations().size());
 
         loadInfo.forEach(AnnovaConfig::sendInfo);
         loadInfo = null;

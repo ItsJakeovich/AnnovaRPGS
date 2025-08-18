@@ -189,6 +189,6 @@ public class Civilization {
     }
 
     public String toString() {
-        return this.getName()+"{sc} - {mc}"+this.getScience()+"{b}\uD83D\uDCD6";
+        return this.getName()+"{sc}: {mc}"+this.getScience()+"{b}\uD83D\uDCD6";
     }
 }

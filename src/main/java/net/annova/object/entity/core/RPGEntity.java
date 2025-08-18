@@ -35,6 +35,7 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -203,8 +204,8 @@ public abstract class RPGEntity {
         return this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus, discardedAfter);
     }
     public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
-        Mob living = this.create(position, level, chorus);
-        living.setTarget(target);
+        Mob living = this.create(position, level, chorus, true);
+        living.setTarget(target, EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY);
         if (discardedAfter != 0)
             Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
         return living;
@@ -224,6 +225,9 @@ public abstract class RPGEntity {
     }
     public Mob create(Vec3 position, ServerLevel level, boolean additional) {
         return this.create(null, position, level, additional, 0, 1, 1);
+    }
+    public Mob create(Vec3 position, ServerLevel level, int chorus, boolean additional) {
+        return this.create(null, getChorusLocation(position, level, chorus), level, additional, 0, 1, 1);
     }
     public Mob create(Dungeon dungeon, Vec3 position, ServerLevel level, boolean additional, float addDamage, float multHealth, float multSpeed) {
         this.dungeon = dungeon;

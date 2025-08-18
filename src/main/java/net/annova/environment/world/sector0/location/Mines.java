@@ -107,6 +107,6 @@ public class Mines extends SectorLocation {
 
     @Override
     public boolean isProtected() {
-        return false;
+        return true;
     }
 }

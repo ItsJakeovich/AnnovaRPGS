@@ -20,6 +20,7 @@ import static net.annova.config.RPGConfig.getAllCrafts;
 import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.AnnovaRPG.loadInfo;
+import static net.minecraft.core.component.DataComponents.CUSTOM_DATA;
 
 public class ConfigCrafts {
     private String id;
@@ -44,6 +45,7 @@ public class ConfigCrafts {
             craft.id = (String) b.get("id");
             if (b.containsKey("amount")) craft.amount = (int) b.get("amount");
             craft.item = getItemStack(craft.id, craft.amount);
+            craft.item.get(CUSTOM_DATA).getUnsafe().putString("key", craft.id);
 
             craft.craftType = CraftType.valueOf(((String) b.get("craft_type")).toUpperCase());
             if (craft.craftType.equals(CraftType.FURNACE)) {

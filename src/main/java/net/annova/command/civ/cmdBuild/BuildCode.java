@@ -58,12 +58,10 @@ public class BuildCode implements Listener {
         Person person = event.getPerson();
         MenuBase menu = person.getMenu();
         String key = event.getKey();
-        System.out.println(key);
         if (key.startsWith("b-place-")) { // открывает меню со стилями
             Map<String, Object> data = new HashMap<>();
             data.put("build", BuildBase.valueOf(key.split("-")[2]));
             person.openMenu(menu, person, data);
-            return;
         } else if (key.startsWith("preview:")) { // отсюда после /confirm начинается постройка.
             person.closeMenu(true);
             Confirm confirm = person.getConfirm();

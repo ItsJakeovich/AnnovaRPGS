@@ -2,10 +2,8 @@ package net.annova.command.recipe;
 
 import net.annova.config.crafts.ConfigCrafts;
 import net.annova.main.AnnovaAPI;
-import net.annova.main.AnnovaRPG;
 import net.annova.object.person.Person;
 import net.annova.util.menu.PagedMenu;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -22,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.config.RPGConfig.getAllCrafts;
@@ -67,7 +64,7 @@ public class RecipeInterface extends PagedMenu {
                     }
                     if (page > 1) { // Кнопка назад
                         container.setItem(45, createItem(Items.NAUTILUS_SHELL,
-                                person.getAISString(getInstance(), "interface-previous").getDefined(person),
+                                person.getAISString(AnnovaAPI.getInstance(), "interface-previous").getDefined(person),
                                 -1,
                                 "previous"
                         ));
@@ -82,20 +79,20 @@ public class RecipeInterface extends PagedMenu {
                 } else { // Открывает менюшку с крафтом предмета
                     container = new SimpleContainer(45);
                     container.setItem(36, createItem(Items.NAUTILUS_SHELL,
-                            person.getAISString(getInstance(), "interface-previous").getDefined(person),
+                            person.getAISString(AnnovaAPI.getInstance(), "interface-previous").getDefined(person),
                             -1,
                             "return"
                     ));
                     container.setItem(24, current.getItemStack());
                     Recipe<?> holder = current.getRecipe().value();
-                    int slot = 0;
+                    int slot = -1;
                     ItemStack icon;
                     switch (holder) {
                         case ShapedRecipe recipe -> {
-                            for (Optional<Ingredient> ing : recipe.getIngredients()) {
+                            for (Optional<Ingredient> ing : recipe.getIngredients()) { slot++;
+                                if (ing.isEmpty()) continue;
                                 for (ItemStack stack : ing.get().itemStacks()) {
                                     container.setItem(WORKBENCH_SLOTS[slot], stack);
-                                    slot++;
                                 }
                             }
                             icon = createItem(Items.CRAFTING_TABLE,

@@ -10,8 +10,8 @@ wasteland: "пустошь"
 
 ### Person
 ## board
-board-town: "{pc}● {sc}Город: "
-board-civ: "{pc}● {sc}Цивилизация: "
+board-town: "{pc}● {sc}Город "
+board-civ: "{pc}● {sc}Цивилизация "
 board-culture: "{pc}● {sc}Культура: "
 ## equipment
 equipment-full: "{pc}| {ac}Ваш инвентарь под этот слот полон!"
@@ -126,7 +126,7 @@ icon-camp-default: "Классический лагерь"
 ### Interfaces
 build-interface-name: "{pc}≡ {mc}Здания {ac}{town}{sc}: "
 recipe-interface-name: "{pc}≡ {mc}Рецепты предметов{sc}: {current}"
-recipe-shaped: "{pc}❖ {mc}Предметы нужно выкладывать строго по слотам{sc}!"ё
+recipe-shaped: "{pc}❖ {mc}Предметы нужно выкладывать строго по слотам{sc}!"
 recipe-shapeless: "{pc}❖ {mc}Предметы можно выкладывать как угодно{sc}."
 recipe-furnace: "{pc}❖ {mc}Левый предмет нужно положить в печку{sc}."
 ### commands ≡ ● ◆ ❖
@@ -227,12 +227,12 @@ bar-health: "{pc}❖ {mc}Здоровье{sc}: {ac}{h}{sc}/{ac}{m}"
 
 ### Items
 ## Attributes
-tool-damage: "{pc}⚔ {mc}Сила атаки{sc}: "
-tool-speed:  "{pc}⚡ {mc}Скорость атаки{sc}: {ac}"
+tool-damage: "{r}🗡 {mc}Сила атаки{sc}: "
+tool-speed:  "{y}⚡ {mc}Скорость атаки{sc}: {ac}"
 
-armor-defence:   "{pc}⛊ {mc}Защита{sc}: "
-armor-toughness: "{pc}⛉ {mc}Твердость{sc}: "
-armor-speed:     "{pc}🌀 {mc}Скорость{sc}: "
+armor-defence:   "{l}⛊ {mc}Защита{sc}: "
+armor-toughness: "{d}⛉ {mc}Твердость{sc}: "
+armor-speed:     "{y}ᯓ🥾 {mc}Скорость{sc}: "
 
 unknown-name: "отсутствует."
 ## Civilization
@@ -255,13 +255,13 @@ AIR_STONE-lore: " {}{pc}❖ {mc}Отталкивает ближайщих сущ
 AQUA_STONE: "Водяной кристалл"
 AQUA_STONE-lore: " {}{pc}❖ {mc}При использовании накладывает эффект {ac}Грация дельфина{sc}.
 {}{pc}❖ {mc}При использовании накладывает эффект {ac}Подводное дыхание{sc}."
-BALANCE_STONE: "Кристалл &fбаланса"
+BALANCE_STONE: "Кристалл баланса"
 BALANCE_STONE-lore: " {}{pc}❖ {mc}Увеличивает вдвое урон по нежити{sc}.
 {}{pc}❖ {mc}Уменьшает вдвое урон по не-нежити{sc}."
 BIOME_STONE: "Частичный кристалл"
 BIOME_STONE-lore: "{pc}| {mc}Когда-то был частью чего-то большего{sc}..."
 CHRONO_STONE: "Кристалл старости"
-CHRONO_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+2% {mc}за каждое лишенное &c🖤{sc}."
+CHRONO_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+2% {mc}за каждое лишенное {r}🖤{sc}."
 DARK_STONE: "Кристалл тьмы"
 DARK_STONE-lore: " {}{pc}❖ {mc}При использовании окружающие сущности атакуют друг друга{sc}."
 DEATH_STONE: "Кристалл душ"
@@ -307,7 +307,7 @@ TELEPORT_STONE-lore: " {}{pc}❖ {mc}Shift+ПКМ{sc}: {mc}поставка ме
 TIME_STONE: "Кристалл времени"
 TIME_STONE-lore: " {}{pc}❖ {mc}При использовании отключает окружающее время{sc}."
 VITAL_STONE: "Кристалл молодости"
-VITAL_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+1.5% {mc}за каждое имеющиеся &c🖤{sc}."
+VITAL_STONE-lore: " {}{pc}❖ {mc}Урон{sc}: {tc}+1.5% {mc}за каждое имеющиеся {r}🖤{sc}."
 ## Equipment
 CHITIN_BOOTS: "Хитиновые ботинки"
 CHITIN_BOOTS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они уверенно {}{pc}| {mc}держат на болотной топи{sc}, {mc}словно ты сам вырос в паутине{sc}."
@@ -367,7 +367,7 @@ WOLF_SKIN: "Волчья шкура"
 ## S0 - FOREST
 ABSORBS_NIGHT_RING: "Перстень поглощающий ночь"
 ABSORBS_NIGHT_RING-lore: "{pc}| {mc}Каким-то образом это кольцо защищает от слепоты в лесах{sc}... 
-{}{mc}Иногда кажется{sc}, {mc}что кольцо смотрим на вас{sc}.
+{}{mc}Иногда кажется{sc}, {mc}что кольцо смотрит на вас{sc}.
 {}
 {}{pc}❖ {mc}Убирает эффект тьмы в заражённом лесу{sc}.
 {}{pc}❖ {mc}Минута работы в лесу{sc}:
@@ -387,18 +387,18 @@ CREATING_NIGHT_AMULET-lore: "{pc}| {mc}Говорят{sc}, {mc}этот амул
 {}{mc}хранили его как святыню{sc}.
 {}
 {}{pc}❖ {sc}Днём{sc}:
-{}{pc} ⚔ {mc}Урон{sc}: {tc}+4
+{}{pc} 🗡 {mc}Урон{sc}: {tc}+4
 {}{pc} 🌀 {mc}Скорость{sc}: {tc}+15%
 {}{pc} ◆ {mc}Эффект тьмы в радиусе 7 блоков
 {}{pc}❖ {sc}Ночью{sc}:
-{}{pc} ⚔ {mc}Урон{sc}: {tc}+6
+{}{pc} 🗡 {mc}Урон{sc}: {tc}+6
 {}{pc} 🌀 {mc}Скорость{sc}: {tc}+20%
 "
 DARK_ELF_BOW: "Лук тёмного эльфа"
 DARK_ELF_BOW-lore: "{pc}| {mc}Тетива этого лука сделана из лианы тёмного леса{sc}.
 {}{mc}Благодаря этому стрелы получают свойства {ac}темени{sc}.
 {}
-{}{pc}⚔ {mc}Урон{sc}: {tc}+3.5
+{}{pc}🗡 {mc}Урон{sc}: {tc}+3.5
 {}{pc}❖ {mc}Эффект при попадании{sc}: {mc}тьма"
 DARKNESS_CONCENTRATION: "Концентрация темени"
 DARKNESS_CONCENTRATION-lore: "{pc}| {mc}Неизвестная фиолетовая субстанция{sc}. 
@@ -499,7 +499,7 @@ UNKNOWN_SOURCE_WATER-lore: "{pc}| {mc}Вода{sc}, {mc}набранная из 
 VOLCANIC_STREAMS_MALMA: "Мальма вулканических ручьев"
 VOLCANIC_STREAMS_MALMA-lore: "{pc}| {mc}Эта рыба родом из раскалённых источников у подножия гор{sc}. 
 {}{pc}| {mc}Её кожа словно бы пропитана магмой и способна передать 
-{}{pc}| сопративление огню тому{sc}, {mc}кто осметился её съесть{sc}."
+{}{pc}| {mc}сопративление огню тому{sc}, {mc}кто осметился её съесть{sc}."
 WHALE_FISH: "Рыба кит"
 WHALE_FISH-lore: "{pc}| {mc}Не настоящий кит но имя своё она заслужила по праву{sc}. {}{pc}| {mc}Обладательница огромной пасти и эластичного мешка{sc}, {}{pc}| {mc}что помогают охотится без усилий — просто раскрывая рот и втягивая всё{sc}, {}{pc}| {mc}что плывёт мимо{sc}."
 ## S0 - SWAMPS

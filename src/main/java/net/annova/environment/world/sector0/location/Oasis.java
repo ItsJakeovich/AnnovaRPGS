@@ -142,6 +142,6 @@ public class Oasis extends SectorLocation {
 
     @Override
     public boolean isProtected() {
-        return false;
+        return true;
     }
 }

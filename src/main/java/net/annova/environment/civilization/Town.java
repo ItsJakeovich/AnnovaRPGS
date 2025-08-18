@@ -50,7 +50,7 @@ public class Town {
                 "NAME VARCHAR(20)",
                 "CONSTRUCTIONS MEDIUMTEXT",
                 "BUILDS MEDIUMTEXT",
-                "CENTER_CHUNK VARCHAR(15)",
+                "CENTER_CHUNK VARCHAR(60)",
                 "CHUNKS TEXT",
                 "LEADERS TEXT",
                 "MEMBERS TEXT",
@@ -242,7 +242,7 @@ public class Town {
     public String toString() {
         String color = this.isCapital() ? "{ac}" : "{mc}";
         return color + this.getName()
-                +"{sc} - {g}\uD83C\uDF3F{mc}"+(int)this.getValue(StatType.GROWTH)
+                +"{sc}: {g}\uD83C\uDF3F{mc}"+(int)this.getValue(StatType.GROWTH)
                 + "{sc}, {o}\uD83D\uDEE0{mc}"+(int)this.getValue(StatType.HAMMERS)
                 + "{sc}, {p}\uD83C\uDFBC{mc}"+(int)this.getValue(StatType.CULTURE)
                 + "{sc}, {b}\uD83D\uDD0E{mc}"+ (int)this.getValue(StatType.SCIENCE);

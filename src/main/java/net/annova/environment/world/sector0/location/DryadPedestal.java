@@ -75,6 +75,6 @@ public class DryadPedestal extends SectorLocation {
 
     @Override
     public boolean isProtected() {
-        return false;
+        return true;
     }
 }
