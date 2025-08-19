@@ -7,13 +7,13 @@ import net.annova.lang.AISString;
 import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.ChunkPos;
 import org.bukkit.entity.Player;
 
 import java.util.StringJoiner;
 
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.main.GlobalRPG.getTown;
+import static net.annova.main.GlobalRPG.*;
 
 public class TownCode {
     @CommandArg(name = "info", aliases = {"i", "и", "штащ", "инфо", "byaj"})
@@ -65,11 +65,10 @@ public class TownCode {
     }
 
     @CommandArg(name = "stats", aliases = {"статы", "ыефеы", "s", "с"})
-    public void stats(Player player) {
+    public void stats(Person person, Player player, String args) {
         RPGPerson rpg = getRPGPerson(player);
-        Person person = rpg.getPerson();
         Town town = rpg.getTown();
-        if (town == null) {
+        if (getRPGPerson(player) == null) {
             person.send(getInstance(), "civ-info-cancel-town");
             return;
         }
@@ -83,5 +82,21 @@ public class TownCode {
                 .replaceTag("{hammerbase}", String.valueOf(town.getStatSource(StatType.HAMMERS, Town.StatSources.BASE)))
                 .replaceTag("{hammerchunk}", String.valueOf(town.getStatSource(StatType.HAMMERS, Town.StatSources.CHUNK)))
         );
+    }
+
+    @CommandArg(name = "claim")
+    public void claim(Person person, Player player, String args) {
+        RPGPerson rpg = getRPGPerson(player);
+        Town town = rpg.getTown();
+        if (getRPGPerson(player) == null) {
+            person.send(getInstance(), "civ-info-cancel-town");
+            return;
+        }
+        ChunkPos pos = person.getServerPlayer().chunkPosition();
+        if (getAreaChunk(pos) != null) {
+            person.send("town-claim-busy");
+            return;
+        }
+
     }
 }

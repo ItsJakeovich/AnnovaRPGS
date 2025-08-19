@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static net.annova.command.AnnovaCommandInit.initCommands;
@@ -107,8 +108,12 @@ public final class AnnovaRPG extends JavaPlugin {
         }
         for (RPGPerson person : getRPGPersons())
             person.save();
-        getSQL().truncateTable(RPGEntity.TABLE);
-        for (RPGEntity entity : getEntities()) entity.save();
+
+        Collection<RPGEntity> entities = getEntities();
+        if (!entities.isEmpty()) {
+            getSQL().truncateTable(RPGEntity.TABLE);
+            for (RPGEntity entity : entities) entity.save();
+        }
 
         for (Town town : getTowns()) town.save();
         for (Civilization civilization : getCivilizations()) civilization.save();

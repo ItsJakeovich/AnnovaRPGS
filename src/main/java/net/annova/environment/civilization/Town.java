@@ -78,11 +78,20 @@ public class Town {
         this.name = rs.getString("NAME");
         // Цивилизация выставляется в цивилизации.
         loadList(this.constructions, rs.getString("CONSTRUCTIONS"), c -> new TownBuild(this, c), ">");
-        loadList(this.builds, rs.getString("BUILD"), b -> new TownBuild(this, b), ">");
-        this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.chunks.add(centerChunk);
-        loadList(this.chunks, rs.getString("CHUNKS"), c -> new AreaChunk(this,c ), ">");
+        loadList(this.builds, rs.getString("BUILDS"), b -> new TownBuild(this, b), ">");
+
+        this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.addChunk(centerChunk);
+        String chunks = rs.getString("CHUNKS");
+        if (!chunks.isBlank()) for (String chunk : chunks.split(">")) {
+            this.addChunk(new AreaChunk(this, chunk));
+        }
+
         loadList(this.leaders, rs.getString("LEADERS"), GlobalRPG::getRPGPerson, ">");
         loadList(this.members, rs.getString("MEMBERS"), GlobalRPG::getRPGPerson, ">");
+
+        this.initValues();
+
+        addTown(this);
     }
 
     public Town(String name, AreaChunk center, RPGPerson leader) {
@@ -101,12 +110,17 @@ public class Town {
         this.civilization.addTown(this);
 
         // Update Statistics
+        this.initValues();
+    }
+
+    public void initValues() {
         for (StatType type : StatType.values()) {
             this.stats.put(type, new EnumMap<>(StatSources.class));
             for (StatSources source : StatSources.values()) {
                 this.stats.get(type).put(source, 0.0f);
             }
         }
+
         this.setValue(StatType.GROWTH, StatSources.BASE, BASE_GROWTH);
         this.setValue(StatType.HAMMERS, StatSources.BASE, BASE_HAMMERS);
         this.updateChunks();

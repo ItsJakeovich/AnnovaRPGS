@@ -194,9 +194,19 @@ public class ResearchManager {
     public String serialize() {
         StringJoiner joiner = new StringJoiner("`");
         for (AnnovaTech tech : this.completeTechs) joiner.add(tech.name());
-        return this.culture.serialize() + '`' + this.commercial.serialize() + '`' + this.military.serialize() + '`'
-                + ',' + this.cultureGoal.name() + '`' + this.commercialGoal.name() + '`' + this.militaryGoal
-                + ',' + joiner;
+        return  (this.culture == null ? " " : culture.serialize()) +
+                '`' +
+                (this.commercial == null ? " " : commercial.serialize()) +
+                '`' +
+                (this.military == null ? " " : military.serialize()) +
+                ',' +
+                (this.cultureGoal == null ? " " : cultureGoal.name()) +
+                '`' +
+                (this.commercialGoal == null ? " " : commercialGoal.name()) +
+                '`' +
+                (this.militaryGoal == null ? " " : militaryGoal.name()) +
+                ',' +
+                joiner;
     }
     public static ResearchManager deserialize(Civilization civilization, String serialized) {
         ResearchManager manager = new ResearchManager(civilization);
@@ -208,12 +218,14 @@ public class ResearchManager {
         manager.military = Research.deserialize(researches[2]);
         
         String[] goals = data[1].split("`");
-        manager.cultureGoal = AnnovaTech.valueOf(goals[0]);
-        manager.commercialGoal = AnnovaTech.valueOf(goals[1]);
-        manager.militaryGoal = AnnovaTech.valueOf(goals[2]);
-        
-        for (String completed : data[2].split("`")) 
-            manager.completeTechs.add(AnnovaTech.valueOf(completed));
+        if (!goals[0].isBlank()) manager.cultureGoal = AnnovaTech.valueOf(goals[0]);
+        if (!goals[1].isBlank()) manager.commercialGoal = AnnovaTech.valueOf(goals[1]);
+        if (!goals[2].isBlank())manager.militaryGoal = AnnovaTech.valueOf(goals[2]);
+
+        if (data.length == 3) {
+            for (String completed : data[2].split("`"))
+                manager.completeTechs.add(AnnovaTech.valueOf(completed));
+        }
         return manager;
     }
 }

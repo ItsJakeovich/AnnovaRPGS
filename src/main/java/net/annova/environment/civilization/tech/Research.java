@@ -29,6 +29,7 @@ public class Research {
         return this.tech.name()+":"+progress;
     }
     public static Research deserialize(String serialized) {
+        if (serialized.isBlank()) return null;
         String[] data = serialized.split(":");
         Research research = new Research(AnnovaTech.valueOf(data[0]));
         research.progress = Float.parseFloat(data[1]);

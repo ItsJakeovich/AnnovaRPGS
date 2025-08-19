@@ -1,7 +1,7 @@
 package net.annova.command.recipe;
 
 import net.annova.command.register.DefaultArg;
-import net.annova.event.custom.MenuClickKeyCE;
+import net.annova.event.custom.MenuClickItemCE;
 import net.annova.object.person.Person;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,9 +18,8 @@ public class RecipeCode implements Listener {
     }
 
     @EventHandler
-    public void menuClick(MenuClickKeyCE event) {
+    public void menuClick(MenuClickItemCE event) {
         Person person = event.getPerson();
-        person.send(event.getKey());
         if (person.getMenu() instanceof RecipeInterface menu) {
             person.openMenu(menu, Map.of("item_id", event.getKey()));
         }

@@ -49,6 +49,7 @@ public class RecipeInterface extends PagedMenu {
             public AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
                 current = getCraft((String) data.get("item_id"));
                 SimpleContainer container;
+                ChestMenu toReturn;
 
                 if (current == null) { // открывает меню с выбором предметов
                     container = new SimpleContainer(54);
@@ -76,6 +77,7 @@ public class RecipeInterface extends PagedMenu {
                                 "next"
                         ));
                     }
+                    toReturn = ChestMenu.sixRows(i, inventory, container);
                 } else { // Открывает менюшку с крафтом предмета
                     container = new SimpleContainer(45);
                     container.setItem(36, createItem(Items.NAUTILUS_SHELL,
@@ -128,8 +130,9 @@ public class RecipeInterface extends PagedMenu {
                         }
                     }
                     container.setItem(36, icon);
+                    toReturn = ChestMenu.fiveRows(i, inventory, container);
                 }
-                return ChestMenu.sixRows(i, inventory, container);
+                return toReturn;
             }
         };
     }

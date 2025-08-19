@@ -22,6 +22,7 @@ import java.util.*;
 import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.EQUIPMENT_MENU;
+import static net.annova.object.item.base.ItemType.EMPTY;
 import static net.annova.object.item.base.ItemType.getItemType;
 import static net.annova.object.item.base.RPGItem.getItemId;
 import static org.bukkit.craftbukkit.inventory.CraftItemStack.asNMSCopy;
@@ -68,7 +69,7 @@ public class Equipment {
 
             this.equipment[availableIndex] = item; // тут раньше было item.copy();
             ServerPlayer player = person.getServerPlayer();
-            if (slot != -1) player.getInventory().setItem(slot, null);
+            if (slot != -1) player.getInventory().setItem(slot, ItemStack.EMPTY);
             AbstractContainerMenu menu = player.containerMenu;
             if (person.getPerson().getMenu() instanceof EquipmentMenu) {
                 EquipType type = this.getEquipType(item);
@@ -110,12 +111,14 @@ public class Equipment {
         Set<String> idList = new HashSet<>();
         for (ItemStack item : this.equipment) {
             if (item == null) continue;
-            ItemEquipment equip = (ItemEquipment) getItemType(item).getItem();
+            ItemType itemType = getItemType(item);
+            if (itemType == EMPTY) continue;
+            ItemEquipment equip = (ItemEquipment) itemType.getItem();
             Map<ValueType, Double> values = equip.values(person);
             String id = getItemId(item);
             double coefficient = idList.contains(id) ? 0.2 : 1.0;
             coefficient *= switch (equip.getEquipmentType()) {
-                case RING -> this.person.getFinalValue(ValueType.RING_BUFF);
+                case RING -> 1.0+this.person.getFinalValue(ValueType.RING_BUFF);
                 default -> 1.0;
             };
             for (ValueType type : values.keySet()) {
@@ -179,11 +182,11 @@ public class Equipment {
         return -1;
     }
 
-    public static CompoundTag saveAllItems(CompoundTag var0, NonNullList<net.minecraft.world.item.ItemStack> var1, boolean var2, HolderLookup.Provider var3) {
+    public static CompoundTag saveAllItems(CompoundTag var0, NonNullList<ItemStack> var1, boolean var2, HolderLookup.Provider var3) {
         ListTag var4 = new ListTag();
 
         for(int var5 = 0; var5 < var1.size(); ++var5) {
-            net.minecraft.world.item.ItemStack var6 = (net.minecraft.world.item.ItemStack)var1.get(var5);
+            ItemStack var6 = (ItemStack)var1.get(var5);
             if (!var6.isEmpty()) {
                 CompoundTag var7 = new CompoundTag();
                 var7.putByte("Slot", (byte)var5);
@@ -227,7 +230,7 @@ public class Equipment {
             if (serialItem.equals(" ")) continue;
             try {
                 this.addEquipment(i, // index
-                                net.minecraft.world.item.ItemStack.parse(getMinecraftServer().registryAccess(), TagParser.parseCompoundFully(serialItem)).get()
+                                ItemStack.parse(getMinecraftServer().registryAccess(), TagParser.parseCompoundFully(serialItem)).get()
                 );
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e);

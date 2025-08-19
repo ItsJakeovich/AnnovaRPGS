@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import static net.annova.main.AnnovaRPG.getInstance;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.CAMP;
 import static net.annova.util.GlobalTasks.cancelPreviewBuild;
 import static net.annova.util.GlobalTasks.previewBuild;
@@ -19,6 +20,10 @@ public class InteractEvent implements Listener {
         if (!CAMP.equals(event.getItemInHand())) return;
 
         Person person = event.getPerson();
+        if (getRPGPerson(person).getTown() != null) {
+            person.send("camp-set-cancel-has");
+            return;
+        }
         person.send(getInstance(), "camp-set-action");
         person.getConfirm().setConfirmType("set-camp").setNeedChat(true);
     }

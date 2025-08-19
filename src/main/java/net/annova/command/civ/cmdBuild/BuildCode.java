@@ -4,7 +4,7 @@ import net.annova.command.register.CommandArg;
 import net.annova.command.register.DefaultArg;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.build.BuildBase;
-import net.annova.event.custom.MenuClickKeyCE;
+import net.annova.event.custom.MenuClickItemCE;
 import net.annova.main.AnnovaGlobal;
 import net.annova.object.person.Confirm;
 import net.annova.object.person.Person;
@@ -54,7 +54,7 @@ public class BuildCode implements Listener {
     }
 
     @EventHandler
-    public void menuClick(MenuClickKeyCE event) {
+    public void menuClick(MenuClickItemCE event) {
         Person person = event.getPerson();
         MenuBase menu = person.getMenu();
         String key = event.getKey();

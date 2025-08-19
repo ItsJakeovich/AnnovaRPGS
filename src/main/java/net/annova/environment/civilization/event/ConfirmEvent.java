@@ -8,12 +8,10 @@ import net.annova.event.custom.PersonConfirmCE;
 import net.annova.object.*;
 import net.annova.object.person.*;
 import net.annova.util.AISUtil;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.Blocks;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -22,8 +20,7 @@ import java.util.Set;
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.lang.MessageObjects.isCyrillicOrLatin;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getAreaChunk;
-import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.main.GlobalRPG.*;
 import static net.annova.object.item.base.ItemType.CAMP;
 import static net.annova.util.GlobalTasks.cancelPreviewBuild;
 
@@ -88,7 +85,7 @@ public class ConfirmEvent implements Listener {
                 }
 
                 // Проверка на основание
-                double maxSupportThreshold = 0;
+                /*double maxSupportThreshold = 0;
                 double realSupportThreshold = 0;
 
                 int startY = position.getY()-1, minY;
@@ -124,7 +121,7 @@ public class ConfirmEvent implements Listener {
                             .replaceTag("{percent}", (int)(supportPercent*100) + "%")
                     );
                     return;
-                }
+                }*/
 
                 town.addConstruction(new SimpleConstruction(
                         preview.structure(),
@@ -147,6 +144,17 @@ public class ConfirmEvent implements Listener {
                 ServerLevel level = player.serverLevel();
                 AreaChunk chunk = new AreaChunk(level, player.chunkPosition());
                 ChunkPos chunkPos = chunk.getPosition();
+                if (getAreaChunk(chunkPos) != null) {
+                    person.send(getInstance(), "camp-set-cancel-busy");
+                    return;
+                }
+                for (Town town : getTowns()) {
+                    int distance = town.getCenterChunk().getPosition().distanceSquared(chunkPos);
+                    if (distance < 150) {
+                        person.send(getInstance(), "camp-set-cancel-nearbytown", "{distance}", String.valueOf(distance));
+                        return;
+                    }
+                }
                 Vec3i min = chunkPos.getBlockAt(0, 0, 0), max = chunkPos.getBlockAt(15, 0, 15);
                 for (SectorLocation location : getWorldSector(level).zones()) {
                     for (Vec3iSelection selection : location.borders()) {

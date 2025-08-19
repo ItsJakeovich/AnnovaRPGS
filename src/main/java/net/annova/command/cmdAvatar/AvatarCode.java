@@ -36,5 +36,8 @@ public class AvatarCode {
         api.send(message.getDefinedSplitted(api));
     }
 
-    @CommandArg(name = )
+    @CommandArg(name = "filter")
+    public void filter(Person person, Player player, String[] args) {
+        player.sendMessage("Не реализовано.");
+    }
 }
