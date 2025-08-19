@@ -1,18 +1,14 @@
 package net.annova.environment.dungeon.event;
 
 import net.annova.environment.dungeon.Dungeon;
-import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,9 +16,9 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getDungeonWorld;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class DungeonEvent implements Listener {
@@ -106,13 +102,6 @@ public class DungeonEvent implements Listener {
         }
     }
 
-    @EventHandler
-    public void destroy(NonCommandBlockRestrictionCE event) {
-        ServerPlayer player = event.getPlayer();
-        if (!player.serverLevel().equals(getDungeonWorld())) return;
-        if (player.server.getPlayerList().isOp(player.gameProfile)) return;
-        event.setCancelled(true);
-    }
     @EventHandler
     public void explode(EntityExplodeEvent event) {
         if (!event.getLocation().getWorld().equals(getDungeonWorld())) return;

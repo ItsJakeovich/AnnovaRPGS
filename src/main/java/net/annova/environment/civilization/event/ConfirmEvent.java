@@ -13,6 +13,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Blocks;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -90,14 +91,20 @@ public class ConfirmEvent implements Listener {
                 double maxSupportThreshold = 0;
                 double realSupportThreshold = 0;
 
-                int startY = position.getY()-1, minY = level.getMinY();
+                int startY = position.getY()-1, minY;
+                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(0, 0, 0);
+                for (int y = level.getMinY();;y++) {
+                    if (y >= 0 || level.getBlockState(pos).is(Blocks.BEDROCK)) {
+                        minY = y;
+                        break;
+                    }
+                }
                 int maxHeigth = startY-minY;
                 double modifier = 1.0/maxHeigth;
 
                 int xStep = (int) Math.max(structure.getMaxX() * 0.1, 1),
                         zStep = (int) Math.max(structure.getMaxZ()*0.1, 1);
                 int maxX = position.getX()+structure.getMaxX(), maxZ = position.getZ()+structure.getMaxZ();
-                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(0, 0, 0);
                 for (int x = position.getX(); x < maxX; x+=xStep) {
                     for (int z = position.getZ(); z < maxZ; z +=zStep) {
                         pos.set(x, startY, z);

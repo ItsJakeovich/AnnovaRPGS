@@ -12,10 +12,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.object.item.base.ItemType.RETURN_STONE;
-import static net.annova.main.GlobalRPG.getDungeonWorld;
 import static net.annova.object.person.RPGPerson.teleportHome;
-import static net.annova.util.BukkitObjects.addItems;
 
 public class ReturnStoneItem extends RPGItem implements Listener {
     @Override

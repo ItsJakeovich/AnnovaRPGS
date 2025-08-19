@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;

@@ -34,9 +34,7 @@ public class GlobalRPG {
 
     private static final Map<UUID, RPGEntity> entities = new HashMap<>();
 
-    private static final ServerLevel dungeonWorld = loadWorldAndGet("dungeon_world");
     private static final Map<Integer, DungeonTemplate> dTemplates = new HashMap<>();
-    private static final Map<Integer, Dungeon> dungeons = new HashMap<>();
     private static final Map<String, Structure> structures = new HashMap<>();
     private static final Map<String, QuestBase> quests = new HashMap<>();
 
@@ -136,28 +134,11 @@ public class GlobalRPG {
         return entities.values();
     }
 
-    public static ServerLevel getDungeonWorld() {
-        return dungeonWorld;
-    }
-
     public static DungeonTemplate getDTemplate(int id) {
         return dTemplates.get(id);
     }
     public static void addDTemplate(DungeonTemplate dungeonTemplate) {
         dTemplates.put(dungeonTemplate.getId(), dungeonTemplate);
-    }
-
-    public static Dungeon getDungeon(int key) {
-        return dungeons.get(key);
-    }
-    public static void addDungeon(int key, Dungeon dungeon) {
-        dungeons.put(key, dungeon);
-    }
-    public static void removeDungeon(int key) {
-        dungeons.remove(key);
-    }
-    public static Collection<Dungeon> getDungeons() {
-        return dungeons.values();
     }
 
     public static Structure getStructure(String key) {

@@ -13,9 +13,11 @@ import static net.annova.util.BukkitObjects.chance;
 public class MeteoriteEvent implements Listener {
     @EventHandler
     public void breakBlock(NonCommandBlockRestrictionCE event) {
-        ServerPlayer player = event.getPlayer();
-        if (getRPGPerson(player).getSectorLocation() instanceof Meteorite && chance(0.05)) {
-            METEORITE_GOLEM.tryNaturalSpawn(player.position(), player.serverLevel(), 5, false);
+        if (event.getType() == NonCommandBlockRestrictionCE.Type.BREAK) {
+            ServerPlayer player = event.getPlayer();
+            if (getRPGPerson(player).getSectorLocation() instanceof Meteorite && chance(0.05)) {
+                METEORITE_GOLEM.tryNaturalSpawn(player.position(), player.serverLevel(), 5, false);
+            }
         }
     }
 }

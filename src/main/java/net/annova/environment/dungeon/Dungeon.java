@@ -11,8 +11,10 @@ import net.annova.object.person.status.StatusManager;
 import net.annova.lang.AISString;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,13 +23,11 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.annova.environment.dungeon.GlobalDungeon.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
-import static net.annova.main.GlobalRPG.*;
 import static net.annova.object.person.status.StatusType.CB_DAMAGE_DEBUFF;
 import static net.annova.object.person.status.StatusType.HARRY_DEFENCE_DEBUFF;
 import static net.annova.util.BukkitObjects.addItems;
@@ -38,21 +38,24 @@ import static net.annova.main.AnnovaRPG.getInstance;
 public class Dungeon {
     private int key;
     private final DungeonBase base;
-    private final Location summon;
+    private final Vec3i summon;
+    private final ServerLevel from;
+    private final TeleportTransition summonTransition;
     private Vec3i position;
-    private ServerLevel level;
+    private Vec3 spawnPosition;
+    private TeleportTransition spawnTransition;
     private final Set<RPGPerson> players = new HashSet<>();
     private final Set<LivingEntity> entity = new HashSet<>();
     private boolean close = false;
 
     // null if dungeon summoned with key.
     // как нибудь позже было бы круто создавать портал
-    public Dungeon(DungeonBase base) {
-        this(base, null);
-    }
-    public Dungeon(DungeonBase base, Location summon) {
+    public Dungeon(DungeonBase base, Vec3i summon, ServerLevel from) {
         this.base = base;
         this.summon = summon;
+        this.from = from;
+
+        this.summonTransition = new TeleportTransition(from, Vec3.atBottomCenterOf(summon), Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND);
     }
 
     public int getKey() {
@@ -63,17 +66,32 @@ public class Dungeon {
         return base;
     }
 
-    @Nullable
-    public Location getSummon() {
+    public Vec3i getSummonPosition() {
         return summon;
+    }
+    public ServerLevel getSummonLevel() {
+        return from;
+    }
+    public TeleportTransition getSummonTransition() {
+        return summonTransition;
     }
 
     public Vec3i getPosition() {
         return position;
     }
 
+    public Vec3 getSpawnPosition() {
+        return spawnPosition;
+    }
+    public Vec3i getVec3iSpawnPosition() {
+        return new Vec3i(Mth.floor(spawnPosition.x), Mth.floor(spawnPosition.y), Mth.floor(spawnPosition.z));
+    }
     public ServerLevel getLevel() {
-        return level;
+        return getDungeonWorld();
+    }
+
+    public TeleportTransition getSpawnTransition() {
+        return spawnTransition;
     }
 
     public void addPlayers(Set<RPGPerson> persons) {
@@ -173,12 +191,12 @@ public class Dungeon {
         }
 
         int i = 0;
-        int y = (int) this.position.getY();
+        int y = this.position.getY();
         for (SimpleStructure structure : base.getTemplate().structures) {
-            removeImportedBuild(structure, this.position.above(80*i), level);
+            removeImportedBuild(structure, this.position.above(80*i), getDungeonWorld());
             i++;
         }
-        removeDungeon(this.key);
+        removeDungeon(this);
 
         if (force) return;
 
@@ -199,7 +217,7 @@ public class Dungeon {
     }
 
     public void createDungeon() {
-        ServerLevel world = getDungeonWorld();
+        ServerLevel level = getDungeonWorld();
 
         DungeonTemplate dungeonTemplate = base.getTemplate();
         if (getDungeons().isEmpty()) {
@@ -216,21 +234,23 @@ public class Dungeon {
                     0
             );
         }
+        this.spawnPosition = Vec3.atBottomCenterOf(
+                this.position.offset(dungeonTemplate.getStructure().getPositionWithPoint(dungeonTemplate.getSpawn()))
+        );
 
         SimpleStructure structure = dungeonTemplate.getStructure();
         importBuild(structure, Person.CardinalDirection.NORTH, position, level);
         dungeonTemplate.updateLootChests(structure, position, level);
         dungeonTemplate.updateAnimations(structure, position, level);
 
+        this.spawnTransition = new TeleportTransition(level, this.spawnPosition, Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND);
+
         this.key = getDungeons().size();
         addDungeon(key, this);
     }
 
     public void teleportPerson(RPGPerson person) {
-        DungeonTemplate dungeonTemplate = this.base.getTemplate();
-        person.teleport(this.position.offset(
-                dungeonTemplate.getStructure().getPositionWithPoint(dungeonTemplate.getSpawn())
-        ), level);
+        person.teleport(this.spawnPosition, getDungeonWorld());
     }
     public void teleportAll() {
         this.players.forEach(this::teleportPerson);
@@ -255,6 +275,6 @@ public class Dungeon {
     }
     public void spawnEntity(RPGEntity entity, Vec3 position) {
         float value = players.size()-1;
-        this.entity.add(entity.create(this, position, this.level, false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
+        this.entity.add(entity.create(this, position,getDungeonWorld(), false, value, (float) (1 + (value*0.3)), (float) (1 + (value*0.02))));
     }
 }

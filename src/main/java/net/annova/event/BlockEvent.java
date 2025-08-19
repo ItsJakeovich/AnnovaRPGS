@@ -1,25 +1,21 @@
-package net.annova.environment.civilization.event;
+package net.annova.event;
 
 import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.WorldSector;
 import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.person.RPGPerson;
-import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.block.CraftBlock;
-import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityExplodeEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
+import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class BlockEvent implements Listener {
@@ -27,7 +23,17 @@ public class BlockEvent implements Listener {
     @EventHandler
     public void blockPlaceBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();
+        if (player == null) return;
         RPGPerson person = getRPGPerson(player);
+        ServerLevel level = event.getLevel();
+        if (!worldSectors.containsKey(level) && !person.getPerson().isCanBreakProtectedBlocks()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // Утомляет игрока при взаимодействии с блоками
+        person.getPerson().decreaseStamina(0.005f);
+
         SectorLocation location = person.getSectorLocation();
         if (location != null && location.isProtected()) {
             if (location.isProtected()) {
@@ -35,9 +41,8 @@ public class BlockEvent implements Listener {
                 return;
             } else player.addEffect(FATIGUE);
         }
-        TownBuild build = getWorldSector(player.serverLevel()).getBuildAt(event.getBlockPos());
+        TownBuild build = getWorldSector(level).getBuildAt(event.getBlockPos());
         if (build == null) return;
-        person.getPerson().setStamina(0.005f);
         Town town = person.getTown();
         if (build.getConstruction().isProtectedBlock(event.getBlockPos())
                 || town == null
@@ -47,14 +52,17 @@ public class BlockEvent implements Listener {
     }
 
     @EventHandler
-    public void explosion(EntityExplodeEvent event) {
-        List<Block> blocks = new ArrayList<>();
-        ((CraftEntity) event.getEntity()). // тут не уверен, скорее всего в api
-        for (Block block : event.blockList()) {
-            BlockPos pos = ((CraftBlock) block).getPosition();
-
-            blocks.add(block);
+    public void explosion(NonCommandBlockRestrictionCE event) {
+        if (event.getType() == NonCommandBlockRestrictionCE.Type.EXPLOSION) {
+            Vec3i pos = event.getBlockPos();
+            WorldSector sector = getWorldSector(event.getLevel());
+            for (SectorLocation location : sector.zones()) {
+                if (location.isInside(pos)) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            if (sector.getBuildAt(pos) != null) event.setCancelled(true);
         }
-        event.blockList().removeAll(blocks);
     }
 }

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-import static net.annova.main.GlobalRPG.getDungeonWorld;
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.util.BukkitObjects.*;
 import static net.annova.object.item.base.ItemType.TELEPORT_STONE;
 

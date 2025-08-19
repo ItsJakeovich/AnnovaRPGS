@@ -2,14 +2,15 @@ package net.annova.command.cmdDungeon;
 
 import net.annova.command.register.CommandArg;
 import net.annova.environment.dungeon.Dungeon;
+import net.annova.environment.dungeon.type.Prison;
 import net.annova.object.person.Person;
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
+import static net.annova.environment.dungeon.GlobalDungeon.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
-import static net.annova.main.GlobalRPG.getDungeon;
-import static net.annova.main.GlobalRPG.getDungeons;
 import static net.annova.object.item.base.ItemType.DUNGEON_KEY;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -44,5 +45,13 @@ public class DungeonCode {
         }
         dungeon.endDungeon(true);
         person.send(getInstance(), "dungeon-deleted");
+    }
+
+    @CommandArg(name = "create")
+    public void create(Person person, Player player, String[] args) {
+        ServerPlayer serverPlayer = person.getServerPlayer();
+        Dungeon dungeon = new Dungeon(new Prison(), serverPlayer.blockPosition(), serverPlayer.serverLevel());
+
+        dungeon.createDungeon();
     }
 }

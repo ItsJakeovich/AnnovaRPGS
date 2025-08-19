@@ -25,6 +25,7 @@ import java.util.List;
 
 import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.config.AnnovaConfig.sendInfo;
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeons;
 import static net.annova.event.summon.EntityEvent.indicators;
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaAPI.initEvents;
@@ -115,7 +116,7 @@ public final class AnnovaRPG extends JavaPlugin {
 
     private void initThreads() {
         // CivilizationTickTimer - TenMinutesTickEvent;
-        syncTimer(this, new PersonUpdateTimer(), 100); // 5s
+        syncTimer(this, new FiveSecondsTimer(), 100); // 5s
         // PersonStaminaTimer - SecondTickEvent
         // UpdateSpawnTimer - MinuteTickEvent;
         // UpdateSectorTimer - SecondTickEvent

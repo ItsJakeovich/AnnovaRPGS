@@ -35,4 +35,6 @@ public class AvatarCode {
         ;
         api.send(message.getDefinedSplitted(api));
     }
+
+    @CommandArg(name = )
 }

@@ -83,6 +83,7 @@ public class Carrier extends RPGEntity implements CustomType, Listener {
     @EventHandler
     public void blockBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();
+        if (player == null) return;
         RPGPerson person = getRPGPerson(player);
         if (!(person.getSectorLocation() instanceof Mines)) return;
 

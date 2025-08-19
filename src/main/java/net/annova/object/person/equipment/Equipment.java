@@ -66,7 +66,7 @@ public class Equipment {
                 return;
             }
 
-            this.equipment[availableIndex] = item.copy();
+            this.equipment[availableIndex] = item; // тут раньше было item.copy();
             ServerPlayer player = person.getServerPlayer();
             if (slot != -1) player.getInventory().setItem(slot, null);
             AbstractContainerMenu menu = player.containerMenu;
@@ -80,9 +80,6 @@ public class Equipment {
         }
     }
 
-    public void removeEquipment(org.bukkit.inventory.ItemStack item, int slot) {
-        this.removeEquipment(asNMSCopy(item), slot);
-    }
     public void removeEquipment(ItemStack item, int slot) {
         EquipType type = this.getEquipType(item);
         int index = this.getIndexBySlot(type, slot);
@@ -94,6 +91,7 @@ public class Equipment {
             if (person.getPerson().getMenu() instanceof EquipmentMenu) {
                 menu.getSlot(slot).set(type.getIcon());
             }
+            person.getServerPlayer().playSound(SoundEvents.ARMOR_UNEQUIP_WOLF, 1, 1);
             this.update();
         }
     }

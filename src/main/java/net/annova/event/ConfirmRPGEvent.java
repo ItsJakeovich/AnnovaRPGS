@@ -3,7 +3,6 @@ package net.annova.event;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.type.Prison;
 import net.annova.event.custom.PersonConfirmCE;
-import net.annova.object.item.base.ItemType;
 import net.annova.object.*;
 import net.annova.environment.structure.Structure;
 import net.annova.object.person.Confirm;
@@ -12,12 +11,12 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.Team;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ItemType.DUNGEON_KEY;
 
 public class ConfirmRPGEvent implements Listener {
     @EventHandler
@@ -54,14 +53,13 @@ public class ConfirmRPGEvent implements Listener {
                 dungeon.teleportPerson(pers);
             }
             case "dungeon" -> {
-                Player player = person.getPlayer();
-                ItemType itemType = ItemType.DUNGEON_KEY;
-                if (!itemType.use(player, itemType.getFromInventory(player))) {
+                ServerPlayer player = person.getServerPlayer();
+                if (!DUNGEON_KEY.removeItem(player)) {
                     person.send(getInstance(), "dungeon-missing-key");
                     break;
                 }
 
-                Dungeon dungeon = new Dungeon(new Prison(), person.getLocation().clone());
+                Dungeon dungeon = new Dungeon(new Prison(), player.blockPosition(), player.serverLevel());
 
                 RPGPerson pers = getRPGPerson(person.getUid());
                 dungeon.addPlayer(pers);
