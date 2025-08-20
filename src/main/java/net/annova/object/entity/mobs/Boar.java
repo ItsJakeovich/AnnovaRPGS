@@ -44,12 +44,12 @@ public class Boar extends RPGEntity implements EntityActivity {
 
     @Override
     public int health() {
-        return 120;
+        return 24;
     }
 
     @Override
     public double damage() {
-        return 16;
+        return 6.5;
     }
 
     @Override

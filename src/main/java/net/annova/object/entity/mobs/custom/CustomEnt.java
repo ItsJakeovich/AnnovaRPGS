@@ -55,7 +55,7 @@ public class CustomEnt extends Zombie {
     }
 
     @Override
-    public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
+    public boolean hurtServer(@NotNull ServerLevel worldserver, DamageSource damagesource, float f) {
         if (damagesource.is(ON_FIRE)
                 || damagesource.is(IN_FIRE)) f*=3;
         return super.hurtServer(worldserver, damagesource, f);

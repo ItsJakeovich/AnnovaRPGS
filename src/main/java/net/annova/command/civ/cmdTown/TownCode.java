@@ -124,7 +124,7 @@ public class TownCode {
         mail.replaceTag("{town}", town.getName());
         invite.send(mail);
 
-        person.send(getInstance(), "town-invite-sended", "{invited}", invited.getPerson().getName());
+        person.send(getInstance(), "town-invite-sended", "{nick}", invited.getPerson().getName());
     }
     @CommandArg(name = "kick" , aliases = {"исключить", "bcrk.xbnm", "лшсл"})
     public void kick(Person person, Player player, String[] args) {
@@ -147,6 +147,10 @@ public class TownCode {
             person.send(getInstance(), "player-not-found", "{name}", args[1]);
             return;
         }
+        if (kicked == rpg) {
+            person.send(getInstance(), "town-kick-cancel-yourself");
+            return;
+        }
         if (kicked.getTown() != town) {
             person.send(getInstance(), "town-kick-cancel-none");
             return;
@@ -157,11 +161,11 @@ public class TownCode {
         Map<String, Object> data = confirm.getData();
         data.put("person", kicked);
         data.put("town", town);
-        person.send("town-kick-confirm", "{nick}", kicked.getPerson().getName());
+        person.send(getInstance(), "town-kick-confirm", "{nick}", kicked.getPerson().getName());
     }
 
     @CommandArg(name = "claim", aliases = {"приват", "ghbdfn", "сдфшь"})
-    public void claim(Person person, Player player, String args) {
+    public void claim(Person person, Player player, String[] args) {
         RPGPerson rpg = getRPGPerson(player);
         Town town = rpg.getTown();
         if (getRPGPerson(player) == null) {

@@ -19,7 +19,9 @@ public class TargetEvent implements Listener {
     @EventHandler
     public void target(EntityTargetEvent event) {
         Entity entity = event.getEntity();
-        net.minecraft.world.entity.Entity target = ((CraftEntity) event.getTarget()).getHandle();
+        Entity ent = event.getTarget();
+        if (ent == null) return;
+        net.minecraft.world.entity.Entity target = ((CraftEntity) ent).getHandle();
         if (target instanceof Player player) {
             RPGPerson person = getRPGPerson(player);
             EntityType type = entity.getType();

@@ -168,6 +168,12 @@ public class Civilization {
     public Set<RPGPerson> getCitizens() {
         return citizens;
     }
+    public void addCitizen(RPGPerson person) {
+        this.citizens.add(person);
+    }
+    public void removeCitizen(RPGPerson person) {
+        this.citizens.remove(person);
+    }
 
     public enum Stage {
         CAMP(10),

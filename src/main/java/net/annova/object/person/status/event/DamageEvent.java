@@ -62,8 +62,10 @@ public class DamageEvent implements Listener {
                 if (chance(0.02)) EntRoots.addPhysicDebuff(target);
             }
 
-            if (CHITIN == person.getArmorSet() && chance(0.05)) {
-                manager.addStatus(PARALYSIS);
+            if (target instanceof Player targ) {
+                if (CHITIN == person.getArmorSet() && chance(0.05)) {
+                    getRPGPerson(targ).addStatus(PARALYSIS);
+                }
             }
         }
     }

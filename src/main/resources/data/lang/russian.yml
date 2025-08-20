@@ -33,10 +33,10 @@ camp-set-not-item: "{ac}❖ {mc}Возьмите в инвентарь лаге�
 
 camp-set-cancel-name: "{ac}❖ {mc}Неверный формат названия лагеря {sc}(4-20 символов, латиница или кириллица)!"
 camp-set-name: "{pc}❖ {mc}Установлено {sc}⌈{ac}{name}{sc}⌋. {mc}Если хотите изменить его{sc}, {mc}введите еще раз новое{sc}.
-{} {mc}|● {sc}Подтвердите установку лагеря командой {s-com-/confirm}"
+{} {mc}|● {sc}Подтвердите установку лагеря {mc}командой {s-com-/confirm}"
 camp-set-cancel-blank: "{ac}❖ {mc}Необходимо ввести название лагеря в чат{sc}! "
 camp-set-cancel-busy: "{ac}❖ {mc}Чанк в котором вы сейчас стоите занят{sc}!"
-camp-set-cancel-nearbytown: "{ac}❖ {mc}Поблизости есть поселение{sc}, {mc}растояние менее 150{sc}: {ac}{distance}{sc}!"
+camp-set-cancel-nearbytown: "{ac}❖ {mc}Поблизости есть поселение{sc}, {mc}растояние менее 80{sc}: {ac}{distance}{sc}"
 camp-set-cancel-locations: "{ac}❖ {mc}К сожалению лагерь нельзя поставить на территории локации"
 camp-set-cancel-water: "{ac}❖ {mc}Нельзя установить лагерь в океане или реке{sc}!"
 camp-set: "{pc}❖ {mc}Лагерь {sc}⌈{ac}{name}{sc}⌋ {mc} был установлен{sc}! 
@@ -124,9 +124,10 @@ town-invite-mail: "{pc}❖ {mc}Игрок {sc}{inviter} {mc}приглашает
 town-invite-sended: "{pc}❖ {mc}Игроку {sc}{nick} {mc}было выслано приглашение{sc}!"
 town-invite-success: "{pc}❖ {mc}Игрок {sc}{nick} {mc}вступил в наш город{sc}!"
 
+town-kick-cancel-yourself: "{ac}❖ {mc}Нельзя исключить самого себя{sc}. /town disband"
 town-kick-cancel-none: "{ac}❖ {mc}Данных игрок не состоит в вашем городе{sc}!"
 town-kick-confirm: "{pc}❖ {mc}Подтвердите ислючение {ac}{nick} командой {sc}/confirm"
-town-kick-success: "{pc}❖ {mc}Игрок {ac}{nick} исключен из города{sc}!"
+town-kick-success: "{pc}❖ {mc}Игрок {ac}{nick} {mc}исключен из города{sc}!"
 
 town-claim-cancel-world: "{ac}❖ {mc}Нельзя заприватить чанк городу в другом секторе{sc}!"
 town-claim-cancel-busy: "{ac}❖ {mc}Этот чанк уже занят{sc}!"
@@ -160,15 +161,18 @@ recipe-furnace: "{pc}❖ {mc}Левый предмет нужно положит
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
 avatar-equipment: "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает меню экипировки"
 avatar-info:      "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
+avatar-filter:    "{pc} ● {mc}{s-com-/avatar filter} {sc}- {mc}выключает фильтр чата"
 
 avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 {}{pc} ● {mc}Имя{sc}: {mc}{name}
 {}{pc} ● {mc}Локация{sc}: {location}
 {}{pc} ● {mc}Модификаторы{pc}:
 {}{pc}  ◆ {mc}Урон{sc}: {damage}{sc}, {damage-multiplier}
+{}{pc}  ◆ {mc}Защита{sc}: {defence}
 {}{pc}  ◆ {mc}Получаемый урон{sc}: {defence-multiplier}
 {}{pc}  ◆ {mc}Урон от падения{sc}: {fall-multiplier}
 {}{pc}  ◆ {mc}Здоровье{sc}: {health}
+{}{pc}  ◆ {mc}Скорость{sc}: {speed}
 {}{pc}  ◆ {mc}Восстановление{sc}: {regen}
 {}{pc}  ◆ {mc}Взаимодействие с блоками{sc}: {block}
 {}{pc}  ◆ {mc}Взаимодействие с сущностями{sc}: {entity}"
@@ -211,6 +215,7 @@ rpg-oasis-bubble: "{pc} ● {mc}/rpg oasis-bubble - {mc}вызывает пуз�
 rpg-summon:       "{pc} ● {mc}/rpg summon {sc}{name} - {mc}спавнит серверную сущность{sc}."
 rpg-item:         "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серверный предмет{sc}."
 rpg-status:       "{pc} ● {mc}/rpg status {sc}{STATUS} - {mc}вызывает кастомный эффект{sc}."
+rpg-nextTick:     "{pc} ● {mc}/rpg nextTick {sc}- {mc}инициирует тик городов и цив{sc}."
 
 rpg-heal-success: "{pc}❖ {mc}Игрок {ac}{target} {mc}вылечен{sc}!"
 
@@ -437,7 +442,7 @@ DARKNESS_FRAGMENT-lore: "{pc}| {mc}Осколок неизвестного кр�
 {}
 {}{pc}❖ Исчезает если выбросить на пол{sc}."
 ENT_CORE: "Ядро энта"
-ENT_CORE-lore: "{pc}| {mc}Ядро{sc}, извлечённое из энта{sc}-{mc}старшего{sc}. 
+ENT_CORE-lore: "{pc}| {mc}Ядро{sc}, {mc}извлечённое из энта{sc}-{mc}старшего{sc}. 
 {}
 {}{pc}❖ {mc}Излучаемая аура отпугивает энтов{sc}."
 ENT_ROOT: "Корень энта"
@@ -482,9 +487,9 @@ TIDE_GRASP_RING: "Перстень прилива"
 TIDE_GRASP_RING-lore: "{pc}| {mc}Созданный из клешни краба{sc}, {mc}перстень позволяет 
 {}наносить большой урон по существам{sc}. {mc}Крабик{sc}.
 {}
-{}{pc} 🗡 {mc}Урон{sc}: {tc}+2
-{}{pc} ❖ {mc}Взаимодействие с блоками{sc}: {tc}-0.5
-{}{pc} ❖ {mc}Взаимодействие с сущностями{sc}: {tc}-0.2
+{}{pc}🗡 {mc}Урон{sc}: {tc}+2
+{}{pc}❖ {mc}Взаимодействие с блоками{sc}: {tc}-0.5
+{}{pc}❖ {mc}Взаимодействие с сущностями{sc}: {tc}-0.2
 "
 
 ANGEL_FISH: "Водный хранитель"

@@ -159,7 +159,7 @@ public class RPGCode {
         getRPGPerson(player).getStatusManager().addStatus(type);
     }
 
-    @CommandArg(name = "next-tick")
+    @CommandArg(name = "nextTick")
     public void nextTick(Player player) {
         civilizationsTick();
     }

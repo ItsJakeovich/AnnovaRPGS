@@ -27,7 +27,8 @@ import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -178,11 +179,11 @@ public class RPGPerson {
 
     public void damage(Entity damager, float damage) {
         ServerPlayer server = this.getPerson().getServerPlayer();
+        ServerLevel level = server.serverLevel();
 
-        ServerGamePacketListenerImpl connection = server.connection;
-        Player player = this.getPlayer();
-        player.playSound(player, Sound.ENTITY_PLAYER_HURT, 1, 1);
-        connection.send(new ClientboundHurtAnimationPacket(server.getId(), 90.0F));
+        ClientboundHurtAnimationPacket packet = new ClientboundHurtAnimationPacket(server.getId(), 90.0F);
+        level.playSound(null, server.blockPosition(), SoundEvents.PLAYER_HURT, SoundSource.HOSTILE, 1, 1);
+        for (ServerPlayer toSend : level.players()) toSend.connection.send(packet);
 
         this.knockback(damager, damage);
 
@@ -469,7 +470,7 @@ public class RPGPerson {
         return currentArea;
     }
     public void updateCurrentArea() {
-        AreaChunk newArea = getAreaChunk(this.getServerPlayer().chunkPosition());
+        AreaChunk newArea = getAreaChunk(this.getServerPlayer().serverLevel(), this.getServerPlayer().chunkPosition());
         if (newArea == this.currentArea) return;
         AISString message;
         if (newArea == null) {

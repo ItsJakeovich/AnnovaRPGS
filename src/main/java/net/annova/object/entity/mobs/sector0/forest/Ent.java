@@ -29,7 +29,7 @@ public class Ent extends RPGEntity implements CustomType {
 
     @Override
     public String name() {
-        return ChatColor.DARK_GREEN + "Ent";
+        return ChatColor.DARK_GREEN + "";
     }
 
     @Override
@@ -59,7 +59,9 @@ public class Ent extends RPGEntity implements CustomType {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(ENT_ROOT.create(person, random.nextInt(2)+1, 0.055));
+        return List.of(
+                ENT_ROOT.create(person, random.nextInt(2)+1, 0.07)
+        );
     }
 
     @Override

@@ -5,9 +5,12 @@ import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.ItemAction;
 import net.annova.object.item.base.attribute.RPGTool;
 import net.annova.object.magic.physic.EntRoots;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -57,30 +60,14 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
 
     @Override
     public void onAttack(LivingEntity entity, LivingEntity target) {
+        if (entity instanceof ServerPlayer pl && target instanceof ServerPlayer tg) {
+            pl.sendSystemMessage(Component.literal("атакующий: " + pl.getName() + ", цель " + tg.getName()));
+            tg.sendSystemMessage(Component.literal("атакующий: " + pl.getName() + ", цель " + tg.getName()));
+        }
         if (random.nextBoolean()) { // корни
-            if (chance(0.08)) {
-                EntRoots.addPhysicDebuff(target);
-            }
+            if (chance(0.08)) EntRoots.addPhysicDebuff(target);
         } else { // дружественный энт
-            if (chance(0.05)) {
-                Mob ent = ENT.getEntity().createWithTarget(entity, target, 1);
-                new BukkitRunnable() {
-                    int lifeTime = 10; // 1 = 0.5s | 10 = 5s
-
-                    @Override
-                    public void run() {
-                        if (ent.isAlive() && ent.valid && lifeTime != 0) {
-                            if (ent.getTarget() != target) {
-                                ent.remove(Entity.RemovalReason.DISCARDED);
-                                this.cancel();
-                            }
-                            this.lifeTime--;
-                        } else {
-                            this.cancel();
-                        }
-                    }
-                }.runTaskTimer(getInstance(), 0L, 10L);
-            }
+            if (chance(0.05)) ENT.getEntity().createWithTarget(entity, target, 1, 100);
         }
     }
 }

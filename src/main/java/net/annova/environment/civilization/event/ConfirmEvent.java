@@ -166,7 +166,7 @@ public class ConfirmEvent implements Listener {
                 }
                 for (Town town : getTowns()) {
                     int distance = town.getCenterChunk().getPosition().distanceSquared(chunkPos);
-                    if (distance < 150) {
+                    if (distance < 80) {
                         person.send(getInstance(), "camp-set-cancel-nearbytown", "{distance}", String.valueOf(distance));
                         return;
                     }

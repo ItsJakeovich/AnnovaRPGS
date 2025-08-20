@@ -42,7 +42,7 @@ public class Snake extends RPGEntity implements CustomType {
 
     @Override
     public int health() {
-        return 20;
+        return 12;
     }
 
     @Override

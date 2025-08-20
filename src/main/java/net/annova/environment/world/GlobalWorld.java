@@ -16,7 +16,7 @@ import static net.annova.main.GlobalRPG.addChunkCollection;
 
 public class GlobalWorld {
     public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
-    static {
+    public static void initSectors() {
         worldSectors.put(world0, new SuruWahare());
 
         for (ServerLevel level : worldSectors.keySet()) {

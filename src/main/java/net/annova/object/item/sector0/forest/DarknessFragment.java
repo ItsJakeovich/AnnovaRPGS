@@ -11,7 +11,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 import java.util.List;
 
-import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.DARKNESS_FRAGMENT;
 
 public class DarknessFragment extends RPGItem implements Listener {
@@ -44,7 +43,6 @@ public class DarknessFragment extends RPGItem implements Listener {
     public void drop(PlayerDropItemEvent event) {
         org.bukkit.entity.Item item = event.getItemDrop();
         if (DARKNESS_FRAGMENT.equals(((CraftItem) item).getHandle().getItem())) {
-            event.setCancelled(true);
             item.remove();
         }
     }

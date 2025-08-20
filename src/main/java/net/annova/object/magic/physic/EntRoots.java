@@ -20,14 +20,6 @@ public class EntRoots {
     );
     public static Map<Entity, Long> entities = new HashMap<>();
 
-    public static void addPhysicDebuff(org.bukkit.entity.Entity entity) {
-        if (entity instanceof org.bukkit.entity.LivingEntity living) {
-            addPhysicDebuff(living);
-        }
-    }
-    public static void addPhysicDebuff(org.bukkit.entity.LivingEntity entity) {
-        addPhysicDebuff(((CraftLivingEntity) entity).getHandle());
-    }
     public static void addPhysicDebuff(LivingEntity target) {
         AttributeInstance movementInstance = target.getAttribute(Attributes.MOVEMENT_SPEED);
         if (movementInstance.hasModifier(modifier.id())) return;

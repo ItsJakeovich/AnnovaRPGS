@@ -4,6 +4,7 @@ import net.annova.config.AnnovaConfig;
 import net.annova.config.RPGConfig;
 import net.annova.environment.civilization.Civilization;
 import net.annova.environment.civilization.Town;
+import net.annova.environment.world.GlobalWorld;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -43,6 +44,7 @@ public final class AnnovaRPG extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         loadInfo.add("{pc}❖ {mc}Запуск{sc}...");
+        GlobalWorld.initSectors();
 
         try {
             new RPGConfig().init();

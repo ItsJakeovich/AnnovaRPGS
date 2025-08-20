@@ -47,7 +47,7 @@ public class AbsorbsNightRing extends RPGItem implements ItemEquipment {
     public Map<ValueType, Double> values(RPGPerson person) {
         int minutes = person.minutesInDarkForest;
         return Map.of(
-                ValueType.SPEED, minutes == 60 ? -0.24 : minutes * -0.002,
+                ValueType.SPEED, minutes == 60 ? -0.66 : minutes * -0.0055,
                 ValueType.DEFENCE, minutes == 60 ? -12 : minutes * -0.1
         );
     }

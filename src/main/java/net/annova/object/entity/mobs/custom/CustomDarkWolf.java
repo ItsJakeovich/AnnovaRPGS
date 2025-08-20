@@ -5,6 +5,7 @@ import net.annova.object.person.status.StatusType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.animal.Animal;
@@ -13,6 +14,9 @@ import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.bukkit.event.entity.EntityTargetEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.chance;
@@ -27,10 +31,10 @@ public class CustomDarkWolf extends Wolf {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, (double)1.0F, true));
-        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, (double)1.0F, 10.0F, 2.0F));
-        this.goalSelector.addGoal(7, new BreedGoal(this, (double)1.0F));
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, (double)1.0F));
+        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0F, true));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0F, 10.0F, 2.0F));
+        this.goalSelector.addGoal(7, new BreedGoal(this, 1.0F));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0F));
         this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
@@ -45,7 +49,7 @@ public class CustomDarkWolf extends Wolf {
     }
 
     @Override
-    public boolean doHurtTarget(ServerLevel worldserver, Entity entity) {
+    public boolean doHurtTarget(@NotNull ServerLevel worldserver, @NotNull Entity entity) {
         if (entity instanceof Player player) {
             RPGPerson person = getRPGPerson(player.getUUID());
             if (random.nextBoolean()) {
@@ -58,5 +62,13 @@ public class CustomDarkWolf extends Wolf {
             }
         }
         return super.doHurtTarget(worldserver, entity);
+    }
+
+    @Override
+    public boolean setTarget(@Nullable LivingEntity target, @Nullable EntityTargetEvent.TargetReason reason) {
+        if (reason == EntityTargetEvent.TargetReason.CLOSEST_PLAYER && target instanceof Player) {
+            if (getRPGPerson(target.getUUID()).getStatusManager().hasStatus(StatusType.PACK_LEADER_BUFF)) return false;
+        }
+        return super.setTarget(target, reason);
     }
 }

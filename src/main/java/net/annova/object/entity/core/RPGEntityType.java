@@ -54,7 +54,7 @@ public enum RPGEntityType {
 
     // 'EVERYWHERE' category doesn't have a boss.
     BOAR(EVERYWHERE, Boar.class, 0.05), // unique legendary mob
-    FROG(EVERYWHERE, Frog.class, 0.01666), // 5/3
+    FROG(EVERYWHERE, Frog.class, 0.0088),
     SNAKE(EVERYWHERE, Snake.class, 0.05),
 
     // nether mobs

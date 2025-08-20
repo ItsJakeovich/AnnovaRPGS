@@ -105,9 +105,8 @@ public class RecipeInterface extends PagedMenu {
                         }
                         case ShapelessRecipe recipe -> {
                             for (Ingredient ing : recipe.placementInfo().ingredients()) {
-                                for (ItemStack stack : ing.itemStacks()) {
+                                for (ItemStack stack : ing.itemStacks()) { slot++;
                                     container.setItem(WORKBENCH_SLOTS[slot], stack);
-                                    slot++;
                                 }
                             }
                             icon = createItem(Items.CRAFTING_TABLE,
@@ -129,7 +128,7 @@ public class RecipeInterface extends PagedMenu {
                             sendInfo("{y}" + holder.getClass().getName() + " unknown recipe");
                         }
                     }
-                    container.setItem(36, icon);
+                    container.setItem(40, icon);
                     toReturn = ChestMenu.fiveRows(i, inventory, container);
                 }
                 return toReturn;

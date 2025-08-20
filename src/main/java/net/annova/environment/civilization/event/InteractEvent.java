@@ -22,11 +22,11 @@ public class InteractEvent implements Listener {
 
         Person person = event.getPerson();
         if (getRPGPerson(person).getTown() != null) {
-            person.send("camp-set-cancel-has");
+            person.send(getInstance(), "camp-set-cancel-has");
             return;
         }
         if (!getWorldSectors().containsKey(person.getServerPlayer().serverLevel())) {
-            person.send("camp-set-cancel-world");
+            person.send(getInstance(), "camp-set-cancel-world");
             return;
         }
         person.send(getInstance(), "camp-set-action");

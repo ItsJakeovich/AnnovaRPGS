@@ -5,6 +5,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.annova.thread.event.SecondTickEvent;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,8 +23,9 @@ public class PersonStatusTimer implements Listener {
             RPGPerson person = getRPGPerson(player);
             Set<StatusType> toRemove = new HashSet<>();
             StatusManager manager = person.getStatusManager();
+            ServerPlayer serverPlayer = person.getServerPlayer();
             for (Status status : manager.getStatuses()) {
-                if (status.toRemove(player)) {
+                if (status.toRemove(serverPlayer)) {
                     toRemove.add(status.getType());
                 }
             }

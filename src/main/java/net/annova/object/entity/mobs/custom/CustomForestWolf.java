@@ -5,10 +5,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.chance;
@@ -28,5 +31,13 @@ public class CustomForestWolf extends Wolf {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean setTarget(@Nullable LivingEntity target, @Nullable EntityTargetEvent.TargetReason reason) {
+        if (reason == EntityTargetEvent.TargetReason.CLOSEST_PLAYER && target instanceof Player) {
+            if (getRPGPerson(target.getUUID()).getStatusManager().hasStatus(StatusType.PACK_LEADER_BUFF)) return false;
+        }
+        return super.setTarget(target, reason);
     }
 }

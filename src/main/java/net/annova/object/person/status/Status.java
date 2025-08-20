@@ -1,13 +1,11 @@
 package net.annova.object.person.status;
 
 import net.annova.object.item.base.ItemType;
-import org.bukkit.entity.Player;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.EnumMap;
 import java.util.Map;
-
-import static net.annova.config.AnnovaConfig.sendInfo;
 
 public class Status {
     private final StatusType type;
@@ -45,12 +43,14 @@ public class Status {
         this.runnable = runnable;
     }
 
-    public boolean toRemove(Player player) {
+    public boolean toRemove(ServerPlayer player) {
         boolean byTime = this.expires != 0 && System.currentTimeMillis() >= expires;
 
         ItemType itemType = this.type.getActivationItem();
-        boolean byItem = itemType != null && !itemType.has(player);
+        boolean byHasItem = itemType != null && !itemType.has(player);
+        ItemType handItem  = this.type.getActivationInHandItem();
+        boolean byHandItem = handItem != null && !handItem.equals(player.getMainHandItem());
 
-        return byTime || byItem;
+        return byTime || byHasItem || byHandItem;
     }
 }
