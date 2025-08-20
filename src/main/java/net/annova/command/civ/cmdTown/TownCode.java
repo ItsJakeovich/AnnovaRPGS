@@ -3,13 +3,18 @@ package net.annova.command.civ.cmdTown;
 import net.annova.command.register.CommandArg;
 import net.annova.environment.civilization.StatType;
 import net.annova.environment.civilization.Town;
+import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.lang.AISString;
+import net.annova.object.person.Confirm;
 import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.StringJoiner;
 
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -84,7 +89,78 @@ public class TownCode {
         );
     }
 
-    @CommandArg(name = "claim")
+    @CommandArg(name = "invite", aliases = {"пригласить", "ghbukfcbnm", "штмшеу"})
+    public void invite(Person person, Player player, String[] args) {
+        if (args.length < 2) {
+            person.send(getInstance(), "town-invitekick-cancel-args");
+            return;
+        }
+        RPGPerson invited = getRPGPerson(args[1]);
+        if (invited == null) {
+            person.send(getInstance(), "player-not-found", "{name}", args[1]);
+            return;
+        }
+        if (invited.getTown() != null) {
+            person.send(getInstance(), "town-invite-cancel-busy");
+            return;
+        }
+        RPGPerson rpg = getRPGPerson(player);
+        Town town = rpg.getSelectedTown();
+        if (town == null) {
+            person.send(getInstance(), "civ-info-cancel-town");
+            return;
+        }
+        if (!town.getLeaders().contains(rpg)) {
+            person.send(getInstance(), "town-info-cancel-leader");
+            return;
+        }
+        // Отсылаем приглашение
+        Confirm confirm = invited.getPerson().getConfirm();
+        confirm.setConfirmType("invite-town");
+        confirm.getData().put("town", town);
+        Person invite = invited.getPerson();
+        AISString mail = invite.getAISString(getInstance(), "town-invite-mail");
+        mail.replaceTag("{inviter}", person.getName());
+        mail.replaceTag("{town}", town.getName());
+        invite.send(mail);
+
+        person.send(getInstance(), "town-invite-sended", "{invited}", invited.getPerson().getName());
+    }
+    @CommandArg(name = "kick" , aliases = {"исключить", "bcrk.xbnm", "лшсл"})
+    public void kick(Person person, Player player, String[] args) {
+        if (args.length < 2) {
+            person.send(getInstance(), "town-invitekick-cancel-args");
+            return;
+        }
+        RPGPerson rpg = getRPGPerson(player);
+        Town town = rpg.getSelectedTown();
+        if (town == null) {
+            person.send(getInstance(), "civ-info-cancel-town");
+            return;
+        }
+        if (!town.getLeaders().contains(rpg)) {
+            person.send(getInstance(), "town-info-cancel-leader");
+            return;
+        }
+        RPGPerson kicked = getRPGPerson(args[1]);
+        if (kicked == null) {
+            person.send(getInstance(), "player-not-found", "{name}", args[1]);
+            return;
+        }
+        if (kicked.getTown() != town) {
+            person.send(getInstance(), "town-kick-cancel-none");
+            return;
+        }
+
+        Confirm confirm = rpg.getPerson().getConfirm();
+        confirm.setConfirmType("kick-town");
+        Map<String, Object> data = confirm.getData();
+        data.put("person", kicked);
+        data.put("town", town);
+        person.send("town-kick-confirm", "{nick}", kicked.getPerson().getName());
+    }
+
+    @CommandArg(name = "claim", aliases = {"приват", "ghbdfn", "сдфшь"})
     public void claim(Person person, Player player, String args) {
         RPGPerson rpg = getRPGPerson(player);
         Town town = rpg.getTown();
@@ -92,11 +168,46 @@ public class TownCode {
             person.send(getInstance(), "civ-info-cancel-town");
             return;
         }
-        ChunkPos pos = person.getServerPlayer().chunkPosition();
-        if (getAreaChunk(pos) != null) {
-            person.send("town-claim-busy");
+        ServerLevel level = town.getLevel();
+        ServerPlayer server = person.getServerPlayer();
+        if (level != server.serverLevel()) {
+            person.send(getInstance(), "town-claim-cancel-world");
+            return;
+        }
+        ChunkPos pos = server.chunkPosition();
+        if (getAreaChunk(level, pos) != null) {
+            person.send(getInstance(), "town-claim-cancel-busy");
+            return;
+        }
+        if (town.getChunks().size() >= 9) {
+            person.send(getInstance(), "town-claim-cancel-limit");
             return;
         }
 
+        boolean isAlone = true;
+        for (int i = 0; i < 4; i++) {
+            ChunkPos toCheck = switch (i) {
+                case 0 -> new ChunkPos(pos.x+1, pos.z);
+                case 1 -> new ChunkPos(pos.x-1, pos.z);
+                case 2 -> new ChunkPos(pos.x, pos.z+1);
+                case 3 -> new ChunkPos(pos.x, pos.z-1);
+                default -> throw new IllegalStateException("Unexpected value: " + i);
+            };
+            AreaChunk chunk = getAreaChunk(level, toCheck);
+            if (chunk == null) continue;
+            if (chunk.getTown() != town) continue;
+            isAlone = false; break;
+        }
+        if (isAlone) {
+            person.send(getInstance(), "town-claim-cancel-alone");
+            return;
+        }
+        if (town.isTodayClaim()) {
+            person.send(getInstance(), "town-claim-cancel-today");
+            return;
+        }
+        person.send(getInstance(), "town-claim-success", "{coord}", "{mc}"+pos.x+"{sc},{mc}"+pos.z);
+        town.addChunk(new AreaChunk(level, pos));
+        town.setTodayClaim(true);
     }
 }

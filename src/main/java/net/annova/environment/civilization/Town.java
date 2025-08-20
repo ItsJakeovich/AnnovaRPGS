@@ -14,12 +14,17 @@ import net.annova.object.SimpleConstruction;
 import net.annova.object.SimpleStructure;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
+import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
 import static net.annova.util.AISUtil.joinList;
@@ -30,10 +35,13 @@ public class Town {
     private Civilization civilization = null;
     private final List<TownBuild> constructions = new ArrayList<>();
     private final List<TownBuild> builds = new ArrayList<>();
+    private final ServerLevel level;
     private final AreaChunk centerChunk;
     private final Set<AreaChunk> chunks = new HashSet<>();
     private final Set<RPGPerson> leaders = new HashSet<>();
     private final Set<RPGPerson> members = new HashSet<>();
+
+    private boolean todayClaim = false;
 
     public static final float BASE_GROWTH = 5;
     public static final float BASE_HAMMERS = 5;
@@ -50,6 +58,7 @@ public class Town {
                 "NAME VARCHAR(20)",
                 "CONSTRUCTIONS MEDIUMTEXT",
                 "BUILDS MEDIUMTEXT",
+                "LEVEL VARCHAR(30)",
                 "CENTER_CHUNK VARCHAR(60)",
                 "CHUNKS TEXT",
                 "LEADERS TEXT",
@@ -64,6 +73,7 @@ public class Town {
         save.put("NAME", this.name);
         save.put("CONSTRUCTIONS", joinList(this.constructions, TownBuild::serialize, ">"));
         save.put("BUILDS", joinList(this.builds, TownBuild::serialize, ">"));
+        save.put("LEVEL", this.level.serverLevelData.getLevelName());
         save.put("CENTER_CHUNK", this.centerChunk.serialize());
         Set<AreaChunk> chunksForDB = new HashSet<>(this.chunks);
         chunksForDB.remove(centerChunk);
@@ -79,6 +89,8 @@ public class Town {
         // Цивилизация выставляется в цивилизации.
         loadList(this.constructions, rs.getString("CONSTRUCTIONS"), c -> new TownBuild(this, c), ">");
         loadList(this.builds, rs.getString("BUILDS"), b -> new TownBuild(this, b), ">");
+
+        this.level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(rs.getString("LEVEL"))));
 
         this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.addChunk(centerChunk);
         String chunks = rs.getString("CHUNKS");
@@ -101,6 +113,7 @@ public class Town {
         this.name = name;
         this.leaders.add(leader);
         this.members.add(leader);
+        this.level = leader.getServerPlayer().serverLevel();
         this.centerChunk = center; this.addChunk(center);
 
         if (civilization == null) {
@@ -217,6 +230,10 @@ public class Town {
         return false;
     }
 
+    public ServerLevel getLevel() {
+        return level;
+    }
+
     public AreaChunk getCenterChunk() {
         return centerChunk;
     }
@@ -241,6 +258,19 @@ public class Town {
     }
     public void addMember(RPGPerson person) {
         this.members.add(person);
+        this.send("town-invite-success", new AISReplacement("{nick}", person.getPerson().getName()));
+    }
+    public void kickMember(RPGPerson person) {
+        this.members.remove(person);
+        this.civilization.send("town-kick-success", new AISReplacement("{nick}", person.getPerson().getName()));
+    }
+
+    public boolean isTodayClaim() {
+        return todayClaim;
+    }
+
+    public void setTodayClaim(boolean todayClaim) {
+        this.todayClaim = todayClaim;
     }
 
     public void send(String message, Replacement... replacements) {

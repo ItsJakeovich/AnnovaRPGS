@@ -12,11 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.main.GlobalRPG.addChunkCollection;
 
 public class GlobalWorld {
     public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     static {
         worldSectors.put(world0, new SuruWahare());
+
+        for (ServerLevel level : worldSectors.keySet()) {
+            addChunkCollection(level);
+        }
     }
 
     public static Map<ServerLevel, WorldSector> getWorldSectors() {

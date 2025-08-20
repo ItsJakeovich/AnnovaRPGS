@@ -5,6 +5,7 @@ import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.world.SectorLocation;
 import net.annova.event.custom.ConfirmChatActionCE;
 import net.annova.event.custom.PersonConfirmCE;
+import net.annova.lang.AISReplacement;
 import net.annova.object.*;
 import net.annova.object.person.*;
 import net.annova.util.AISUtil;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.ChunkPos;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Map;
 import java.util.Set;
 
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
@@ -48,6 +50,20 @@ public class ConfirmEvent implements Listener {
         Confirm confirm = person.getConfirm();
         System.out.println(confirm.getConfirmType());
         switch (confirm.getConfirmType()) {
+            case "invite-town" -> {
+                RPGPerson rpg = getRPGPerson(person);
+                Town town = (Town) confirm.getData().get("town");
+                rpg.setTown(town);
+                town.addMember(rpg);
+            }
+            case "kick-town" -> {
+                RPGPerson rpg = getRPGPerson(person);
+                Map<String, Object> data = confirm.getData();
+                Town town = (Town) data.get("town");
+                RPGPerson kicked = (RPGPerson) data.get("person");
+                kicked.setTown(null);
+                town.kickMember(kicked);
+            }
             case "build" -> {
                 RPGPerson rpg = getRPGPerson(person);
                 ServerPlayer serverPlayer = person.getServerPlayer();
@@ -64,7 +80,7 @@ public class ConfirmEvent implements Listener {
                 int chunksX = (structure.getMaxX()+15) >> 4, chunksZ = (structure.getMaxZ()+15) >> 4;
                 for (int x = 0; x < chunksX; x++) {
                     for (int z = 0; z < chunksZ; z++) {
-                        AreaChunk area = getAreaChunk(new ChunkPos(chunkX + x, chunkZ + z));
+                        AreaChunk area = getAreaChunk(level, new ChunkPos(chunkX + x, chunkZ + z));
                         if (!areas.contains(area)) {
                             person.send(getInstance(), "build-cancel-culture");
                             cancelPreviewBuild(person);
@@ -144,7 +160,7 @@ public class ConfirmEvent implements Listener {
                 ServerLevel level = player.serverLevel();
                 AreaChunk chunk = new AreaChunk(level, player.chunkPosition());
                 ChunkPos chunkPos = chunk.getPosition();
-                if (getAreaChunk(chunkPos) != null) {
+                if (getAreaChunk(level, chunkPos) != null) {
                     person.send(getInstance(), "camp-set-cancel-busy");
                     return;
                 }

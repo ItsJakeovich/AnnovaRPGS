@@ -3,7 +3,6 @@ package net.annova.main;
 import net.annova.environment.civilization.Civilization;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.civilization.territory.AreaChunk;
-import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.person.Person;
@@ -24,8 +23,6 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
-
 public class GlobalRPG {
     private static final Map<String, RPGPerson> persons = new HashMap<>();
     private static final Map<UUID, RPGPerson> personsUid = new HashMap<>();
@@ -40,7 +37,7 @@ public class GlobalRPG {
 
     private static final Map<String, Civilization> civilizations = new HashMap<>();
     private static final Map<String, Town> towns = new HashMap<>();
-    private static final Map<ChunkPos, AreaChunk> areaChunks = new HashMap<>();
+    private static final Map<ServerLevel, Map<ChunkPos, AreaChunk>> areaChunks = new HashMap<>();
 
     @Nullable
     public static RPGPerson getRPGPerson(Entity entity) {
@@ -196,29 +193,34 @@ public class GlobalRPG {
     }
     public static void removeTown(Town town) {
         towns.remove(town.getName().toLowerCase());
+        Map<ChunkPos, AreaChunk> chunks = areaChunks.get(town.getLevel());
         for (AreaChunk chunk : town.getChunks()) {
-            areaChunks.remove(chunk.getPosition());
+            chunks.remove(chunk.getPosition());
         }
     }
     public static void addTown(Town town) {
         towns.put(town.getName().toLowerCase(), town);
     }
 
-    public static Map<ChunkPos, AreaChunk> getAreaChunks() {
-        return areaChunks;
+
+    public static void addChunkCollection(ServerLevel level) {
+        areaChunks.put(level, new HashMap<>());
+    }
+    public static Map<ChunkPos, AreaChunk> getAreaChunks(ServerLevel level) {
+        return areaChunks.get(level);
     }
     public static AreaChunk getAreaChunk(RPGPerson person) {
-        return getAreaChunk(person.getServerPlayer().chunkPosition());
+        return getAreaChunk(person.getServerPlayer());
     }
     public static AreaChunk getAreaChunk(ServerPlayer player) {
-        return getAreaChunk(player.chunkPosition());
+        return getAreaChunk(player.serverLevel(), player.chunkPosition());
     }
-    public static AreaChunk getAreaChunk(ChunkPos pos) {
-        return areaChunks.get(pos);
+    public static AreaChunk getAreaChunk(ServerLevel level, ChunkPos pos) {
+        return areaChunks.get(level).get(pos);
     }
     public static void addAreaChunk(Town town, AreaChunk areaChunk) {
         areaChunk.setTown(town);
-        areaChunks.put(areaChunk.getPosition(), areaChunk);
+        areaChunks.get(town.getLevel()).put(areaChunk.getPosition(), areaChunk);
     }
 
     public static SoundEvent getSoundFromString(String string) {

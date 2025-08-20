@@ -31,7 +31,7 @@ public class UpdateSpawnTimer implements Listener {
                     if (entity.isBoss() && location.getBoss() != null) continue;
                     RPGEntity living = entity.tryNaturalSpawn(borders[random.nextInt(borders.length)].getRandomPoint(), level, 10, entity.isWaterSpawn());
 
-                    if (living != null && entity.isBoss()) location.setBoss(living);
+                    if (entity.isBoss() && living != null) location.setBoss(living);
                 }
             }
         }

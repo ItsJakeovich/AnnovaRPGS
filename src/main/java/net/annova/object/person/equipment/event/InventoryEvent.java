@@ -26,18 +26,13 @@ public class InventoryEvent implements Listener {
     }
     @EventHandler
     public void equipmentMenu(MenuClickItemCE event) {
-        System.out.println(0);
         if (event.getPerson().getMenu() instanceof EquipmentMenu) {
             ItemStack item = event.getItem();
-            System.out.println(1);
             if (item.get(CUSTOM_NAME).equals(Component.empty())) return;
-            System.out.println(2);
             RPGPerson person = getRPGPerson(event.getPerson());
             if (event.getContainer() instanceof InventoryMenu) {
-                System.out.println(3.1);
                 person.getEquipment().addEquipment(item, event.getSlot());
             } else {
-                System.out.println(3.2);
                 person.getEquipment().removeEquipment(item, event.getSlot());
             }
         }

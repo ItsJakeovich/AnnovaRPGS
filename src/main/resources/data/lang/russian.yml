@@ -26,6 +26,7 @@ stage-PROVINCE: "провинция"
 stage-CIVILIZATION: "цивилизация"
 ## Camp
 camp-set-cancel-has: "{ac}❖ {mc}У вас уже имеется город{sc}!"
+camp-set-cancel-world: "{ac}❖ {mc}В этом мире нельзя установить город{sc}!"
 camp-set-action: "{pc}❖ {mc}Введите название для своего лагеря в чат{sc}.
 {}{sc} | от 4 до 20 символов, латиница и/или кириллица."
 camp-set-not-item: "{ac}❖ {mc}Возьмите в инвентарь лагерь{sc}!"
@@ -69,7 +70,7 @@ TRAPS: "Ловушки"
 civilization-menu:  "{pc}≡ {mc}Управление цивилизацией{sc}:"
 civilization-info:  "{pc} ● {mc}/civ info {sc}{название} - {mc}информация о цивилизации"
 civilization-stats: "{pc} ● {mc}/civ stats {sc}- {mc}статистика цивилизации"
-civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в цивилизации{sc}!"
+civ-info-cancel-town: "{ac}❖ {mc}Вы не состоите в городе{sc}!"
 civ-info-not-found: "{ac}❖ {mc}Цивилизация {sc}⌈{mc}{name}{sc}⌋ {mc}не найдена{sc}!"
 civ-info: "{pc}≡ {mc}Информация о цивилизации{pc}: 
 {}{pc} ● {sc}Название: {mc}{name}
@@ -87,11 +88,16 @@ civ-stats: "{pc}≡ {mc}Статистика {civ}{pc}:
 {}{pc}  ◆ {sc}Города: {mc}{sciencetowns}{b}📖
 "
 ## commands town
-town-menu:  "{pc}≡ {mc}Управление городом{sc}:"
-town-info:  "{pc} ● {mc}/town info {sc}{название} - {mc}информация о городе"
-town-stats: "{pc} ● {mc}/town stats {sc}- {mc}статистика города"
-town-claim: "{pc} ● {mc}/town claim {sc}- {mc}приватит чанк"
+town-menu:   "{pc}≡ {mc}Управление городом{sc}:"
+town-info:   "{pc} ● {mc}/town info {sc}{название} - {mc}информация о городе"
+town-stats:  "{pc} ● {mc}/town stats {sc}- {mc}статистика города"
+town-claim:  "{pc} ● {mc}/town claim {sc}- {mc}приватит чанк"
+town-invite: "{pc} ● {mc}/town invite {sc}{имя} - {mc}пригласить игрока в город"
+town-kick:   "{pc} ● {mc}/town kick {sc}{имя} - {mc}исключить игрока из города"
+
+town-info-cancel-leader: "{ac}❖ {mc}Нужно быть лидером города{sc}!"
 twn-info-not-found: "{ac}❖ {mc}Город {sc}⌈{mc}{name}{sc}⌋ {mc}не найден{sc}!"
+
 twn-info: "{pc}≡ {mc}Информация о городе{pc}:
 {}{pc} ● {sc}Название: {mc}{name}
 {}{pc} ● {sc}Цивилизация: {mc}{civ}
@@ -112,6 +118,21 @@ twn-stats: "{pc}≡ {mc}Статистика {town}{pc}:
 {}{pc}  ◆ {sc}Базовое: {mc}{hammerbase}{o}🛠
 {}{pc}  ◆ {sc}Чанки: {mc}{hammerchunk}{o}🛠
 "
+town-invitekick-cancel-args: "{ac}❖ {mc}Нужно ввести так же и ник игрока{sc}"
+town-invite-cancel-busy: "{ac}❖ {mc}Игрок уже состоит в городе"
+town-invite-mail: "{pc}❖ {mc}Игрок {sc}{inviter} {mc}приглашает вас в город {ac}{town}{sc}!"
+town-invite-sended: "{pc}❖ {mc}Игроку {sc}{nick} {mc}было выслано приглашение{sc}!"
+town-invite-success: "{pc}❖ {mc}Игрок {sc}{nick} {mc}вступил в наш город{sc}!"
+
+town-kick-cancel-none: "{ac}❖ {mc}Данных игрок не состоит в вашем городе{sc}!"
+town-kick-confirm: "{pc}❖ {mc}Подтвердите ислючение {ac}{nick} командой {sc}/confirm"
+town-kick-success: "{pc}❖ {mc}Игрок {ac}{nick} исключен из города{sc}!"
+
+town-claim-cancel-world: "{ac}❖ {mc}Нельзя заприватить чанк городу в другом секторе{sc}!"
+town-claim-cancel-busy: "{ac}❖ {mc}Этот чанк уже занят{sc}!"
+town-claim-cancel-limit: "{ac}❖ {mc}Сегодняшний лимит{sc}: {ac}9 {mc}чанков/город"
+town-claim-cancel-alone: "{ac}❖ {mc}Чтобы занять чанк{sc}, {mc}нужно иметь рядом другой{sc}!"
+town-claim-success: "{pc}❖ {mc}Чанк {coord} успешно запривачен{sc}!"
 # build command
 build-cancel-culture: "{ac}❖ {mc}Нельзя построить здание вне территории города{sc}!"
 build-cancel-water: "{ac}❖ {mc}Это здание нельзя построить в чанках реки или океана{sc}."

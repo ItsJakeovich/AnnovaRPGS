@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import static net.annova.main.GlobalRPG.getSoundFromString;
 
@@ -21,22 +22,22 @@ public class CustomMelanox extends CustomSwampSpider {
     private final SoundEvent death = getSoundFromString("custom.melanox.death");
     private final SoundEvent attack = getSoundFromString("custom.melanox.attack");
     @Override
-    public SoundEvent getAmbientSound() {
+    public @NotNull SoundEvent getAmbientSound() {
         return ambient;
     }
 
     @Override
-    protected void playStepSound(BlockPos blockposition, BlockState iblockdata) {
+    protected void playStepSound(@NotNull BlockPos blockposition, @NotNull BlockState iblockdata) {
         this.playSound(step, 0.15F, 1.0F);
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource var0) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource var0) {
         return hurt;
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return death;
     }
 

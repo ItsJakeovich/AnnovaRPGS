@@ -8,6 +8,7 @@ import net.minecraft.core.Vec3i;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import static net.annova.environment.world.GlobalWorld.getWorldSectors;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.CAMP;
@@ -22,6 +23,10 @@ public class InteractEvent implements Listener {
         Person person = event.getPerson();
         if (getRPGPerson(person).getTown() != null) {
             person.send("camp-set-cancel-has");
+            return;
+        }
+        if (!getWorldSectors().containsKey(person.getServerPlayer().serverLevel())) {
+            person.send("camp-set-cancel-world");
             return;
         }
         person.send(getInstance(), "camp-set-action");
