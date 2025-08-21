@@ -3,6 +3,8 @@ package net.annova.environment.world;
 import net.annova.environment.world.sector0.SuruWahare;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.World;
 
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import static net.annova.util.BukkitObjects.getWorld;
 
 public class GlobalWorld {
     public static ServerLevel LOBBY = getWorld("lobby");
+    public static TeleportTransition LOBBY_TELEPORT = new TeleportTransition(LOBBY, new Vec3(0.5, 100, 0.5), Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND);
 
     public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     public static void initSectors() {

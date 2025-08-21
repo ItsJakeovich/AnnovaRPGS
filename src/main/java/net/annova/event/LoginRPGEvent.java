@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+import static net.annova.environment.world.GlobalWorld.LOBBY_TELEPORT;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.util.BukkitObjects.addItems;
 
@@ -22,5 +23,6 @@ public class LoginRPGEvent implements Listener {
             addItems(pers.getPlayer(), pending.toArray(new ItemStack[0]));
             person.clearPending();
         }
+        person.getServerPlayer().teleport(LOBBY_TELEPORT);
     }
 }
