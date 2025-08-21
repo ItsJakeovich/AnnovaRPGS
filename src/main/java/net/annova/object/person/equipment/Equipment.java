@@ -58,7 +58,6 @@ public class Equipment {
         this.addEquipment(asNMSCopy(item), slot);
     }
     public void addEquipment(ItemStack item, int slot) {
-        if (item == null) return;
         ItemType itemType = getItemType(item);
         if (itemType != null && itemType.getItem() instanceof ItemEquipment equip) {
             int availableIndex = this.getAvailableIndex(equip.getEquipmentType().getIndices());

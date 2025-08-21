@@ -1,4 +1,4 @@
-package net.annova.object.item;
+package net.annova.object.item.unique;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.RPGRarity;

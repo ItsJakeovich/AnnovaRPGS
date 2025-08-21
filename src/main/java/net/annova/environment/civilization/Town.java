@@ -91,6 +91,7 @@ public class Town {
         loadList(this.builds, rs.getString("BUILDS"), b -> new TownBuild(this, b), ">");
 
         this.level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(rs.getString("LEVEL"))));
+        System.out.println(level != null ? level.serverLevelData.getLevelName() : "Сервер null");
 
         this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.addChunk(centerChunk);
         String chunks = rs.getString("CHUNKS");
@@ -243,6 +244,7 @@ public class Town {
     }
     public void addChunk(AreaChunk chunk) {
         this.chunks.add(chunk);
+        chunk.setTown(this);
         addAreaChunk(this, chunk);
     }
 

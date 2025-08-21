@@ -219,7 +219,9 @@ public class GlobalRPG {
         return areaChunks.get(level).get(pos);
     }
     public static void addAreaChunk(Town town, AreaChunk areaChunk) {
-        areaChunk.setTown(town);
+        for (ServerLevel level : areaChunks.keySet()) {
+            System.out.println("есть мир: " + level.serverLevelData.getLevelName());
+        }
         areaChunks.get(town.getLevel()).put(areaChunk.getPosition(), areaChunk);
     }
 

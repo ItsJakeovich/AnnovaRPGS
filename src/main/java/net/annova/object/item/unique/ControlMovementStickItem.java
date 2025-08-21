@@ -1,4 +1,4 @@
-package net.annova.object.item;
+package net.annova.object.item.unique;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
@@ -14,11 +14,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static net.annova.object.item.base.ItemType.CONTROL_STOP_STICK;
 import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.object.person.status.StatusType.STOPPED;
+import static net.annova.object.item.base.ItemType.CONTROL_MOVEMENT_STICK;
+import static net.annova.object.person.status.StatusType.FROZEN;
 
-public class ControlStopStickItem extends RPGItem implements Listener {
+public class ControlMovementStickItem extends RPGItem implements Listener {
     @Override
     public Item type() {
         return Items.STICK;
@@ -26,7 +26,7 @@ public class ControlStopStickItem extends RPGItem implements Listener {
 
     @Override
     public List<Float> modelData() {
-        return List.of(4f);
+        return List.of(3F);
     }
 
     @Override
@@ -50,22 +50,12 @@ public class ControlStopStickItem extends RPGItem implements Listener {
         if (!(conEvent.getEntity() instanceof Player entity)) return;
 
         ItemStack item = damager.getInventory().getItemInMainHand();
-        if (!CONTROL_STOP_STICK.equals(item)) return;
+        if (!CONTROL_MOVEMENT_STICK.equals(item)) return;
 
         RPGPerson person = getRPGPerson(entity);
         StatusManager manager = person.getStatusManager();
-        if (manager.getStatus(STOPPED) == null) this.stop(person, manager);
-        else                                    this.unStop(person, manager);
-    }
-
-    private void stop(RPGPerson person, StatusManager manager) {
-        manager.addStatus(STOPPED);
-        person.updateSpeed(0);
-        person.getPerson().getPlayer().setFlySpeed(0);
-    }
-    private void unStop(RPGPerson person, StatusManager manager) {
-        manager.removeStatus(STOPPED);
-        person.updateSpeed(130);
-        person.getPerson().getPlayer().setFlySpeed(0.1f);
+        if (manager.getStatus(FROZEN) == null) {
+            manager.addStatus(FROZEN, damager);
+        } else manager.removeStatus(FROZEN);
     }
 }

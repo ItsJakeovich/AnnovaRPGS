@@ -2,6 +2,7 @@ package net.annova.object.person.status;
 
 import net.annova.object.item.base.ItemType;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.EnumMap;
@@ -43,14 +44,11 @@ public class Status {
         this.runnable = runnable;
     }
 
-    public boolean toRemove(ServerPlayer player) {
-        boolean byTime = this.expires != 0 && System.currentTimeMillis() >= expires;
-
+    public boolean toRemove(ServerPlayer player, long time, ItemStack inHand) {
         ItemType itemType = this.type.getActivationItem();
-        boolean byHasItem = itemType != null && !itemType.has(player);
         ItemType handItem  = this.type.getActivationInHandItem();
-        boolean byHandItem = handItem != null && !handItem.equals(player.getMainHandItem());
-
-        return byTime || byHasItem || byHandItem;
+        return this.expires != 0 && time >= expires // by time
+                || itemType != null && !itemType.has(player) // byHasItem
+                || handItem != null && !handItem.equals(inHand); // byHandItem
     }
 }

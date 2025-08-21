@@ -5,10 +5,10 @@ import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.*;
 import net.minecraft.server.level.ServerLevel;
 
-import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
+import static net.annova.util.BukkitObjects.getWorld;
 
 public class SuruWahare extends WorldSector {
-    public static final ServerLevel world0 = loadWorldAndGet("world"); // позже надо sector 0, или не надо?
+    public static final ServerLevel world0 = getWorld("S0"); // позже надо sector 0, или не надо? НАДО.
     /**
      * 0 - Dark Forest
      * 1 - Dryad Pedestal

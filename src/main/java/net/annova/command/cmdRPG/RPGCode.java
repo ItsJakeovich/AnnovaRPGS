@@ -6,9 +6,11 @@ import net.annova.environment.world.sector0.location.Oasis;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.magic.projectile.*;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -33,6 +35,8 @@ import static net.annova.thread.CivilizationTickTimer.civilizationsTick;
 import static net.annova.util.BukkitObjects.addItems;
 
 public class RPGCode {
+    public static boolean ALLOW_TO_JOIN = true;
+
     @CommandArg(name = "ball")
     public void ball(Player player, String[] args) {
         Location spawn = player.getEyeLocation().add(0, -0.5, 0);
@@ -52,6 +56,13 @@ public class RPGCode {
             case 4 -> new MeteoriteBall().create(spawn);
             case 5 -> new WebBall().create(spawn);
         }
+    }
+
+    @CommandArg(name = "join-access")
+    public void joinAccess(Player player, String[] args) {
+        if (args.length < 2) ALLOW_TO_JOIN = !ALLOW_TO_JOIN;
+        else ALLOW_TO_JOIN = Boolean.parseBoolean(args[2]);
+        player.sendMessage("Доступ к подключению: " + ALLOW_TO_JOIN);
     }
 
     @CommandArg(name = "heal")

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
@@ -51,7 +52,7 @@ public class MouseClickCE extends Event {
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
     public static HandlerList getHandlerList() {

@@ -56,6 +56,7 @@ import java.util.Set;
 
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
+import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaRPG.getInstance;
@@ -180,6 +181,7 @@ public class RPGPerson {
     public void damage(Entity damager, float damage) {
         ServerPlayer server = this.getPerson().getServerPlayer();
         ServerLevel level = server.serverLevel();
+        if (!worldSectors.containsKey(level)) return;
 
         ClientboundHurtAnimationPacket packet = new ClientboundHurtAnimationPacket(server.getId(), 90.0F);
         level.playSound(null, server.blockPosition(), SoundEvents.PLAYER_HURT, SoundSource.HOSTILE, 1, 1);

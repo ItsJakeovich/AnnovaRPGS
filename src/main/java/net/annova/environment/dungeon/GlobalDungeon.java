@@ -8,10 +8,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.annova.environment.world.GlobalWorld.loadWorldAndGet;
+import static net.annova.util.BukkitObjects.getWorld;
 
 public class GlobalDungeon {
-    private static final ServerLevel dungeonWorld = loadWorldAndGet("dungeon_world");
+    private static final ServerLevel dungeonWorld = getWorld("dungeon_world");
     public static ServerLevel getDungeonWorld() {
         return dungeonWorld;
     }
