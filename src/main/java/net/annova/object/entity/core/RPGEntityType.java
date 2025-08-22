@@ -209,7 +209,6 @@ public enum RPGEntityType {
 
     public RPGEntity tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus, boolean waterSpawn) {
         if (!chance(chance)) return null;
-        sendInfo("Entities - " + this.name() +  " amount: " + getAmountByTypeEntity(this));
 
         if (getAmountByTypeEntity(this) > this.maxAmount) return null;
 

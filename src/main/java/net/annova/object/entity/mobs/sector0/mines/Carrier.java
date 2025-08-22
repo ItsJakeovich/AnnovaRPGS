@@ -85,11 +85,11 @@ public class Carrier extends RPGEntity implements CustomType, Listener {
         ServerPlayer player = event.getPlayer();
         if (player == null) return;
         RPGPerson person = getRPGPerson(player);
-        if (!(person.getSectorLocation() instanceof Mines)) return;
-
-        for (net.minecraft.world.entity.Entity entity : player.serverLevel().getEntities(player, player.getBoundingBox().inflate(16, 6, 16))) {
-            RPGEntity rpg = getRPGEntity(entity);
-            if (rpg != null && rpg.getRPGType() == RPGEntityType.CARRIER) rpg.entity.setTarget(player);
+        if (person.getSectorLocation() instanceof Mines) {
+            for (net.minecraft.world.entity.Entity entity : player.serverLevel().getEntities(player, player.getBoundingBox().inflate(16, 6, 16))) {
+                RPGEntity rpg = getRPGEntity(entity);
+                if (rpg != null && rpg.getRPGType() == RPGEntityType.CARRIER) rpg.entity.setTarget(player);
+            }
         }
     }
 }

@@ -25,8 +25,9 @@ public class BlockEvent implements Listener {
         ServerPlayer player = event.getPlayer();
         if (player == null) return;
         RPGPerson person = getRPGPerson(player);
+        if (person.getPerson().isCanBreakProtectedBlocks()) return;
         ServerLevel level = event.getLevel();
-        if (!worldSectors.containsKey(level) && !person.getPerson().isCanBreakProtectedBlocks()) {
+        if (!worldSectors.containsKey(level)) {
             event.setCancelled(true);
             return;
         }
@@ -56,6 +57,10 @@ public class BlockEvent implements Listener {
         if (event.getType() == NonCommandBlockRestrictionCE.Type.EXPLOSION) {
             Vec3i pos = event.getBlockPos();
             WorldSector sector = getWorldSector(event.getLevel());
+            if (sector == null) {
+                event.setCancelled(true);
+                return;
+            }
             for (SectorLocation location : sector.zones()) {
                 if (location.isInside(pos)) {
                     event.setCancelled(true);

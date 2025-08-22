@@ -16,7 +16,7 @@ import static net.annova.util.BukkitObjects.getWorld;
 
 public class GlobalWorld {
     public static ServerLevel LOBBY = getWorld("lobby");
-    public static TeleportTransition LOBBY_TELEPORT = new TeleportTransition(LOBBY, new Vec3(0.5, 100, 0.5), Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND);
+    public static TeleportTransition LOBBY_TELEPORT = new TeleportTransition(LOBBY, new Vec3(3.5, 110, 2.5), Vec3.ZERO, 0, 2, TeleportTransition.PLAY_PORTAL_SOUND);
 
     public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     public static void initSectors() {

@@ -38,13 +38,14 @@ public class UpdateSpawnTimer implements Listener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
             if (person.getSectorLocation() != null) continue;
+            ServerPlayer serverPlayer = person.getServerPlayer();
+            ServerLevel level = serverPlayer.serverLevel();
+            if (!getWorldSectors().containsKey(level)) return;
 
             RPGEntityType[] entities = getEntitiesByCategory(LocationCategory.EVERYWHERE).toArray(new RPGEntityType[0]);
 
             // Entity spawn
-            ServerPlayer serverPlayer = person.getServerPlayer();
             Vec3 position = serverPlayer.position();
-            ServerLevel level = serverPlayer.serverLevel();
             for (int i = random.nextInt(5)+1; i != 0; i--) { // от 1 до 5
                 RPGEntityType entity = entities[random.nextInt(entities.length)];
                 if (entity.getCondition().canSpawn(position, level)) entity.tryNaturalSpawn(position, level, 16, entity.isWaterSpawn());

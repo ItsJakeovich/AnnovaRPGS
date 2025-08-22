@@ -4,6 +4,7 @@ import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.LivingEntityDamageByEntityCE;
 import net.annova.event.custom.MobDamageCE;
 import net.annova.event.custom.PlayerDamageCE;
+import net.annova.object.person.RPGPerson;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
@@ -22,6 +23,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.person.RPGPerson.teleportHome;
 import static net.annova.util.BukkitObjects.random;
 
 public class EntityEvent implements Listener {
@@ -40,11 +43,10 @@ public class EntityEvent implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
         if (event.getEntity() instanceof org.bukkit.entity.Player player) {
-            PlayerDamageCE ev = new PlayerDamageCE(((CraftPlayer) player).getHandle(), event);
-            this.baseFunction(event, ev);
+            if (event.getCause() == EntityDamageEvent.DamageCause.VOID) teleportHome(player);
+            this.baseFunction(event, new PlayerDamageCE(((CraftPlayer) player).getHandle(), event));
         } else if (event.getEntity() instanceof Mob entity) {
-            MobDamageCE ev = new MobDamageCE(((CraftMob) entity).getHandle(), event);
-            this.baseFunction(event, ev);
+            this.baseFunction(event, new MobDamageCE(((CraftMob) entity).getHandle(), event));
         }
     }
     @EventHandler(priority = EventPriority.LOWEST)
@@ -88,6 +90,7 @@ public class EntityEvent implements Listener {
 
             org.bukkit.entity.Entity bukkit = event.getDamageSource().getCausingEntity();
             Entity nms = bukkit == null ? null : ((CraftEntity) bukkit).getHandle();
+            RPGPerson person = getRPGPerson(player);
             getRPGPerson(player).damageWithCooldown(nms,
                     (float) finalDamage
             );

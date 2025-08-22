@@ -105,7 +105,7 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        if (((Mob) entity).getTarget() == null) return true;
+                        if (entity.getTarget() == null) return true;
 
                         Vec3 position = entity.position();
                         for (int i = 0; i < 6; i++) {

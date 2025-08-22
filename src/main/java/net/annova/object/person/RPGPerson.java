@@ -472,7 +472,9 @@ public class RPGPerson {
         return currentArea;
     }
     public void updateCurrentArea() {
-        AreaChunk newArea = getAreaChunk(this.getServerPlayer().serverLevel(), this.getServerPlayer().chunkPosition());
+        ServerLevel level = this.getServerPlayer().serverLevel();
+        if (!worldSectors.containsKey(level)) return;
+        AreaChunk newArea = getAreaChunk(level, this.getServerPlayer().chunkPosition());
         if (newArea == this.currentArea) return;
         AISString message;
         if (newArea == null) {
@@ -542,6 +544,6 @@ public class RPGPerson {
     public static void teleportHome(Player player) {
         Location loc = player.getRespawnLocation();
         player.playSound(player, Sound.BLOCK_GLASS_BREAK, 3, 1);
-        player.teleport(loc == null ? player.getWorld().getSpawnLocation() : loc);
+        player.teleport(loc == null ? player.getWorld().getSpawnLocation().toCenterLocation() : loc);
     }
 }

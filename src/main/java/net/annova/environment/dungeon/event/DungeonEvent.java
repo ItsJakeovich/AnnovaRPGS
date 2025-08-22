@@ -44,8 +44,8 @@ public class DungeonEvent implements Listener {
 
     @EventHandler
     public void interactGate(PlayerInteractEvent event) {
-        if (!event.getHand().equals(EquipmentSlot.HAND)) return;
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (event.getHand() != EquipmentSlot.HAND) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = event.getPlayer();
         RPGPerson person = getRPGPerson(player);

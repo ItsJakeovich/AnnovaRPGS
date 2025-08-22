@@ -14,7 +14,7 @@ import static net.annova.environment.world.GlobalWorld.LOBBY;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 
 public enum RPGPortal {
-    RPG_ENTER(LOBBY, 50, 110, 50, new TeleportTransition(world0, new Vec3(0.5, 100, 0.5), Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND),
+    RPG_ENTER(LOBBY, 4, 109, 25, new TeleportTransition(world0, new Vec3(8.5, 340, -39), Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND),
             portal -> RPGCode.ALLOW_TO_JOIN)
     ;
     /** Событие перехода в {@link net.annova.thread.PersonStatusTimer}
@@ -40,7 +40,12 @@ public enum RPGPortal {
         this.function = function;
     }
     public static RPGPortal getPortal(ServerLevel level, BlockPos pos) {
-        return PORTALS.get(level).get(pos);
+        Map<BlockPos, RPGPortal> portals = PORTALS.get(level);
+        if (portals == null) return null;
+        for (RPGPortal portal : portals.values()) {
+            if (pos.distToCenterSqr(portal.x, portal.y, portal.z) < 7) return portal;
+        }
+        return null;
     }
 
     public ServerLevel getLevel() {
