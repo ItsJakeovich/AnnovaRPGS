@@ -34,6 +34,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.*;
@@ -62,6 +63,8 @@ import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
 import static net.annova.main.GlobalRPG.getAreaChunk;
+import static net.annova.util.AISUtil.joinList;
+import static net.annova.util.AISUtil.loadList;
 import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
 public class RPGPerson {
@@ -83,6 +86,8 @@ public class RPGPerson {
     private AreaChunk currentArea;
 
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
+    private boolean scene = false;
+    private final EnumSet<RPGScene> scenes = EnumSet.noneOf(RPGScene.class);
 
     private double health = 20;
     private double maxHealth = 20;
@@ -98,6 +103,8 @@ public class RPGPerson {
                 "NAME VARCHAR(24)",
                 "QUEST_MANAGER MEDIUMTEXT",
                 "EQUIPMENT TEXT",
+                "ADVANCEMENTS TEXT",
+                "SCENES TEXT",
 
                 "PRIMARY KEY (NAME)"
         );
@@ -108,6 +115,9 @@ public class RPGPerson {
         save.put("NAME", this.person.getName());
         save.put("QUEST_MANAGER", this.questManager.serializeQuests());
         save.put("EQUIPMENT", this.equipment.serialize());
+        save.put("ADVANCEMENTS", joinList(this.advancements, RPGAdvancement::name, ","));
+        save.put("SCENES", joinList(this.scenes, RPGScene::name, ","));
+
         AnnovaAPI.getSQL().saveObject(TABLE, "NAME", save);
     }
     
@@ -118,6 +128,8 @@ public class RPGPerson {
         this.person = AnnovaGlobal.getPerson(rs.getString("NAME"));
         this.questManager.deserialize(rs.getString("QUEST_MANAGER"));
         this.equipment.deserialize(rs.getString("EQUIPMENT"));
+        loadList(this.advancements, rs.getString("ADVANCEMENTS"), RPGAdvancement::valueOf, ",");
+        loadList(this.scenes, rs.getString("SCENES"), RPGScene::valueOf, ",");
 
         addRPGPerson(this);
     }
@@ -180,6 +192,8 @@ public class RPGPerson {
 
     public void damage(Entity damager, float damage) {
         ServerPlayer server = this.getPerson().getServerPlayer();
+        GameType mode = server.gameMode();
+        if (mode == GameType.CREATIVE || mode == GameType.SPECTATOR) return;
         ServerLevel level = server.serverLevel();
         if (!worldSectors.containsKey(level)) return;
 
@@ -539,6 +553,22 @@ public class RPGPerson {
         }
 
         advancement.getCategory().getActions().onAdvancement(this);
+    }
+
+    public boolean isScene() {
+        return scene;
+    }
+    public void setScene(boolean scene) {
+        this.scene = scene;
+        this.person.setHideMessages(scene);
+    }
+
+    public EnumSet<RPGScene> getScenes() {
+        return scenes;
+    }
+    public void triggerScene(RPGScene scene) {
+        //if (this.scenes.add(scene))
+            scene.start(this);
     }
 
     public static void teleportHome(Player player) {

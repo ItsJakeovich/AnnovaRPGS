@@ -1,6 +1,7 @@
 package net.annova.environment.world;
 
 import net.annova.command.cmdRPG.RPGCode;
+import net.annova.object.person.RPGScene;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.portal.TeleportTransition;
@@ -12,9 +13,11 @@ import java.util.function.Function;
 
 import static net.annova.environment.world.GlobalWorld.LOBBY;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public enum RPGPortal {
-    RPG_ENTER(LOBBY, 4, 109, 25, new TeleportTransition(world0, new Vec3(8.5, 340, -39), Vec3.ZERO, 0, 0, TeleportTransition.PLAY_PORTAL_SOUND),
+    RPG_ENTER(LOBBY, 4, 109, 25, new TeleportTransition(world0, new Vec3(8.5, 340, -39), Vec3.ZERO, 0, 0,
+            entity -> getRPGPerson(entity.getUUID()).triggerScene(RPGScene.S0_FIRST)),
             portal -> RPGCode.ALLOW_TO_JOIN)
     ;
     /** Событие перехода в {@link net.annova.thread.PersonStatusTimer}
@@ -43,7 +46,7 @@ public enum RPGPortal {
         Map<BlockPos, RPGPortal> portals = PORTALS.get(level);
         if (portals == null) return null;
         for (RPGPortal portal : portals.values()) {
-            if (pos.distToCenterSqr(portal.x, portal.y, portal.z) < 7) return portal;
+            if (portal.function.apply(portal) && pos.distToCenterSqr(portal.x, portal.y, portal.z) < 7) return portal;
         }
         return null;
     }
