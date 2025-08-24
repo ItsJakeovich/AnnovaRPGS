@@ -53,7 +53,6 @@ public class ConfirmEvent implements Listener {
             case "invite-town" -> {
                 RPGPerson rpg = getRPGPerson(person);
                 Town town = (Town) confirm.getData().get("town");
-                rpg.setTown(town);
                 town.addMember(rpg);
             }
             case "kick-town" -> {

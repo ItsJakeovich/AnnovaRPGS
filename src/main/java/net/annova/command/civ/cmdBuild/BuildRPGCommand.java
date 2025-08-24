@@ -14,7 +14,7 @@ public class BuildRPGCommand extends CommandBase {
                 "civilization control panel",
                 new BuildCode(),
                 getInstance(),
-                false
+                true
         );
     }
 }

@@ -1,6 +1,7 @@
 package net.annova.environment.world;
 
 import net.annova.command.cmdRPG.RPGCode;
+import net.annova.object.person.RPGPerson;
 import net.annova.object.person.RPGScene;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -11,14 +12,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static net.annova.environment.world.GlobalWorld.LOBBY;
+import static net.annova.environment.world.GlobalWorld.*;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public enum RPGPortal {
-    RPG_ENTER(LOBBY, 4, 109, 25, new TeleportTransition(world0, new Vec3(8.5, 340, -39), Vec3.ZERO, 0, 0,
-            entity -> getRPGPerson(entity.getUUID()).triggerScene(RPGScene.S0_FIRST)),
-            portal -> RPGCode.ALLOW_TO_JOIN)
+    RPG_ENTER(LOBBY, 4, 109, 25, new TeleportTransition(world0, new Vec3(8.5, 340, -38.5), Vec3.ZERO, 0, 0,
+            entity -> {
+        RPGPerson person = getRPGPerson(entity.getUUID());
+        person.tryLastPosition();
+        if (person.getPerson().getName().equals(CHERNU)) {
+            person.triggerScene(RPGScene.S0_FIRST_CHERNU);
+        } else if (F_SEASON_PLAYERS.contains(person.getPerson().getName().toLowerCase())) {
+            person.triggerScene(RPGScene.S0_FIRST);
+        } else {
+            person.triggerScene(RPGScene.S0_FIRST_BASE);
+        }
+    }), portal -> RPGCode.ALLOW_TO_JOIN)
     ;
     /** Событие перехода в {@link net.annova.thread.PersonStatusTimer}
      * Эффект портала в {@link net.annova.thread.FiveSecondsTimer}

@@ -14,6 +14,7 @@ import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.core.status.EntityStatus;
 import net.annova.object.entity.core.status.StatusType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -111,7 +112,7 @@ public abstract class RPGEntity {
             while (rs.next()) {
                 String[] position = rs.getString("POSITION").split(",");
                 Vec3 pos = new Vec3(Double.parseDouble(position[1]), Double.parseDouble(position[2]), Double.parseDouble(position[3]));
-                ServerLevel level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(position[0])));
+                ServerLevel level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(position[0].toLowerCase())));
                 RPGEntity entity = RPGEntityType.valueOf(rs.getString("TYPE")).getEntity();
                 entity.create(pos, level, true);
                 entity.experience = rs.getInt("EXP");
@@ -132,12 +133,12 @@ public abstract class RPGEntity {
         }
     }
     public void save() {
-        Vec3 pos = this.entity.position();
+        BlockPos pos = this.entity.blockPosition();
         Map<String, Object> save = new HashMap<>();
         save.put("UID", this.entity.getUUID().toString());
         save.put("TYPE", this.rpgType.name());
         save.put("POSITION", this.entity.level().dimension().location().getPath() + "," +
-                ((double) (int)(pos.x*100))/100 + "," + ((double) (int)(pos.y*100))/100 + "," + ((double) (int)(pos.z*100))/100);
+                pos.getX() + "," + pos.getY() + "," + pos.getZ());
         save.put("EXP", this.experience);
         save.put("EQUIPMENT", this.serializeEquipment());
         AnnovaAPI.getSQL().saveObject(TABLE, "UID", save);

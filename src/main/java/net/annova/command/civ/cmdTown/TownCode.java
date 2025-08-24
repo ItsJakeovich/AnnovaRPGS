@@ -70,7 +70,7 @@ public class TownCode {
     }
 
     @CommandArg(name = "stats", aliases = {"статы", "ыефеы", "s", "с"})
-    public void stats(Person person, Player player, String args) {
+    public void stats(Person person, Player player, String[] args) {
         RPGPerson rpg = getRPGPerson(player);
         Town town = rpg.getTown();
         if (getRPGPerson(player) == null) {

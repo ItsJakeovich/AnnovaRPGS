@@ -65,7 +65,7 @@ public class ControlStopStickItem extends RPGItem implements Listener {
     }
     private void unStop(RPGPerson person, StatusManager manager) {
         manager.removeStatus(STOPPED);
-        person.updateSpeed(130);
+        person.updateSpeed(150);
         person.getPerson().getPlayer().setFlySpeed(0.1f);
     }
 }

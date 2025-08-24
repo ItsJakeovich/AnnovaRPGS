@@ -2,7 +2,6 @@ package net.annova.event;
 
 import net.annova.environment.civilization.Civilization;
 import net.annova.environment.civilization.Town;
-import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.event.custom.InitScoreboardCE;
 import net.annova.lang.AISString;
 import net.annova.object.person.Person;
@@ -31,10 +30,9 @@ public class ScoreboardRPGEvent implements Listener {
     public static AISString getInfo(RPGPerson person, String key) {
         switch (key) {
             case "culture" -> {
-                AreaChunk area = person.getCurrentArea();
+                Town area = person.getCurrentArea();
                 if (area == null) return person.getPerson().getAISString(getInstance(), "wasteland");
-                Town town = area.getTown();
-                return new AISString((town.getMembers().contains(person) ? "{tc}" : "{fc}") + town.getName());
+                return new AISString((area.getMembers().contains(person) ? "{tc}" : "{fc}") + area.getName());
             }
             case "town" -> {
                 Town town = person.getTown();
@@ -45,7 +43,7 @@ public class ScoreboardRPGEvent implements Listener {
             case "civ" -> {
                 Civilization civilization = person.getTown().getCivilization();
                 String color = "{mc}";
-                if (civilization.getLeaders().contains(person)) color = "{ac}";
+                if (civilization != null && civilization.getLeaders().contains(person)) color = "{ac}";
                 return new AISString(color + civilization);
             }
         }

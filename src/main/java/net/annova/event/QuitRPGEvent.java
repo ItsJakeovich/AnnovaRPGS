@@ -13,6 +13,7 @@ public class QuitRPGEvent implements Listener {
     public void quit(PostPersonQuitEvent event) {
         Player player = event.getPlayer();
         RPGPerson person = getRPGPerson(player);
+        person.setScene(false);
 
         if (event.getPlayer().isOp()) event.getEvent().setQuitMessage("");
     }

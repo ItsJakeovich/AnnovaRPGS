@@ -141,9 +141,8 @@ public class RPGCode {
             player.sendMessage("Usage: /rpg summon {entity-name}");
             return;
         }
-        RPGEntityType type = RPGEntityType.valueOf(args[1]);
         ServerPlayer serverPlayer = ((CraftPlayer) player).getHandle();
-        type.getEntity().create(serverPlayer.position(), serverPlayer.serverLevel());
+        RPGEntityType.valueOf(args[1]).getEntity().create(serverPlayer.position(), serverPlayer.serverLevel());
     }
 
     @CommandArg(name = "item", aliases = {"предмет", "шеуь", "ghtlvtn"})

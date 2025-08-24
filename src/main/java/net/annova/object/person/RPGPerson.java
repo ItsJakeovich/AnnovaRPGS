@@ -23,7 +23,9 @@ import net.annova.object.person.status.StatusType;
 import net.annova.object.person.status.ValueType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -60,6 +62,7 @@ import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
+import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.addRPGPerson;
 import static net.annova.main.GlobalRPG.getAreaChunk;
@@ -83,7 +86,9 @@ public class RPGPerson {
     private Town town;
 
     private SectorLocation sectorLocation;
-    private AreaChunk currentArea;
+    private Town currentArea;
+
+    private TeleportTransition lastPosition;
 
     private final EnumSet<RPGAdvancement> advancements = EnumSet.noneOf(RPGAdvancement.class);
     private boolean scene = false;
@@ -102,6 +107,7 @@ public class RPGPerson {
         sql.initTable(TABLE,
                 "NAME VARCHAR(24)",
                 "QUEST_MANAGER MEDIUMTEXT",
+                "POSITION VARCHAR(64)",
                 "EQUIPMENT TEXT",
                 "ADVANCEMENTS TEXT",
                 "SCENES TEXT",
@@ -114,6 +120,10 @@ public class RPGPerson {
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", this.person.getName());
         save.put("QUEST_MANAGER", this.questManager.serializeQuests());
+        if (lastPosition != null) {
+            Vec3 pos = lastPosition.position();
+            save.put("POSITION", lastPosition.newLevel().dimension().location().getPath() + "," + (int) (pos.x() * 100) / 100 + "," + (int) (pos.z() * 100) / 100 + "," + (int) (pos.y() * 100) / 100);
+        }
         save.put("EQUIPMENT", this.equipment.serialize());
         save.put("ADVANCEMENTS", joinList(this.advancements, RPGAdvancement::name, ","));
         save.put("SCENES", joinList(this.scenes, RPGScene::name, ","));
@@ -127,6 +137,15 @@ public class RPGPerson {
     public RPGPerson(ResultSet rs) throws SQLException {
         this.person = AnnovaGlobal.getPerson(rs.getString("NAME"));
         this.questManager.deserialize(rs.getString("QUEST_MANAGER"));
+        String[] position = rs.getString("POSITION").split(",");
+        if (position.length > 1) {
+            this.lastPosition = new TeleportTransition(getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(position[0].toLowerCase()))),
+                    new Vec3(Integer.parseInt(position[1])+0.5, Integer.parseInt(position[2]), Integer.parseInt(position[3])+0.5),
+                    Vec3.ZERO, 0, 0,
+                    Set.of(), TeleportTransition.DO_NOTHING,
+                    PlayerTeleportEvent.TeleportCause.PLUGIN
+            );
+        }
         this.equipment.deserialize(rs.getString("EQUIPMENT"));
         loadList(this.advancements, rs.getString("ADVANCEMENTS"), RPGAdvancement::valueOf, ",");
         loadList(this.scenes, rs.getString("SCENES"), RPGScene::valueOf, ",");
@@ -191,6 +210,7 @@ public class RPGPerson {
     }
 
     public void damage(Entity damager, float damage) {
+        if (this.scene) return;
         ServerPlayer server = this.getPerson().getServerPlayer();
         GameType mode = server.gameMode();
         if (mode == GameType.CREATIVE || mode == GameType.SPECTATOR) return;
@@ -450,8 +470,10 @@ public class RPGPerson {
     }
     public void setTown(Town town) {
         this.town = town;
-        Scoreboard scoreboard = this.person.getScoreboard();
-        scoreboard.initScoreBoard();
+        if (this.person.isOnline()) {
+            Scoreboard scoreboard = this.person.getScoreboard();
+            scoreboard.initScoreBoard();
+        }
     }
 
     @Nullable
@@ -482,28 +504,41 @@ public class RPGPerson {
         sectorLocation.movement(this, player);
     }
 
-    public AreaChunk getCurrentArea() {
+    public Town getCurrentArea() {
         return currentArea;
     }
     public void updateCurrentArea() {
         ServerLevel level = this.getServerPlayer().serverLevel();
         if (!worldSectors.containsKey(level)) return;
         AreaChunk newArea = getAreaChunk(level, this.getServerPlayer().chunkPosition());
-        if (newArea == this.currentArea) return;
+        Town town = newArea == null ? null : newArea.getTown();
+        if (town == this.currentArea) return;
         AISString message;
         if (newArea == null) {
             message = this.person.getAISString(getInstance(), "enter-wasteland");
         } else { message = this.person.getAISString(getInstance(), "enter-culture");
-            Town town = newArea.getTown();
             Civilization civilization = town.getCivilization();
             message.replaceTag("{color}", civilization.getCitizens().contains(this) ? "{tc}" : "{fc}");
             message.replaceTag("{town}", town.getName());
             message.replaceTag("{civ}", civilization.getName());
         }
         this.person.sendTitle(new AISString(""), message, 10, 20, 5);
-        this.currentArea = newArea;
+        this.currentArea = town;
 
         this.person.getScoreboard().updateScoreboard("culture", getInfo(this, "culture"));
+    }
+
+    public void tryLastPosition() {
+        if (lastPosition != null && !this.scene) this.getServerPlayer().teleport(this.lastPosition);
+        this.updateLastPosition();
+    }
+    public void updateLastPosition() {
+        ServerPlayer player = this.getServerPlayer();
+        this.lastPosition = new TeleportTransition(player.serverLevel(), player.position(),
+                Vec3.ZERO, 0, 0,
+                Set.of(), TeleportTransition.DO_NOTHING,
+                PlayerTeleportEvent.TeleportCause.PLUGIN
+        );
     }
 
     public boolean isTeleportAccess() {
@@ -567,8 +602,10 @@ public class RPGPerson {
         return scenes;
     }
     public void triggerScene(RPGScene scene) {
-        //if (this.scenes.add(scene))
-            scene.start(this);
+        if (this.scenes.add(scene)) scene.start(this);
+    }
+    public void removeScene(RPGScene scene) {
+        this.scenes.remove(scene);
     }
 
     public static void teleportHome(Player player) {

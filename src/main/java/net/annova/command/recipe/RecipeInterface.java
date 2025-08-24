@@ -53,7 +53,9 @@ public class RecipeInterface extends PagedMenu {
 
                 if (current == null) { // открывает меню с выбором предметов
                     container = new SimpleContainer(54);
-                    page = (int) data.get("page");
+
+                    if (data.containsKey("page")) page = (int) data.get("page");
+                    else                             page = 1;
                     ConfigCrafts[] crafts = getAllCrafts().toArray(new ConfigCrafts[0]);
                     int maxPage = (crafts.length+44) / 45;
                     if (page > maxPage) page = maxPage;

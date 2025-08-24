@@ -42,7 +42,7 @@ public class PersonStatusTimer implements Listener {
             person.updateStatusBar();
             if (manager.getStatus(STOPPED) == null) {
                 person.getPerson().increaseStamina(0.05f);
-                person.updateSpeed(130);
+                person.updateSpeed(150);
             }
 
             long time = System.currentTimeMillis();

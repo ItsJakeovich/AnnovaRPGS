@@ -9,6 +9,7 @@ import org.bukkit.World;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.GlobalRPG.addChunkCollection;
@@ -17,6 +18,12 @@ import static net.annova.util.BukkitObjects.getWorld;
 public class GlobalWorld {
     public static ServerLevel LOBBY = getWorld("lobby");
     public static TeleportTransition LOBBY_TELEPORT = new TeleportTransition(LOBBY, new Vec3(3.5, 110, 2.5), Vec3.ZERO, 0, 2, TeleportTransition.PLAY_PORTAL_SOUND);
+
+    public static final Set<String> F_SEASON_PLAYERS = Set.of("ginter", "QwertyLuc", "Tweespoon", "kokoloka123321",
+            "Prad1e", "Haingstrefer", "ItsJakeovich", "LusyGoose", "DreamSMP4142", "Gusper_T", "Nurasama",
+            "Angelok1775", "TDLE03", "Woratu", "rokoler", "Donna", "chernu"
+    );
+    public static final String CHERNU = "chernu";
 
     public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     public static void initSectors() {

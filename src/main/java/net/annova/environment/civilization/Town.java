@@ -90,19 +90,22 @@ public class Town {
         loadList(this.constructions, rs.getString("CONSTRUCTIONS"), c -> new TownBuild(this, c), ">");
         loadList(this.builds, rs.getString("BUILDS"), b -> new TownBuild(this, b), ">");
 
-        this.level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(rs.getString("LEVEL"))));
-        System.out.println(level != null ? level.serverLevelData.getLevelName() : "Сервер null");
+        this.level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(rs.getString("LEVEL").toLowerCase())));
 
         this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.addChunk(centerChunk);
         String chunks = rs.getString("CHUNKS");
         if (!chunks.isBlank()) for (String chunk : chunks.split(">")) {
             this.addChunk(new AreaChunk(this, chunk));
         }
+        // Update Statistics
+        this.initValues();
 
         loadList(this.leaders, rs.getString("LEADERS"), GlobalRPG::getRPGPerson, ">");
-        loadList(this.members, rs.getString("MEMBERS"), GlobalRPG::getRPGPerson, ">");
-
-        this.initValues();
+        for (String member : rs.getString("MEMBERS").split(">")) {
+            RPGPerson person = getRPGPerson(member);
+            this.members.add(person);
+            person.setTown(this);
+        }
 
         addTown(this);
     }
@@ -116,15 +119,14 @@ public class Town {
         this.members.add(leader);
         this.level = leader.getServerPlayer().serverLevel();
         this.centerChunk = center; this.addChunk(center);
+        // Update Statistics
+        this.initValues();
 
         if (civilization == null) {
             this.civilization = addCivilization(name, leader);
             this.civilization.setCapital(this);
         } else this.civilization = civilization;
         this.civilization.addTown(this);
-
-        // Update Statistics
-        this.initValues();
     }
 
     public void initValues() {
@@ -260,6 +262,7 @@ public class Town {
     }
     public void addMember(RPGPerson person) {
         this.members.add(person);
+        person.setTown(this);
         this.send("town-invite-success", new AISReplacement("{nick}", person.getPerson().getName()));
         this.civilization.addCitizen(person);
     }
@@ -288,7 +291,10 @@ public class Town {
     }
 
     public String toString() {
-        String color = this.isCapital() ? "{ac}" : "{mc}";
+        String color;
+        if (this.civilization != null) {
+            color = this.isCapital() ? "{ac}" : "{mc}";
+        } else color = "{mc}";
         return color + this.getName()
                 +"{sc}: {g}\uD83C\uDF3F{mc}"+(int)this.getValue(StatType.GROWTH)
                 + "{sc}, {o}\uD83D\uDEE0{mc}"+(int)this.getValue(StatType.HAMMERS)
