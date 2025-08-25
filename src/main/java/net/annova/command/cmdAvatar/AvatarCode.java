@@ -48,9 +48,4 @@ public class AvatarCode {
             player.sendMessage(status.getType().name());
         }
     }
-
-    @CommandArg(name = "filter")
-    public void filter(Person person, Player player, String[] args) {
-        player.sendMessage("Не реализовано.");
-    }
 }

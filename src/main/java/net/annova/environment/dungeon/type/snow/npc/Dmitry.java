@@ -4,7 +4,7 @@ import net.annova.object.npc.RPGNPC;
 
 public class Dmitry extends RPGNPC {
     public Dmitry() {
-        super("Dmitry", false);
+        super("Dmitry", null, false);
     }
 
     @Override

@@ -145,9 +145,9 @@ public class Loot {
         }
     }
     public static void dropItem(Item material, int amount, Location location) {
-        double xs = Mth.nextDouble(AnnovaAPI.random, (double)-0.25F, (double)0.25F);
-        double ys = Mth.nextDouble(AnnovaAPI.random, (double)-0.25F, (double)0.25F) - (double) EntityType.ITEM.getHeight() / (double)2.0F;
-        double zs = Mth.nextDouble(AnnovaAPI.random, (double)-0.25F, (double)0.25F);
+        double xs = Mth.nextDouble(AnnovaAPI.random, -0.25F, 0.25F);
+        double ys = Mth.nextDouble(AnnovaAPI.random, -0.25F, 0.25F) - (double) EntityType.ITEM.getHeight() / (double)2.0F;
+        double zs = Mth.nextDouble(AnnovaAPI.random, -0.25F, 0.25F);
         Location loc = location.clone().add(xs, ys, zs);
         ServerLevel level = ((CraftWorld) loc.getWorld()).getHandle();
         level.addFreshEntityWithPassengers(new ItemEntity(level, loc.getX(), loc.getY(), loc.getZ(), createItem(material, amount)));
@@ -194,7 +194,7 @@ public class Loot {
         if (name != null) potion.set(CUSTOM_NAME, name);
         PotionContents contents = potion.get(DataComponents.POTION_CONTENTS);
         for (MobEffectInstance effect : effects) {
-            contents.customEffects().add(effect);
+            contents = contents.withEffectAdded(effect);
         }
 
         return potion;

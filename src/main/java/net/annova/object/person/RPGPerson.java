@@ -58,8 +58,7 @@ import java.util.*;
 import java.util.Set;
 
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
-import static net.annova.environment.world.GlobalWorld.getWorldSector;
-import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.environment.world.GlobalWorld.*;
 import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaAPI.getMinecraftServer;
@@ -530,11 +529,12 @@ public class RPGPerson {
 
     public void tryLastPosition() {
         if (lastPosition != null && !this.scene) this.getServerPlayer().teleport(this.lastPosition);
-        this.updateLastPosition();
     }
     public void updateLastPosition() {
         ServerPlayer player = this.getServerPlayer();
-        this.lastPosition = new TeleportTransition(player.serverLevel(), player.position(),
+        ServerLevel level = player.serverLevel();
+        if (level.equals(LOBBY)) return;
+        this.lastPosition = new TeleportTransition(level, player.position(),
                 Vec3.ZERO, 0, 0,
                 Set.of(), TeleportTransition.DO_NOTHING,
                 PlayerTeleportEvent.TeleportCause.PLUGIN

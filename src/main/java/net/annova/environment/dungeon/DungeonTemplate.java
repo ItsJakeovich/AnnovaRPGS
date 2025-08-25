@@ -148,6 +148,7 @@ public class DungeonTemplate {
     }
 
     public void updateAnimations(SimpleStructure structure, Vec3i createLocation, ServerLevel level) {
+        System.out.println(this.getAnimations().size());
         for (Map<Integer, Animation> animations : this.getAnimations().values()) {
             for (Animation animation : animations.values()) {
                 animation.update(level, createLocation, structure);

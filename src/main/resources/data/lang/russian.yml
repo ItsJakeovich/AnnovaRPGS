@@ -161,7 +161,6 @@ recipe-furnace: "{pc}❖ {mc}Левый предмет нужно положит
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
 avatar-equipment: "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает меню экипировки"
 avatar-info:      "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
-avatar-filter:    "{pc} ● {mc}{s-com-/avatar filter} {sc}- {mc}выключает фильтр чата"
 
 avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 {}{pc} ● {mc}Имя{sc}: {mc}{name}

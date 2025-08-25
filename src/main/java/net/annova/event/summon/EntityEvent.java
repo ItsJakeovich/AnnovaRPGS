@@ -15,6 +15,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftMob;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -29,6 +30,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.RPGPerson.teleportHome;
@@ -74,6 +76,10 @@ public class EntityEvent implements Listener {
     }
 
     private void baseFunction(org.bukkit.event.entity.EntityDamageEvent event, MobDamageCE ev) {
+        if (!worldSectors.containsKey(((CraftWorld) event.getEntity().getWorld()).getHandle())) {
+            event.setCancelled(true);
+            return;
+        }
         Bukkit.getPluginManager().callEvent(ev);
         event.setDamage(ev.getDamage());
         if (ev.isCancelled()) {

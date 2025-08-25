@@ -7,6 +7,7 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.annova.thread.event.SecondTickEvent;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -36,7 +37,8 @@ public class PersonStatusTimer implements Listener {
 
             // Обновление позиции и выносливости
             ServerLevel level = serverPlayer.serverLevel();
-            TeleportTransition transition = getPortalTransition(level, serverPlayer.blockPosition());
+            BlockPos position = serverPlayer.blockPosition();
+            TeleportTransition transition = getPortalTransition(level, position);
             if (transition != null) serverPlayer.teleport(transition);
             person.updateCurrentArea();
             person.updateStatusBar();
@@ -56,7 +58,7 @@ public class PersonStatusTimer implements Listener {
                 manager.removeStatus(status);
             } toRemove.clear();
 
-            RPGPortal portal = RPGPortal.getPortal(level, serverPlayer.blockPosition());
+            RPGPortal portal = RPGPortal.getPortal(level, position);
             if (portal != null) {
                 serverPlayer.teleport(portal.getTransition());
                 new PostPortalTeleportCE(portal, person, serverPlayer).callEvent();

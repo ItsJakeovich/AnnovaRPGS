@@ -21,7 +21,7 @@ public class GlobalWorld {
 
     public static final Set<String> F_SEASON_PLAYERS = Set.of("ginter", "QwertyLuc", "Tweespoon", "kokoloka123321",
             "Prad1e", "Haingstrefer", "ItsJakeovich", "LusyGoose", "DreamSMP4142", "Gusper_T", "Nurasama",
-            "Angelok1775", "TDLE03", "Woratu", "rokoler", "Donna", "chernu"
+            "Angelok1775", "TDLE03", "Woratu", "rokoler", "Donna", "chernu", "Slluw", "Concussion3093"
     );
     public static final String CHERNU = "chernu";
 

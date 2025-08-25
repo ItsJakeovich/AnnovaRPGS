@@ -36,10 +36,10 @@ public class DungeonInitEvent implements Listener {
 
             List<String[]> definedLines = new ArrayList<>();
             for (Component line : block.getFrontSign()) {
-                definedLines.add(line.toString().split("-"));
+                definedLines.add(line.getString().split("-"));
             }
             for (Component line : block.getBackSign()) {
-                definedLines.add(line.toString().split("-"));
+                definedLines.add(line.getString().split("-"));
             }
             Material material = Material.AIR;
             int id = 0;
@@ -47,6 +47,7 @@ public class DungeonInitEvent implements Listener {
             String[] summon = new String[0];
 
             for (String[] line : definedLines) {
+                System.out.println(point + ": " + Arrays.toString(line));
                 switch (line[0]) {
                     case "/spawn" -> {
                         dungeonTemplate.setSpawn(point);
