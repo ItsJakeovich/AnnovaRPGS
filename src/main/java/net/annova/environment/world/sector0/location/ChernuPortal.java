@@ -9,13 +9,14 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
+import static net.annova.environment.world.GlobalWorld.CHERNU;
 import static net.minecraft.world.level.GameType.SURVIVAL;
 
 public class ChernuPortal extends SectorLocation {
     @Override
     public void movement(RPGPerson person, ServerPlayer player) {
         double distance = this.portalCenter.distanceToSqr(player.position());
-        if (player.gameMode() == SURVIVAL) {
+        if (player.gameMode() == SURVIVAL && !person.getPerson().getName().equals(CHERNU)) {
             double damage;
             int fireSeconds;
             if (distance < 576) {

@@ -208,13 +208,13 @@ public enum RPGEntityType {
     }
 
     public RPGEntity tryNaturalSpawn(Vec3 position, ServerLevel level, int chorus, boolean waterSpawn) {
-//        if (!chance(chance)) return null;
+        if (!chance(chance)) return null;
 
         if (getAmountByTypeEntity(this) > this.maxAmount) return null;
 
         Vec3 spawn = waterSpawn ? getWaterChorusLocation(position, level, chorus) : getChorusLocation(position, level, chorus);
         if (position == spawn) return null;
-//        if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return null;
+        if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return null;
         RPGEntity entity = this.getEntity();
         entity.create(spawn, level);
         return entity;
