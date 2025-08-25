@@ -40,12 +40,12 @@ public class AvatarCode {
         api.send(message.getDefinedSplitted(api));
     }
 
-    @CommandArg(name = "status")
-    public void status(Person person, Player player, String[] args) {
-        StatusManager manager = getRPGPerson(player).getStatusManager();
-        player.sendMessage("statuses:");
-        for (Status status : manager.getStatuses()) {
-            player.sendMessage(status.getType().name());
-        }
-    }
+//    @CommandArg(name = "status")
+//    public void status(Person person, Player player, String[] args) {
+//        StatusManager manager = getRPGPerson(player).getStatusManager();
+//        player.sendMessage("statuses:");
+//        for (Status status : manager.getStatuses()) {
+//            player.sendMessage(status.getType().name());
+//        }
+//    }
 }

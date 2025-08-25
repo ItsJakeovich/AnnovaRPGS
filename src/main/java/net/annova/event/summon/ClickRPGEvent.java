@@ -1,16 +1,42 @@
 package net.annova.event.summon;
 
+import net.annova.environment.civilization.territory.AreaChunk;
+import net.annova.environment.world.sector0.location.Meteorite;
 import net.annova.event.custom.MouseClickCE;
+import net.annova.object.person.RPGPerson;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+
+import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.main.GlobalRPG.getAreaChunk;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class ClickRPGEvent implements Listener {
     @EventHandler
     public void click(PlayerInteractEvent event) {
+        // Проверка на город
+        ServerPlayer player = ((CraftPlayer) event.getPlayer()).getHandle();
+        RPGPerson person = getRPGPerson(player);
+        ServerLevel level = player.serverLevel();
+        if (worldSectors.containsKey(level)) {
+            AreaChunk chunk = getAreaChunk(player.serverLevel(), player.chunkPosition());
+            if (chunk != null && chunk.getTown() != person.getTown()) {
+                event.setCancelled(true);
+            }
+        }
+        ItemStack item = event.getItem();
+        if (item != null && item.getType() == Material.WATER_BUCKET && person.getSectorLocation() instanceof Meteorite) event.setCancelled(true);
+
+        // Запуск события MouseClickCE
         EquipmentSlot slot = event.getHand();
         if (slot == null || event.getHand().equals(EquipmentSlot.OFF_HAND)) return;
 

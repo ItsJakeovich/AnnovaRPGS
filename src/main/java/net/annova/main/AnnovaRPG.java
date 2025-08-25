@@ -13,6 +13,7 @@ import net.annova.environment.structure.StructureBase;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -114,7 +115,11 @@ public final class AnnovaRPG extends JavaPlugin {
         Collection<RPGEntity> entities = getEntities();
         if (!entities.isEmpty()) {
             getSQL().truncateTable(RPGEntity.TABLE);
-            for (RPGEntity entity : entities) entity.save();
+            for (RPGEntity entity : entities) {
+                Mob mob = entity.entity;
+                if (mob == null || !mob.valid || mob.isDeadOrDying()) continue;
+                entity.save();
+            }
         }
 
         for (Town town : getTowns()) town.save();

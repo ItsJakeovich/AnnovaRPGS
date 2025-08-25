@@ -23,7 +23,7 @@ import static net.annova.main.GlobalRPG.getAreaChunk;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class BlockEvent implements Listener {
-    private final MobEffectInstance FATIGUE = new MobEffectInstance(MobEffects.MINING_FATIGUE, 60, 2);
+    private final MobEffectInstance FATIGUE = new MobEffectInstance(MobEffects.MINING_FATIGUE, 120, 2);
     @EventHandler
     public void blockPlaceBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();

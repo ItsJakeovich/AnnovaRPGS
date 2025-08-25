@@ -64,11 +64,11 @@ public class Meteorite extends SectorLocation {
                 double damage;
                 int fireSeconds;
                 if (distance < 576) {
-                    damage = 16;
+                    damage = 24;
                     fireSeconds = 30;
                 } else {
                     double koefficient = 576 / distance;
-                    damage = 6 * koefficient;
+                    damage = 8 * koefficient;
                     fireSeconds = (int) (30 * koefficient);
                 }
                 player.igniteForSeconds(fireSeconds);
@@ -92,7 +92,7 @@ public class Meteorite extends SectorLocation {
 
     private final Vec3 meteoriteCenter = new Vec3(726.5, 40.5, -190.5);
     private final Vec3iSelection[] borders = new Vec3iSelection[] {
-            new Vec3iSelection(670, 30, -132, 767, 80, -228)
+            new Vec3iSelection(670, 30, -132, 767, 1000, -228)
     };
     @Override
     public Vec3iSelection[] borders() {

@@ -196,6 +196,10 @@ public class RPGPerson {
         this.damageWithCooldown(null, damage);
     }
     public void damageWithCooldown(Entity damager, float damage) {
+        if (damager instanceof ServerPlayer) { // Защита от игроков в PVE
+            WorldSector sector = getWorldSector(this.getServerPlayer().serverLevel());
+            if (sector != null && sector.isPVE()) return;
+        }
         Player player = this.getPlayer();
         if (player.getNoDamageTicks() != 0) return;
         player.setNoDamageTicks(10);

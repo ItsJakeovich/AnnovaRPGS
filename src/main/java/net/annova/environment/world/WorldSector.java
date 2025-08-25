@@ -6,6 +6,7 @@ import net.minecraft.core.Vec3i;
 public abstract class WorldSector {
     public abstract String name();
     public abstract SectorLocation[] zones();
+    public abstract boolean isPVE();
 
     private final SectorGrid sectorGrid = new SectorGrid();
 

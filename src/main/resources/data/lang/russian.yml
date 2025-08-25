@@ -120,7 +120,7 @@ twn-stats: "{pc}≡ {mc}Статистика {town}{pc}:
 "
 town-invitekick-cancel-args: "{ac}❖ {mc}Нужно ввести так же и ник игрока{sc}"
 town-invite-cancel-busy: "{ac}❖ {mc}Игрок уже состоит в городе"
-town-invite-mail: "{pc}❖ {mc}Игрок {sc}{inviter} {mc}приглашает вас в город {ac}{town}{sc}!"
+town-invite-mail: "{pc}❖ {mc}Игрок {sc}{inviter} {mc}приглашает вас в город {ac}{town}{sc}! {}{sc} | Введите /confirm чтобы принять"
 town-invite-sended: "{pc}❖ {mc}Игроку {sc}{nick} {mc}было выслано приглашение{sc}!"
 town-invite-success: "{pc}❖ {mc}Игрок {sc}{nick} {mc}вступил в наш город{sc}!"
 
@@ -161,6 +161,7 @@ recipe-furnace: "{pc}❖ {mc}Левый предмет нужно положит
 avatar-menu: "{pc}≡ {mc}Управление персонажем{sc}:"
 avatar-equipment: "{pc} ● {mc}/avatar equipment {sc}- {mc}открывает меню экипировки"
 avatar-info:      "{pc} ● {mc}/avatar info {sc}- {mc}информация о персонаже"
+avatar-status:    "{pc} ● {mc}/avatar status {sc}- {mc}активные статусы"
 
 avatar-information: "{pc}≡ {mc}Информация о персонаже{pc}:
 {}{pc} ● {mc}Имя{sc}: {mc}{name}

@@ -31,7 +31,7 @@ public class PersonStatusTimer implements Listener {
         Set<StatusType> toRemove = EnumSet.noneOf(StatusType.class);
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
-            if (player.getY() > 350) person.damage(2);
+            if (player.getY() > 350) person.damage(8 * player.getY()/350);
             StatusManager manager = person.getStatusManager();
             ServerPlayer serverPlayer = person.getServerPlayer();
 

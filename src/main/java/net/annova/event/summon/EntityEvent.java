@@ -1,5 +1,6 @@
 package net.annova.event.summon;
 
+import net.annova.environment.world.WorldSector;
 import net.annova.event.custom.BattleCE;
 import net.annova.event.custom.LivingEntityDamageByEntityCE;
 import net.annova.event.custom.MobDamageCE;
@@ -8,6 +9,7 @@ import net.annova.object.person.RPGPerson;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,13 +26,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.annova.environment.world.GlobalWorld.worldSectors;
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.RPGPerson.teleportHome;
@@ -45,7 +46,7 @@ public class EntityEvent implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
         if (event.getEntity() instanceof org.bukkit.entity.Player player) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.VOID) teleportHome(player);
+            if (player.getY() < -100) teleportHome(player);
             this.baseFunction(event, new PlayerDamageCE(((CraftPlayer) player).getHandle(), event));
         } else if (event.getEntity() instanceof Mob entity) {
             this.baseFunction(event, new MobDamageCE(((CraftMob) entity).getHandle(), event));
@@ -76,7 +77,8 @@ public class EntityEvent implements Listener {
     }
 
     private void baseFunction(org.bukkit.event.entity.EntityDamageEvent event, MobDamageCE ev) {
-        if (!worldSectors.containsKey(((CraftWorld) event.getEntity().getWorld()).getHandle())) {
+        WorldSector sector = getWorldSector(((CraftWorld) event.getEntity().getWorld()).getHandle());
+        if (sector == null) {
             event.setCancelled(true);
             return;
         }

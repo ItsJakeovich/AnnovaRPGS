@@ -61,6 +61,9 @@ public class OasisEvent implements Listener {
     public static final List<ItemType> FISHS = List.copyOf(OASIS_FISHS.keySet());
     @EventHandler
     public void fishing(PlayerFishEvent event) {
+        if (event.getState() == PlayerFishEvent.State.CAUGHT_ENTITY) {
+            event.setCancelled(true);
+        }
         RPGPerson person = getRPGPerson(event.getPlayer());
         if (person.getSectorLocation() instanceof Oasis) {
             if (chance(0.7)) return; // 70% на обычную рыбу
@@ -74,6 +77,7 @@ public class OasisEvent implements Listener {
                 }
             }
             Item item = (Item) event.getCaught();
+            if (item == null) return;
             item.setItemStack(CraftItemStack.asBukkitCopy(finalFish.create(person, 1)));
 
             person.completeAdvancement(GOOD_BITE);

@@ -18,6 +18,7 @@ public class SuruWahare extends WorldSector {
      * 5 - Spider Swamps
      */
     public static final SectorLocation[] zones = new SectorLocation[]{
+            new ChernuPortal(),
             new DarkForest(),
             new DryadPedestal(),
             new Meteorite(),
@@ -34,5 +35,10 @@ public class SuruWahare extends WorldSector {
     @Override
     public SectorLocation[] zones() {
         return zones;
+    }
+
+    @Override
+    public boolean isPVE() {
+        return true;
     }
 }

@@ -3,8 +3,10 @@ package net.annova.event;
 import net.annova.event.custom.PostPersonJoinCE;
 import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,6 +30,7 @@ public class LoginRPGEvent implements Listener {
             person.clearPending();
         }
         ServerPlayer player = ((CraftPlayer) event.getPlayer()).getHandle();
+        World world;
         player.teleport(LOBBY_TELEPORT);
         MobEffectInstance effect = player.getEffect(INVISIBILITY);
         if (effect != null && effect.isInfiniteDuration()) player.removeEffect(INVISIBILITY);
