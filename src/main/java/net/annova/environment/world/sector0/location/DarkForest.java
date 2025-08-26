@@ -77,7 +77,7 @@ public class DarkForest extends SectorLocation {
     }
 
     private static final Vec3iSelection[] borders = new Vec3iSelection[] {
-        new Vec3iSelection(-442, 0, -190, -128, 256, -511)
+        new Vec3iSelection(-422, 0, -210, -108, 256, -531)
     };
     @Override
     public Vec3iSelection[] borders() {

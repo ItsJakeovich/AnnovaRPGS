@@ -168,7 +168,7 @@ public class DungeonTemplate {
             List<ItemStack> items = new ArrayList<>(block.getContents());
             items.clear();
             items.addAll(loot.getLoot().getContents());
-            block.setItems().
+//            block.setItems().
             block.setChanged();
         }
     }
