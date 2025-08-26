@@ -36,7 +36,7 @@ public class ChitinChestplate extends RPGItem implements RPGArmor {
 
     @Override
     public float armor() {
-        return 3.3f;
+        return 6.5f;
     }
 
     @Override

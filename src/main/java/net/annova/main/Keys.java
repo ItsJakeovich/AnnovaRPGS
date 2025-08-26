@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import org.bukkit.NamespacedKey;
 
+import static net.annova.main.AnnovaAPI.random;
 import static net.annova.main.GlobalRPG.getSoundFromString;
 
 public class Keys {
@@ -33,5 +34,9 @@ public class Keys {
 
     public static NamespacedKey getNamespacedKey(String string) {
         return new NamespacedKey("annovas", string);
+    }
+
+    public static ResourceLocation getRandomLocation(ResourceLocation location) {
+        return ResourceLocation.fromNamespaceAndPath(location.getNamespace(), location.getPath() + random.nextInt(1000000000));
     }
 }

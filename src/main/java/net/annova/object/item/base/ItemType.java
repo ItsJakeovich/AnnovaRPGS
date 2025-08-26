@@ -458,7 +458,7 @@ public enum ItemType {
             modifiers.add(new ItemAttributeModifiers.Entry(
                     Attributes.ATTACK_DAMAGE,
                     new AttributeModifier(
-                            RESOURCE_ATTACK_DAMAGE,
+                            getRandomLocation(RESOURCE_ATTACK_DAMAGE),
                             weapon.damage()-1,
                             AttributeModifier.Operation.ADD_VALUE
                     ),
@@ -467,7 +467,7 @@ public enum ItemType {
             modifiers.add(new ItemAttributeModifiers.Entry(
                     Attributes.ATTACK_SPEED,
                     new AttributeModifier(
-                            RESOURCE_ATTACK_SPEED,
+                            getRandomLocation(RESOURCE_ATTACK_SPEED),
                             weapon.attackSpeed()-4,
                             AttributeModifier.Operation.ADD_VALUE
                     ),
@@ -506,7 +506,7 @@ public enum ItemType {
             modifiers.add(new ItemAttributeModifiers.Entry(
                     Attributes.ARMOR,
                     new AttributeModifier(
-                            RESOURCE_ARMOR,
+                            getRandomLocation(RESOURCE_ARMOR),
                             armor.armor(),
                             AttributeModifier.Operation.ADD_VALUE
                     ),
@@ -515,7 +515,7 @@ public enum ItemType {
             modifiers.add(new ItemAttributeModifiers.Entry(
                     Attributes.ARMOR_TOUGHNESS,
                     new AttributeModifier(
-                            RESOURCE_TOUGHNESS,
+                            getRandomLocation(RESOURCE_TOUGHNESS),
                             armor.toughness(),
                             AttributeModifier.Operation.ADD_VALUE
                     ),
@@ -524,7 +524,7 @@ public enum ItemType {
             modifiers.add(new ItemAttributeModifiers.Entry(
                     Attributes.MOVEMENT_SPEED,
                     new AttributeModifier(
-                            RESOURCE_MOVEMENT,
+                            getRandomLocation(RESOURCE_MOVEMENT),
                             armor.speed(),
                             AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                     ),

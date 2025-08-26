@@ -56,7 +56,7 @@ public class Meteorite extends SectorLocation {
 
     @Override
     public void movement(RPGPerson person, ServerPlayer player) {
-        boolean isDamageable = true;
+        /*boolean isDamageable = true;
         if (CHITIN == person.getArmorSet()) isDamageable = false;
         if (isDamageable) {
             double distance = this.meteoriteCenter.distanceToSqr(player.position());
@@ -74,7 +74,7 @@ public class Meteorite extends SectorLocation {
                 player.igniteForSeconds(fireSeconds);
                 person.damage(damage);
             }
-        }
+        }*/
 
         UUID uuid = player.getUUID();
         long millis = System.currentTimeMillis();

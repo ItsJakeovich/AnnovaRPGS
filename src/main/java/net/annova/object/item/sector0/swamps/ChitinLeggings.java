@@ -36,7 +36,7 @@ public class ChitinLeggings extends RPGItem implements RPGArmor {
 
     @Override
     public float armor() {
-        return 2.7f;
+        return 5.5f;
     }
 
     @Override
