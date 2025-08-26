@@ -34,7 +34,7 @@ public class Boar extends RPGEntity implements EntityActivity {
 
     @Override
     public String name() {
-        return "Boar";
+        return "";
     }
 
     @Override

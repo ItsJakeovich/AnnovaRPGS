@@ -402,6 +402,9 @@ public class RPGPerson {
     public void addStatus(StatusType type, int durationOffset) {
         this.statusManager.addStatus(type, durationOffset);
     }
+    public void addStatus(StatusType type, Object object) {
+        this.statusManager.addStatus(type, object);
+    }
 
     public double getFinalValue(ValueType type) {
         return this.equipment.getFinalValue(type) + this.statusManager.getFinalValue(type);

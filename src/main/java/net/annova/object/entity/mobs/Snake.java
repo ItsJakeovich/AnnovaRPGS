@@ -32,7 +32,7 @@ public class Snake extends RPGEntity implements CustomType {
 
     @Override
     public String name() {
-        return "Snake";
+        return " ";
     }
 
     @Override

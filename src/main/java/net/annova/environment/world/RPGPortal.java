@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 import static net.annova.environment.world.GlobalWorld.*;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
+import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public enum RPGPortal {

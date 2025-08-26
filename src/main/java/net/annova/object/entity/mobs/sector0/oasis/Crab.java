@@ -35,7 +35,7 @@ public class Crab extends RPGEntity implements CustomType, EntitySpawn {
 
     @Override
     public String name() {
-        return "Crab";
+        return "";
     }
 
     @Override

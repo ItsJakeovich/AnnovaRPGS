@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.main.AnnovaAPI;
 import net.annova.object.CustomRunnable;
 import net.annova.object.LocationCategory;
 import net.annova.object.person.Person;
@@ -22,10 +23,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
+import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.object.item.base.ItemModulit.MELANOX_POISON;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
@@ -75,7 +78,10 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(person, random.nextInt(9)+12)); // от 12 до 20
+        return List.of(
+                SPIDER_CHITIN.create(person, random.nextInt(9)+12), // от 12 до 20
+                createItem(Items.STRING, AnnovaAPI.random.nextInt(4)+1, 0.5)
+        );
     }
 
     @Override

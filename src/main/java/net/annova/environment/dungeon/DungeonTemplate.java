@@ -165,9 +165,10 @@ public class DungeonTemplate {
             level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 3);
 
             ChestBlockEntity block = (ChestBlockEntity) level.getBlockEntity(pos);
-            List<ItemStack> items = block.getContents();
+            List<ItemStack> items = new ArrayList<>(block.getContents());
             items.clear();
             items.addAll(loot.getLoot().getContents());
+            block.setItems().
             block.setChanged();
         }
     }

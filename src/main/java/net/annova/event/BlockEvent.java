@@ -23,7 +23,6 @@ import static net.annova.main.GlobalRPG.getAreaChunk;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 
 public class BlockEvent implements Listener {
-    private final MobEffectInstance FATIGUE = new MobEffectInstance(MobEffects.MINING_FATIGUE, 120, 2);
     @EventHandler
     public void blockPlaceBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();
@@ -50,7 +49,7 @@ public class BlockEvent implements Listener {
             if (location.isProtected()) {
                 event.setCancelled(true);
                 return;
-            } else player.addEffect(FATIGUE);
+            } else player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 120, 2));
         }
         TownBuild build = getWorldSector(level).getBuildAt(pos);
         if (build == null) return;

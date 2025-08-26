@@ -9,6 +9,7 @@ import net.annova.object.entity.core.attribute.EntityAction;
 import net.annova.object.entity.core.attribute.EntitySpawn;
 import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomSwampSpider;
+import net.annova.util.BukkitObjects;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.phys.Vec3;
 
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.main.AnnovaAPI.random;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.minecraft.world.effect.MobEffects.POISON;
@@ -71,7 +74,10 @@ public class FatSpider extends RPGEntity implements CustomType, EntityAction, En
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45));
+        return List.of(
+                SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45),
+                createItem(Items.STRING, random.nextInt(4)+1, 0.5)
+        );
     }
 
     @Override

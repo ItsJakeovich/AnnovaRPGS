@@ -522,7 +522,7 @@ public enum ItemType {
                     EquipmentSlotGroup.ARMOR
             ));
             modifiers.add(new ItemAttributeModifiers.Entry(
-                    Attributes.ARMOR,
+                    Attributes.MOVEMENT_SPEED,
                     new AttributeModifier(
                             RESOURCE_MOVEMENT,
                             armor.speed(),

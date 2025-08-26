@@ -81,8 +81,7 @@ public class Phantom extends RPGEntity implements CustomType, EntityActivity {
                         LivingEntity target = entity.getTarget();
                         if (target == null) return true;
                         if (target instanceof Player player) {
-                            RPGPerson person = getRPGPerson(player.getUUID());
-                            person.addStatus(StatusType.PHANTOM_FEAR);
+                            getRPGPerson(player.getUUID()).addStatus(StatusType.PHANTOM_FEAR, entity);
                         }
                         new PhantomMinion().createWithTarget(Phantom.this, target);
                         return true;

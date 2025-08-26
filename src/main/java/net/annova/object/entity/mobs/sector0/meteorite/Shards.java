@@ -8,10 +8,12 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomShards;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.main.AnnovaAPI.random;
 import static net.annova.object.item.base.ItemType.HOT_STONE;
 
 public class Shards extends RPGEntity implements CustomType {
@@ -57,7 +59,10 @@ public class Shards extends RPGEntity implements CustomType {
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(HOT_STONE.create(person, 1, 0.04));
+        return List.of(
+                HOT_STONE.create(person, 1, 0.04),
+                new ItemStack(Items.BLAZE_ROD, random.nextInt(2)+1)
+        );
     }
 
     @Override

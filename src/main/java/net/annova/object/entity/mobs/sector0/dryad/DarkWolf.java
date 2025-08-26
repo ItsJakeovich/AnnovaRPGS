@@ -29,7 +29,7 @@ public class DarkWolf extends RPGEntity implements CustomType {
 
     @Override
     public String name() {
-        return "DarkWolf";
+        return "";
     }
 
     @Override

@@ -22,7 +22,7 @@ import java.util.Set;
 
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 
-public class Miner extends RPGEntity implements CustomType, EntitySpawn {
+public class Miner extends RPGEntity implements CustomType {
     @Override
     public Class<?> clazz() {
         return MinesMagicArmorNeutral.class;
@@ -71,19 +71,5 @@ public class Miner extends RPGEntity implements CustomType, EntitySpawn {
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of();
-    }
-
-    @Override
-    public void onSpawn(ServerLevel level, Vec3 position) {
-        GoalSelector selector = ((Mob) entity).targetSelector;
-        List<WrappedGoal> toRemove = new ArrayList<>();
-        for (WrappedGoal goal : selector.getAvailableGoals()) {
-            if (goal.getGoal() instanceof NearestAttackableTargetGoal) {
-                toRemove.add(goal);
-            }
-        }
-        for (WrappedGoal goal : toRemove) {
-            selector.removeGoal(goal.getGoal());
-        }
     }
 }

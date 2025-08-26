@@ -46,7 +46,6 @@ public class DarkForest extends SectorLocation {
             FOREST_AMBIENT_2,
             FOREST_AMBIENT_3
     };
-    private final MobEffectInstance darkness = new MobEffectInstance(DARKNESS, 300, 1);
 
     @Override
     public void movement(RPGPerson person, ServerPlayer player) {
@@ -57,7 +56,7 @@ public class DarkForest extends SectorLocation {
                     position.x, position.y+0.1, position.z,
                     15, 0, 15, 0, 100)
             );
-            if (!person.getStatusManager().hasStatus(StatusType.ABSORB_NIGHT_BUFF)) player.addEffect(darkness);
+            if (!person.getStatusManager().hasStatus(StatusType.ABSORB_NIGHT_BUFF)) player.addEffect(new MobEffectInstance(DARKNESS, 300, 1));
         }
 
         UUID uuid = player.getUUID();

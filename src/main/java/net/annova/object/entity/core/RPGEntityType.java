@@ -53,9 +53,9 @@ public enum RPGEntityType {
     SECURITY(D_PRISON, Security.class),
 
     // 'EVERYWHERE' category doesn't have a boss.
-    BOAR(EVERYWHERE, Boar.class, 0.05), // unique legendary mob
-    FROG(EVERYWHERE, Frog.class, 0.0088),
-    SNAKE(EVERYWHERE, Snake.class, 0.05),
+    BOAR(EVERYWHERE, Boar.class, 0.04), // unique legendary mob
+    FROG(EVERYWHERE, Frog.class, 0.0044),
+    SNAKE(EVERYWHERE, Snake.class, 0.04),
 
     // nether mobs
     BERSERK(NETHER, Berserk.class),
@@ -70,28 +70,28 @@ public enum RPGEntityType {
     // Sector 0 - Dryad Pedestal
     DARK_WOLF(S0_DRYAD, DarkWolf.class, (Vec3 position, ServerLevel level) -> isNight(level)),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
-    FANG(S0_DRYAD, Fang.class, 0.05,true),
-    WEREWOLF(S0_DRYAD, Werewolf.class, 0.05, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
+    FANG(S0_DRYAD, Fang.class, 0.3,true),
+    WEREWOLF(S0_DRYAD, Werewolf.class, 0.3, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector 0 - Forest
-    ENT(S0_FOREST, Ent.class, 0.1, 15),
-    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.05, true),
-    DARK_ELF(S0_FOREST, DarkElf.class, 0.03, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
+    ENT(S0_FOREST, Ent.class, 0.3, 15),
+    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.3, true),
+    DARK_ELF(S0_FOREST, DarkElf.class, 0.08, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector - Meteorite
-    METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class),
+    METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class, 0.3, 1),
     SHARDS(S0_METEORITE, Shards.class),
     // Sector 0 - Mines
-    CARRIER(S0_MINES, Carrier.class, 0.25),
-    GOLEM_BOSS(S0_MINES, GolemBoss.class, 0.04, true),
-    GUARDIAN(S0_MINES, Guardian.class, 0.25),
-    MINER(S0_MINES, Miner.class, 0.25),
-    ORE_COLLECTOR(S0_MINES, OreCollector.class, 0.25),
+    CARRIER(S0_MINES, Carrier.class, 0.3),
+    GOLEM_BOSS(S0_MINES, GolemBoss.class, 0.3, true),
+    GUARDIAN(S0_MINES, Guardian.class, 0.3),
+    MINER(S0_MINES, Miner.class, 0.3),
+    ORE_COLLECTOR(S0_MINES, OreCollector.class, 0.3),
     PHANTOM(S0_MINES, Phantom.class),
     PHANTOM_MINION(S0_MINES, PhantomMinion.class),
     // Sector 0 - Oasis
     ANGLER_FISH(S0_OASIS, AnglerFish.class),
     CRAB(S0_OASIS, Crab.class),
     // Sector 0 - Swamps
-    MELANOX(S0_SWAMPS, Melanox.class, 0.04, true),
+    MELANOX(S0_SWAMPS, Melanox.class, 0.3, true),
     FAT_SPIDER(S0_SWAMPS, FatSpider.class, true),
     MOTHER_SPIDER(S0_SWAMPS, MotherSpider.class, true),
     SWAMP_SPIDER(S0_SWAMPS, SmallSpider.class, true),

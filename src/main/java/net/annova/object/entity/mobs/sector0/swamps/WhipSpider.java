@@ -1,6 +1,7 @@
 package net.annova.object.entity.mobs.sector0.swamps;
 
 import net.annova.event.custom.MobDamageCE;
+import net.annova.main.AnnovaAPI;
 import net.annova.object.CustomRunnable;
 import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
@@ -19,10 +20,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Set;
 
+import static net.annova.environment.dungeon.Loot.createItem;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
 import static net.annova.util.BukkitObjects.chance;
@@ -40,7 +43,7 @@ public class WhipSpider extends RPGEntity implements CustomType, EntityAction, E
 
     @Override
     public String name() {
-        return "   ";
+        return ". ";
     }
 
     @Override
@@ -70,7 +73,10 @@ public class WhipSpider extends RPGEntity implements CustomType, EntityAction, E
 
     @Override
     public List<ItemStack> loot(Person person) {
-        return List.of(SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45));
+        return List.of(
+                SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45),
+                createItem(Items.STRING, AnnovaAPI.random.nextInt(4)+1, 0.5)
+        );
     }
 
     @Override

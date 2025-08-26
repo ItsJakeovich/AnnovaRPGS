@@ -16,7 +16,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -97,7 +96,7 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
 
                     @Override
                     public boolean activity() {
-                        LivingEntity target = ((Mob) entity).getTarget();
+                        LivingEntity target = entity.getTarget();
                         if (target == null) return true;
 
                         int reduce = entity.getHealth() / entity.getMaxHealth() < 0.4 ? 2 : 1;
@@ -129,7 +128,7 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                             Vec3 position = entity.position();
                             for (int i = 0; i < 8; i++) {
                                 new MeteoriteBall().create(position,
-                                        position.add(random.nextDouble(4)-2, -1, random.nextDouble(4)-2),
+                                        position.add(random.nextDouble(4) - 2, -1, random.nextDouble(4) - 2),
                                         entity.level().getMinecraftWorld()
                                 );
                             }

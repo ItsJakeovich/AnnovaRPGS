@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -300,16 +301,13 @@ public enum StatusType {
     }, METEORITE_GOLEM_CORE),
 
     PHANTOM_FEAR(new StatusActivity() {
-        private static final MobEffectInstance DARKNESS = new MobEffectInstance(MobEffects.DARKNESS, 80, 0);
-        private static final MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 80, 0);
-        private static final MobEffectInstance GLOWING = new MobEffectInstance(MobEffects.GLOWING, 80, 0);
-
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
+            if (object == null || ((Mob) object).isDeadOrDying()) return false;
             ServerPlayer server = person.getPerson().getServerPlayer();
-            server.addEffect(DARKNESS);
-            server.addEffect(SLOWNESS);
-            server.addEffect(GLOWING);
+            server.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 0));
+            server.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 0));
+            server.addEffect(new MobEffectInstance(MobEffects.GLOWING, 80, 0));
             return true;
         }
 

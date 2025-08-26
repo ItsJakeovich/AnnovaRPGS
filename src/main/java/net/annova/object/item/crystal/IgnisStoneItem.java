@@ -50,13 +50,12 @@ public class IgnisStoneItem extends RPGItem implements Listener {
         return false;
     }
 
-    private static final MobEffectInstance FIRE_RESISTANCE = new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200, 0);
     @EventHandler
     private void mechanic(RightClickCE event) {
         ServerPlayer player = event.getPerson().getServerPlayer();
         if (!IGNIS_STONE.use(player, event.getItemInHand())) return;
 
-        player.addEffect(FIRE_RESISTANCE);
+        player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200, 0));
         RPGPerson person = getRPGPerson(player);
         StatusManager manager = person.getStatusManager();
         if (manager.getStatus(IGNIS) != null) return;

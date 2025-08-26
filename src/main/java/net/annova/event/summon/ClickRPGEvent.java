@@ -38,7 +38,7 @@ public class ClickRPGEvent implements Listener {
             }
         }
         ItemStack item = event.getItem();
-        if (item != null && item.getType() == Material.WATER_BUCKET && person.getSectorLocation() instanceof Meteorite) event.setCancelled(true);
+        if (item != null && item.getType() == Material.WATER_BUCKET && person.getSectorLocation() != null) event.setCancelled(true);
 
         // Запуск события MouseClickCE
         EquipmentSlot slot = event.getHand();
