@@ -92,9 +92,6 @@ public final class AnnovaRPG extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        for (RPGEntity entity : getEntities()) {
-            entity.entity.remove(Entity.RemovalReason.DISCARDED);
-        }
         for (ArmorStand indicator : indicators) {
             indicator.remove(Entity.RemovalReason.DISCARDED);
         }
@@ -102,6 +99,9 @@ public final class AnnovaRPG extends JavaPlugin {
             dungeon.endDungeon(true);
         }
         AnnovaRPG.saveAll();
+        for (RPGEntity entity : getEntities()) {
+            entity.entity.remove(Entity.RemovalReason.DISCARDED);
+        }
     }
 
     public static void saveAll() {
@@ -112,14 +112,9 @@ public final class AnnovaRPG extends JavaPlugin {
         for (RPGPerson person : getRPGPersons())
             person.save();
 
-        Collection<RPGEntity> entities = getEntities();
-        if (!entities.isEmpty()) {
-            getSQL().truncateTable(RPGEntity.TABLE);
-            for (RPGEntity entity : entities) {
-                Mob mob = entity.entity;
-                if (mob == null || !mob.valid || mob.isDeadOrDying()) continue;
-                entity.save();
-            }
+        getSQL().truncateTable(RPGEntity.TABLE);
+        for (RPGEntity entity : getEntities()) {
+            entity.save();
         }
 
         for (Town town : getTowns()) town.save();

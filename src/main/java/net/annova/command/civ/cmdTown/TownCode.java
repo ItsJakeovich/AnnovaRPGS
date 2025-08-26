@@ -168,8 +168,12 @@ public class TownCode {
     public void claim(Person person, Player player, String[] args) {
         RPGPerson rpg = getRPGPerson(player);
         Town town = rpg.getTown();
-        if (getRPGPerson(player) == null) {
+        if (town == null) {
             person.send(getInstance(), "civ-info-cancel-town");
+            return;
+        }
+        if (town.isTodayClaim()) {
+            person.send(getInstance(), "town-claim-cancel-today");
             return;
         }
         ServerLevel level = town.getLevel();
@@ -204,10 +208,6 @@ public class TownCode {
         }
         if (isAlone) {
             person.send(getInstance(), "town-claim-cancel-alone");
-            return;
-        }
-        if (town.isTodayClaim()) {
-            person.send(getInstance(), "town-claim-cancel-today");
             return;
         }
         person.send(getInstance(), "town-claim-success", "{coord}", "{mc}"+pos.x+"{sc},{mc}"+pos.z);

@@ -100,7 +100,7 @@ public class Boar extends RPGEntity implements EntityActivity {
                     @Override
                     public boolean activity() {
                         if (!entity.valid || !entity.isAlive()) return false;
-                        Mob mob = (Mob) Boar.this.entity;
+                        Mob mob = Boar.this.entity;
                         if (targetPlayer == null || !targetPlayer.valid) {
                             for (Entity entity : mob.level().getEntities(entity, entity.getBoundingBox().inflate(16, 8, 16))) {
                                 if (entity instanceof ServerPlayer player && player.gameMode().equals(GameType.SURVIVAL)) {
@@ -137,7 +137,7 @@ public class Boar extends RPGEntity implements EntityActivity {
                         // Если кабан близко, бей!
                         if (distance > 2.0 || !canAttack) return true;
 
-                        targetPlayer.hurtServer(mob.level().getMinecraftWorld(), mob.damageSources().mobAttack(mob), 15.0f);
+                        targetPlayer.hurtServer(mob.level().getMinecraftWorld(), mob.damageSources().mobAttack(mob), (float) Boar.this.damage());
 
                         // Отталкивание игрока
                         Vec3 pigPosition = mob.position();
@@ -175,7 +175,7 @@ public class Boar extends RPGEntity implements EntityActivity {
                     @Override
                     public boolean activity() {
                         if (targetPlayer == null) return true;
-                        if (Boar.this.entity.distanceToSqr(targetPlayer) > followRange*followRange || !canAttack) return true;
+                        if (!canAttack || Boar.this.entity.distanceToSqr(targetPlayer) > followRange*followRange) return true;
 
                         // Увеличиваем скорость до максимума
                         speed = Math.min(speed + 0.05, 2.5);

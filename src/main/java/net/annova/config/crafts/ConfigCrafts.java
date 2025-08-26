@@ -68,7 +68,7 @@ public class ConfigCrafts {
             }
             if (b.containsKey("sub-crafts")) {
                 for (Map<?, ?> sc : (List<Map<?, ?>>) b.get("sub-crafts")) {
-                    if (!(boolean) sc.get("valid")) continue;
+                    if (!((boolean) sc.get("valid"))) continue;
                     CraftType craft_type = CraftType.valueOf(((String) sc.get("craft_type")).toUpperCase());
                     int amount = 1;
                     if (sc.containsKey("amount")) {
@@ -77,11 +77,8 @@ public class ConfigCrafts {
                     List<ItemIngredient> ingredients = new ArrayList<>();
                     List<String> recipe = new ArrayList<>();
                     for (Map<?, ?> i : (List<Map<?, ?>>) sc.get("ingredients")) {
-                        int count = 1;
+                        int count = i.containsKey("count") ? (int) i.get("count") : 1;
 
-                        if (i.containsKey("count")) {
-                            count = (int) i.get("count");
-                        }
                         ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
                         crafts.put(craft.id, craft);
                     }
@@ -125,7 +122,7 @@ public class ConfigCrafts {
 
             int count = 0;
             for (SubCraft craft : mat.subCrafts) {
-                mat.loadWorkbenceRecipe(craft.getCraftType(), mat.id + "-" + count, craft.getRecipe(), craft.getIngredients());
+                mat.loadWorkbenceRecipe(craft.getCraftType(), mat.id + count, craft.getRecipe(), craft.getIngredients());
                 count++;
             }
             MinecraftServer server = getMinecraftServer();

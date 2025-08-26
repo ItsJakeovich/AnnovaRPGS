@@ -45,7 +45,8 @@ public class UpdateSpawnTimer implements Listener {
             // Entity spawn
             RPGEntityType[] entities = getEntitiesByCategory(LocationCategory.EVERYWHERE).toArray(new RPGEntityType[0]);
             Vec3 position = serverPlayer.position();
-            if (position.y() > 180) continue;
+            double y = position.y();
+            if (y > 180 || y < 45) continue;
             for (int i = random.nextInt(3)+1; i != 0; i--) { // от 1 до 3
                 RPGEntityType entity = entities[random.nextInt(entities.length)];
                 if (entity.getCondition().canSpawn(position, level)) entity.tryNaturalSpawn(position, level, 16, entity.isWaterSpawn());

@@ -6,8 +6,11 @@ import net.annova.event.custom.MouseClickCE;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.ChunkPos;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,8 +30,9 @@ public class ClickRPGEvent implements Listener {
         ServerPlayer player = ((CraftPlayer) event.getPlayer()).getHandle();
         RPGPerson person = getRPGPerson(player);
         ServerLevel level = player.serverLevel();
-        if (worldSectors.containsKey(level)) {
-            AreaChunk chunk = getAreaChunk(player.serverLevel(), player.chunkPosition());
+        Block block = event.getClickedBlock();
+        if (block != null && worldSectors.containsKey(level)) {
+            AreaChunk chunk = getAreaChunk(level, new ChunkPos(((CraftBlock) block).getPosition()));
             if (chunk != null && chunk.getTown() != person.getTown()) {
                 event.setCancelled(true);
             }

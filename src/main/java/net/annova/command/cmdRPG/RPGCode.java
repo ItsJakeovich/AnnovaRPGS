@@ -1,6 +1,7 @@
 package net.annova.command.cmdRPG;
 
 import net.annova.command.register.CommandArg;
+import net.annova.environment.civilization.Town;
 import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.Oasis;
 import net.annova.object.entity.core.RPGEntityType;
@@ -28,6 +29,7 @@ import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.main.GlobalRPG.getTown;
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 import static net.annova.thread.CivilizationTickTimer.civilizationsTick;
 import static net.annova.util.BukkitObjects.addItems;
@@ -170,5 +172,29 @@ public class RPGCode {
     @CommandArg(name = "nextTick")
     public void nextTick(Player player) {
         civilizationsTick();
+    }
+
+    @CommandArg(name = "select-town")
+    public void select(Player player, String[] args) {
+        if (args.length < 2) {
+            player.sendMessage("/rpg select-town {name}");
+            return;
+        }
+        RPGPerson person = getRPGPerson(player);
+        if (args[1] == null || args[1].equals("null")) {
+            Town town = person.getTown();
+            if (town == null) player.sendMessage("ты не состоишь в городе");
+            else {
+                person.setTown(null);
+                town.kickMember(person);
+            }
+            return;
+        }
+        Town town = getTown(args[1]);
+        if (town == null) {
+            player.sendMessage("не существует " + args[1]);
+            return;
+        }
+        town.addMember(person);
     }
 }

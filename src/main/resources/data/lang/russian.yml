@@ -217,6 +217,7 @@ rpg-summon:       "{pc} ● {mc}/rpg summon {sc}{name} - {mc}спавнит се
 rpg-item:         "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серверный предмет{sc}."
 rpg-status:       "{pc} ● {mc}/rpg status {sc}{STATUS} - {mc}вызывает кастомный эффект{sc}."
 rpg-nextTick:     "{pc} ● {mc}/rpg nextTick {sc}- {mc}инициирует тик городов и цив{sc}."
+rpg-select-town:  "{pc} ● {mc}/rpg select-town {sc}- {mc}принудительно добавляет в город{sc}."
 
 rpg-heal-success: "{pc}❖ {mc}Игрок {ac}{target} {mc}вылечен{sc}!"
 

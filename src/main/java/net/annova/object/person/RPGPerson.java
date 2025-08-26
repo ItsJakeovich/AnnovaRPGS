@@ -121,7 +121,11 @@ public class RPGPerson {
         save.put("QUEST_MANAGER", this.questManager.serializeQuests());
         if (lastPosition != null) {
             Vec3 pos = lastPosition.position();
-            save.put("POSITION", lastPosition.newLevel().dimension().location().getPath() + "," + (int) (pos.x() * 100) / 100 + "," + (int) (pos.z() * 100) / 100 + "," + (int) (pos.y() * 100) / 100);
+            save.put("POSITION", lastPosition.newLevel().dimension().location().getPath() + "," +
+                    (int) (pos.x() * 100) / 100 + "," +
+                    (int) (pos.y() * 100) / 100 + "," +
+                    (int) (pos.z() * 100) / 100)
+            ;
         }
         save.put("EQUIPMENT", this.equipment.serialize());
         save.put("ADVANCEMENTS", joinList(this.advancements, RPGAdvancement::name, ","));
