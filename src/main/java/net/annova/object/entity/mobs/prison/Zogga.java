@@ -26,7 +26,7 @@ public class Zogga extends RPGEntity {
 
     @Override
     public String name() {
-        return "Zogga";
+        return " ";
     }
 
     @Override
@@ -36,17 +36,17 @@ public class Zogga extends RPGEntity {
 
     @Override
     public int health() {
-        return 120;
+        return 30;
     }
 
     @Override
     public double damage() {
-        return 26;
+        return 7;
     }
 
     @Override
     public float speed() {
-        return 0.35f;
+        return 0.325f;
     }
 
     @Override

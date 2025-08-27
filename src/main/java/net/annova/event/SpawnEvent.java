@@ -12,6 +12,6 @@ public class SpawnEvent implements Listener {
     @EventHandler
     public void spawn(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
-        //if (entity instanceof Monster && !entity.getPersistentDataContainer().has(NK_ID)) event.setCancelled(true);
+        if (entity instanceof Monster && !entity.getPersistentDataContainer().has(NK_ID)) event.setCancelled(true);
     }
 }

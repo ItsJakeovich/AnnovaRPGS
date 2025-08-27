@@ -23,7 +23,7 @@ public class Prisoner extends RPGEntity {
 
     @Override
     public String name() {
-        return "Prisoner";
+        return " ";
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Prisoner extends RPGEntity {
 
     @Override
     public int health() {
-        return 80;
+        return 30;
     }
 
     @Override

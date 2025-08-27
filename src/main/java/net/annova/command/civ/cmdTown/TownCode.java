@@ -172,7 +172,7 @@ public class TownCode {
             person.send(getInstance(), "civ-info-cancel-town");
             return;
         }
-        if (town.isTodayClaim()) {
+        if (!player.isOp() && town.isTodayClaim()) {
             person.send(getInstance(), "town-claim-cancel-today");
             return;
         }
@@ -187,7 +187,7 @@ public class TownCode {
             person.send(getInstance(), "town-claim-cancel-busy");
             return;
         }
-        if (town.getChunks().size() >= 9) {
+        if (!player.isOp() && town.getChunks().size() >= 9) {
             person.send(getInstance(), "town-claim-cancel-limit");
             return;
         }

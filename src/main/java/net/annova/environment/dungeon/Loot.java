@@ -71,54 +71,22 @@ public class Loot {
             switch (this) {
                 case PRISON -> {
                     List<net.minecraft.world.item.ItemStack> items = new ArrayList<>(List.of(
-                            createItem(Items.DIAMOND, random.nextInt(9)),
-                            createItem(Items.GOLD_INGOT, random.nextInt(17)),
+                            createItem(Items.IRON_INGOT, random.nextInt(6)+1),
+                            createItem(Items.COPPER_INGOT, random.nextDouble(4)+1),
                             createPotion(1, 0.3, new MobEffectInstance(INSTANT_HEALTH, 1, 0)),
                             createPotion(1, 0.3, new MobEffectInstance(SPEED, 3600, 0)),
-                            createItem(Items.GOLDEN_APPLE, random.nextInt(4) + 1, 0.1),
-                            createItem(Items.COOKED_BEEF, random.nextInt(4) + 1),
+                            createItem(Items.COOKED_BEEF, random.nextInt(2) + 1),
                             PRISON_TOKEN.create(random.nextInt(3)),
                             PRISON_SWORD.create(0.02),
                             createItem(Items.EMERALD, random.nextInt(6)),
-                            createItem(Items.SHULKER_SHELL, random.nextInt(4) + 1, 0.4),
-                            createItem(Items.NETHERITE_INGOT, 1, 0.2),
 
                             createPotion(Component.literal("Зелье адреналина").withColor(Color.YELLOW.asRGB()), 1, 0.01, new MobEffectInstance(STRENGTH, 600, 0), new MobEffectInstance(REGENERATION, 200, 1)),
                             createPotion(Component.literal("Зелье защиты").withColor(Color.GRAY.asRGB()), 1, 0.01, new MobEffectInstance(WEAKNESS, 6000, 4), new MobEffectInstance(RESISTANCE, 6000, 4)),
                             createPotion(Component.literal("Зелье счастья").withColor(Color.GREEN.asRGB()), 1, 0.01, new MobEffectInstance(LUCK, 36000, 2)),
                             createPotion(Component.literal("Зелье небесной силы").withColor(Color.AQUA.asRGB()), 1, 0.01, new MobEffectInstance(SLOW_FALLING, 1200, 0), new MobEffectInstance(STRENGTH, 300, 2)),
 
-                            createItem(Items.HEAVY_CORE, 0.003),
-                            createItem(Items.TOTEM_OF_UNDYING, 0.0018),
-
-                            createItem(Items.SPAWNER, 0.0098),
-                            createItem(Items.SPAWNER, 0.0049),
-                            createItem(Items.CREEPER_SPAWN_EGG, 0.0014),
-                            createItem(Items.ZOMBIE_SPAWN_EGG, 0.0014),
-                            createItem(Items.SKELETON_SPAWN_EGG, 0.0014),
-                            createItem(Items.VINDICATOR_SPAWN_EGG, 0.0014),
-                            createItem(Items.EVOKER_SPAWN_EGG, 0.0014),
-                            createItem(Items.STRAY_SPAWN_EGG, 0.0014),
-                            createItem(Items.PIG_SPAWN_EGG, 0.0014),
-                            createItem(Items.COW_SPAWN_EGG, 0.0014),
-                            createItem(Items.IRON_GOLEM_SPAWN_EGG, 0.0014),
-                            createItem(Items.SPIDER_SPAWN_EGG, 0.0014),
-                            createItem(Items.DROWNED_SPAWN_EGG, 0.0014),
-
-                            createBook(Enchantments.SHARPNESS, 6, 0.004),
-                            createBook(Enchantments.LOOTING, 4, 0.004),
-                            createBook(Enchantments.FORTUNE, 5, 0.004),
-                            createBook(Enchantments.EFFICIENCY, 6, 0.004),
-                            createBook(Enchantments.UNBREAKING, 5, 0.004),
-                            createBook(Enchantments.FEATHER_FALLING, 6, 0.004),
-                            createBook(Enchantments.MULTISHOT, 2, 0.004),
-                            createBook(Enchantments.SMITE, 7, 0.004),
-                            createBook(Enchantments.BANE_OF_ARTHROPODS, 7, 0.004),
-                            createBook(Enchantments.DEPTH_STRIDER, 5, 0.004),
-                            createBook(Enchantments.LUCK_OF_THE_SEA, 5, 0.004),
-                            createBook(Enchantments.LURE, 5, 0.004),
-                            createBook(Enchantments.QUICK_CHARGE, 10, 0.004),
-                            createBook(Enchantments.MENDING, 2, 0.004)
+                            createItem(Items.HEAVY_CORE, 0.001),
+                            createItem(Items.TOTEM_OF_UNDYING, 0.0018)
                     ));
                     for (ItemType itemType : getItemsByCategory(ItemCategory.CRYSTALL)) {
                         if (itemType == TIME_STONE) continue;
@@ -196,6 +164,7 @@ public class Loot {
         for (MobEffectInstance effect : effects) {
             contents = contents.withEffectAdded(effect);
         }
+        potion.set(DataComponents.POTION_CONTENTS, contents);
 
         return potion;
     }

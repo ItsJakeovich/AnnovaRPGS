@@ -31,7 +31,7 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
 
     @Override
     public String name() {
-        return "Counterbandit";
+        return " ";
     }
 
     @Override
@@ -41,12 +41,12 @@ public class Counterbandit extends RPGEntity implements EntityAction, Listener {
 
     @Override
     public int health() {
-        return 350;
+        return 120;
     }
 
     @Override
     public double damage() {
-        return 10;
+        return 8;
     }
 
     @Override

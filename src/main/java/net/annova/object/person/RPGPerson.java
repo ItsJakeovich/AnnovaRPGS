@@ -60,6 +60,7 @@ import java.util.Set;
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
 import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.environment.world.GlobalWorld.*;
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
 import static net.annova.main.AnnovaAPI.getMinecraftServer;
@@ -199,9 +200,11 @@ public class RPGPerson {
     public void dungeonTeleport(ServerPlayer player, ServerLevel level, Dungeon dungeon) {
         player.invulnerableTime = 100;
         if (level.equals(getDungeonWorld())) {
+            this.setDungeon(null);
             dungeon.removePlayer(this);
             player.teleport(dungeon.getSummonTransition());
         } else {
+            this.setDungeon(dungeon);
             dungeon.addPlayer(this);
             player.teleport(dungeon.getSpawnTransition());
         }
@@ -229,7 +232,7 @@ public class RPGPerson {
         GameType mode = server.gameMode();
         if (mode == GameType.CREATIVE || mode == GameType.SPECTATOR) return;
         ServerLevel level = server.serverLevel();
-        if (!worldSectors.containsKey(level)) return;
+        if (level != getDungeonWorld() && !worldSectors.containsKey(level)) return;
 
         ClientboundHurtAnimationPacket packet = new ClientboundHurtAnimationPacket(server.getId(), 90.0F);
         level.playSound(null, server.blockPosition(), SoundEvents.PLAYER_HURT, SoundSource.HOSTILE, 1, 1);
@@ -343,10 +346,17 @@ public class RPGPerson {
         player.setFreezeTicks(0);
         player.setNoDamageTicks(60);
         this.statusManager.removeStatus(StatusType.PHANTOM_FEAR);
-        if (dungeon != null) {
-            player.setGameMode(GameMode.SPECTATOR);
-            sendForAll(getInstance(), "death-dungeon", "{name}", this.person.getName());
-            this.startDungeonRespawn();
+
+        ServerPlayer server = this.getServerPlayer();
+        if (this.getServerPlayer().serverLevel() == getDungeonWorld()) {
+            Location location = player.getRespawnLocation();
+            if (location == null) player.teleport(world0.getWorld().getSpawnLocation());
+            else player.teleport(location);
+            Dungeon dung = this.getDungeon();
+            if (dung != null) {
+                dung.removePlayer(this);
+                this.setDungeon(null);
+            }
         } else {
             teleportHome(player);
             sendForAll(getInstance(), "death-base", "{name}", this.person.getName());
@@ -361,8 +371,7 @@ public class RPGPerson {
                 if (delay == 0) {
                     player.setGameMode(GameMode.SURVIVAL);
                     if (dungeon == null) {
-                        Location loc = player.getRespawnLocation();
-                        RPGPerson.this.teleport(loc == null ? Bukkit.getWorld("world").getSpawnLocation() : loc);
+                        teleportHome(player);
                     } else {
                         dungeon.teleportPerson(RPGPerson.this);
                         player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1, 1);
@@ -558,7 +567,7 @@ public class RPGPerson {
     public void updateLastPosition() {
         ServerPlayer player = this.getServerPlayer();
         ServerLevel level = player.serverLevel();
-        if (level.equals(LOBBY)) return;
+        if (level.equals(LOBBY) || level.equals(getDungeonWorld())) return;
         this.lastPosition = new TeleportTransition(level, player.position(),
                 Vec3.ZERO, 0, 0,
                 Set.of(), TeleportTransition.DO_NOTHING,

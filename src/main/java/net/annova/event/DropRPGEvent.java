@@ -4,7 +4,6 @@ import net.annova.event.custom.DropItemFoundBlockCE;
 import net.annova.object.person.advancement.RPGAdvancement;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.craftbukkit.entity.CraftItem;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -30,11 +29,17 @@ public class DropRPGEvent implements Listener {
             public void run() {
                 Location location = item.getLocation();
                 Vector velocity = item.getVelocity().normalize();
-                if (!item.isValid() || velocity.lengthSquared() < 0.0001) {
+                double length = velocity.lengthSquared();
+                if (!item.isValid() || length < 0.0001) {
                     this.cancel();
                     return;
                 }
                 Block block = location.add(velocity).getBlock();
+                Chunk chunk = block.getLocation().getChunk();
+                if (chunk.getX() > 10000 || chunk.getX() < -10000 || chunk.getZ() > 10000 || chunk.getZ() < -10000) {
+                    this.cancel();
+                    return;
+                }
                 if (block.isEmpty()) return;
 
                 DropItemFoundBlockCE dropItemCE = new DropItemFoundBlockCE(player, ((CraftItem) item).getHandle().getItem(), block);
@@ -62,6 +67,6 @@ public class DropRPGEvent implements Listener {
                 }
                 this.cancel();
             }
-        }.runTaskTimer(getInstance(), 0L, 1L);
+        }.runTaskTimer(getInstance(), 0L, 2L);
     }
 }

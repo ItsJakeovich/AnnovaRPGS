@@ -26,7 +26,7 @@ public class Kenji extends RPGEntity {
 
     @Override
     public String name() {
-        return "Kenji";
+        return " ";
     }
 
     @Override
@@ -36,12 +36,12 @@ public class Kenji extends RPGEntity {
 
     @Override
     public int health() {
-        return 300;
+        return 120;
     }
 
     @Override
     public double damage() {
-        return 26;
+        return 12;
     }
 
     @Override

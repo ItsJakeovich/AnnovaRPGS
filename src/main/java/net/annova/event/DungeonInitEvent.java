@@ -47,7 +47,6 @@ public class DungeonInitEvent implements Listener {
             String[] summon = new String[0];
 
             for (String[] line : definedLines) {
-                System.out.println(point + ": " + Arrays.toString(line));
                 switch (line[0]) {
                     case "/spawn" -> {
                         dungeonTemplate.setSpawn(point);

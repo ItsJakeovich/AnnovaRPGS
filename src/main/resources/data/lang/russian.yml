@@ -129,6 +129,7 @@ town-kick-cancel-none: "{ac}❖ {mc}Данных игрок не состоит 
 town-kick-confirm: "{pc}❖ {mc}Подтвердите ислючение {ac}{nick} командой {sc}/confirm"
 town-kick-success: "{pc}❖ {mc}Игрок {ac}{nick} {mc}исключен из города{sc}!"
 
+town-claim-cancel-today: "{ac}❖ {mc}Сегодня вы уже заприватили чанк{sc}!"
 town-claim-cancel-world: "{ac}❖ {mc}Нельзя заприватить чанк городу в другом секторе{sc}!"
 town-claim-cancel-busy: "{ac}❖ {mc}Этот чанк уже занят{sc}!"
 town-claim-cancel-limit: "{ac}❖ {mc}Сегодняшний лимит{sc}: {ac}9 {mc}чанков/город"

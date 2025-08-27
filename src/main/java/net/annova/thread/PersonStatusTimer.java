@@ -12,6 +12,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.portal.TeleportTransition;
 import org.bukkit.Bukkit;
@@ -23,6 +26,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.GlobalDungeon.getDungeon;
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.STOPPED;
 

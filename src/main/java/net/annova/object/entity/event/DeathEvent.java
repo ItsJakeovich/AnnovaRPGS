@@ -35,16 +35,13 @@ public class DeathEvent implements Listener {
     public void death(EntityDeathEvent event) {
         LivingEntity ent = event.getEntity();
         RPGEntity entity = getRPGEntity(ent);
-        System.out.println(1);
         if (entity == null) return;
-        System.out.println(2.1);
         // Loot event
         List<ItemStack> drop = event.getDrops();
         event.getDrops().clear();
         for (net.minecraft.world.item.ItemStack item : entity.loot(getPerson(ent.getKiller()))) {
             drop.add(CraftItemStack.asBukkitCopy(item));
         }
-        System.out.println(2.2);
 
         if (entity instanceof EntityAction action) {
             action.onDeath();
@@ -53,12 +50,10 @@ public class DeathEvent implements Listener {
             SectorLocation sectorLocation = entity.getSectorLocation();
             if (sectorLocation != null) sectorLocation.setBoss(null);
         }
-        System.out.println(3);
 
         RPGEntityDeathCE ev = new RPGEntityDeathCE(entity, ent.getKiller(), event);
         Bukkit.getPluginManager().callEvent(ev);
         removeEntity(ent);
-        System.out.println(4);
 
         RPGEntityType type = RPGEntityType.valueOf(entity.getId());
         this.checkDungeonDeath(entity, ent, type);

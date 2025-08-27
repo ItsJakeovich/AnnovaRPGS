@@ -25,7 +25,7 @@ public class Jack extends RPGEntity {
 
     @Override
     public String name() {
-        return "Jack";
+        return " ";
     }
 
     @Override
@@ -35,12 +35,12 @@ public class Jack extends RPGEntity {
 
     @Override
     public int health() {
-        return 550;
+        return 150;
     }
 
     @Override
     public double damage() {
-        return 30;
+        return 20;
     }
 
     @Override

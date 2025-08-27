@@ -34,7 +34,7 @@ public class Leader extends RPGEntity implements EntityActivity {
 
     @Override
     public String name() {
-        return "Leader";
+        return " ";
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Leader extends RPGEntity implements EntityActivity {
 
     @Override
     public int health() {
-        return 250;
+        return 100;
     }
 
     @Override

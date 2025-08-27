@@ -26,7 +26,7 @@ public class Herson extends RPGEntity {
 
     @Override
     public String name() {
-        return "Herson";
+        return " ";
     }
 
     @Override
@@ -36,12 +36,12 @@ public class Herson extends RPGEntity {
 
     @Override
     public int health() {
-        return 450;
+        return 225;
     }
 
     @Override
     public double damage() {
-        return 12;
+        return 10;
     }
 
     @Override

@@ -9,6 +9,9 @@ import net.annova.object.person.RPGPerson;
 import net.annova.thread.event.MinuteTickEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,13 +20,24 @@ import org.bukkit.event.Listener;
 
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.GlobalWorld.getWorldSectors;
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
 import static net.annova.util.BukkitObjects.random;
 
 public class UpdateSpawnTimer implements Listener {
+    boolean reload = true;
     @EventHandler
     public void run(MinuteTickEvent event) {
+        if (reload) reload = false;
+        else {
+            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world0, EntitySpawnReason.COMMAND);
+            if (lightning != null) {
+                lightning.teleportTo(-878, 60, 274);
+                world0.addFreshEntity(lightning);
+            }
+        }
+
         for (ServerLevel level : getWorldSectors().keySet()) {
             for (SectorLocation location : getWorldSector(level).zones()) {
                 Vec3iSelection[] borders = location.borders();

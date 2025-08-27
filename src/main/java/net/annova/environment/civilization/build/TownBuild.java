@@ -33,7 +33,6 @@ public class TownBuild {
         this.construction = construction;
 
         float cost = base.getBaseCost();
-        System.out.println("1: " + cost);
         SimpleStructure structure = construction.getStructure();
         int startX = position.getX(), startY = position.getY(), startZ = position.getZ();
         int number = 0;
@@ -55,7 +54,6 @@ public class TownBuild {
                 }
             }
         }
-        System.out.println("2: " + cost);
 
         this.cost = cost;
     }

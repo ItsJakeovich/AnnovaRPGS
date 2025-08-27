@@ -28,7 +28,7 @@ public class Zero extends RPGEntity implements EntityActivity {
 
     @Override
     public String name() {
-        return "Zero";
+        return " ";
     }
 
     @Override
@@ -38,12 +38,12 @@ public class Zero extends RPGEntity implements EntityActivity {
 
     @Override
     public int health() {
-        return 950;
+        return 400;
     }
 
     @Override
     public double damage() {
-        return 20;
+        return 10;
     }
 
     @Override

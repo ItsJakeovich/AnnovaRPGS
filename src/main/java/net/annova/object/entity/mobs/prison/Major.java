@@ -33,7 +33,7 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
 
     @Override
     public String name() {
-        return "Major";
+        return " ";
     }
 
     @Override
@@ -43,12 +43,12 @@ public class Major extends RPGEntity implements EntitySpawn, EntityActivity {
 
     @Override
     public int health() {
-        return 1500;
+        return 600;
     }
 
     @Override
     public double damage() {
-        return 24;
+        return 15;
     }
 
     @Override

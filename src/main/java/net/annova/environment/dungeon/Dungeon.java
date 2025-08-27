@@ -11,6 +11,7 @@ import net.annova.object.person.status.StatusManager;
 import net.annova.lang.AISString;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,8 +29,8 @@ import java.util.Set;
 
 import static net.annova.environment.dungeon.GlobalDungeon.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
-import static net.annova.object.person.status.StatusType.CB_DAMAGE_DEBUFF;
-import static net.annova.object.person.status.StatusType.HARRY_DEFENCE_DEBUFF;
+import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.person.status.StatusType.*;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.util.GlobalTasks.importBuild;
 import static net.annova.util.GlobalTasks.removeImportedBuild;
@@ -46,6 +47,7 @@ public class Dungeon {
     private TeleportTransition spawnTransition;
     private final Set<RPGPerson> players = new HashSet<>();
     private final Set<LivingEntity> entity = new HashSet<>();
+    private boolean start = false;
     private boolean close = false;
 
     // null if dungeon summoned with key.
@@ -111,6 +113,13 @@ public class Dungeon {
         return close;
     }
 
+    public void setStart(boolean start) {
+        this.start = start;
+    }
+    public boolean isStart() {
+        return start;
+    }
+
     public void startIfTrue() {
         for (RPGPerson person : players) {
             if (!person.isReady()) return;
@@ -140,7 +149,7 @@ public class Dungeon {
             }
         }.runTaskTimer(getInstance(), 0L, 20);*/
         Dungeon.this.players.forEach(player -> player.setReady(false));
-        Dungeon.this.teleportAll();
+        //Dungeon.this.teleportAll();
         Dungeon.this.base.start(Dungeon.this);
     }
     public void endDungeon() {
@@ -183,9 +192,9 @@ public class Dungeon {
                 person.addPendingItem(cont);
                 continue;
             } else {
-                Location location = player.getRespawnLocation();
-                if (location == null) location = Bukkit.getWorld("world").getSpawnLocation();
-                person.teleport(location);
+                ServerPlayer serverPlayer = person.getServerPlayer();
+                serverPlayer.teleport(this.summonTransition);
+                serverPlayer.invulnerableTime = 100;
                 addItems(player, cont);
             }
 
@@ -221,6 +230,9 @@ public class Dungeon {
 
     public void createDungeon() {
         ServerLevel level = getDungeonWorld();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            getRPGPerson(player).addStatus(SHAKING, 3_000);
+        }
 
         DungeonTemplate dungeonTemplate = base.getTemplate();
         if (getDungeons().isEmpty()) {
@@ -274,6 +286,7 @@ public class Dungeon {
     }
 
     public void spawnEntity(RPGEntity entity, Vec3i position) {
+        if (position == null) return;
         this.spawnEntity(entity, Vec3.atBottomCenterOf(position));
     }
     public void spawnEntity(RPGEntity entity, Vec3 position) {

@@ -56,7 +56,7 @@ public class DarkForest extends SectorLocation {
                     position.x, position.y+0.1, position.z,
                     15, 0, 15, 0, 100)
             );
-            if (!person.getStatusManager().hasStatus(StatusType.ABSORB_NIGHT_BUFF)) player.addEffect(new MobEffectInstance(DARKNESS, 300, 1));
+            player.addEffect(new MobEffectInstance(DARKNESS, 300, 1));
         }
 
         UUID uuid = player.getUUID();
@@ -77,7 +77,7 @@ public class DarkForest extends SectorLocation {
     }
 
     private static final Vec3iSelection[] borders = new Vec3iSelection[] {
-        new Vec3iSelection(-422, 0, -210, -108, 256, -531)
+        new Vec3iSelection(-462, 0, -170, -68, 256, -571)
     };
     @Override
     public Vec3iSelection[] borders() {

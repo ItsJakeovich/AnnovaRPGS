@@ -15,6 +15,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
 
@@ -37,6 +39,7 @@ public class Prison implements DungeonBase {
     @Override
     public void start(Dungeon dungeon) {
         this.dungeon = dungeon;
+        this.dungeon.setStart(true);
 
         SimpleStructure structure = template.getStructure();
         int x = structure.getMaxX() >> 1, y = structure.getMaxY() >> 1, z = structure.getMaxZ() >> 1;
@@ -79,34 +82,32 @@ public class Prison implements DungeonBase {
         ServerLevel level = dungeon.getLevel();
         animation.start(level, position, template.getStructure());
 
-        for (RPGEntity type : template.getEntities().get(key)) {
-            int point = type.getPoint();
-            dungeon.spawnEntity(type, position.offset(template.getStructure().getPositionWithPoint(point)));
+        List<RPGEntity> entities = template.getEntities(key);
+        if (entities != null && !entities.isEmpty()) {
+            for (RPGEntity type : entities) {
+                int point = type.getPoint();
+                dungeon.spawnEntity(type, position.offset(template.getStructure().getPositionWithPoint(point)));
+            }
         }
         // -1 because its starts from 0, -1 because 8 is a welcome-gate.
         return key++ == template.getAnimations().get("gate").size()-2;
     }
 
     public void trigger() {
-        boolean end = true;
-        boolean spawnBoss = true;
-        for (RPGPerson person : this.dungeon.getPlayers()) {
-            ServerPlayer player = person.getPerson().getServerPlayer();
-            if (player == null) continue;
-            Vec3 position = player.position();
-            if (bossLoc == null || player.gameMode() == GameType.SPECTATOR || bossLoc.distToCenterSqr(position) > 100)
-                spawnBoss = false;
-
-            SimpleStructure structure = template.getStructure();
-
-            if (dungeonCenter.distToCenterSqr(position) > maxDistanceSquared) {
-                dungeon.teleportPerson(person);
+        if (!this.dungeon.getPlayers().isEmpty()) {
+            boolean spawnBoss = true;
+            for (RPGPerson person : this.dungeon.getPlayers()) {
+                ServerPlayer player = person.getPerson().getServerPlayer();
+                if (player == null) continue;
+                Vec3 position = player.position();
+                if (bossLoc == null || player.gameMode() == GameType.SPECTATOR || bossLoc.distToCenterSqr(position) > 100)
+                    spawnBoss = false;
             }
-        }
-        if (bossLoc != null && spawnBoss) {
-            template.getEntities().get(101).forEach(ent -> dungeon.spawnEntity(ent, bossLoc));
-            template.getAnimation("boss_gate", 1).start(dungeon.getLevel(), dungeon.getPosition(), template.getStructure());
-            bossLoc = null;
+            if (spawnBoss) {
+                template.getEntities().get(101).forEach(ent -> dungeon.spawnEntity(ent, bossLoc));
+                template.getAnimation("boss_gate", 1).start(dungeon.getLevel(), dungeon.getPosition(), template.getStructure());
+                bossLoc = null;
+            }
         }
     }
 

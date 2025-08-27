@@ -49,7 +49,7 @@ public class BlockEvent implements Listener {
             if (location.isProtected()) {
                 event.setCancelled(true);
                 return;
-            } else player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 120, 2));
+            } else player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 120, 1));
         }
         TownBuild build = getWorldSector(level).getBuildAt(pos);
         if (build == null) return;

@@ -30,7 +30,7 @@ public class Velder extends RPGEntity implements EntityActivity {
 
     @Override
     public String name() {
-        return "Velder";
+        return " ";
     }
 
     @Override
@@ -40,12 +40,12 @@ public class Velder extends RPGEntity implements EntityActivity {
 
     @Override
     public int health() {
-        return 150;
+        return 85;
     }
 
     @Override
     public double damage() {
-        return 18;
+        return 12;
     }
 
     @Override

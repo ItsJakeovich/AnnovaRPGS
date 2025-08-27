@@ -126,7 +126,7 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
                             instance.removeModifier(SPEED_MODIFIER);
                         }
 
-                        if (((Mob) entity).getTarget() == null || cooldown == -4) {
+                        if (entity.getTarget() == null || cooldown == -4) {
                             cooldown = 60;
                             return true;
                         }
@@ -134,9 +134,9 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
                         if (cooldown > 0) {  // значения: 0 -1 -2 -3 * запускают по 5 стрел
                             return true;
                         }
-                        AbstractArrow arrow = EntityType.ARROW.create(entity.level(), EntitySpawnReason.MOB_SUMMONED);
                         Vec3 vec3 = entity.position();
                         for (int i = 0; i <= 5; i++) {
+                            AbstractArrow arrow = EntityType.ARROW.create(entity.level(), EntitySpawnReason.MOB_SUMMONED);
                             double x = random.nextInt(15) - 7 + vec3.x;
                             double y = random.nextInt(5) + 3 + vec3.y;
                             double z = random.nextInt(15) - 7 + vec3.z;

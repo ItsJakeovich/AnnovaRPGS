@@ -31,6 +31,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -77,10 +78,13 @@ public class EntityEvent implements Listener {
     }
 
     private void baseFunction(org.bukkit.event.entity.EntityDamageEvent event, MobDamageCE ev) {
-        WorldSector sector = getWorldSector(((CraftWorld) event.getEntity().getWorld()).getHandle());
-        if (sector == null) {
-            event.setCancelled(true);
-            return;
+        ServerLevel level = ((CraftWorld) event.getEntity().getWorld()).getHandle();
+        if (level != getDungeonWorld()) {
+            WorldSector sector = getWorldSector(level);
+            if (sector == null) {
+                event.setCancelled(true);
+                return;
+            }
         }
         Bukkit.getPluginManager().callEvent(ev);
         event.setDamage(ev.getDamage());

@@ -12,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 
 import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.environment.dungeon.GlobalDungeon.getDungeons;
+import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.object.RPGRarity.*;
 import static net.annova.object.RPGRarity.COMMON;
 
@@ -22,6 +23,14 @@ public class WorldTickTimer extends AnnovaTask {
     }
 
     public static void startPortalTick() {
+        world0.sendParticles(UNCOMMON.getDustOption(), true, true,
+                -845,
+                75,
+                -223,
+                160, 20, 0.1, 20,
+                0
+        );
+
         // World portals
         RPGPortal portal = RPGPortal.RPG_ENTER;
         spawnPortalParticles(RPGCode.ALLOW_TO_JOIN ? UNCOMMON : MYTHIC, false,
@@ -32,8 +41,8 @@ public class WorldTickTimer extends AnnovaTask {
         for (Dungeon dungeon : getDungeons()) {
             Vec3 vec3Spawn = dungeon.getSpawnPosition();
             Vec3i summon = dungeon.getSummonPosition();
-            spawnPortalParticles(COMMON, true, dungeonLevel, Mth.floor(vec3Spawn.x), Mth.floor(vec3Spawn.y), Mth.floor(vec3Spawn.z));
-            spawnPortalParticles(COMMON, true, dungeon.getSummonLevel(), summon.getX(), summon.getY(), summon.getZ());
+            spawnPortalParticles(COMMON, false, dungeonLevel, Mth.floor(vec3Spawn.x), Mth.floor(vec3Spawn.y), Mth.floor(vec3Spawn.z));
+            spawnPortalParticles(COMMON, false, dungeon.getSummonLevel(), summon.getX(), summon.getY(), summon.getZ());
         }
     }
     private static void spawnPortalParticles(RPGRarity rarity, boolean rotated, ServerLevel level, int x, int y, int z) {

@@ -28,7 +28,7 @@ public class Harry extends RPGEntity implements EntityActivity {
 
     @Override
     public String name() {
-        return "Harry";
+        return " ";
     }
 
     @Override
@@ -38,12 +38,12 @@ public class Harry extends RPGEntity implements EntityActivity {
 
     @Override
     public int health() {
-        return 350;
+        return 200;
     }
 
     @Override
     public double damage() {
-        return 10;
+        return 7;
     }
 
     @Override

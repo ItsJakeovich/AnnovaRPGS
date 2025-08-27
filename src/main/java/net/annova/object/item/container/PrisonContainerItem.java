@@ -123,11 +123,12 @@ public class PrisonContainerItem extends RPGItem implements Listener {
 
     public static net.minecraft.world.item.ItemStack[] getItems(Person person) {
         return new net.minecraft.world.item.ItemStack[] {
-                new net.minecraft.world.item.ItemStack(Items.PAPER, 64),
-                new net.minecraft.world.item.ItemStack(Items.DIAMOND, 24),
-                new net.minecraft.world.item.ItemStack(Items.EMERALD, 16),
-                new net.minecraft.world.item.ItemStack(Items.IRON_INGOT, 64),
-                new net.minecraft.world.item.ItemStack(Items.GOLD_INGOT, 48),
+                new net.minecraft.world.item.ItemStack(Items.PAPER, 12),
+                new net.minecraft.world.item.ItemStack(Items.DIAMOND, 2),
+                new net.minecraft.world.item.ItemStack(Items.EMERALD, 1),
+                new net.minecraft.world.item.ItemStack(Items.IRON_INGOT, 12),
+                new net.minecraft.world.item.ItemStack(Items.GOLD_INGOT, 5),
+                new net.minecraft.world.item.ItemStack(Items.COPPER_INGOT, 9),
                 PRISON_TOKEN.create(person, 4, 0.6),
 
                 PRISON_HELMET.create(person, 0.2),

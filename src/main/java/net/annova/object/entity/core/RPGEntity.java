@@ -107,7 +107,7 @@ public abstract class RPGEntity {
 
                 "PRIMARY KEY (UID)"
         );
-        try (PreparedStatement ps = getSQL().getConnection().prepareStatement("SELECT * FROM " + TABLE)) {
+        /*try (PreparedStatement ps = getSQL().getConnection().prepareStatement("SELECT * FROM " + TABLE)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String[] position = rs.getString("POSITION").split(",");
@@ -130,7 +130,7 @@ public abstract class RPGEntity {
             } rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
     public void save() {
         BlockPos pos = this.entity.blockPosition();

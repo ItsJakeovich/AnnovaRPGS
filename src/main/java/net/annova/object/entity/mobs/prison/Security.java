@@ -23,7 +23,7 @@ public class Security extends RPGEntity {
 
     @Override
     public String name() {
-        return "Security";
+        return " ";
     }
 
     @Override
@@ -33,12 +33,12 @@ public class Security extends RPGEntity {
 
     @Override
     public int health() {
-        return 75;
+        return 50;
     }
 
     @Override
     public double damage() {
-        return 6;
+        return 5;
     }
 
     @Override

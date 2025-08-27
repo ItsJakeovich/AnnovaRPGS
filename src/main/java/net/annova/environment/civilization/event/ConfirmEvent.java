@@ -48,7 +48,6 @@ public class ConfirmEvent implements Listener {
         Person person = event.getPerson();
 
         Confirm confirm = person.getConfirm();
-        System.out.println(confirm.getConfirmType());
         switch (confirm.getConfirmType()) {
             case "invite-town" -> {
                 RPGPerson rpg = getRPGPerson(person);

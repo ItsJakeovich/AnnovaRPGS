@@ -9,7 +9,11 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Bogged;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static net.annova.main.GlobalRPG.getSoundFromString;
 import static net.minecraft.world.effect.MobEffects.INVISIBILITY;
@@ -20,7 +24,7 @@ public class CustomDarkElf extends Bogged {
     }
 
     @Override
-    public boolean hurtServer(ServerLevel worldserver, DamageSource damagesource, float f) {
+    public boolean hurtServer(@NotNull ServerLevel worldserver, @NotNull DamageSource damagesource, float f) {
         if (this.hasEffect(INVISIBILITY)) return false;
         return super.hurtServer(worldserver, damagesource, f);
     }
@@ -44,28 +48,43 @@ public class CustomDarkElf extends Bogged {
         return false;
     }
 
+    @Override
+    protected int getAttackInterval() {
+        return super.getAttackInterval()-20;
+    }
+
+    @Override
+    protected int getHardAttackInterval() {
+        return super.getHardAttackInterval()-20;
+    }
+
+    @Override
+    protected @NotNull AbstractArrow getArrow(@NotNull ItemStack arrow, float velocity, @Nullable ItemStack weapon) {
+        return super.getArrow(arrow, velocity, weapon);
+    }
+
     private final SoundEvent ambient = getSoundFromString("custom.darkelf.idle");
     private final SoundEvent step = getSoundFromString("custom.darkelf.walk");
     private final SoundEvent hurt = getSoundFromString("custom.darkelf.damage");
     private final SoundEvent death = getSoundFromString("custom.darkelf.death");
     private final SoundEvent attack = getSoundFromString("custom.darkelf.attack");
     @Override
-    public SoundEvent getAmbientSound() {
+    public @NotNull SoundEvent getAmbientSound() {
         return ambient;
     }
 
     @Override
-    protected SoundEvent getStepSound() {
+    protected @NotNull SoundEvent getStepSound() {
         return step;
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource var0) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource var0) {
         return hurt;
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return death;
     }
 

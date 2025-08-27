@@ -37,6 +37,6 @@ public class Keys {
     }
 
     public static ResourceLocation getRandomLocation(ResourceLocation location) {
-        return ResourceLocation.fromNamespaceAndPath(location.getNamespace(), location.getPath() + random.nextInt(1000000000));
+        return ResourceLocation.fromNamespaceAndPath(location.getNamespace(), location.getPath() + random.nextInt(100000000));
     }
 }
