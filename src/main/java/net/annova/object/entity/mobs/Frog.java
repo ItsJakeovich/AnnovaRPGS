@@ -1,5 +1,7 @@
 package net.annova.object.entity.mobs;
 
+import net.annova.object.CustomRunnable;
+import net.annova.object.entity.core.attribute.EntityActivity;
 import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -8,11 +10,12 @@ import net.annova.object.entity.core.attribute.ability.RPGAbility;
 import net.annova.object.entity.mobs.custom.CustomFrog;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Set;
 
-public class Frog extends RPGEntity implements CustomType {
+public class Frog extends RPGEntity implements CustomType, EntityActivity {
     @Override
     public Class<?> clazz() {
         return CustomFrog.class;
@@ -61,5 +64,23 @@ public class Frog extends RPGEntity implements CustomType {
     @Override
     public Set<RPGAbility> abilities() {
         return Set.of();
+    }
+
+    @Override
+    public List<CustomRunnable> runnables() {
+        return List.of(
+                new CustomRunnable() {
+                    @Override
+                    public boolean activity() {
+                        entity.drop(new ItemStack(Items.SLIME_BALL), true, true);
+                        return true;
+                    }
+
+                    @Override
+                    public long repeating() {
+                        return 3000;
+                    }
+                }
+        );
     }
 }

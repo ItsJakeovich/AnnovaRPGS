@@ -38,7 +38,32 @@ public class ClickRPGEvent implements Listener {
             }
         }
         ItemStack item = event.getItem();
-        if (item != null && item.getType() == Material.WATER_BUCKET && person.getSectorLocation() != null) event.setCancelled(true);
+        if (item != null && person.getSectorLocation() != null) {
+            switch (item.getType()) {
+                case BUCKET:
+                case WATER_BUCKET:
+                case AXOLOTL_BUCKET:
+                case COD_BUCKET:
+                case LAVA_BUCKET:
+                case MILK_BUCKET:
+                case POWDER_SNOW_BUCKET:
+                case PUFFERFISH_BUCKET:
+                case SALMON_BUCKET:
+                case TADPOLE_BUCKET:
+                case TROPICAL_FISH_BUCKET:
+                case ACACIA_BOAT:
+                case BIRCH_BOAT:
+                case CHERRY_BOAT:
+                case JUNGLE_BOAT:
+                case MANGROVE_BOAT:
+                case OAK_BOAT:
+                case SPRUCE_BOAT:
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
 
         // Запуск события MouseClickCE
         EquipmentSlot slot = event.getHand();

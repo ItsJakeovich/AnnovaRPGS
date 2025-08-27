@@ -1,5 +1,6 @@
 package net.annova.thread;
 
+import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.world.RPGPortal;
 import net.annova.event.custom.PostPortalTeleportCE;
 import net.annova.object.person.status.Status;
@@ -21,7 +22,7 @@ import org.bukkit.event.Listener;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static net.annova.environment.dungeon.GlobalDungeon.getPortalTransition;
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeon;
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.person.status.StatusType.STOPPED;
 
@@ -35,11 +36,15 @@ public class PersonStatusTimer implements Listener {
             StatusManager manager = person.getStatusManager();
             ServerPlayer serverPlayer = person.getServerPlayer();
 
+            person.updateSectorLocation();
+
             // Обновление позиции и выносливости
             ServerLevel level = serverPlayer.serverLevel();
             BlockPos position = serverPlayer.blockPosition();
-            TeleportTransition transition = getPortalTransition(level, position);
-            if (transition != null) serverPlayer.teleport(transition);
+            if (serverPlayer.invulnerableTime == 0) {
+                Dungeon dungeon = getDungeon(level, position);
+                if (dungeon != null) person.dungeonTeleport(serverPlayer, level, dungeon);
+            }
             person.updateCurrentArea();
             person.updateStatusBar();
             if (manager.getStatus(STOPPED) == null) {

@@ -3,12 +3,12 @@ package net.annova.environment.dungeon;
 import net.annova.main.AnnovaAPI;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.item.base.ItemCategory;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -46,21 +46,21 @@ public class Loot {
         return rarity;
     }
 
-    public SimpleContainer getLoot() {
-        SimpleContainer container = new SimpleContainer(27);
+    public NonNullList<ItemStack> getLoot() {
+        NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 
         for (net.minecraft.world.item.ItemStack item : Dungeon.values()[rarity].getLootItems()) {
             if (item.getItem() == Items.AIR) continue;
             int slot;
             while (true) {
                 slot = random.nextInt(27);
-                if (container.getItem(slot) != net.minecraft.world.item.ItemStack.EMPTY) continue;
+                if (items.get(slot) != net.minecraft.world.item.ItemStack.EMPTY) continue;
                 break;
             }
-            container.setItem(slot, item);
+            items.set(slot, item);
         }
 
-        return container;
+        return items;
     }
 
     public enum Dungeon {

@@ -1,39 +1,42 @@
 package net.annova.object.magic.physic;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static net.annova.main.AnnovaRPG.getInstance;
 
 public class EntRoots {
-    public static AttributeModifier modifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("annovas", "root_debuff")
-            , -0.70f, AttributeModifier.Operation.ADD_VALUE
+    public static AttributeModifier MODIFIER = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("annovas", "root_debuff")
+            , -0.70f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
-    public static Map<Entity, Long> entities = new HashMap<>();
+    public static Map<UUID, Long> entities = new HashMap<>();
 
     public static void addPhysicDebuff(LivingEntity target) {
+        long current = System.currentTimeMillis();
+        UUID uuid = target.getUUID();
+        if (entities.getOrDefault(uuid, 0L) > current) return;
         AttributeInstance movementInstance = target.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (movementInstance.hasModifier(modifier.id())) return;
+        if (movementInstance.hasModifier(MODIFIER.id())) return;
 
-        movementInstance.addTransientModifier(modifier);
+        movementInstance.addTransientModifier(MODIFIER);
         // + Jump strength debuff
         AttributeInstance jumpInstance = target.getAttribute(Attributes.JUMP_STRENGTH);
-        jumpInstance.addTransientModifier(modifier);
+        jumpInstance.addTransientModifier(MODIFIER);
 
-        entities.put(target, System.currentTimeMillis()+3_000);
+        entities.put(uuid, current+3_000); // длительность
         Bukkit.getScheduler().runTaskLater(getInstance(), () -> {
-            if (entities.get(target) > System.currentTimeMillis()) return;
-            movementInstance.removeModifier(modifier);
-            jumpInstance.removeModifier(modifier);
+            if (entities.get(uuid) > System.currentTimeMillis()) return;
+            movementInstance.removeModifier(MODIFIER);
+            jumpInstance.removeModifier(MODIFIER);
+            entities.put(uuid, System.currentTimeMillis()+4000); // перезарядка
         }, 80L);
     }
 }

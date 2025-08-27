@@ -195,6 +195,11 @@ public class RPGCode {
             player.sendMessage("не существует " + args[1]);
             return;
         }
+        Town current = person.getTown();
+        if (current != null) {
+            person.setTown(null);
+            current.kickMember(person);
+        }
         town.addMember(person);
     }
 }

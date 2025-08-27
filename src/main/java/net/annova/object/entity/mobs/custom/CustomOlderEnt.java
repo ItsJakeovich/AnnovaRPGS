@@ -30,8 +30,10 @@ public class CustomOlderEnt extends CustomIronGolem {
     public CustomOlderEnt(EntityType<? extends IronGolem> entitytypes, Level world) {
         super(entitytypes, world);
 
-        this.getAttribute(Attributes.SCALE).setBaseValue(3.0);
+        this.getAttribute(Attributes.SCALE).setBaseValue(2.5);
     }
+
+
 
     @Override
     public boolean setTarget(LivingEntity entityliving, EntityTargetEvent.TargetReason reason) {

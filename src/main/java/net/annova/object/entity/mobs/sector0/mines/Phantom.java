@@ -69,7 +69,7 @@ public class Phantom extends RPGEntity implements CustomType, EntityActivity {
 
     @Override
     public Set<RPGAbility> abilities() {
-        return Set.of(new RPGAbility(RPGAbility.Type.SCHIVARE).setValue(ValueType.CHANCE, 0.9));
+        return Set.of(new RPGAbility(RPGAbility.Type.SCHIVARE).setValue(ValueType.CHANCE, 0.75));
     }
 
     @Override

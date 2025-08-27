@@ -75,7 +75,7 @@ public class WhipSpider extends RPGEntity implements CustomType, EntityAction, E
     public List<ItemStack> loot(Person person) {
         return List.of(
                 SPIDER_CHITIN.create(person, random.nextInt(3)+2, 0.45),
-                createItem(Items.STRING, AnnovaAPI.random.nextInt(4)+1, 0.5)
+                createItem(Items.STRING, AnnovaAPI.random.nextInt(2)+1, 0.5)
         );
     }
 

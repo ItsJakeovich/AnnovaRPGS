@@ -263,12 +263,10 @@ public class Town {
     public void addMember(RPGPerson person) {
         this.members.add(person);
         person.setTown(this);
-        this.send("town-invite-success", new AISReplacement("{nick}", person.getPerson().getName()));
         this.civilization.addCitizen(person);
     }
     public void kickMember(RPGPerson person) {
         this.members.remove(person);
-        this.civilization.send("town-kick-success", new AISReplacement("{nick}", person.getPerson().getName()));
         this.civilization.removeCitizen(person);
     }
 

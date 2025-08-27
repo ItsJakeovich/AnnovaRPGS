@@ -52,6 +52,7 @@ public class DungeonCode {
         ServerPlayer serverPlayer = person.getServerPlayer();
         Dungeon dungeon = new Dungeon(new Prison(), serverPlayer.blockPosition(), serverPlayer.serverLevel());
 
+        serverPlayer.invulnerableTime = 100;
         dungeon.createDungeon();
     }
 }

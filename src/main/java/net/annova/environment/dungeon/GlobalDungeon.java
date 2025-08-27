@@ -17,7 +17,7 @@ public class GlobalDungeon {
     }
 
     private static final Map<Integer, Dungeon> dungeons = new HashMap<>();
-    private static final Map<ServerLevel, Map<Vec3i, TeleportTransition>> transitionMap = new HashMap<>();
+    private static final Map<ServerLevel, Map<Vec3i, Dungeon>> transitionMap = new HashMap<>();
     static { transitionMap.put(getDungeonWorld(), new HashMap<>()); }
     public static Dungeon getDungeon(int key) {
         return dungeons.get(key);
@@ -26,8 +26,8 @@ public class GlobalDungeon {
         dungeons.put(key, dungeon);
 
         transitionMap.putIfAbsent(dungeon.getSummonLevel(), new HashMap<>());
-        transitionMap.get(dungeon.getLevel()).put(dungeon.getVec3iSpawnPosition(), dungeon.getSummonTransition());
-        transitionMap.get(dungeon.getSummonLevel()).put(dungeon.getSummonPosition(), dungeon.getSpawnTransition());
+        transitionMap.get(dungeon.getLevel()).put(dungeon.getVec3iSpawnPosition(), dungeon);
+        transitionMap.get(dungeon.getSummonLevel()).put(dungeon.getSummonPosition(), dungeon);
     }
     public static void removeDungeon(Dungeon dungeon) {
         dungeons.remove(dungeon.getKey());
@@ -39,8 +39,8 @@ public class GlobalDungeon {
     public static Collection<Dungeon> getDungeons() {
         return dungeons.values();
     }
-    public static TeleportTransition getPortalTransition(ServerLevel level, Vec3i vec3i) {
-        Map<Vec3i, TeleportTransition> transitions = transitionMap.get(level);
+    public static Dungeon getDungeon(ServerLevel level, Vec3i vec3i) {
+        Map<Vec3i, Dungeon> transitions = transitionMap.get(level);
         if (transitions == null) return null;
         for (Vec3i vec : transitions.keySet()) {
             if (vec.distToCenterSqr(vec3i.getX(), vec3i.getY(), vec3i.getZ()) < 7) return transitions.get(vec);

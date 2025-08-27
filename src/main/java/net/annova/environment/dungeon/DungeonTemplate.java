@@ -8,7 +8,6 @@ import net.annova.object.generator.VoidGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.bukkit.*;
@@ -165,10 +164,7 @@ public class DungeonTemplate {
             level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 3);
 
             ChestBlockEntity block = (ChestBlockEntity) level.getBlockEntity(pos);
-            List<ItemStack> items = new ArrayList<>(block.getContents());
-            items.clear();
-            items.addAll(loot.getLoot().getContents());
-//            block.setItems().
+            block.setItems(loot.getLoot());
             block.setChanged();
         }
     }

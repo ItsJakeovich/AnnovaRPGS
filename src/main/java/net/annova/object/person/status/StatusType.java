@@ -202,7 +202,7 @@ public enum StatusType {
 
     FIRE_FISH_DAMAGE_BUFF(15_000, Map.of(DAMAGE, 4.0)),
 
-    PARALYSIS(2_000, new StatusActivity() {
+    PARALYSIS(2_000, 4_000, new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
             Location location = player.getLocation();
@@ -303,7 +303,10 @@ public enum StatusType {
     PHANTOM_FEAR(new StatusActivity() {
         @Override
         public boolean activity(RPGPerson person, Player player, Object object) {
-            if (object == null || ((Mob) object).isDeadOrDying()) return false;
+            if (object != null) {
+                Mob mob = (Mob) object;
+                if (mob.isDeadOrDying() || mob.getTarget() != person.getServerPlayer()) return false;
+            }
             ServerPlayer server = person.getPerson().getServerPlayer();
             server.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, 0));
             server.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 0));
@@ -359,6 +362,9 @@ public enum StatusType {
     }
     StatusType(long duration, StatusActivity activity) {
         this(duration, 0, null, null, new HashMap<>(), activity);
+    }
+    StatusType(long duration, long cooldown, StatusActivity activity) {
+        this(duration, cooldown, null, null, new HashMap<>(), activity);
     }
     StatusType(ItemType whileHas, StatusActivity activity) {
         this(0, 0, whileHas, null, new HashMap<>(), activity);

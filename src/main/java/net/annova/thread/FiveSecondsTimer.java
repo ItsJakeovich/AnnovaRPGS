@@ -18,8 +18,6 @@ public class FiveSecondsTimer extends AnnovaTask { // PersonUpdateTimer + Dungeo
             RPGPerson person = getRPGPerson(player);
             ServerPlayer server = person.getServerPlayer();
 
-            person.updateSectorLocation();
-
             StatusManager manager = person.getStatusManager();
             for (StatusType type : StatusType.getForActivation()) {
                 if (manager.hasStatus(type)) continue;

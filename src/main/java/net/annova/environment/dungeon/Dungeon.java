@@ -100,6 +100,9 @@ public class Dungeon {
     public void addPlayer(RPGPerson person) {
         this.players.add(person);
     }
+    public void removePlayer(RPGPerson person) {
+        this.players.remove(person);
+    }
     public Set<RPGPerson> getPlayers() {
         return players;
     }

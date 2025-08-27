@@ -62,7 +62,7 @@ public class SmallSpider extends RPGEntity implements CustomType {
     public List<ItemStack> loot(Person person) {
         return List.of(
                 SPIDER_CHITIN.create(person, 0.15),
-                createItem(Items.STRING, AnnovaAPI.random.nextInt(4)+1, 0.5)
+                createItem(Items.STRING, AnnovaAPI.random.nextInt(2)+1, 0.5)
         );
     }
 

@@ -58,6 +58,7 @@ import java.util.*;
 import java.util.Set;
 
 import static io.papermc.paper.event.entity.EntityKnockbackEvent.Cause.ENTITY_ATTACK;
+import static net.annova.environment.dungeon.GlobalDungeon.getDungeonWorld;
 import static net.annova.environment.world.GlobalWorld.*;
 import static net.annova.event.ScoreboardRPGEvent.getInfo;
 import static net.annova.lang.MessageObjects.sendForAll;
@@ -195,15 +196,21 @@ public class RPGPerson {
     public void reduceDungeonPoints(int points) {
         this.dungeonPoints -= points;
     }
+    public void dungeonTeleport(ServerPlayer player, ServerLevel level, Dungeon dungeon) {
+        player.invulnerableTime = 100;
+        if (level.equals(getDungeonWorld())) {
+            dungeon.removePlayer(this);
+            player.teleport(dungeon.getSummonTransition());
+        } else {
+            dungeon.addPlayer(this);
+            player.teleport(dungeon.getSpawnTransition());
+        }
+    }
 
     public void damageWithCooldown(float damage) {
         this.damageWithCooldown(null, damage);
     }
     public void damageWithCooldown(Entity damager, float damage) {
-        if (damager instanceof ServerPlayer) { // Защита от игроков в PVE
-            WorldSector sector = getWorldSector(this.getServerPlayer().serverLevel());
-            if (sector != null && sector.isPVE()) return;
-        }
         Player player = this.getPlayer();
         if (player.getNoDamageTicks() != 0) return;
         player.setNoDamageTicks(10);
@@ -229,6 +236,12 @@ public class RPGPerson {
         for (ServerPlayer toSend : level.players()) toSend.connection.send(packet);
 
         this.knockback(damager, damage);
+
+        // Защита от игроков в PVE
+        if (damager instanceof ServerPlayer) {
+            WorldSector sector = getWorldSector(level);
+            if (sector != null && sector.isPVE()) return;
+        }
 
         this.setHealth(this.health - damage);
     }
@@ -329,6 +342,7 @@ public class RPGPerson {
         player.setFireTicks(0);
         player.setFreezeTicks(0);
         player.setNoDamageTicks(60);
+        this.statusManager.removeStatus(StatusType.PHANTOM_FEAR);
         if (dungeon != null) {
             player.setGameMode(GameMode.SPECTATOR);
             sendForAll(getInstance(), "death-dungeon", "{name}", this.person.getName());

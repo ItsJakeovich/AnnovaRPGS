@@ -22,6 +22,11 @@ public class MinesPhantom extends Zombie {
     }
 
     @Override
+    protected boolean convertsInWater() {
+        return false;
+    }
+
+    @Override
     public boolean isSunBurnTick() {
         return false;
     }
