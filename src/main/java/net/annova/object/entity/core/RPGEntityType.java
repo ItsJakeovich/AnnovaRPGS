@@ -29,7 +29,6 @@ import org.bukkit.entity.LivingEntity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.environment.world.SectorLocation.getWaterChorusLocation;
@@ -70,21 +69,21 @@ public enum RPGEntityType {
     // Sector 0 - Dryad Pedestal
     DARK_WOLF(S0_DRYAD, DarkWolf.class, (Vec3 position, ServerLevel level) -> isNight(level)),
     FOREST_WOLF(S0_DRYAD, ForestWolf.class),
-    FANG(S0_DRYAD, Fang.class, 0.3,true),
-    WEREWOLF(S0_DRYAD, Werewolf.class, 0.3, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
+    FANG(S0_DRYAD, Fang.class, 0.9,true),
+    WEREWOLF(S0_DRYAD, Werewolf.class, 0.9, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector 0 - Forest
-    ENT(S0_FOREST, Ent.class, 0.3, 15),
-    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.3, true),
-    DARK_ELF(S0_FOREST, DarkElf.class, 0.08, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
+    ENT(S0_FOREST, Ent.class, 0.9, 15),
+    OLDER_ENT(S0_FOREST, OlderEnt.class, 0.9, true),
+    DARK_ELF(S0_FOREST, DarkElf.class, 0.8, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector - Meteorite
-    METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class, 0.3, 1),
+    METEORITE_GOLEM(S0_METEORITE, MeteoriteGolem.class, 0.9, 1),
     SHARDS(S0_METEORITE, Shards.class),
     // Sector 0 - Mines
-    CARRIER(S0_MINES, Carrier.class, 0.3),
-    GOLEM_BOSS(S0_MINES, GolemBoss.class, 0.3, true),
-    GUARDIAN(S0_MINES, Guardian.class, 0.3),
-    MINER(S0_MINES, Miner.class, 0.3),
-    ORE_COLLECTOR(S0_MINES, OreCollector.class, 0.3),
+    CARRIER(S0_MINES, Carrier.class, 0.9),
+    GOLEM_BOSS(S0_MINES, GolemBoss.class, 0.9, true),
+    GUARDIAN(S0_MINES, Guardian.class, 0.9),
+    MINER(S0_MINES, Miner.class, 0.9),
+    ORE_COLLECTOR(S0_MINES, OreCollector.class, 0.9),
     PHANTOM(S0_MINES, Phantom.class),
     PHANTOM_MINION(S0_MINES, PhantomMinion.class),
     // Sector 0 - Oasis
@@ -214,9 +213,12 @@ public enum RPGEntityType {
 
         Vec3 spawn = waterSpawn ? getWaterChorusLocation(position, level, chorus) : getChorusLocation(position, level, chorus);
         if (position == spawn) return null;
-        if (level.getBrightness(LightLayer.BLOCK, BlockPos.containing(spawn)) > 7) return null;
+        BlockPos pos = BlockPos.containing(spawn);
+        if (waterSpawn && level.getBrightness(LightLayer.SKY, pos) == 0) return null;
+        if (level.getBrightness(LightLayer.BLOCK, pos) > 7) return null;
         RPGEntity entity = this.getEntity();
         entity.create(spawn, level);
+        System.out.println(entity.entity.level().getMinecraftWorld().serverLevelData.getLevelName()+ ", " + entity.entity.position() + ": " + entity.getRPGType().name());
         return entity;
     }
 }

@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -31,6 +32,16 @@ import static net.annova.main.GlobalRPG.*;
 import static net.annova.util.BukkitObjects.chance;
 
 public class DeathEvent implements Listener {
+    @EventHandler
+    public void remove(EntityRemoveEvent event) {
+        switch (event.getCause()) {
+            case OUT_OF_WORLD:
+            case PLUGIN:
+            case TRANSFORMATION:
+            case DISCARD:
+                removeEntity(event.getEntity());
+        }
+    }
     @EventHandler
     public void death(EntityDeathEvent event) {
         LivingEntity ent = event.getEntity();

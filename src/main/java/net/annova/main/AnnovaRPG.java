@@ -13,17 +13,16 @@ import net.annova.environment.structure.StructureBase;
 import net.annova.object.person.RPGPerson;
 import net.annova.thread.*;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static net.annova.command.AnnovaCommandInit.initCommands;
@@ -100,7 +99,7 @@ public final class AnnovaRPG extends JavaPlugin {
         }
         AnnovaRPG.saveAll();
         for (RPGEntity entity : getEntities()) {
-            entity.entity.remove(Entity.RemovalReason.DISCARDED);
+            entity.entity.remove(Entity.RemovalReason.DISCARDED, EntityRemoveEvent.Cause.DISCARD);
         }
     }
 

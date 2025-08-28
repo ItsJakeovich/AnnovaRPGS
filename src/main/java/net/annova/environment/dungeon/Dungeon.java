@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -174,8 +175,7 @@ public class Dungeon {
             default -> throw new IllegalStateException("Unexpected value: " + key);
         };
         for (LivingEntity ent : this.entity) {
-            if (!ent.valid) continue;
-            ent.remove(Entity.RemovalReason.DISCARDED);
+            ent.remove(Entity.RemovalReason.DISCARDED, EntityRemoveEvent.Cause.DISCARD);
         }
 
         for (RPGPerson person : this.players) {
@@ -190,7 +190,6 @@ public class Dungeon {
 
             if (player == null) {
                 person.addPendingItem(cont);
-                continue;
             } else {
                 ServerPlayer serverPlayer = person.getServerPlayer();
                 serverPlayer.teleport(this.summonTransition);

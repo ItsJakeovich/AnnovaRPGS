@@ -159,14 +159,26 @@ public class Loot {
         if (amount < 1 || !chance(chance)) return ItemStack.EMPTY;
         ItemStack potion = new ItemStack(Items.POTION, amount); // Основной тип - обычное зелье
 
-        if (name != null) potion.set(CUSTOM_NAME, name);
         PotionContents contents = potion.get(DataComponents.POTION_CONTENTS);
         for (MobEffectInstance effect : effects) {
             contents = contents.withEffectAdded(effect);
         }
         potion.set(DataComponents.POTION_CONTENTS, contents);
+        if (name != null) potion.set(CUSTOM_NAME, name);
 
         return potion;
+    }
+
+    public static ItemStack createArrow(int amount, MobEffectInstance... effects) {
+        if (amount < 1) return ItemStack.EMPTY;
+        ItemStack arrow = new ItemStack(Items.TIPPED_ARROW, amount);
+
+        PotionContents contents = arrow.get(DataComponents.POTION_CONTENTS);
+        for (MobEffectInstance effect : effects) {
+            contents = contents.withEffectAdded(effect);
+        }
+        arrow.set(DataComponents.POTION_CONTENTS, contents);
+        return arrow;
     }
 
     public static ItemStack createBook(ResourceKey<net.minecraft.world.item.enchantment.Enchantment> enchantment, int level, double chance) {

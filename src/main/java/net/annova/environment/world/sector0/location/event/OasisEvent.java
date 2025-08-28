@@ -8,6 +8,7 @@ import net.annova.object.person.RPGPerson;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftItem;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -61,9 +62,6 @@ public class OasisEvent implements Listener {
     public static final List<ItemType> FISHS = List.copyOf(OASIS_FISHS.keySet());
     @EventHandler
     public void fishing(PlayerFishEvent event) {
-        if (event.getState() == PlayerFishEvent.State.CAUGHT_ENTITY) {
-            event.setCancelled(true);
-        }
         RPGPerson person = getRPGPerson(event.getPlayer());
         if (person.getSectorLocation() instanceof Oasis) {
             if (chance(0.7)) return; // 70% на обычную рыбу
@@ -76,9 +74,9 @@ public class OasisEvent implements Listener {
                     break;
                 }
             }
-            Item item = (Item) event.getCaught();
+            CraftItem item = (CraftItem) event.getCaught();
             if (item == null) return;
-            item.setItemStack(CraftItemStack.asBukkitCopy(finalFish.create(person, 1)));
+            item.getHandle().setItem(finalFish.create(person, 1));
 
             person.completeAdvancement(GOOD_BITE);
             if (finalFish.equals(OASIS_FISH)) person.completeAdvancement(THATS_LUCK);

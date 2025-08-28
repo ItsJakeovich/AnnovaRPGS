@@ -26,7 +26,7 @@ public class MinesMagicArmor extends Zombie {
     public MinesMagicArmor(EntityType<? extends Zombie> entitytypes, Level world) {
         super(entitytypes, world);
         this.setInvisible(true);
-        this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1));
+        this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, false, false));
 
         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(IRON_HELMET));
         this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(IRON_CHESTPLATE));

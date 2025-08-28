@@ -1,5 +1,7 @@
 package net.annova.object.entity.mobs.sector0.dryad;
 
+import net.annova.object.entity.core.attribute.CustomType;
+import net.annova.object.entity.mobs.custom.CustomWerewolf;
 import net.annova.object.person.Person;
 import net.annova.object.RPGRarity;
 import net.annova.object.entity.core.RPGEntity;
@@ -10,7 +12,12 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-public class Werewolf extends RPGEntity {
+public class Werewolf extends RPGEntity implements CustomType {
+    @Override
+    public Class<?> clazz() {
+        return CustomWerewolf.class;
+    }
+
     @Override
     public EntityType<?> type() {
         return EntityType.ZOMBIE;

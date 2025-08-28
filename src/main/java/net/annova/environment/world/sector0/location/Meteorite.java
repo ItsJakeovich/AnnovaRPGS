@@ -20,9 +20,7 @@ import java.util.UUID;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.object.entity.core.RPGEntityType.*;
-import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 import static net.annova.util.BukkitObjects.random;
-import static net.minecraft.world.level.GameType.SURVIVAL;
 
 public class Meteorite extends SectorLocation {
     public Meteorite() {
@@ -31,12 +29,12 @@ public class Meteorite extends SectorLocation {
 
             @Override
             public void update() {
-                world0.sendParticles(ParticleTypes.FLAME, meteoriteCenter.x, meteoriteCenter.y, meteoriteCenter.z, 400, 28, 20, 28, 0);
+                world0.sendParticles(ParticleTypes.FLAME, meteoriteCenter.x, meteoriteCenter.y, meteoriteCenter.z, 400, 6, 4, 6, 0);
             }
 
             @Override
             public int period() {
-                return 20;
+                return 40;
             }
         });
     }

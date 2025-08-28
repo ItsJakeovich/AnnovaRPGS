@@ -36,6 +36,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
@@ -118,6 +119,8 @@ public class RPGPerson {
         sql.loadFromDB(TABLE, RPGPerson.class);
     }
     public void save() {
+        this.updateLastPosition();
+
         Map<String, Object> save = new HashMap<>();
         save.put("NAME", this.person.getName());
         save.put("QUEST_MANAGER", this.questManager.serializeQuests());
@@ -226,9 +229,10 @@ public class RPGPerson {
         this.damage(null, damage);
     }
 
+    private static final net.minecraft.world.item.ItemStack SHIELD = new net.minecraft.world.item.ItemStack(Items.SHIELD);
     public void damage(Entity damager, float damage) {
         if (this.scene) return;
-        ServerPlayer server = this.getPerson().getServerPlayer();
+        ServerPlayer server = this.getServerPlayer();
         GameType mode = server.gameMode();
         if (mode == GameType.CREATIVE || mode == GameType.SPECTATOR) return;
         ServerLevel level = server.serverLevel();
@@ -245,6 +249,8 @@ public class RPGPerson {
             WorldSector sector = getWorldSector(level);
             if (sector != null && sector.isPVE()) return;
         }
+
+        server.getCooldowns().addCooldown(SHIELD, 30);
 
         this.setHealth(this.health - damage);
     }
@@ -566,6 +572,7 @@ public class RPGPerson {
     }
     public void updateLastPosition() {
         ServerPlayer player = this.getServerPlayer();
+        if (player == null) return;
         ServerLevel level = player.serverLevel();
         if (level.equals(LOBBY) || level.equals(getDungeonWorld())) return;
         this.lastPosition = new TeleportTransition(level, player.position(),

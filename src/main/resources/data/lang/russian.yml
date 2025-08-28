@@ -215,6 +215,7 @@ rpg-shaking:      "{pc} ● {mc}/rpg shaking {sc} - {mc}тряска экран�
 rpg-border:       "{pc} ● {mc}/rpg border {sc}{id} - {mc}показывает границы локаций{sc}."
 rpg-oasis-bubble: "{pc} ● {mc}/rpg oasis-bubble - {mc}вызывает пузырь в локации оазиса{sc}."
 rpg-summon:       "{pc} ● {mc}/rpg summon {sc}{name} - {mc}спавнит серверную сущность{sc}."
+rpg-entity-list:  "{pc} ● {mc}{s-com-/rpg entity-list} {sc}- {mc}список мобов{sc}."
 rpg-item:         "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серверный предмет{sc}."
 rpg-status:       "{pc} ● {mc}/rpg status {sc}{STATUS} - {mc}вызывает кастомный эффект{sc}."
 rpg-nextTick:     "{pc} ● {mc}/rpg nextTick {sc}- {mc}инициирует тик городов и цив{sc}."

@@ -107,7 +107,7 @@ public abstract class RPGEntity {
 
                 "PRIMARY KEY (UID)"
         );
-        /*try (PreparedStatement ps = getSQL().getConnection().prepareStatement("SELECT * FROM " + TABLE)) {
+        try (PreparedStatement ps = getSQL().getConnection().prepareStatement("SELECT * FROM " + TABLE)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String[] position = rs.getString("POSITION").split(",");
@@ -130,7 +130,7 @@ public abstract class RPGEntity {
             } rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
     public void save() {
         BlockPos pos = this.entity.blockPosition();
@@ -233,46 +233,47 @@ public abstract class RPGEntity {
     public Mob create(Dungeon dungeon, Vec3 position, ServerLevel level, boolean additional, float addDamage, float multHealth, float multSpeed) {
         this.dungeon = dungeon;
 
-        LivingEntity ent = null;
+        Mob mob = null;
         if (this instanceof CustomType type) {
             try {
-                ent = (LivingEntity) type.clazz().getDeclaredConstructor(EntityType.class, Level.class).newInstance(this.type(), level);
+                mob = (Mob) type.clazz().getDeclaredConstructor(EntityType.class, Level.class).newInstance(this.type(), level);
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 sendInfo("| No such method while creating entity: " + this.getClass().getName());
             }
-        } else ent = (LivingEntity) this.type().create(level, EntitySpawnReason.EVENT);
-        ent.setPos(position);
-        ent.setCustomName(Component.literal(this.name()));
-        ent.setCustomNameVisible(true);
+        } else mob = (Mob) this.type().create(level, EntitySpawnReason.EVENT);
+        mob.setPos(position);
+        mob.setCustomName(Component.literal(this.name()));
+        mob.setCustomNameVisible(true);
 
-        AttributeInstance attribute = ent.getAttribute(Attributes.ATTACK_DAMAGE);
+        AttributeInstance attribute = mob.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attribute != null) attribute.setBaseValue(this.damage() + addDamage);
 
-        attribute = ent.getAttribute(Attributes.MAX_HEALTH);
+        attribute = mob.getAttribute(Attributes.MAX_HEALTH);
         if (attribute != null) {
             float health = this.health() * multHealth;
             attribute.setBaseValue(health);
-            ent.setHealth(health);
+            mob.setHealth(health);
         }
-        ent.persist = false;
+        mob.persist = true;
+        mob.setPersistenceRequired();
 
-        attribute = ent.getAttribute(Attributes.MOVEMENT_SPEED);
+        attribute = mob.getAttribute(Attributes.MOVEMENT_SPEED);
         if (attribute != null) attribute.setBaseValue(this.speed() * multSpeed);
 
-        if (ent instanceof Zombie zombie) {
+        if (mob instanceof Zombie zombie) {
             zombie.setBaby(this.small());
-        } else if (ent instanceof Slime slime) {
+        } else if (mob instanceof Slime slime) {
             slime.setSize(1, false);
         }
 
-        ent.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.STRING, RPGEntityType.getType(this).name());
+        mob.getBukkitEntity().getPersistentDataContainer().set(NK_ID, PersistentDataType.STRING, RPGEntityType.getType(this).name());
 
-        this.entity = (Mob) ent;
-        level.tryAddFreshEntityWithPassengers(ent);
+        this.entity = mob;
+        level.tryAddFreshEntityWithPassengers(mob);
         addEntity(this);
 
         if (this instanceof EntitySpawn spawn && !additional)
-            spawn.onSpawn(level, ent.position());
+            spawn.onSpawn(level, mob.position());
         if (this instanceof EntityActivity activity) {
             for (CustomRunnable custom :  activity.runnables()) {
                 new BukkitRunnable() {
@@ -286,15 +287,14 @@ public abstract class RPGEntity {
         }
 
         if (this instanceof EntityEquipment equipment) {
-            ent.setItemSlot(EquipmentSlot.MAINHAND, equipment.equipment()[0]);
-            ent.setItemSlot(EquipmentSlot.OFFHAND, equipment.equipment()[1]);
-            ent.setItemSlot(EquipmentSlot.HEAD, equipment.equipment()[2]);
-            ent.setItemSlot(EquipmentSlot.CHEST, equipment.equipment()[3]);
-            ent.setItemSlot(EquipmentSlot.LEGS, equipment.equipment()[4]);
-            ent.setItemSlot(EquipmentSlot.FEET, equipment.equipment()[5]);
+            mob.setItemSlot(EquipmentSlot.MAINHAND, equipment.equipment()[0]);
+            mob.setItemSlot(EquipmentSlot.OFFHAND, equipment.equipment()[1]);
+            mob.setItemSlot(EquipmentSlot.HEAD, equipment.equipment()[2]);
+            mob.setItemSlot(EquipmentSlot.CHEST, equipment.equipment()[3]);
+            mob.setItemSlot(EquipmentSlot.LEGS, equipment.equipment()[4]);
+            mob.setItemSlot(EquipmentSlot.FEET, equipment.equipment()[5]);
         }
-
-        return (Mob) ent;
+        return mob;
     }
 
     public String getId() {

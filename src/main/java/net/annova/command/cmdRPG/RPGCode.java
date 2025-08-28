@@ -4,14 +4,17 @@ import net.annova.command.register.CommandArg;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.Oasis;
+import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.magic.projectile.*;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,8 +31,7 @@ import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.main.GlobalRPG.getTown;
+import static net.annova.main.GlobalRPG.*;
 import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
 import static net.annova.thread.CivilizationTickTimer.civilizationsTick;
 import static net.annova.util.BukkitObjects.addItems;
@@ -143,6 +145,15 @@ public class RPGCode {
         }
         ServerPlayer serverPlayer = ((CraftPlayer) player).getHandle();
         RPGEntityType.valueOf(args[1]).getEntity().create(serverPlayer.position(), serverPlayer.serverLevel());
+    }
+    @CommandArg(name = "entity-list")
+    public void entities(Person person, Player player, String[] args) {
+        for (RPGEntity entity : getEntities()) {
+            Mob mob = entity.entity;
+            String info = mob.level().getMinecraftWorld().serverLevelData.getLevelName() + ", " + mob.blockPosition();
+            if (!mob.valid) info += " {fc}not valid";
+            person.send("{pc} | {sc}" + entity.getRPGType().name() + ": {mc}" + info);
+        }
     }
 
     @CommandArg(name = "item", aliases = {"предмет", "шеуь", "ghtlvtn"})

@@ -31,10 +31,9 @@ public class GlobalDungeon {
     }
     public static void removeDungeon(Dungeon dungeon) {
         dungeons.remove(dungeon.getKey());
-
-        ServerLevel level = dungeon.getLevel();
-        transitionMap.get(level).remove(dungeon.getVec3iSpawnPosition());
-        transitionMap.get(level).remove(dungeon.getSummonPosition());
+        
+        transitionMap.get(dungeon.getLevel()).remove(dungeon.getVec3iSpawnPosition());
+        transitionMap.get(dungeon.getSummonLevel()).remove(dungeon.getSummonPosition());
     }
     public static Collection<Dungeon> getDungeons() {
         return dungeons.values();

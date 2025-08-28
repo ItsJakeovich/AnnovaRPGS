@@ -7,7 +7,7 @@
                 World world = sectorLocation.getWorld();
 
                 Vector direction = sectorLocation.getDirection().clone().setY(vertical).normalize();
-                RayTraceResult result = world.rayTrace(sectorLocation, direction, speed/20, FluidCollisionMode.NEVER,
+                RayTraceResult result = world.rayTrace(sectorLocation, direction, speed/20, FluidCollisionMode. NEVER,
                         false, 1, null);
 
                 if (result != null) {
@@ -37,3 +37,5 @@
                     this.tick(sectorLocation, newSpeed, newVertical);
                 }, 1L);
             }
+
+0.1.2: Доработка всего что было, подземелья.

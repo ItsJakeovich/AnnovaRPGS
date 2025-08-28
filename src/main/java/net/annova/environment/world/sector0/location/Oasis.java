@@ -72,7 +72,7 @@ public class Oasis extends SectorLocation {
 
             @Override
             public int period() {
-                return 240;
+                return 3000;
             }
         });
     }

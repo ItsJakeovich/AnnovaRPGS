@@ -33,7 +33,7 @@ public class DryadPedestal extends SectorLocation {
 
             @Override
             public int period() {
-                return 60;
+                return 3600;
             }
         });
     }

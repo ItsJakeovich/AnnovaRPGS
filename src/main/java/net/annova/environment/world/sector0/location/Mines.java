@@ -50,7 +50,7 @@ public class Mines extends SectorLocation {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {
                     world0.explode(null, x, y, z, 6.0f, false, Level.ExplosionInteraction.NONE);
 
-                    if (getAmountByTypeEntity(PHANTOM) <= 10 && chance(0.05)) PHANTOM.getEntity().create(new Vec3(x, y, z), world0);
+                    if (getAmountByTypeEntity(PHANTOM) <= 10 && chance(0.2)) PHANTOM.getEntity().create(new Vec3(x, y, z), world0);
 
                     ItemEntity entity = new ItemEntity(world0, x, y, z, MAGIC_SCRAP.create(1));
                     world0.addFreshEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
@@ -90,7 +90,9 @@ public class Mines extends SectorLocation {
         person.completeAdvancement(RPGAdvancement.MINES);
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_MINES);
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_MINES,
+            PHANTOM, PHANTOM_MINION // этих не спавнит.
+    );
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;
@@ -98,7 +100,7 @@ public class Mines extends SectorLocation {
 
     private static final Vec3iSelection[] borders = new Vec3iSelection[] {
             new Vec3iSelection(-850, -45, 430, -1053, 3, 225),
-            new Vec3iSelection(-1054, -30, 345, -1120, 62, 370),
+            new Vec3iSelection(-1054, -30, 345, -1120, 58, 370),
     };
     @Override
     public Vec3iSelection[] borders() {

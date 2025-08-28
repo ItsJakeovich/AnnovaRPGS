@@ -20,8 +20,7 @@ import java.util.UUID;
 
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.object.entity.core.RPGEntityType.MELANOX;
-import static net.annova.object.entity.core.RPGEntityType.getEntitiesByCategory;
+import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.util.BukkitObjects.chance;
 import static net.annova.util.BukkitObjects.random;
 
@@ -53,7 +52,11 @@ public class SpiderSwamps extends SectorLocation {
         WorldUpdateTimer.addTask(new UpdateTask() {
             @Override
             public void update() {
-                if (SpiderSwamps.this.getBoss() == null && chance(MELANOX.getChance())) {
+                System.out.println("M1.1: " + (SpiderSwamps.this.getBoss() == null));
+                boolean chance = chance(MELANOX.getChance());
+                System.out.println("M1.2: " + chance);
+                if (SpiderSwamps.this.getBoss() == null && chance) {
+                    System.out.println("M2");
                     RPGEntity entity = MELANOX.getEntity();
                     entity.create(new Vec3(-702.5, 9, 239.5), world0);
                     SpiderSwamps.this.setBoss(entity);
@@ -62,12 +65,12 @@ public class SpiderSwamps extends SectorLocation {
 
             @Override
             public int period() {
-                return 300; // 30 секунд
+                return 30; // 30 секунд
             }
         });
     }
 
-    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_SWAMPS, MELANOX);
+    private static final EnumSet<RPGEntityType> toSpawn = getEntitiesByCategory(LocationCategory.S0_SWAMPS, MELANOX, SWAMP_SPIDER);
     @Override
     public EnumSet<RPGEntityType> entitiesToSpawn() {
         return toSpawn;

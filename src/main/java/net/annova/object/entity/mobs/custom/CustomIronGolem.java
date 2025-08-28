@@ -18,7 +18,7 @@ public class CustomIronGolem extends IronGolem {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, (double)1.0F, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0F, true));
         this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9, 32.0F));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
