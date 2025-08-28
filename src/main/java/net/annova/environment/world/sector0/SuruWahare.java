@@ -3,6 +3,7 @@ package net.annova.environment.world.sector0;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.*;
+import net.annova.object.person.Vec3iSelection;
 import net.minecraft.server.level.ServerLevel;
 
 import static net.annova.util.BukkitObjects.getWorld;
@@ -35,6 +36,12 @@ public class SuruWahare extends WorldSector {
     @Override
     public SectorLocation[] zones() {
         return zones;
+    }
+
+    private final Vec3iSelection border = new Vec3iSelection(-1152, 63, -512, 1152, 64, 512);
+    @Override
+    public Vec3iSelection border() {
+        return border;
     }
 
     @Override

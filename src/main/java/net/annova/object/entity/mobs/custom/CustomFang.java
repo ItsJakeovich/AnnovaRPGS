@@ -11,6 +11,7 @@ import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
@@ -43,7 +44,7 @@ public class CustomFang extends Wolf {
     }
 
     @Override
-    public boolean doHurtTarget(ServerLevel worldserver, Entity entity) {
+    public boolean doHurtTarget(@NotNull ServerLevel worldserver, @NotNull Entity entity) {
         if (entity instanceof Player player) {
             getRPGPerson(player.getUUID()).damage(this, (float) this.getAttributeValue(ATTACK_DAMAGE));
             return false;

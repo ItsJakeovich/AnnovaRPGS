@@ -66,7 +66,8 @@ public class MotherSpider extends RPGEntity implements CustomType, EntityAction 
     @Override
     public List<ItemStack> loot(Person person) {
         return List.of(
-                createItem(Items.STRING, AnnovaAPI.random.nextInt(2)+1, 0.5)
+                createItem(Items.STRING, AnnovaAPI.random.nextInt(2)+1, 0.5),
+                createItem(Items.SPIDER_EYE, AnnovaAPI.random.nextInt(6)+1, 0.3)
         );
     }
 

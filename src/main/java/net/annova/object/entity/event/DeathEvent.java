@@ -85,7 +85,7 @@ public class DeathEvent implements Listener {
                 Vec3 position = entity.entity.position();
                 ServerLevel level = getDungeonWorld();
                 level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, position.x, position.y, position.z, 3, 0, 0, 0, 0);
-                if (chance(0.125)) {
+                if (chance(0.2)) { // Шанс на майора
                     DungeonTemplate dungeonTemplate = dungeon.getBase().getTemplate();
                     dungeonTemplate.getAnimation("boss_gate", 1).start(level, dungeon.getPosition(), dungeonTemplate.getStructure());
                     dungeonTemplate.getAnimation("mb_gate", 0).start(level, dungeon.getPosition(), dungeonTemplate.getStructure());

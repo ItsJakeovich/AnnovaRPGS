@@ -11,7 +11,6 @@ import net.annova.object.person.status.ValueType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -43,10 +42,9 @@ public class DamageEvent implements Listener {
                 if (chance(0.04)) EntRoots.addPhysicDebuff(target);
             }
             if (manager.hasStatus(StatusType.PACK_LEADER_BUFF)) {
-                double modifier = 1;
+                double modifier = 2;
                 for (ItemStack item : getArmorContents(target)) {
-                    if (item.getItem() == Items.AIR) continue;
-                    modifier+=0.25;
+                    if (!item.isEmpty()) modifier -= 0.25;
                 }
                 event.increaseDamage(event.getBaseDamage()*modifier);
                 if (isNight(player.level()) && chance(0.18)) {

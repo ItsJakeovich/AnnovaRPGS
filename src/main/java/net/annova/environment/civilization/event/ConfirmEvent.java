@@ -62,7 +62,7 @@ public class ConfirmEvent implements Listener {
                 RPGPerson kicked = (RPGPerson) data.get("person");
                 kicked.setTown(null);
                 town.kickMember(kicked);
-                town.getCivilization().send("town-kick-success", new AISReplacement("{nick}", person.getName()));
+                town.getCivilization().send("town-kick-success", new AISReplacement("{nick}", kicked.getPerson().getName()));
             }
             case "build" -> {
                 RPGPerson rpg = getRPGPerson(person);

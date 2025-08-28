@@ -185,6 +185,7 @@ calc-error: "{pc}❖ {mc}Невозможно выполнить уравнен�
 ## dungeon
 dungeon-menu: "{pc}≡ {mc}Управление подземельями{pc}:"
 dungeon-create: "{pc} ● {mc}{s-com-/dung create} {sc}- {mc}Создает подземелье"
+dungeon-summon: "{pc} ● {mc}{s-com-/dung create} {sc}- {mc}Создает подземелье случайно"
 dungeon-key:    "{pc} ● {mc}/dung key {sc}- {mc}выдает ключ от подземелья"
 dungeon-list:   "{pc} ● {mc}/dung list {sc}- {mc}список открытых подземелий"
 dungeon-delete: "{pc} ● {mc}/dung delete {sc}{id} - {mc}закрывает введенное подземелье"
@@ -201,6 +202,8 @@ dungeon-list-list: "{pc}≡ {mc}Список активных данжей{sc}:"
 dungeon-delete-args: "{pc}❖ {mc}Напишите ключ данжа{ac}! {sc}(число в /dung list)"
 dungeon-delete-not-found: "{pc}❖ {mc}Подземелье не найдено - {ac}{key}"
 dungeon-deleted: "{pc}❖ {mc}Подземелье закрыто{ac}!"
+
+dungeon-summon-success: "{pc}❖ {mc}Подземелье{sc}: {ac}{pos}{sc}!"
 ## inventory
 invsee-args: "{pc}❖ {mc}Введите ник игрока{sc}. Дописав в конце 'ec', откроется эндер сундук"
 ## rpg
@@ -549,6 +552,9 @@ WHALE_FISH: "Рыба кит"
 WHALE_FISH-lore: "{pc}| {mc}Не настоящий кит но имя своё она заслужила по праву{sc}. {}{pc}| {mc}Обладательница огромной пасти и эластичного мешка{sc}, {}{pc}| {mc}что помогают охотится без усилий — просто раскрывая рот и втягивая всё{sc}, {}{pc}| {mc}что плывёт мимо{sc}."
 ## S0 - SWAMPS
 SPIDER_CHITIN: "Хитин болотного паука"
+## S0
+ELF_TREE_APPLE: "Спелое яблоко"
+ELF_TREE_APPLE-lore: "{pc}| {mc}На вид обычное яблоко{sc}, {mc}что будет если его попробовать{sc}?.."
 ## unique
 DUNGEON_KEY: "Ключ от подземелья"
 

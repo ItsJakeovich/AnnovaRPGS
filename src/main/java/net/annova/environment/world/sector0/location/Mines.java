@@ -50,7 +50,7 @@ public class Mines extends SectorLocation {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> {
                     world0.explode(null, x, y, z, 6.0f, false, Level.ExplosionInteraction.NONE);
 
-                    if (getAmountByTypeEntity(PHANTOM) <= 10 && chance(0.2)) PHANTOM.getEntity().create(new Vec3(x, y, z), world0);
+                    if (getAmountByTypeEntity(PHANTOM) <= PHANTOM.getMaxAmount() && chance(0.2)) PHANTOM.getEntity().create(new Vec3(x, y, z), world0);
 
                     ItemEntity entity = new ItemEntity(world0, x, y, z, MAGIC_SCRAP.create(1));
                     world0.addFreshEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);

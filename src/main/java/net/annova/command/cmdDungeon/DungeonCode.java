@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import static net.annova.environment.dungeon.GlobalDungeon.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.object.item.base.ItemType.DUNGEON_KEY;
+import static net.annova.thread.DungeonTickEvent.createRandomPosDungeon;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.main.AnnovaRPG.getInstance;
 
@@ -54,5 +55,11 @@ public class DungeonCode {
 
         serverPlayer.invulnerableTime = 100;
         dungeon.createDungeon();
+    }
+    @CommandArg(name = "summon")
+    public void summon(Person person, Player player, String[] args) {
+        person.send(getInstance(), "dungeon-summon-success", "{pos}",
+                createRandomPosDungeon(person.getServerPlayer().serverLevel()).toShortString()
+        );
     }
 }

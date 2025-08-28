@@ -214,4 +214,14 @@ public class TownCode {
         town.addChunk(new AreaChunk(level, pos));
         town.setTodayClaim(true);
     }
+
+    @CommandArg(name = "unclaim")
+    public void unclaim(Person person, Player player, String[] args) {
+        RPGPerson rpg = getRPGPerson(player);
+        Town town = rpg.getTown();
+        if (town == null) {
+            person.send(getInstance(), "civ-info-cancel-town");
+            return;
+        }
+    }
 }

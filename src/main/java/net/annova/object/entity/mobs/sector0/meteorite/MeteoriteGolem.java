@@ -134,7 +134,7 @@ public class  MeteoriteGolem extends RPGEntity implements CustomType, EntityActi
                             }
                             this.ballCooldown = 30;
                         }
-                        if (pullCooldown <= 0) {
+                        if (pullCooldown <= 0 && target.distanceToSqr(entity) < 400) {
                             target.push(pos.subtract(target.position()).normalize().scale(4.0));
                             this.pullCooldown = 90;
                             this.pullReturn = true;

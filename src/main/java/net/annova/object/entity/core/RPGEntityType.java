@@ -72,7 +72,7 @@ public enum RPGEntityType {
     FANG(S0_DRYAD, Fang.class, 0.9,true),
     WEREWOLF(S0_DRYAD, Werewolf.class, 0.9, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector 0 - Forest
-    ENT(S0_FOREST, Ent.class, 0.9, 15),
+    ENT(S0_FOREST, Ent.class, 0.9, 40),
     OLDER_ENT(S0_FOREST, OlderEnt.class, 0.9, true),
     DARK_ELF(S0_FOREST, DarkElf.class, 0.8, 1, true, false, (Vec3 position, ServerLevel level) -> isNight(level)),
     // Sector - Meteorite
@@ -129,19 +129,19 @@ public enum RPGEntityType {
         this(category, clazz, (Vec3 position, ServerLevel level) -> true, boss, waterSpawn);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition) {
-        this(category, clazz, 1.0, 20, false, false, condition);
+        this(category, clazz, 1.0, 10, false, false, condition);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition, boolean waterSpawn) {
-        this(category, clazz, 1.0, 20, false, waterSpawn, condition);
+        this(category, clazz, 1.0, 10, false, waterSpawn, condition);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, SpawnCondition condition, boolean boss, boolean waterSpawn) {
-        this(category, clazz, 1.0, 20, boss, waterSpawn, condition);
+        this(category, clazz, 1.0, 10, boss, waterSpawn, condition);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance) {
-        this(category, clazz, chance, 20, false, false, (Vec3 position, ServerLevel level) -> true);
+        this(category, clazz, chance, 10, false, false, (Vec3 position, ServerLevel level) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, boolean boss) {
-        this(category, clazz, chance, 20, boss, false, (Vec3 position, ServerLevel level) -> true);
+        this(category, clazz, chance, 10, boss, false, (Vec3 position, ServerLevel level) -> true);
     }
     RPGEntityType(LocationCategory category, Class<? extends RPGEntity> clazz, double chance, int maxAmount) {
         this(category, clazz, chance, maxAmount, false, false, (Vec3 position, ServerLevel level) -> true);

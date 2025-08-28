@@ -27,19 +27,20 @@ public class DropRPGEvent implements Listener {
 
         new BukkitRunnable() {
             public void run() {
-                Location location = item.getLocation();
-                Vector velocity = item.getVelocity().normalize();
+                Location location = item.getLocation().clone();
+                Vector velocity = item.getVelocity().clone();
                 double length = velocity.lengthSquared();
                 if (!item.isValid() || length < 0.0001) {
                     this.cancel();
                     return;
                 }
-                Block block = location.add(velocity).getBlock();
-                Chunk chunk = block.getLocation().getChunk();
-                if (chunk.getX() > 10000 || chunk.getX() < -10000 || chunk.getZ() > 10000 || chunk.getZ() < -10000) {
+                velocity.normalize();
+                location.add(velocity);
+                if (location.getX() > 10000 || location.getX() < -10000 || location.getZ() > 10000 || location.getZ() < -10000) {
                     this.cancel();
                     return;
                 }
+                Block block = location.getBlock();
                 if (block.isEmpty()) return;
 
                 DropItemFoundBlockCE dropItemCE = new DropItemFoundBlockCE(player, ((CraftItem) item).getHandle().getItem(), block);

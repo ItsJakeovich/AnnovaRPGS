@@ -10,6 +10,7 @@ import net.annova.object.item.civilization.BraidedLeather;
 import net.annova.object.item.civilization.Camp;
 import net.annova.object.item.civilization.FirstAidKit;
 import net.annova.object.item.civilization.Log;
+import net.annova.object.item.sector0.ElfTreeApple;
 import net.annova.object.item.sector0.mines.GolemCore;
 import net.annova.object.item.sector0.swamps.ChitinBoots;
 import net.annova.object.item.sector0.swamps.ChitinChestplate;
@@ -189,6 +190,8 @@ public enum ItemType {
     WHALE_FISH(new WhaleFish()),
     // S0 - Swamps
     SPIDER_CHITIN(new SpiderChitin()),
+    // S0
+    ELF_TREE_APPLE(new ElfTreeApple()),
     // unique
     DUNGEON_KEY(new DungeonKeyItem()),
     ;

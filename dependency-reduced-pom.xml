@@ -65,21 +65,21 @@
       <artifactId>purpur-api</artifactId>
       <version>1.21.5</version>
       <scope>system</scope>
-      <systemPath>C:/Users/annov/IdeaProjects/AnnovaPurpur/purpur-api/build/libs/purpur-api-1.21.5-R0.1-SNAPSHOT.jar</systemPath>
+      <systemPath>/home/itsjakeovich/IdeaProjects/Purpur/purpur-api/build/libs/purpur-api-1.21.5-R0.1-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.minecraft</groupId>
       <artifactId>purpur-nms</artifactId>
       <version>1.21.5</version>
       <scope>system</scope>
-      <systemPath>C:/Users/annov/IdeaProjects/AnnovaPurpur/purpur-server/build/libs/purpur-server-1.21.5-R0.1-SNAPSHOT.jar</systemPath>
+      <systemPath>/home/itsjakeovich/IdeaProjects/Purpur/purpur-server/build/libs/purpur-server-1.21.5-R0.1-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.annova</groupId>
       <artifactId>AnnovaAPI</artifactId>
       <version>0.1.0</version>
       <scope>system</scope>
-      <systemPath>C:/Users/annov/IdeaProjects/AnnovaRegionApi/target/AnnovaAPI-0.1.0.jar</systemPath>
+      <systemPath>/home/itsjakeovich/IdeaProjects/AnnovaRegionApi/target/AnnovaAPI-0.1.0.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

@@ -5,7 +5,6 @@ import net.annova.object.LocationCategory;
 import net.annova.object.person.Vec3iSelection;
 import net.annova.object.entity.core.RPGEntityType;
 import net.annova.object.person.RPGPerson;
-import net.annova.object.person.status.StatusType;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -77,7 +76,7 @@ public class DarkForest extends SectorLocation {
     }
 
     private static final Vec3iSelection[] borders = new Vec3iSelection[] {
-        new Vec3iSelection(-462, 0, -170, -68, 256, -571)
+        new Vec3iSelection(-558, 0, -148, -128, 256, -512)
     };
     @Override
     public Vec3iSelection[] borders() {

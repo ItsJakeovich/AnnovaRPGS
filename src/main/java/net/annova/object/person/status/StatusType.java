@@ -332,7 +332,9 @@ public enum StatusType {
         public long repeating() {
             return 18000;
         }
-    })
+    }),
+
+    ELF_APPLE_BONUS(600_000, Map.of(SPEED, 0.15, HEALTH, 10.0)),
     ;
 
     private final long duration;

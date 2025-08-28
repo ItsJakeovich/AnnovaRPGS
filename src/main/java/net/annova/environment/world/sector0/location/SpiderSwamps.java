@@ -52,17 +52,12 @@ public class SpiderSwamps extends SectorLocation {
         WorldUpdateTimer.addTask(new UpdateTask() {
             @Override
             public void update() {
-                System.out.println("M1.1: " + (SpiderSwamps.this.getBoss() == null));
-                boolean chance = chance(MELANOX.getChance());
-                System.out.println("M1.2: " + chance);
-                if (SpiderSwamps.this.getBoss() == null && chance) {
-                    System.out.println("M2");
+                if (SpiderSwamps.this.getBoss() == null && chance(MELANOX.getChance())) {
                     RPGEntity entity = MELANOX.getEntity();
                     entity.create(new Vec3(-702.5, 9, 239.5), world0);
                     SpiderSwamps.this.setBoss(entity);
                 }
             }
-
             @Override
             public int period() {
                 return 30; // 30 секунд
