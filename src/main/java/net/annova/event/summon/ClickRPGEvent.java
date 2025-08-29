@@ -1,14 +1,12 @@
 package net.annova.event.summon;
 
 import net.annova.environment.civilization.territory.AreaChunk;
-import net.annova.environment.world.sector0.location.Meteorite;
 import net.annova.event.custom.MouseClickCE;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -38,7 +36,7 @@ public class ClickRPGEvent implements Listener {
             }
         }
         ItemStack item = event.getItem();
-        if (item != null && person.getSectorLocation() != null) {
+        if (item != null && (person.getSectorLocation() != null || person.getDungeon() != null)) {
             switch (item.getType()) {
                 case BUCKET:
                 case WATER_BUCKET:

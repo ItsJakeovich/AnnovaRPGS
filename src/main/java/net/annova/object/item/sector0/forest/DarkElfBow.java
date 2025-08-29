@@ -58,14 +58,13 @@ public class DarkElfBow extends RPGItem implements RPGTool, Listener {
         return 1;
     }
 
-    private final PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 100, 0);
     @EventHandler
     public void onShootBow(EntityShootBowEvent event) {
         if (DARK_ELF_BOW.equals(event.getBow())) {
             Arrow arrow = (Arrow) event.getProjectile();
             float force = event.getForce();
             arrow.setDamage(arrow.getDamage()+ 3.5*force);
-            arrow.addCustomEffect(darkness, true);
+            arrow.addCustomEffect(new PotionEffect(PotionEffectType.DARKNESS, 100, 0), true);
             LivingEntity shooter = event.getEntity();
             World world = shooter.getWorld();
             Location location = shooter.getLocation();

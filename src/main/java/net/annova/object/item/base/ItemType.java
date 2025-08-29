@@ -1,7 +1,6 @@
 package net.annova.object.item.base;
 
 import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
-import net.annova.object.item.*;
 import net.annova.object.item.base.attribute.ItemConfiguration;
 import net.annova.object.item.base.attribute.ItemEquipment;
 import net.annova.object.item.base.attribute.RPGArmor;
@@ -10,6 +9,7 @@ import net.annova.object.item.civilization.BraidedLeather;
 import net.annova.object.item.civilization.Camp;
 import net.annova.object.item.civilization.FirstAidKit;
 import net.annova.object.item.civilization.Log;
+import net.annova.object.item.prison.*;
 import net.annova.object.item.sector0.ElfTreeApple;
 import net.annova.object.item.sector0.mines.GolemCore;
 import net.annova.object.item.sector0.swamps.ChitinBoots;
@@ -75,6 +75,7 @@ import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.Keys.*;
 import static net.annova.object.person.RPGPerson.colorizeNumber;
 import static net.annova.util.BukkitObjects.chance;
+import static net.minecraft.core.component.DataComponents.CUSTOM_DATA;
 import static org.bukkit.craftbukkit.inventory.CraftItemStack.asNMSCopy;
 
 public enum ItemType {
@@ -114,7 +115,8 @@ public enum ItemType {
     TELEPORT_STONE(CRYSTALL, new TeleportStoneItem()),
     TIME_STONE(CRYSTALL, new TimeStoneItem()),
     VITAL_STONE(CRYSTALL, new VitalStoneItem()),
-    // Equipment
+    // Prison
+    MAGIC_ORE(new MagicOre()),
     PRISON_BOOTS(new PrisonBootsItem()),
     PRISON_CHESTPLATE(new PrisonChestplateItem()),
     PRISON_HELMET(new PrisonHelmetItem()),
@@ -418,38 +420,19 @@ public enum ItemType {
 
         ItemStack nms = new ItemStack(this.item.type(), amount);
 
-        Map<String, AISString> local = getLangMap(getInstance(), person == null ? "ru" : person.getLanguage());
-
-        nms.set(DataComponents.CUSTOM_NAME, local.getOrDefault(this.name(), local.get("unknown-name")).clone()
-                .getDefined(person, this.item.rarity().getColor())
-        );
         nms.set(DataComponents.MAX_STACK_SIZE, this.item.stackSize());
         nms.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(this.item.modelData(), List.of(), List.of(), List.of()));
-
-        List<Component> newLore = new ArrayList<>();
-        AISString lore = local.get(this.name() + "-lore");
-        if (lore != null) newLore.addAll(lore.getDefinedSplitted(person));
 
         CompoundTag tag = new CompoundTag();
         tag.putString(NK_ID.toString(), this.id);
 
-        nms.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+        nms.set(CUSTOM_DATA, CustomData.of(tag));
+
+        updateItemLocal(person, this, nms);
 
         ItemAttributeModifiers attribute = nms.get(DataComponents.ATTRIBUTE_MODIFIERS);
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(attribute.modifiers());
         if (this.item instanceof RPGTool weapon && this.getItem().type() != Items.BOW) {
-            newLore.add(Component.empty());
-
-            MutableComponent damage = local.getOrDefault("tool-damage", local.get("unknown")).clone()
-                    .append(colorizeNumber(weapon.damage()))
-                    .getDefined(person);
-            MutableComponent speed = local.getOrDefault("tool-speed", local.get("unknown")).clone()
-                    .append(colorizeNumber((double) Math.round((weapon.attackSpeed() / 1.6 - 1) * 10000) / 100))
-                    .append("%")
-                    .getDefined(person);
-            newLore.add(damage);
-            newLore.add(speed);
-
             List<ItemAttributeModifiers.Entry> toRemove = new ArrayList<>();
             for (ItemAttributeModifiers.Entry entry : modifiers) {
                 if (entry.attribute() == Attributes.ATTACK_DAMAGE || entry.attribute() == Attributes.ATTACK_SPEED) {
@@ -479,23 +462,6 @@ public enum ItemType {
         }
 
         if (this.item instanceof RPGArmor armor) {
-            newLore.add(Component.empty());
-
-            MutableComponent armorLang = local.getOrDefault("armor-defence", local.get("unknown")).clone()
-                    .append(colorizeNumber((double) Math.round(armor.armor() * 4 * 100) / 100))
-                    .append("%")
-                    .getDefined(person);
-            MutableComponent toughness = local.getOrDefault("armor-toughness", local.get("unknown")).clone()
-                    .append(colorizeNumber(armor.toughness()))
-                    .getDefined(person);
-            MutableComponent speed = local.getOrDefault("armor-speed", local.get("unknown")).clone()
-                    .append(colorizeNumber(armor.speed()*100))
-                    .append("%")
-                    .getDefined(person);
-            newLore.add(armorLang);
-            newLore.add(toughness);
-            newLore.add(speed);
-
             List<ItemAttributeModifiers.Entry> toRemove = new ArrayList<>();
             for (ItemAttributeModifiers.Entry entry : modifiers) {
                 if (entry.attribute() == Attributes.ARMOR
@@ -540,12 +506,71 @@ public enum ItemType {
         nms.set(DataComponents.TOOLTIP_DISPLAY, new TooltipDisplay(false, toHide));
 
         nms.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifiers));
-        nms.set(DataComponents.LORE, new ItemLore(newLore, newLore));
 
         if (this.item instanceof ItemConfiguration configuration) {
+            List<Component> newLore = new ArrayList<>();
             configuration.initConfiguration(nms);
         }
 
         return nms;
+    }
+
+    public static void updateItemLocal(Person person, ItemType type, ItemStack item) {
+        List<Component> newLore = new ArrayList<>();
+        Map<String, AISString> local = getLangMap(getInstance(), person == null ? "ru" : person.getLanguage());
+
+        if (type != EMPTY) {
+            item.set(DataComponents.CUSTOM_NAME, local.getOrDefault(type.name(), local.get("unknown-name")).clone()
+                    .getDefined(person, type.item.rarity().getColor())
+            );
+
+            AISString lore = local.get(type.name() + "-lore");
+            if (lore != null) newLore.addAll(lore.getDefinedSplitted(person));
+
+            if (type.item instanceof RPGTool weapon && type.getItem().type() != Items.BOW) {
+                newLore.add(Component.empty());
+
+                MutableComponent damage = local.getOrDefault("tool-damage", local.get("unknown")).clone()
+                        .append(colorizeNumber(weapon.damage()))
+                        .getDefined(person);
+                MutableComponent speed = local.getOrDefault("tool-speed", local.get("unknown")).clone()
+                        .append(colorizeNumber((double) Math.round((weapon.attackSpeed() / 1.6 - 1) * 10000) / 100))
+                        .append("%")
+                        .getDefined(person);
+                newLore.add(damage);
+                newLore.add(speed);
+            }
+
+            newLore.add(Component.empty());
+
+            if (type.item instanceof RPGArmor armor) {
+                MutableComponent armorLang = local.getOrDefault("armor-defence", local.get("unknown")).clone()
+                        .append(colorizeNumber((double) Math.round(armor.armor() * 4 * 100) / 100))
+                        .append("%")
+                        .getDefined(person);
+                MutableComponent toughness = local.getOrDefault("armor-toughness", local.get("unknown")).clone()
+                        .append(colorizeNumber(armor.toughness()))
+                        .getDefined(person);
+                MutableComponent speed = local.getOrDefault("armor-speed", local.get("unknown")).clone()
+                        .append(colorizeNumber(armor.speed() * 100))
+                        .append("%")
+                        .getDefined(person);
+                newLore.add(armorLang);
+                newLore.add(toughness);
+                newLore.add(speed);
+            }
+        }
+
+        MutableComponent component = local.get("modulit").getDefined(person);
+        CustomData data = item.get(CUSTOM_DATA);
+        if (data == null) data = item.set(CUSTOM_DATA, CustomData.of(new CompoundTag()));
+        CompoundTag tag = data.getUnsafe();
+        for (ItemModulit modulit : ItemModulit.values()) {
+            if (modulit.hasModulit(tag)) {
+                newLore.add(component.copy().append(local.get("MOD-" + modulit.name()).getDefined(person)));
+            }
+        }
+
+        item.set(DataComponents.LORE, new ItemLore(newLore, newLore));
     }
 }

@@ -5,6 +5,7 @@ import net.annova.config.RPGConfig;
 import net.annova.environment.civilization.Civilization;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.world.GlobalWorld;
+import net.annova.event.summon.EntityEvent;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
@@ -28,7 +29,8 @@ import java.util.List;
 import static net.annova.command.AnnovaCommandInit.initCommands;
 import static net.annova.config.AnnovaConfig.sendInfo;
 import static net.annova.environment.dungeon.GlobalDungeon.getDungeons;
-import static net.annova.event.summon.EntityEvent.indicators;
+import static net.annova.environment.world.GlobalWorld.CHERNU;
+import static net.annova.environment.world.GlobalWorld.CHERNU_PERSON;
 import static net.annova.main.AnnovaAPI.getSQL;
 import static net.annova.main.AnnovaAPI.initEvents;
 import static net.annova.main.AnnovaGlobal.getPerson;
@@ -68,6 +70,7 @@ public final class AnnovaRPG extends JavaPlugin {
         DungeonTemplate.createDungeonWorld();
 
         this.initialization();
+        CHERNU_PERSON = getRPGPerson(CHERNU);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             RPGPerson person = getRPGPerson(player);
@@ -91,6 +94,7 @@ public final class AnnovaRPG extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        List<ArmorStand> indicators = new ArrayList<>(EntityEvent.indicators);
         for (ArmorStand indicator : indicators) {
             indicator.remove(Entity.RemovalReason.DISCARDED);
         }
@@ -98,7 +102,8 @@ public final class AnnovaRPG extends JavaPlugin {
             dungeon.endDungeon(true);
         }
         AnnovaRPG.saveAll();
-        for (RPGEntity entity : getEntities()) {
+        List<RPGEntity> entities = new ArrayList<>(getEntities());
+        for (RPGEntity entity : entities) {
             entity.entity.remove(Entity.RemovalReason.DISCARDED, EntityRemoveEvent.Cause.DISCARD);
         }
     }

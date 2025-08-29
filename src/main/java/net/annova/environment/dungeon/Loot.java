@@ -86,17 +86,9 @@ public class Loot {
                             createPotion(Component.literal("Зелье небесной силы").withColor(Color.AQUA.asRGB()), 1, 0.01, new MobEffectInstance(SLOW_FALLING, 1200, 0), new MobEffectInstance(STRENGTH, 300, 2)),
 
                             createItem(Items.HEAVY_CORE, 0.001),
-                            createItem(Items.TOTEM_OF_UNDYING, 0.0018)
+                            createItem(Items.TOTEM_OF_UNDYING, 0.0018),
+                            RED_STONE.create(0.04)
                     ));
-                    for (ItemType itemType : getItemsByCategory(ItemCategory.CRYSTALL)) {
-                        if (itemType == TIME_STONE) continue;
-                        double chance = switch (itemType) {
-                            case RUNIC_STONE, RUNIC_DEFENCE_STONE -> 0.002;
-                            default -> 0.01;
-                        };
-
-                        items.add(itemType.create(chance));
-                    }
                     return items;
                 }
             }

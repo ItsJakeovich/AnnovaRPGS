@@ -45,7 +45,7 @@ public class PersonStatusTimer implements Listener {
             // Обновление позиции и выносливости
             ServerLevel level = serverPlayer.serverLevel();
             BlockPos position = serverPlayer.blockPosition();
-            if (serverPlayer.invulnerableTime == 0) {
+            if (serverPlayer.invulnerableTime == 0) { // Подземелье
                 Dungeon dungeon = getDungeon(level, position);
                 if (dungeon != null) person.dungeonTeleport(serverPlayer, level, dungeon);
             }

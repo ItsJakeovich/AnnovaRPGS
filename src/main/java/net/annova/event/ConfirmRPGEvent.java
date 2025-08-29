@@ -41,17 +41,17 @@ public class ConfirmRPGEvent implements Listener {
                     member.getPerson().send(getInstance(), "team-invite-successfully", "{name}", name);
                 }
             }
-            case "team-gathering" -> {
-                RPGPerson pers = getRPGPerson(person.getUid());
-                if (pers.getDungeon() != null) {
-                    person.send(getInstance(), "team-gathering-already");
-                    return;
-                }
-                Dungeon dungeon = (Dungeon) person.getConfirm().getData().get("dungeon");
-                pers.setDungeon(dungeon);
-                pers.setReady(false);
-                dungeon.teleportPerson(pers);
-            }
+//            case "team-gathering" -> {
+//                RPGPerson pers = getRPGPerson(person.getUid());
+//                if (pers.getDungeon() != null) {
+//                    person.send(getInstance(), "team-gathering-already");
+//                    return;
+//                }
+//                Dungeon dungeon = (Dungeon) person.getConfirm().getData().get("dungeon");
+//                pers.setDungeon(dungeon);
+//                pers.setReady(false);
+//                dungeon.teleportPerson(pers);
+//            }
             case "dungeon" -> {
                 ServerPlayer player = person.getServerPlayer();
                 if (!DUNGEON_KEY.removeItem(player)) {

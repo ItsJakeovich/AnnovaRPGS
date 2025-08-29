@@ -145,7 +145,7 @@ public class TeamCode {
         }
     }
 
-    @CommandArg(name = "gathering", aliases = {"сбор", "пферукштп", "c,jh"}, description = "Gathering players in one place")
+    /*@CommandArg(name = "gathering", aliases = {"сбор", "пферукштп", "c,jh"}, description = "Gathering players in one place")
     public void gathering(Player player) {
         RPGPerson pers = getRPGPerson(player);
         Person person = pers.getPerson();
@@ -167,5 +167,5 @@ public class TeamCode {
             member.send(getInstance(), "team-gathering-request", "{name}", person.getName());
         }
         person.send(getInstance(), "team-gathering-successfully");
-    }
+    }*/
 }

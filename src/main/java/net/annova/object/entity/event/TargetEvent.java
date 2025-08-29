@@ -28,6 +28,7 @@ public class TargetEvent implements Listener {
             if ((type == EntityType.SPIDER || type == EntityType.CAVE_SPIDER)
                     && CHITIN.equals(person.getArmorSet())) event.setCancelled(true);
         }
+        if (target.getTags().contains("annovas:byitem")) event.setCancelled(true);
 
         RPGEntity rpg = GlobalRPG.getRPGEntity(entity);
         if (rpg == null) return;

@@ -13,7 +13,7 @@ import static net.annova.util.RPGUtil.makeValueTypeMap;
 public enum ArmorSet {
     PRISON(makeValueTypeMap(
         ValueType.HEALTH, 15.0,
-        ValueType.DAMAGE, 2.0,
+        ValueType.DAMAGE, 4.0,
         ValueType.SPEED, -0.4
     ), ItemType.PRISON_BOOTS, ItemType.PRISON_LEGGINGS, ItemType.PRISON_CHESTPLATE, ItemType.PRISON_HELMET),
     CHITIN(makeValueTypeMap(

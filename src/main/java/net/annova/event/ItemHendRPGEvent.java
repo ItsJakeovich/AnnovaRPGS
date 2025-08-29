@@ -12,14 +12,14 @@ public class ItemHendRPGEvent implements Listener {
     public void held(PlayerItemHeldEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
         if (item == null) return;
-        if (item.getType().name().contains("SPRUCE") || item.getType() == Material.BAMBOO)
+        if (item.getType().name().contains("SPRUCE"))
             event.getPlayer().getInventory().setItem(event.getNewSlot(), new ItemStack(Material.WHEAT_SEEDS));
     }
     @EventHandler
     public void inventory(InventoryClickEvent event) {
         ItemStack item = event.getCurrentItem();
         if (item == null) return;
-        if (item.getType().name().contains("SPRUCE") || item.getType() == Material.BAMBOO)
+        if (item.getType().name().contains("SPRUCE"))
             event.getCurrentItem().setType(Material.WHEAT_SEEDS);
     }
 }

@@ -223,6 +223,8 @@ rpg-item:         "{pc} ● {mc}/rpg item {sc}{name} - {mc}выдает серв
 rpg-status:       "{pc} ● {mc}/rpg status {sc}{STATUS} - {mc}вызывает кастомный эффект{sc}."
 rpg-nextTick:     "{pc} ● {mc}/rpg nextTick {sc}- {mc}инициирует тик городов и цив{sc}."
 rpg-select-town:  "{pc} ● {mc}/rpg select-town {sc}- {mc}принудительно добавляет в город{sc}."
+rpg-modulit:      "{pc} ● {mc}/rpg modulit {name} {sc}- {mc}добавляет модулит на предмет{sc}."
+rpg-update-item:  "{pc} ● {mc}/rpg update-item {sc}- {mc}обновляет предмет{sc}."
 
 rpg-heal-success: "{pc}❖ {mc}Игрок {ac}{target} {mc}вылечен{sc}!"
 
@@ -274,6 +276,12 @@ armor-toughness: "{d}⛉ {mc}Твердость{sc}: "
 armor-speed:     "{y}ᯓ🥾 {mc}Скорость{sc}: "
 
 unknown-name: "отсутствует."
+
+item-menu-modulit: "{pc}❖ {mc}Добавить модулит"
+item-menu-modulut-item: "{ac}❖ {mc}Возьмите в руку предмет"
+item-confirm-modulit-item: "{ac}❖ {mc}Возьмите в руку модулит{sc}!"
+item-confirm-modulit-exist: "{pc}❖ {mc}На предмете уже есть данный модулит{sc}!"
+item-menu-confirm: "{pc}❖ {mc}Теперь возьмите модулит в руку и подтвердите {sc}{s-com-/confirm}"
 ## Civilization
 BRAIDED_LEATHER: "Плетёная кожа"
 BRAIDED_LEATHER-lore: "{pc}| {mc}Вы не очень хороши в плетении{sc}, {mc}но{sc}, {mc}похоже{sc}, {mc}вышло не плохо{sc}?"
@@ -357,6 +365,10 @@ CHITIN_HELMET-lore: "{pc}| {mc}Созданный из паучьего хити
 CHITIN_LEGGINGS: "Хитиновые поножи"
 CHITIN_LEGGINGS-lore: "{pc}| {mc}Созданные из паучьего хитина{sc}, {mc}они укрепляют ноги {}{pc}| {mc}и гасят удары{sc}, {mc}будто впитывая силу земли{sc}."
 
+MAGIC_ORE: "Магическая руда"
+MAGIC_ORE-lore: "{pc}| {mc}С недавнего времени в разломах начала 
+{}появлятся неизвестной природы руда{sc}.
+{}{mc}Довольно хлипкая{sc}, но вся насквозь пропитана энергия извне{sc}."
 PRISON_BOOTS: "Ботинки охранника"
 PRISON_BOOTS-lore: "{pc}| {mc}Были снят с охранника во время переклички{sc}."
 PRISON_CHESTPLATE: "Нагрудник охранника"
@@ -387,7 +399,7 @@ DURABILITY_TOKEN-lore: " {}{pc}❖ {mc}Шанс не потерять прочн
 FLY_TOKEN: "Жетон полёта"
 FLY_TOKEN-lore: " {}{pc}❖ {mc}При использовании дает полёт на {ac}15 {mc}минут{sc}."
 PRISON_TOKEN: "Жетон заключения"
-PRISON_TOKEN-lore: " {}{pc}❖ {mc}Монета меж-пронстранства{sc}."
+PRISON_TOKEN-lore: " {}{pc}❖ {mc}Монета меж-пространства{sc}."
 RANGE_TOKEN: "Жетон радиуса"
 RANGE_TOKEN-lore: " {}{pc}❖ {mc}Взаимодействие с блоками{sc}: {tc}+2.5{sc}."
 SATURATION_TOKEN: "Жетон насыщения"
@@ -558,6 +570,11 @@ ELF_TREE_APPLE-lore: "{pc}| {mc}На вид обычное яблоко{sc}, {mc
 ## unique
 DUNGEON_KEY: "Ключ от подземелья"
 
+## Modulit
+modulit: "{pc}❖ {mc}Модулит{sc}: "
+MOD-MELANOX_POISON: "{g}Яд меланокса"
+MOD-SEASMITH_PICKAXE: "{sc}Морской кузнец"
+
 ### Сектора
 ## Сектор 0 - SuruWahare
 # forest
@@ -635,6 +652,8 @@ dungeon-failstart: "{pc}❖ {mc}Не все игроки были готовы. 
 dungeon-complete-person: "{pc}❖ {mc}Подземелье было зачищено игроком {ac}{person}{sc}"
 dungeon-complete-team: "{pc}❖ {mc}Подземелье было зачищено командой {ac}{team} {sc}[{mc}{leader}{sc}]"
 
+dungeon-prison-message: "{pc}| {sc}Ты оказался в {ac}Имперской тюрьме {sc}в самый разгар бунта.
+{}{pc}| {sc}Крики узников и звон стали наполняют коридоры..."
 dungeon-prison-major: "{pc}❖ {mc}Вы слышите странный шум{sc}."
 dungeon-killed-major-person: "{pc}❖ {mc}Майор был убил игроком {ac}{person}{sc}"
 dungeon-killed-major-team: "{pc}❖ {mc}Майор был убит командой {ac}{team} {sc}[{mc}{leader}{sc}]"

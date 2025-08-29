@@ -18,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -31,6 +30,7 @@ import java.util.Set;
 import static net.annova.environment.dungeon.GlobalDungeon.*;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ItemType.MAGIC_ORE;
 import static net.annova.object.person.status.StatusType.*;
 import static net.annova.util.BukkitObjects.addItems;
 import static net.annova.util.GlobalTasks.importBuild;
@@ -195,6 +195,7 @@ public class Dungeon {
                 serverPlayer.teleport(this.summonTransition);
                 serverPlayer.invulnerableTime = 100;
                 addItems(player, cont);
+                addItems(player, MAGIC_ORE.create(16));
             }
 
             person.setDungeonPoints(0);

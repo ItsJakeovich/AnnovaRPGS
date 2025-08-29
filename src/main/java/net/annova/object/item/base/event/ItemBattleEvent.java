@@ -21,7 +21,6 @@ import static net.annova.util.NMSObjects.getArmorContents;
 import static net.minecraft.world.effect.MobEffects.POISON;
 
 public class ItemBattleEvent implements Listener {
-    private static final MobEffectInstance POISON_4 = new MobEffectInstance(POISON, 80, 3);
     @EventHandler
     public void battleDamager(BattleCE event) {
         LivingEntity damager = event.getDamager();
@@ -34,14 +33,13 @@ public class ItemBattleEvent implements Listener {
 
         CustomData data = item.get(DataComponents.CUSTOM_DATA);
         if (data == null) return;
-        CompoundTag tag = data.getUnsafe();
-        if (MELANOX_POISON.hasModulit(tag)) {
+        if (MELANOX_POISON.hasModulit(data.getUnsafe())) {
             double chance = 1.0;
             for (ItemStack armor : getArmorContents(entity)) {
                 if (armor.getItem() == Items.AIR) continue;
                 chance-=0.2; // -20% за каждый предмет б
             }
-            if (chance(chance)) entity.addEffect(POISON_4);
+            if (chance(chance)) entity.addEffect(new MobEffectInstance(POISON, 40, 3));
         }
     }
 }

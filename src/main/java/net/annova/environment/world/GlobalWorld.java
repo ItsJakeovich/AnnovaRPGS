@@ -1,6 +1,8 @@
 package net.annova.environment.world;
 
 import net.annova.environment.world.sector0.SuruWahare;
+import net.annova.object.person.Person;
+import net.annova.object.person.RPGPerson;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.TeleportTransition;
@@ -24,6 +26,7 @@ public class GlobalWorld {
             "Angelok1775", "TDLE03", "Woratu", "rokoler", "Donna", "chernu", "Slluw", "Concussion3093"
     );
     public static final String CHERNU = "chernu";
+    public static RPGPerson CHERNU_PERSON;
 
     public static final Map<ServerLevel, WorldSector> worldSectors = new HashMap<>();
     public static void initSectors() {

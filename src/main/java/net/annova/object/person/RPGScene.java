@@ -20,7 +20,7 @@ public enum RPGScene {
             rpg.setScene(true);
             ServerPlayer player = rpg.getServerPlayer();
             player.teleport(S0_FIRST_TRANSITION);
-            player.addEffect(EFFECT_INVISIBILITY);
+            player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1));
             player.playNotifySound(SoundEvents.SNOW_FALL, SoundSource.BLOCKS, 3.0f, 1f);
             new BukkitRunnable() {
                 private int it = 0;
@@ -121,7 +121,7 @@ public enum RPGScene {
             rpg.setScene(true);
             ServerPlayer player = rpg.getServerPlayer();
             player.teleport(S0_FIRST_TRANSITION);
-            player.addEffect(EFFECT_INVISIBILITY);
+            player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, false, false));
             player.playNotifySound(SoundEvents.SNOW_FALL, SoundSource.BLOCKS, 3.0f, 1f);
             new BukkitRunnable() {
                 private int it = 0;
@@ -200,8 +200,8 @@ public enum RPGScene {
             rpg.setScene(true);
             ServerPlayer player = rpg.getServerPlayer();
             player.teleport(S0_FIRST_TRANSITION);
-            player.addEffect(EFFECT_INVISIBILITY);
-            player.addEffect(EFFECT_BLINDNESS);
+            player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, false, false));
+            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, -1, 0, false, false));
             player.playNotifySound(SoundEvents.SNOW_FALL, SoundSource.BLOCKS, 3.0f, 1f);
             new BukkitRunnable() {
                 private int it = 0;
@@ -314,8 +314,6 @@ public enum RPGScene {
         }
     }
     ;
-    private static final MobEffectInstance EFFECT_INVISIBILITY = new MobEffectInstance(MobEffects.INVISIBILITY, -1, 0, false, false);
-    private static final MobEffectInstance EFFECT_BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, -1, 0, false, false);
     private static final TeleportTransition S0_FIRST_TRANSITION = new TeleportTransition(world0, new Vec3(20.5, 300, -194.5), Vec3.ZERO, 0, 0, TeleportTransition.DO_NOTHING);
     private static final TeleportTransition S0_FIRST_CHERNU_TRANSITION = new TeleportTransition(world0, new Vec3(-61.5, 64, 433), Vec3.ZERO, -90, 0, TeleportTransition.DO_NOTHING);
 

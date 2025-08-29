@@ -3,6 +3,7 @@ package net.annova.object.entity.core;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.world.SectorLocation;
+import net.annova.environment.world.WorldSector;
 import net.annova.main.AnnovaAPI;
 import net.annova.object.CustomRunnable;
 import net.annova.object.person.Person;
@@ -50,6 +51,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 import static net.annova.config.AnnovaConfig.sendInfo;
+import static net.annova.environment.world.GlobalWorld.LOBBY;
+import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.SectorLocation.getChorusLocation;
 import static net.annova.main.AnnovaAPI.getMinecraftServer;
 import static net.annova.main.AnnovaAPI.getSQL;
@@ -189,29 +192,32 @@ public abstract class RPGEntity {
     public void createWithTarget(RPGEntity entity, LivingEntity target, int chorus) {
         this.createWithTarget(entity.entity.level().getMinecraftWorld(), entity.entity.position(), target, chorus);
     }
-    public Mob createWithTarget(LivingEntity entity, LivingEntity target, int chorus) {
-        return this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus);
+    public void createWithTarget(LivingEntity entity, LivingEntity target, int chorus) {
+        this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus);
     }
-    public Mob createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus) {
-        return this.createWithTarget(level, position, target, chorus, 0);
+    public void createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus) {
+        this.createWithTarget(level, position, target, chorus, 0);
     }
-    public Mob createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus, long discardedAfter) {
-        return this.createWithTarget(level, position, ((CraftLivingEntity) target).getHandle(), chorus, discardedAfter);
+    public void createWithTarget(ServerLevel level, Vec3 position, org.bukkit.entity.LivingEntity target, int chorus, long discardedAfter) {
+        this.createWithTarget(level, position, ((CraftLivingEntity) target).getHandle(), chorus, discardedAfter);
     }
-    public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus) {
-        return this.createWithTarget(level, position, target, chorus, 0);
+    public void createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus) {
+        this.createWithTarget(level, position, target, chorus, 0);
     }
-    public Mob createWithTarget(LivingEntity entity, LivingEntity target, int chorus, long discardedAfter) {
-        return this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus, discardedAfter);
+    public void createWithTarget(LivingEntity entity, LivingEntity target, int chorus, long discardedAfter) {
+        this.createWithTarget(entity.level().getMinecraftWorld(), entity.position(), target, chorus, discardedAfter);
     }
-    public Mob createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
+    public void createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
+        if (level == LOBBY) return;
+        WorldSector sector = getWorldSector(level);
+        if (sector != null && sector.isPVE()) return;
+
         Mob living = this.create(position, level, chorus, true);
-        living.setTarget(target, EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY);
+        living.setTarget(target, null);
+        living.addTag("annovas:byitem");
         if (discardedAfter != 0)
             Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), () -> living.remove(Entity.RemovalReason.DISCARDED), discardedAfter);
-        return living;
     }
-
 
     public LivingEntity create(LivingEntity entity) {
         ServerLevel level = entity.level().getMinecraftWorld(); // если что попробуй .getMinecraftWorld()

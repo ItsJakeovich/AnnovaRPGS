@@ -1,4 +1,4 @@
-package net.annova.object.item;
+package net.annova.object.item.prison;
 
 import net.annova.object.item.base.RPGItem;
 import net.annova.object.item.base.attribute.ItemAction;
@@ -48,9 +48,8 @@ public class PrisonSteelSwordItem extends RPGItem implements ItemAction, RPGTool
         return 1.6;
     }
 
-    private static final MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 300, 0);
     @Override
     public void onAttack(LivingEntity entity, LivingEntity target) {
-        target.addEffect(BLINDNESS);
+        target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300, 0));
     }
 }

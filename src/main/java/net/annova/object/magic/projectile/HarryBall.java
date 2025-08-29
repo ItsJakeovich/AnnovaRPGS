@@ -30,8 +30,6 @@ public class HarryBall extends ParticleProjectile {
         return summoner;
     }
 
-    private final static MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 200, 0);
-    private final static MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 200, 0);
     @Override
     public void onHit(Vec3 position, ServerLevel level) {
         for (Entity target : level.getEntities((Entity) null, new AABB(position, position).inflate(2.25), Predicates.instanceOf(LivingEntity.class))) {
@@ -43,7 +41,7 @@ public class HarryBall extends ParticleProjectile {
                 }
                 case DAMAGE -> {
                     entity.hurtServer(level, level.damageSources().generic(), 10);
-                    entity.addEffect(BLINDNESS); entity.addEffect(SLOWNESS);
+                    entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0)); entity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 200, 0));
                 }
                 case COMBUST -> {
                     entity.igniteForSeconds(15);

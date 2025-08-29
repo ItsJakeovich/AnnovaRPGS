@@ -1,4 +1,4 @@
-package net.annova.object.item;
+package net.annova.object.item.prison;
 
 import net.annova.object.item.base.attribute.RPGArmor;
 import net.annova.object.item.base.RPGItem;
@@ -36,12 +36,12 @@ public class PrisonBootsItem extends RPGItem implements RPGArmor {
 
     @Override
     public float armor() {
-        return 2;
+        return 2.5f;
     }
 
     @Override
     public float toughness() {
-        return 0;
+        return 2f;
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.object.item.base.ItemType.MAGIC_ORE;
 import static net.annova.object.item.base.ItemType.PRISON_TOKEN;
 import static net.annova.util.BukkitObjects.random;
 
@@ -55,7 +56,8 @@ public class Prisoner extends RPGEntity {
     public List<ItemStack> loot(Person person) {
         return List.of(
                 createItem(Items.COOKED_BEEF, random.nextInt(4), 0.11),
-                PRISON_TOKEN.create(person, random.nextInt(2), 0.11)
+                PRISON_TOKEN.create(person, random.nextInt(2), 0.11),
+                MAGIC_ORE.create(person, random.nextInt(2)+1, 0.1)
         );
     }
 

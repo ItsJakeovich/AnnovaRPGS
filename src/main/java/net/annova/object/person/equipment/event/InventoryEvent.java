@@ -4,7 +4,7 @@ import net.annova.event.custom.MenuClickItemCE;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.equipment.EquipmentMenu;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +31,7 @@ public class InventoryEvent implements Listener {
             Component string = item.get(CUSTOM_NAME);
             if (string == null || string.equals(Component.empty())) return;
             RPGPerson person = getRPGPerson(event.getPerson());
-            if (event.getContainer() instanceof InventoryMenu) {
+            if (event.getContainer() instanceof Inventory) {
                 person.getEquipment().addEquipment(item, event.getSlot());
             } else {
                 person.getEquipment().removeEquipment(item, event.getSlot());

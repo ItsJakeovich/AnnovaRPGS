@@ -102,12 +102,9 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
         };
     }
 
-    private static final MobEffectInstance INVISIBILITY = new MobEffectInstance(MobEffects.INVISIBILITY, 40, 0);
     public static AttributeModifier SPEED_MODIFIER = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("annovas", "dark_elf_buff")
             , 0.25f, AttributeModifier.Operation.ADD_VALUE
     );
-    private static final MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 600, 0);
-    private static final MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 600, 2);
     @Override
     public List<CustomRunnable> runnables() {
         return List.of(
@@ -156,7 +153,7 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
                 new CustomRunnable() {
                     @Override
                     public boolean activity() {
-                        entity.addEffect(INVISIBILITY); // неуязвимость в классе типа.
+                        entity.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 40, 0)); // неуязвимость в классе типа.
                         return true;
                     }
 
@@ -170,8 +167,8 @@ public class DarkElf extends RPGEntity implements CustomType, EntityEquipment, E
                     public boolean activity() {
                         for (Entity craftTarget : entity.level().getEntities(entity, entity.getBoundingBox().inflate(20, 12, 20))) {
                             if (craftTarget instanceof LivingEntity target) {
-                                target.addEffect(BLINDNESS);
-                                target.addEffect(SLOWNESS);
+                                target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 600, 0));
+                                target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 600, 2));
                             }
                         }
 //                        LivingEntity target = ((Creature) entity).getTarget();

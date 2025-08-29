@@ -6,6 +6,7 @@ import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.Oasis;
 import net.annova.object.entity.core.RPGEntity;
 import net.annova.object.entity.core.RPGEntityType;
+import net.annova.object.item.base.ItemModulit;
 import net.annova.object.item.base.ItemType;
 import net.annova.object.magic.projectile.*;
 import net.annova.object.person.Person;
@@ -16,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -32,7 +34,7 @@ import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
 import static net.annova.main.AnnovaRPG.getInstance;
 import static net.annova.main.GlobalRPG.*;
-import static net.annova.object.item.base.ItemType.MAGIC_SCRAP;
+import static net.annova.object.item.base.ItemType.*;
 import static net.annova.thread.CivilizationTickTimer.civilizationsTick;
 import static net.annova.util.BukkitObjects.addItems;
 
@@ -212,5 +214,30 @@ public class RPGCode {
             current.kickMember(person);
         }
         town.addMember(person);
+    }
+
+    @CommandArg(name = "modulit")
+    public void modulit(Person person, Player player, String[] args) {
+        if (args.length < 2) {
+            player.sendMessage("/rpg modulit {name}");
+            return;
+        }
+        ItemStack item = person.getServerPlayer().getMainHandItem();
+        if (item.isEmpty()) {
+            player.sendMessage("Возьмите в руку предмет");
+            return;
+        }
+        ItemModulit.valueOf(args[1].toUpperCase()).addModulit(person, item);
+        updateItemLocal(person, getItemType(item), item);
+    }
+
+    @CommandArg(name = "update-item")
+    public void updateItem(Person person, Player player, String[] args) {
+        ItemStack item = person.getServerPlayer().getMainHandItem();
+        if (item.isEmpty()) {
+            player.sendMessage("Возьмите в руку предмет");
+            return;
+        }
+        updateItemLocal(person, getItemType(item), item);
     }
 }

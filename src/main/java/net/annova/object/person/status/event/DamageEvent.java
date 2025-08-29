@@ -8,14 +8,19 @@ import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
 import net.annova.object.person.status.ValueType;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ItemType.CREATING_NIGHT_AMULET;
 import static net.annova.object.person.equipment.ArmorSet.CHITIN;
 import static net.annova.object.person.status.StatusType.PARALYSIS;
 import static net.annova.object.person.status.StatusType.ROOTS_LASH_BUFF;
@@ -38,6 +43,9 @@ public class DamageEvent implements Listener {
 
             LivingEntity target = event.getEntity();
             StatusManager manager = person.getStatusManager();
+            if (CREATING_NIGHT_AMULET.hasEquipment(player)) {
+                target.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 300, 0));
+            }
             if (manager.hasStatus(StatusType.ENT_PATRON_BUFF)) {
                 if (chance(0.04)) EntRoots.addPhysicDebuff(target);
             }

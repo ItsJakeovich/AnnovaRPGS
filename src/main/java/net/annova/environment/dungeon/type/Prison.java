@@ -2,11 +2,14 @@ package net.annova.environment.dungeon.type;
 
 import net.annova.environment.dungeon.Dungeon;
 import net.annova.environment.dungeon.DungeonTemplate;
+import net.annova.lang.AISString;
 import net.annova.object.entity.core.RPGEntity;
+import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.SimpleStructure;
 import net.annova.object.animation.Animation;
 import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
@@ -70,6 +73,11 @@ public class Prison implements DungeonBase {
                 else Prison.this.trigger();
             }
         }.runTaskTimer(getInstance(), 0L, 100L);
+    }
+
+    @Override
+    public AISString message(Person person) {
+        return person.getAISString(getInstance(), "dungeon-prison-message");
     }
 
     public int key = 0;

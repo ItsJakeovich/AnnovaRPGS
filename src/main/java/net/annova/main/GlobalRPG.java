@@ -123,7 +123,7 @@ public class GlobalRPG {
     public static int getAmountByTypeEntity(RPGEntityType type) {
         int amount = 0;
         for (RPGEntity entity : entities.values()) {
-            if (type.equals(entity)) amount++;
+            if (entity.getRPGType() == type) amount++;
         }
         return amount;
     }

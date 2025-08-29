@@ -7,6 +7,8 @@ import net.annova.object.RPGRarity;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.Vec3;
@@ -46,11 +48,17 @@ public class WorldTickTimer extends AnnovaTask {
         for (Dungeon dungeon : getDungeons()) {
             Vec3 vec3Spawn = dungeon.getSpawnPosition();
             Vec3i summon = dungeon.getSummonPosition();
-            spawnPortalParticles(COMMON, false, dungeonLevel, Mth.floor(vec3Spawn.x), Mth.floor(vec3Spawn.y), Mth.floor(vec3Spawn.z));
-            spawnPortalParticles(COMMON, false, dungeon.getSummonLevel(), summon.getX(), summon.getY(), summon.getZ());
+            ServerLevel summonLevel = dungeon.getSummonLevel();
+            double x = vec3Spawn.x, y = vec3Spawn.y, z = vec3Spawn.z;
+            spawnPortalParticles(COMMON, false, dungeonLevel, x, y, z);
+            dungeonLevel.playSound(null, x, y, z, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 2, 1);
+
+            x = summon.getX()+0.5; y = summon.getY(); z = summon.getZ()+0.5;
+            spawnPortalParticles(COMMON, false, summonLevel, x, y, z);
+            summonLevel.playSound(null, x, y, z, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 2, 1);
         }
     }
-    private static void spawnPortalParticles(RPGRarity rarity, boolean rotated, ServerLevel level, int x, int y, int z) {
+    private static void spawnPortalParticles(RPGRarity rarity, boolean rotated, ServerLevel level, double x, double y, double z) {
         int radius = 3, points = 30;
         double angleBase = 2 * Math.PI / points;
         y +=radius;
@@ -58,14 +66,12 @@ public class WorldTickTimer extends AnnovaTask {
         DustColorTransitionOptions options = rarity.getContour();
         double step = 0.5;
         double angle;
-        double sX = x + 0.5;
-        double sZ = z + 0.5;
         if (rotated) {
             for (int i = 0; i < points; i++) {
                 angle = angleBase * i;
-                level.sendParticles(options, true, true, sX,
+                level.sendParticles(options, true, true, x,
                         y + Math.cos(angle) * radius,
-                        sZ + Math.sin(angle) * radius,
+                        z + Math.sin(angle) * radius,
                         5, 0.25, 0.25, 0.25,
                         0
                 );
@@ -76,9 +82,9 @@ public class WorldTickTimer extends AnnovaTask {
                 angleBase = 2 * Math.PI / points;
                 for (int i = 0; i < points; i++) {
                     angle = angleBase * i;
-                    level.sendParticles(options, true, true, sX,
+                    level.sendParticles(options, true, true, x,
                             y + Math.cos(angle) * r,
-                            sZ + Math.sin(angle) * r,
+                            z + Math.sin(angle) * r,
                             1, 0.1, 0.1, 0.1,
                             0
                     );
@@ -88,9 +94,9 @@ public class WorldTickTimer extends AnnovaTask {
             for (int i = 0; i < points; i++) {
                 angle = angleBase * i;
                 level.sendParticles(options, true, true,
-                        sX + Math.cos(angle) * radius,
+                        x + Math.cos(angle) * radius,
                         y + Math.sin(angle) * radius,
-                        sZ,
+                        z,
                         5, 0.25, 0.25, 0.25,
                         0
                 );
@@ -102,9 +108,9 @@ public class WorldTickTimer extends AnnovaTask {
                 for (int i = 0; i < points; i++) {
                     angle = angleBase * i;
                     level.sendParticles(options, true, true,
-                            sX + Math.cos(angle) * r,
+                            x + Math.cos(angle) * r,
                             y + Math.sin(angle) * r,
-                            sZ,
+                            z,
                             1, 0.1, 0.1, 0.1,
                             0
                     );

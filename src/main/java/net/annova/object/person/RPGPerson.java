@@ -210,6 +210,7 @@ public class RPGPerson {
             this.setDungeon(dungeon);
             dungeon.addPlayer(this);
             player.teleport(dungeon.getSpawnTransition());
+            this.person.send(dungeon.getBase().message(person).getDefinedSplitted());
         }
     }
 

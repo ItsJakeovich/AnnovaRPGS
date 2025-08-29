@@ -12,14 +12,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class MelanoxRay extends ParticleProjectile {
-    private final MobEffectInstance POISON = new MobEffectInstance(MobEffects.POISON, 40, 3);
-    private final MobEffectInstance SLOWNESS = new MobEffectInstance(MobEffects.SLOWNESS, 120, 0);
     @Override
     public void onHit(Vec3 position, ServerLevel level) {
         for (Entity entity : level.getEntities((net.minecraft.world.entity.Entity) null, new AABB(position, position).inflate(1, 1, 1))) {
             if (entity instanceof LivingEntity living) {
-                living.addEffect(POISON);
-                living.addEffect(SLOWNESS);
+                living.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 3));
+                living.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 0));
             }
         }
     }

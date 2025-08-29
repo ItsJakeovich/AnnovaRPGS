@@ -1,4 +1,4 @@
-package net.annova.object.item;
+package net.annova.object.item.prison;
 
 import net.annova.object.item.base.attribute.RPGArmor;
 import net.annova.object.item.base.RPGItem;
@@ -8,10 +8,10 @@ import net.minecraft.world.item.Items;
 
 import java.util.List;
 
-public class PrisonHelmetItem extends RPGItem implements RPGArmor {
+public class PrisonLeggingsItem extends RPGItem implements RPGArmor {
     @Override
     public Item type() {
-        return Items.CHAINMAIL_HELMET;
+        return Items.CHAINMAIL_LEGGINGS;
     }
 
     @Override
@@ -36,12 +36,12 @@ public class PrisonHelmetItem extends RPGItem implements RPGArmor {
 
     @Override
     public float armor() {
-        return 2;
+        return 5.5f;
     }
 
     @Override
     public float toughness() {
-        return 0;
+        return 2f;
     }
 
     @Override

@@ -7,13 +7,18 @@ import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.WorldSector;
 import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.person.RPGPerson;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.GameType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -21,6 +26,7 @@ import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.GlobalWorld.worldSectors;
 import static net.annova.main.GlobalRPG.getAreaChunk;
 import static net.annova.main.GlobalRPG.getRPGPerson;
+import static net.annova.object.item.base.ItemModulit.SEASMITH_PICKAXE;
 
 public class BlockEvent implements Listener {
     @EventHandler
@@ -52,12 +58,23 @@ public class BlockEvent implements Listener {
             } else player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 120, 1));
         }
         TownBuild build = getWorldSector(level).getBuildAt(pos);
-        if (build == null) return;
-        Town town = person.getTown();
-        if (build.getConstruction().isProtectedBlock(pos)
-                || town == null
-                || (!town.getMembers().contains(person) && !town.getCivilization().getLeaders().contains(person))) {
-            event.setCancelled(true);
+        if (build != null) {
+            Town town = person.getTown();
+            if (build.getConstruction().isProtectedBlock(pos)
+                    || town == null
+                    || (!town.getMembers().contains(person) && !town.getCivilization().getLeaders().contains(person))) {
+                event.setCancelled(true);
+            }
+        }
+
+        if (event.getType() == NonCommandBlockRestrictionCE.Type.BREAK) {
+            ItemStack item = player.getMainHandItem();
+            if (item.isEmpty()) return;
+            CustomData data = item.get(DataComponents.CUSTOM_DATA);
+            if (data == null) return;
+            if (SEASMITH_PICKAXE.hasModulit(data.getUnsafe())) {
+                level.destroyBlock(new BlockPos(pos.below()), player.gameMode() != GameType.CREATIVE);
+            }
         }
     }
 

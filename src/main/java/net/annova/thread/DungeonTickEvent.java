@@ -16,7 +16,7 @@ import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.GlobalWorld.getWorldSectors;
 
 public class DungeonTickEvent implements Listener {
-    private int cooldown = 2; // раз в 3 часа
+    private int cooldown = 3; // раз в 3 часа
     @EventHandler
     public void run(HourTickEvent event) {
         if (cooldown > 0) {

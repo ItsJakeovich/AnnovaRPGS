@@ -96,7 +96,6 @@ public class WhipSpider extends RPGEntity implements CustomType, EntityAction, E
         return true;
     }
 
-    private final MobEffectInstance BLINDNESS = new MobEffectInstance(MobEffects.BLINDNESS, 40, 0);
     @Override
     public void onDamage(MobDamageCE event, LivingEntity damager) {
         if (entity.getHealth() < entity.getMaxHealth()*0.5 && chance(0.3)) {
@@ -107,7 +106,7 @@ public class WhipSpider extends RPGEntity implements CustomType, EntityAction, E
             if (damager instanceof Player player) {
                 getRPGPerson(player).getStatusManager().addStatus(StatusType.PARALYSIS);
             }
-            damager.addEffect(BLINDNESS);
+            damager.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0));
         }
     }
 

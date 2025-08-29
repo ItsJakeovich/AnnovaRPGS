@@ -60,7 +60,7 @@ public class BlobFishBlue extends RPGItem implements Listener {
                 event.setCancelled(true);
                 player.damage(2);
             } else {
-                boolean value = pdc.get(NK_BLOB_FISH, PersistentDataType.BOOLEAN);
+                boolean value = pdc.getOrDefault(NK_BLOB_FISH, PersistentDataType.BOOLEAN, false);
                 if (value) {
                     World world = player.getWorld();
                     if (world.isClearWeather()) event.setCancelled(true);

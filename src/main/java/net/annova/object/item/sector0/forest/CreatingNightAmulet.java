@@ -62,9 +62,6 @@ public class CreatingNightAmulet extends RPGItem implements ItemEquipment {
         } else { // day
             values.put(ValueType.DAMAGE, 4.0);
             values.put(ValueType.SPEED, 0.15);
-            for (Entity entity : player.getNearbyEntities(7, 5, 7)) {
-                if (entity instanceof LivingEntity living) living.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 300, 0));
-            }
         }
         return values;
     }

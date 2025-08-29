@@ -83,10 +83,9 @@ public class Dodger extends RPGEntity implements EntityAction {
 //        this.create(ent.getLocation());
 //        event.setCancelled(true);
 //    }
-    private static final MobEffectInstance INVISIBILITY = new MobEffectInstance(MobEffects.INVISIBILITY, 200, 1);
     @Override
     public boolean onTarget(Entity target) {
-        entity.addEffect(INVISIBILITY);
+        entity.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 1));
         return true;
     }
 

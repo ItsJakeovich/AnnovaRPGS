@@ -29,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.*;
 
 import static net.annova.environment.dungeon.Loot.createItem;
+import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.entity.core.RPGEntityType.*;
 import static net.annova.object.item.base.ItemModulit.MELANOX_POISON;
 import static net.annova.object.item.base.ItemType.SPIDER_CHITIN;
@@ -149,7 +150,7 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
                     public boolean activity() {
                         List<LivingEntity> toRemove = new ArrayList<>();
                         for (LivingEntity summon  : summoned) {
-                            if (summon.isAlive() && summon.valid) continue;
+                            if (summon.isAlive()) continue;
                             toRemove.add(summon);
                         }
                         this.summoned.removeAll(toRemove);
@@ -158,7 +159,7 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
                             Melanox.this.entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 0));
                         }
 
-                        if (summoned.size() < 20) {
+                        if (summoned.size() < 5) {
                             for (int i = 0;;) {
                                 for (RPGEntityType type : spiders) {
                                     if (!chance(chance)) continue;
@@ -195,7 +196,9 @@ public class Melanox extends RPGEntity implements CustomType, EntityActivity, En
             damager.hurtMarked = true;
         }
         ItemStack item = damager.getItemInHand(InteractionHand.MAIN_HAND);
-        if (!item.isEmpty() && chance(0.05)) MELANOX_POISON.addModulit(item);
+        if (!item.isEmpty() && chance(0.05)) {
+            MELANOX_POISON.addModulit(getRPGPerson(damager.getUUID()).getPerson(), item);
+        }
     }
 
     @Override
