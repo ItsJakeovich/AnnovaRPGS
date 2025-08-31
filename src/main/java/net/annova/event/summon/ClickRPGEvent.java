@@ -56,6 +56,19 @@ public class ClickRPGEvent implements Listener {
                 case MANGROVE_BOAT:
                 case OAK_BOAT:
                 case SPRUCE_BOAT:
+                case DARK_OAK_BOAT:
+                case PALE_OAK_BOAT:
+                case ACACIA_CHEST_BOAT:
+                case BIRCH_CHEST_BOAT:
+                case CHERRY_CHEST_BOAT:
+                case DARK_OAK_CHEST_BOAT:
+                case JUNGLE_CHEST_BOAT:
+                case MANGROVE_CHEST_BOAT:
+                case OAK_CHEST_BOAT:
+                case PALE_OAK_CHEST_BOAT:
+                case SPRUCE_CHEST_BOAT:
+                case BAMBOO_RAFT:
+                case BAMBOO_CHEST_RAFT:
                 {
                     event.setCancelled(true);
                     return;

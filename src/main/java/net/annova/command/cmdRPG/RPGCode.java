@@ -1,6 +1,8 @@
 package net.annova.command.cmdRPG;
 
 import net.annova.command.register.CommandArg;
+import net.annova.config.crafts.ConfigCrafts;
+import net.annova.config.crafts.ItemIngredient;
 import net.annova.environment.civilization.Town;
 import net.annova.environment.world.WorldSector;
 import net.annova.environment.world.sector0.location.Oasis;
@@ -13,11 +15,18 @@ import net.annova.object.person.Person;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.status.StatusManager;
 import net.annova.object.person.status.StatusType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -29,6 +38,8 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.*;
 
+import static net.annova.config.AnnovaConfig.sendInfo;
+import static net.annova.config.RPGConfig.getCraft;
 import static net.annova.environment.world.GlobalWorld.getWorldSector;
 import static net.annova.environment.world.sector0.SuruWahare.world0;
 import static net.annova.main.AnnovaGlobal.getPerson;
@@ -37,6 +48,7 @@ import static net.annova.main.GlobalRPG.*;
 import static net.annova.object.item.base.ItemType.*;
 import static net.annova.thread.CivilizationTickTimer.civilizationsTick;
 import static net.annova.util.BukkitObjects.addItems;
+import static net.annova.util.BukkitObjects.createItem;
 
 public class RPGCode {
     public static boolean ALLOW_TO_JOIN = true;
@@ -239,5 +251,30 @@ public class RPGCode {
             return;
         }
         updateItemLocal(person, getItemType(item), item);
+    }
+
+    @CommandArg(name = "recipe")
+    public void recipe(Person person, Player player, String[] args) {
+        ConfigCrafts craft = getCraft(args[1]);
+        ServerPlayer server = person.getServerPlayer();
+        switch (craft.getRecipe().value()) {
+            case ShapedRecipe recipe -> {
+                for (Optional<Ingredient> ing : recipe.getIngredients()) {
+                    if (ing.isEmpty()) continue;
+                    for (ItemStack item : ing.get().itemStacks()) {
+                        addItems(server, item.copy());
+                    }
+                }
+            }
+            case ShapelessRecipe recipe -> {
+                for (Ingredient ing : recipe.placementInfo().ingredients()) {
+                    for (ItemStack stack : ing.itemStacks()) {
+                        addItems(server, stack.copy());
+                    }
+                }
+            }
+            case SmeltingRecipe recipe -> addItems(person.getServerPlayer(), recipe.input().itemStacks());
+            default -> {}
+        }
     }
 }

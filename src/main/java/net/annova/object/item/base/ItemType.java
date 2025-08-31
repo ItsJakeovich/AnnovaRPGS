@@ -541,9 +541,9 @@ public enum ItemType {
                 newLore.add(speed);
             }
 
-            newLore.add(Component.empty());
-
             if (type.item instanceof RPGArmor armor) {
+                newLore.add(Component.empty());
+
                 MutableComponent armorLang = local.getOrDefault("armor-defence", local.get("unknown")).clone()
                         .append(colorizeNumber((double) Math.round(armor.armor() * 4 * 100) / 100))
                         .append("%")

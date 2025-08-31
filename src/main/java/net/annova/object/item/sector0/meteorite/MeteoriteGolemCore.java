@@ -3,6 +3,7 @@ package net.annova.object.item.sector0.meteorite;
 import net.annova.event.custom.DropItemFoundBlockCE;
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import org.bukkit.Material;
@@ -43,8 +44,11 @@ public class MeteoriteGolemCore extends RPGItem implements Listener {
 
     @EventHandler
     public void drop(DropItemFoundBlockCE event) {
-        if (!METEORITE_GOLEM_CORE.equals(event.getItem())) return;
+        if (!METEORITE_GOLEM_CORE.equals(event.getItem().getItem())) return;
         CraftBlock block = (CraftBlock) event.getFoundedBlock();
-        if (block.isLiquid()) block.getHandle().setBlock(block.getPosition(), Blocks.OBSIDIAN.defaultBlockState(), 3);
+        if (block.isLiquid()) {
+            block.getHandle().setBlock(block.getPosition(), Blocks.OBSIDIAN.defaultBlockState(), 3);
+            event.getItem().remove(Entity.RemovalReason.DISCARDED);
+        }
     }
 }

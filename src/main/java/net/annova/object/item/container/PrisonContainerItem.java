@@ -139,7 +139,7 @@ public class PrisonContainerItem extends RPGItem implements Listener {
 
                 FLY_TOKEN.create(person, 0.033),
                 SATURATION_TOKEN.create(person, 0.033),
-                CREEPER_TOKEN.create(person, 0.033),
+//                CREEPER_TOKEN.create(person, 0.033),
 //                new TeleportTokenItem().create(0.033),
                 DURABILITY_TOKEN.create(person, 0.033),
                 RANGE_TOKEN.create(person, 0.02)

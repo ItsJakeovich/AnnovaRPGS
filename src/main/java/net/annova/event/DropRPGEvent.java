@@ -43,7 +43,7 @@ public class DropRPGEvent implements Listener {
                 Block block = location.getBlock();
                 if (block.isEmpty()) return;
 
-                DropItemFoundBlockCE dropItemCE = new DropItemFoundBlockCE(player, ((CraftItem) item).getHandle().getItem(), block);
+                DropItemFoundBlockCE dropItemCE = new DropItemFoundBlockCE(player, ((CraftItem) item).getHandle(), block);
                 PluginManager pm = Bukkit.getPluginManager();
                 pm.callEvent(dropItemCE);
 

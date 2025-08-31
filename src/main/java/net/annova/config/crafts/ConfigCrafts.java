@@ -61,9 +61,9 @@ public class ConfigCrafts {
                     int count = i.containsKey("count") ? (int) i.get("count") : 1;
 
                     craft.ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
-                    if (b.containsKey("recipe")) {
-                        craft.recipeCraft = (List<String>) b.get("recipe");
-                    }
+                }
+                if (b.containsKey("recipe")) {
+                    craft.recipeCraft = (List<String>) b.get("recipe");
                 }
             }
             if (b.containsKey("sub-crafts")) {
@@ -80,7 +80,6 @@ public class ConfigCrafts {
                         int count = i.containsKey("count") ? (int) i.get("count") : 1;
 
                         ingredients.add(new ItemIngredient(getItemStack((String) i.get("id"), 1), count, (String) i.get("letter")));
-                        crafts.put(craft.id, craft);
                     }
                     if (sc.containsKey("recipe")) {
                         recipe = (List<String>) sc.get("recipe");
@@ -112,49 +111,52 @@ public class ConfigCrafts {
     }
 
     private static void loadCrafts() {
+        MinecraftServer server = getMinecraftServer();
+        RecipeManager manager = server.getRecipeManager();
         for (ConfigCrafts mat : getAllCrafts()) {
-            if (mat.craftType.equals(CraftType.FURNACE)) {
-                mat.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), mat.id)),
+            RecipeHolder<?> holder;
+            if (mat.craftType.equals(CraftType.FURNACE)) { // Для печки
+                holder = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), mat.id)),
                         new SmeltingRecipe("", CookingBookCategory.MISC, Ingredient.of(CraftItemType.bukkitToMinecraft(mat.getSource())), mat.item, mat.getExperience(), mat.getMeltingTime()));
-            } else {
-                mat.loadWorkbenceRecipe();
+            } else { // Верстак
+                holder = mat.registerWorkbenchRecipe();
             }
+            manager.addRecipe(holder);
+            mat.recipe = holder;
 
-            int count = 0;
-            for (SubCraft craft : mat.subCrafts) {
-                mat.loadWorkbenceRecipe(craft.getCraftType(), mat.id + count, craft.getRecipe(), craft.getIngredients());
-                count++;
+            int lastId = 0;
+            for (SubCraft craft : mat.subCrafts) { lastId++;
+                manager.addRecipe(mat.registerWorkbenchRecipe(craft.getCraftType(), mat.id+lastId, craft.getRecipe(), craft.getIngredients()));
             }
-            MinecraftServer server = getMinecraftServer();
-            server.getRecipeManager().addRecipe(mat.recipe);
-            server.getPlayerList().reloadRecipes();
         }
+        server.getPlayerList().reloadRecipes();
     }
 
-    private void loadWorkbenceRecipe() {
-        this.loadWorkbenceRecipe(this.craftType, this.id, this.recipeCraft, this.ingredients);
+    private RecipeHolder<?> registerWorkbenchRecipe() {
+        return this.registerWorkbenchRecipe(this.craftType, this.id, this.recipeCraft, this.ingredients);
     }
-    private void loadWorkbenceRecipe(CraftType type, String id, List<String> recipeCraft, List<ItemIngredient> ingredients) {
-        switch (this.craftType) {
+    private RecipeHolder<?> registerWorkbenchRecipe(CraftType type, String id, List<String> recipeCraft, List<ItemIngredient> ingredients) {
+        switch (type) {
             case SHAPED -> {
                 Map<Character, Ingredient> data = new HashMap<>();
                 for (ItemIngredient ing : ingredients) {
                     data.put(ing.getLetter(), Ingredient.ofStacks(List.of(ing.getItemStack())));
                 }
-                this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
+                return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
                         new ShapedRecipe("", CraftingBookCategory.MISC, ShapedRecipePattern.of(data, recipeCraft.toArray(new String[0])), this.item));
             }
             case SHAPELESS -> {
                 List<Ingredient> data = new ArrayList<>(ingredients.size());
-                for (ItemIngredient ingredient : this.ingredients) {
+                for (ItemIngredient ingredient : ingredients) {
                     for (int i = 0; i < ingredient.getCount(); i++) {
                         data.add(Ingredient.ofStacks(List.of(ingredient.getItemStack())));
                     }
                 }
-                this.recipe = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
+                return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath(getInstance().getNamespaceName(), id)),
                         new ShapelessRecipe("", CraftingBookCategory.MISC, this.item, data));
             }
         }
+        return null;
     }
 
     public String getId() {

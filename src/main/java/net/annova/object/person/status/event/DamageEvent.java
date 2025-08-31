@@ -15,8 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import static net.annova.environment.world.GlobalWorld.isNight;
 import static net.annova.main.GlobalRPG.getRPGPerson;
@@ -50,7 +48,7 @@ public class DamageEvent implements Listener {
                 if (chance(0.04)) EntRoots.addPhysicDebuff(target);
             }
             if (manager.hasStatus(StatusType.PACK_LEADER_BUFF)) {
-                double modifier = 2;
+                double modifier = 1;
                 for (ItemStack item : getArmorContents(target)) {
                     if (!item.isEmpty()) modifier -= 0.25;
                 }

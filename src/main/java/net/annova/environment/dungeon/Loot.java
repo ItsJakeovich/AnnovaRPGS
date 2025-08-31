@@ -71,16 +71,16 @@ public class Loot {
             switch (this) {
                 case PRISON -> {
                     List<net.minecraft.world.item.ItemStack> items = new ArrayList<>(List.of(
-                            createItem(Items.IRON_INGOT, random.nextInt(6)+1),
-                            createItem(Items.COPPER_INGOT, random.nextDouble(4)+1),
+                            createItem(Items.IRON_INGOT, random.nextInt(3)+1),
+                            createItem(Items.COPPER_INGOT, random.nextDouble(2)+1),
                             createPotion(1, 0.3, new MobEffectInstance(INSTANT_HEALTH, 1, 0)),
                             createPotion(1, 0.3, new MobEffectInstance(SPEED, 3600, 0)),
                             createItem(Items.COOKED_BEEF, random.nextInt(2) + 1),
                             PRISON_TOKEN.create(random.nextInt(3)),
                             PRISON_SWORD.create(0.02),
-                            createItem(Items.EMERALD, random.nextInt(6)),
+                            createItem(Items.EMERALD, random.nextInt(2)),
 
-                            createPotion(Component.literal("Зелье адреналина").withColor(Color.YELLOW.asRGB()), 1, 0.01, new MobEffectInstance(STRENGTH, 600, 0), new MobEffectInstance(REGENERATION, 200, 1)),
+                            createPotion(Component.literal("Зелье адреналина").withColor(Color.YELLOW.asRGB()), 1, 0.01, new MobEffectInstance(STRENGTH, 600, 0), new MobEffectInstance(REGENERATION, 200, 1), new MobEffectInstance(SPEED, 400, 0)),
                             createPotion(Component.literal("Зелье защиты").withColor(Color.GRAY.asRGB()), 1, 0.01, new MobEffectInstance(WEAKNESS, 6000, 4), new MobEffectInstance(RESISTANCE, 6000, 4)),
                             createPotion(Component.literal("Зелье счастья").withColor(Color.GREEN.asRGB()), 1, 0.01, new MobEffectInstance(LUCK, 36000, 2)),
                             createPotion(Component.literal("Зелье небесной силы").withColor(Color.AQUA.asRGB()), 1, 0.01, new MobEffectInstance(SLOW_FALLING, 1200, 0), new MobEffectInstance(STRENGTH, 300, 2)),

@@ -134,7 +134,12 @@ town-claim-cancel-world: "{ac}❖ {mc}Нельзя заприватить чан
 town-claim-cancel-busy: "{ac}❖ {mc}Этот чанк уже занят{sc}!"
 town-claim-cancel-limit: "{ac}❖ {mc}Сегодняшний лимит{sc}: {ac}9 {mc}чанков/город"
 town-claim-cancel-alone: "{ac}❖ {mc}Чтобы занять чанк{sc}, {mc}нужно иметь рядом другой{sc}!"
-town-claim-success: "{pc}❖ {mc}Чанк {coord} успешно запривачен{sc}!"
+town-claim-success: "{pc}❖ {mc}Чанк {coord} {mc}успешно запривачен{sc}!"
+
+town-unclaim-cancel-world: "{ac}❖ {mc}Нельзя расприватить чанк в другом секторе{sc}!"
+town-unclaim-cancel-unclaimed: "{ac}❖ {mc}На этом чанке нет культур{sc}!"
+town-unclaim-cancel-center: "{ac}❖ {mc}Нельзя убрать культуру с главного чанка{sc}!"
+town-unclaim-success: "{pc}❖ {mc}Чанк {chunk} {mc}успешно распривачен{sc}!"
 # build command
 build-cancel-culture: "{ac}❖ {mc}Нельзя построить здание вне территории города{sc}!"
 build-cancel-water: "{ac}❖ {mc}Это здание нельзя построить в чанках реки или океана{sc}."
@@ -153,7 +158,7 @@ build-camp: "Лагерь"
 icon-camp-default: "Классический лагерь"
 ### Interfaces
 build-interface-name: "{pc}≡ {mc}Здания {ac}{town}{sc}: "
-recipe-interface-name: "{pc}≡ {mc}Рецепты предметов{sc}: {current}"
+recipe-interface-name: "{pc}≡ {mc}Рецепты предметов{sc}:"
 recipe-shaped: "{pc}❖ {mc}Предметы нужно выкладывать строго по слотам{sc}!"
 recipe-shapeless: "{pc}❖ {mc}Предметы можно выкладывать как угодно{sc}."
 recipe-furnace: "{pc}❖ {mc}Левый предмет нужно положить в печку{sc}."

@@ -63,7 +63,7 @@ public class OasisFish extends RPGItem implements Listener {
     private final Map<Player, Long> cooldown = new HashMap<>();
     @EventHandler
     public void dropItem(DropItemFoundBlockCE event) {
-        if (!OASIS_FISH.equals(event.getItem())) return;
+        if (!OASIS_FISH.equals(event.getItem().getItem())) return;
         if (!event.getFoundedBlock().getType().equals(Material.WATER)) return;
         Player player = event.getPlayer();
 

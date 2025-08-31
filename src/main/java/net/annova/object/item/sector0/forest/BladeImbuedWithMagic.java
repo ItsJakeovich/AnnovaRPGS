@@ -60,10 +60,6 @@ public class BladeImbuedWithMagic extends RPGItem implements RPGTool, ItemAction
 
     @Override
     public void onAttack(LivingEntity entity, LivingEntity target) {
-        if (entity instanceof ServerPlayer pl && target instanceof ServerPlayer tg) {
-            pl.sendSystemMessage(Component.literal("атакующий: " + pl.getName() + ", цель " + tg.getName()));
-            tg.sendSystemMessage(Component.literal("атакующий: " + pl.getName() + ", цель " + tg.getName()));
-        }
         if (random.nextBoolean()) { // корни
             if (chance(0.08)) EntRoots.addPhysicDebuff(target);
         } else { // дружественный энт

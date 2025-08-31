@@ -13,19 +13,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
-import org.bukkit.craftbukkit.entity.CraftMob;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import java.util.ArrayList;
@@ -46,34 +45,33 @@ public class EntityEvent implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void damageCESummoner(org.bukkit.event.entity.EntityDamageEvent event) {
-        if (event.getEntity() instanceof org.bukkit.entity.Player player) {
-            if (player.getY() < -100) teleportHome(player);
-            this.baseFunction(event, new PlayerDamageCE(((CraftPlayer) player).getHandle(), event));
-        } else if (event.getEntity() instanceof Mob entity) {
-            this.baseFunction(event, new MobDamageCE(((CraftMob) entity).getHandle(), event));
-        }
-    }
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void damageByEntitySummoner(EntityDamageByEntityEvent event) {
         Entity eventEntity = ((CraftEntity) event.getEntity()).getHandle();
-        Entity eventDamager = ((CraftEntity) event.getDamager()).getHandle();
+        if (event instanceof EntityDamageByEntityEvent byEntity) {
+            Entity eventDamager = ((CraftEntity) byEntity.getDamager()).getHandle();
 
-        if (eventEntity instanceof LivingEntity entity && eventDamager instanceof LivingEntity damager) {
-            BattleCE ev = new BattleCE(entity, damager, event);
-            Bukkit.getPluginManager().callEvent(ev);
-            if (ev.isCancelled()) {
-                event.setCancelled(true);
-                return;
+            if (eventEntity instanceof LivingEntity entity && eventDamager instanceof LivingEntity damager) {
+                BattleCE ev = new BattleCE(entity, damager, byEntity);
+                Bukkit.getPluginManager().callEvent(ev);
+                if (ev.isCancelled()) {
+                    event.setCancelled(true);
+                    return;
+                }
+                event.setDamage(ev.getDamage());
+            } else if (eventEntity instanceof LivingEntity entity) {
+                LivingEntityDamageByEntityCE ev = new LivingEntityDamageByEntityCE(entity, byEntity);
+                Bukkit.getPluginManager().callEvent(ev);
+                if (ev.isCancelled()) {
+                    event.setCancelled(true);
+                    return;
+                }
+                event.setDamage(ev.getDamage());
             }
-            event.setDamage(ev.getDamage());
-        } else if (eventEntity instanceof LivingEntity entity) {
-            LivingEntityDamageByEntityCE ev = new LivingEntityDamageByEntityCE(entity, event);
-            Bukkit.getPluginManager().callEvent(ev);
-            if (ev.isCancelled()) {
-                event.setCancelled(true);
-                return;
-            }
-            event.setDamage(ev.getDamage());
+        }
+        if (eventEntity instanceof ServerPlayer player) {
+            if (player.getY() < -100) teleportHome(player);
+            this.baseFunction(event, new PlayerDamageCE(player, event));
+        } else if (eventEntity instanceof Mob entity) {
+            this.baseFunction(event, new MobDamageCE(entity, event));
         }
     }
 
@@ -86,13 +84,11 @@ public class EntityEvent implements Listener {
                 return;
             }
         }
-        Bukkit.getPluginManager().callEvent(ev);
-        event.setDamage(ev.getDamage());
-        if (ev.isCancelled()) {
+        if (!ev.callEvent()) {
             event.setCancelled(true);
             return;
         }
-        event.setDamage(ev.getDamage()); // Это и для моба, и для игрока.
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, ev.getDamage()); // Это и для моба, и для игрока.
         double finalDamage = event.getFinalDamage();
 
         LivingEntity entity = ev.getEntity();

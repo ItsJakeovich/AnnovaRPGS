@@ -655,4 +655,13 @@ public class RPGPerson {
         player.playSound(player, Sound.BLOCK_GLASS_BREAK, 3, 1);
         player.teleport(loc == null ? player.getWorld().getSpawnLocation().toCenterLocation() : loc);
     }
+    public static void teleportHome(ServerPlayer player) {
+        ServerPlayer.RespawnConfig config = player.getRespawnConfig();
+        if (config != null) {
+            player.teleport(new TeleportTransition(getMinecraftServer().getLevel(config.dimension()), Vec3.atBottomCenterOf(config.pos()), Vec3.ZERO, config.angle(), 0, TeleportTransition.DO_NOTHING));
+        } else {
+            ServerLevel level = player.serverLevel();
+            player.teleport(new TeleportTransition(level, Vec3.atBottomCenterOf(level.getSharedSpawnPos()), Vec3.ZERO, level.getSharedSpawnAngle(), 0, TeleportTransition.DO_NOTHING));
+        }
+    }
 }

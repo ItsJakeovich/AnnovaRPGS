@@ -194,7 +194,7 @@ public enum StatusType {
 
     GREEN_STONE_HEALTH_BUFF(GREEN_STONE, Map.of(ValueType.HEALTH, 8.0)),
 
-    RED_STONE_RING_BUFF(RED_STONE, Map.of(RING_BUFF, 4.0)),
+    RED_STONE_RING_BUFF(RED_STONE, Map.of(RING_BUFF, 0.04)),
 
     CAVIAR_DAMAGE_BUFF(60_000, Map.of(ValueType.DAMAGE, 12.0)),
 

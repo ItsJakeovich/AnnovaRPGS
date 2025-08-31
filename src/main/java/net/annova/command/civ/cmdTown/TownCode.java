@@ -223,5 +223,24 @@ public class TownCode {
             person.send(getInstance(), "civ-info-cancel-town");
             return;
         }
+        ServerLevel level = town.getLevel();
+        ServerPlayer server = person.getServerPlayer();
+        if (level != server.serverLevel()) {
+            person.send(getInstance(), "town-unclaim-cancel-world");
+            return;
+        }
+        ChunkPos pos = server.chunkPosition();
+        AreaChunk chunk = getAreaChunk(level, pos);
+        if (chunk == null) {
+            person.send(getInstance(), "town-unclaim-cancel-unclaimed");
+            return;
+        }
+        if (chunk == town.getCenterChunk()) {
+            person.send(getInstance(), "town-unclaim-cancel-center");
+            return;
+        }
+        town.removeChunk(chunk);
+        town.setTodayClaim(false);
+        person.send(getInstance(), "town-unclaim-success", "{chunk}", "{mc}"+pos.x+"{sc},{mc}"+pos.z);
     }
 }

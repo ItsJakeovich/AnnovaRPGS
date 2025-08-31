@@ -3,6 +3,7 @@ package net.annova.object.entity.mobs.custom;
 import io.papermc.paper.event.entity.EntityKnockbackEvent;
 import net.annova.object.person.RPGPerson;
 import net.annova.object.person.advancement.RPGAdvancement;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -111,6 +113,11 @@ public class CustomCrab extends CaveSpider {
     @Override
     public @NotNull SoundEvent getDeathSound() {
         return SoundEvents.TURTLE_DEATH;
+    }
+
+    @Override
+    protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState block) {
+        this.playSound(SoundEvents.ARMADILLO_STEP, 0.15F, 1.0F);
     }
 
     static class CrabMoveControl extends MoveControl {

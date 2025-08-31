@@ -1,5 +1,6 @@
 package net.annova.event.custom;
 
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -11,10 +12,10 @@ public class DropItemFoundBlockCE extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
-    private final ItemStack item;
+    private final ItemEntity item;
     private final Block foundedBlock;
 
-    public DropItemFoundBlockCE(Player player, ItemStack item, Block foundedBlock) {
+    public DropItemFoundBlockCE(Player player, ItemEntity item, Block foundedBlock) {
         this.player = player;
         this.item = item;
         this.foundedBlock = foundedBlock;
@@ -24,7 +25,7 @@ public class DropItemFoundBlockCE extends Event {
         return player;
     }
 
-    public ItemStack getItem() {
+    public ItemEntity getItem() {
         return item;
     }
 

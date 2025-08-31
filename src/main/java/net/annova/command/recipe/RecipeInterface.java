@@ -2,6 +2,7 @@ package net.annova.command.recipe;
 
 import net.annova.config.crafts.ConfigCrafts;
 import net.annova.main.AnnovaAPI;
+import net.annova.object.person.ColorManager;
 import net.annova.object.person.Person;
 import net.annova.util.menu.PagedMenu;
 import net.minecraft.core.component.DataComponents;
@@ -40,9 +41,10 @@ public class RecipeInterface extends PagedMenu {
         return new MenuProvider() {
             @Override
             public @NotNull Component getDisplayName() {
-                return person.getAISString(getInstance(), "recipe-interface-name")
-                        .replaceTag("{current}", current == null ? "" : current.getItemStack().getCustomName().getString())
-                        .getDefined(person);
+                Component toReturn;
+                if (current == null) toReturn = person.getAISString(getInstance(), "recipe-interface-name").getDefined(person);
+                else                 toReturn = current.getItemStack().getCustomName().copy().setStyle(person.getColorManager().getStyle(ColorManager.ColorGroup.ACCENT));
+                return toReturn;
             }
 
             @Override
@@ -96,7 +98,7 @@ public class RecipeInterface extends PagedMenu {
                             for (Optional<Ingredient> ing : recipe.getIngredients()) { slot++;
                                 if (ing.isEmpty()) continue;
                                 for (ItemStack stack : ing.get().itemStacks()) {
-                                    container.setItem(WORKBENCH_SLOTS[slot], stack);
+                                    container.setItem(WORKBENCH_SLOTS[slot], stack.copy());
                                 }
                             }
                             icon = createItem(Items.CRAFTING_TABLE,
@@ -108,7 +110,7 @@ public class RecipeInterface extends PagedMenu {
                         case ShapelessRecipe recipe -> {
                             for (Ingredient ing : recipe.placementInfo().ingredients()) {
                                 for (ItemStack stack : ing.itemStacks()) { slot++;
-                                    container.setItem(WORKBENCH_SLOTS[slot], stack);
+                                    container.setItem(WORKBENCH_SLOTS[slot], stack.copy());
                                 }
                             }
                             icon = createItem(Items.CRAFTING_TABLE,

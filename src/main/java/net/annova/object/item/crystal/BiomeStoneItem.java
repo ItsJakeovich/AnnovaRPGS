@@ -2,30 +2,15 @@ package net.annova.object.item.crystal;
 
 import net.annova.object.RPGRarity;
 import net.annova.object.item.base.RPGItem;
-import net.annova.object.person.RPGPerson;
-import net.annova.object.person.status.StatusManager;
-import net.annova.object.person.status.StatusType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.bukkit.*;
 import org.bukkit.block.Biome;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.annova.object.item.base.ItemType.BIOME_STONE;
-import static net.annova.main.AnnovaRPG.getInstance;
-import static net.annova.main.GlobalRPG.getRPGPerson;
-import static net.annova.main.Keys.NK_BIOME;
 import static org.bukkit.block.Biome.*;
 
 public class BiomeStoneItem extends RPGItem implements Listener {
@@ -123,7 +108,7 @@ public class BiomeStoneItem extends RPGItem implements Listener {
         biomeColors.put(CHERRY_GROVE, 0xFF69B4);
     }
 
-    @EventHandler
+    /*@EventHandler
     private void mechanic(PlayerInteractEvent event) {
         if (event.getHand() == null) return;
         if (!event.getHand().equals(EquipmentSlot.HAND)) return;
@@ -155,5 +140,5 @@ public class BiomeStoneItem extends RPGItem implements Listener {
                 world.spawnParticle(Particle.DUST, loc, 10, 0.5, 0.5, 0.5, option);
             }
         }.runTaskTimer(getInstance(), 0L, 5L);
-    }
+    }*/
 }

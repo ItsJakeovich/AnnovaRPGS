@@ -5,6 +5,7 @@ import net.annova.environment.civilization.build.TownBuild;
 import net.annova.environment.civilization.territory.AreaChunk;
 import net.annova.environment.world.SectorLocation;
 import net.annova.environment.world.WorldSector;
+import net.annova.event.custom.CapitatorCE;
 import net.annova.event.custom.NonCommandBlockRestrictionCE;
 import net.annova.object.person.RPGPerson;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -29,6 +31,14 @@ import static net.annova.main.GlobalRPG.getRPGPerson;
 import static net.annova.object.item.base.ItemModulit.SEASMITH_PICKAXE;
 
 public class BlockEvent implements Listener {
+    @EventHandler
+    public void capitator(CapitatorCE event) {
+        BlockPos.MutableBlockPos pos = event.getPos();
+        AreaChunk chunk = getAreaChunk(event.getLevel(), new ChunkPos(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ())));
+        if (chunk != null && chunk.getTown() != getRPGPerson(event.getPlayer()).getTown())
+            event.setCancelled(true);
+    }
+
     @EventHandler
     public void blockPlaceBreak(NonCommandBlockRestrictionCE event) {
         ServerPlayer player = event.getPlayer();
@@ -67,13 +77,18 @@ public class BlockEvent implements Listener {
             }
         }
 
-        if (event.getType() == NonCommandBlockRestrictionCE.Type.BREAK) {
+        if (!player.isShiftKeyDown() && event.getType() == NonCommandBlockRestrictionCE.Type.BREAK) {
             ItemStack item = player.getMainHandItem();
             if (item.isEmpty()) return;
             CustomData data = item.get(DataComponents.CUSTOM_DATA);
             if (data == null) return;
             if (SEASMITH_PICKAXE.hasModulit(data.getUnsafe())) {
-                level.destroyBlock(new BlockPos(pos.below()), player.gameMode() != GameType.CREATIVE);
+                BlockPos destroyPos = new BlockPos(pos.below());
+                BlockState state = level.getBlockState(destroyPos);
+                if (!state.isDestroyable()) return;
+                if (state.destroySpeed > level.getBlockState(new BlockPos(pos)).destroySpeed) return;
+
+                level.destroyBlock(destroyPos, player.gameMode() != GameType.CREATIVE);
             }
         }
     }

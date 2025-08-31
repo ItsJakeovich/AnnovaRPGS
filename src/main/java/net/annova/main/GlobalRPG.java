@@ -221,6 +221,9 @@ public class GlobalRPG {
     public static void addAreaChunk(Town town, AreaChunk areaChunk) {
         areaChunks.get(town.getLevel()).put(areaChunk.getPosition(), areaChunk);
     }
+    public static void removeAreaChunk(Town town, AreaChunk areaChunk) {
+        areaChunks.get(town.getLevel()).remove(areaChunk.getPosition());
+    }
 
     public static SoundEvent getSoundFromString(String string) {
         return SoundEvent.createVariableRangeEvent(ResourceLocation.parse(string));

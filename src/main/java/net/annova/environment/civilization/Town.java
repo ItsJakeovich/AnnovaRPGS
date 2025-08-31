@@ -91,14 +91,14 @@ public class Town {
         loadList(this.builds, rs.getString("BUILDS"), b -> new TownBuild(this, b), ">");
 
         this.level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(rs.getString("LEVEL").toLowerCase())));
+        // Update Statistics
+        this.initValues();
 
         this.centerChunk = new AreaChunk(this, rs.getString("CENTER_CHUNK")); this.addChunk(centerChunk);
         String chunks = rs.getString("CHUNKS");
         if (!chunks.isBlank()) for (String chunk : chunks.split(">")) {
             this.addChunk(new AreaChunk(this, chunk));
         }
-        // Update Statistics
-        this.initValues();
 
         loadList(this.leaders, rs.getString("LEADERS"), GlobalRPG::getRPGPerson, ">");
         for (String member : rs.getString("MEMBERS").split(">")) {
@@ -139,7 +139,6 @@ public class Town {
 
         this.setValue(StatType.GROWTH, StatSources.BASE, BASE_GROWTH);
         this.setValue(StatType.HAMMERS, StatSources.BASE, BASE_HAMMERS);
-        this.updateChunks();
     }
 
     public float getValue(StatType type) {
@@ -248,6 +247,12 @@ public class Town {
         this.chunks.add(chunk);
         chunk.setTown(this);
         addAreaChunk(this, chunk);
+        this.updateChunks();
+    }
+    public void removeChunk(AreaChunk chunk) {
+        this.chunks.remove(chunk);
+        removeAreaChunk(this, chunk);
+        this.updateChunks();
     }
 
     public Set<RPGPerson> getLeaders() {

@@ -114,7 +114,7 @@ public abstract class RPGEntity {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String[] position = rs.getString("POSITION").split(",");
-                Vec3 pos = new Vec3(Double.parseDouble(position[1]), Double.parseDouble(position[2]), Double.parseDouble(position[3]));
+                Vec3 pos = new Vec3(Double.parseDouble(position[1])+0.5, Double.parseDouble(position[2]), Double.parseDouble(position[3])+0.5);
                 ServerLevel level = getMinecraftServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace(position[0].toLowerCase())));
                 RPGEntity entity = RPGEntityType.valueOf(rs.getString("TYPE")).getEntity();
                 entity.create(pos, level, true);
@@ -210,7 +210,7 @@ public abstract class RPGEntity {
     public void createWithTarget(ServerLevel level, Vec3 position, LivingEntity target, int chorus, long discardedAfter) {
         if (level == LOBBY) return;
         WorldSector sector = getWorldSector(level);
-        if (sector != null && sector.isPVE()) return;
+        if (target instanceof Player && sector != null && sector.isPVE()) return;
 
         Mob living = this.create(position, level, chorus, true);
         living.setTarget(target, null);
